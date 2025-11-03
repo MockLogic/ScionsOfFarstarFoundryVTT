@@ -137,7 +137,7 @@ export class FactionScionSheet extends ActorSheet {
   }
 
   /**
-   * Toggle a people track box
+   * Toggle a people track box through three states: empty → committed → expended → empty
    */
   async _onTogglePeople(event) {
     event.preventDefault();
@@ -145,7 +145,23 @@ export class FactionScionSheet extends ActorSheet {
     const boxes = this.actor.system.faction.peopleTrack.boxes;
 
     if (boxes[index]) {
-      boxes[index].checked = !boxes[index].checked;
+      const box = boxes[index];
+
+      // Cycle through states: empty → committed → expended → empty
+      if (!box.committed && !box.expended) {
+        // Empty → Committed
+        box.committed = true;
+        box.expended = false;
+      } else if (box.committed && !box.expended) {
+        // Committed → Expended
+        box.committed = false;
+        box.expended = true;
+      } else {
+        // Expended → Empty
+        box.committed = false;
+        box.expended = false;
+      }
+
       await this.actor.update({ 'system.faction.peopleTrack.boxes': boxes });
     }
   }

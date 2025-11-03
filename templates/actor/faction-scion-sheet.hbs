@@ -13,245 +13,261 @@
         <div class="resource fate-points-display">
           <label class="resource-label">{{localize "SCIONS.Faction.FatePoints"}}</label>
           <div class="fate-point-controls">
-            <button type="button" class="fate-points-decrement" title="Decrease Fate Points">−</button>
+            <button type="button" class="fate-points-decrement" title="{{localize 'SCIONS.Actions.Decrease'}}">−</button>
             <input type="number" name="system.faction.fatePoints.value" value="{{system.faction.fatePoints.value}}" data-dtype="Number"/>
-            <button type="button" class="fate-points-increment" title="Increase Fate Points">+</button>
+            <button type="button" class="fate-points-increment" title="{{localize 'SCIONS.Actions.Increase'}}">+</button>
           </div>
         </div>
       </div>
       {{#unless system.faction.refreshValid}}
-        <div class="validation-warning">⚠ Refresh should be {{#if (gt system.faction.stuntCount 3)}}{{subtract 3 (subtract system.faction.stuntCount 3)}}{{else}}3{{/if}} based on {{system.faction.stuntCount}} stunts</div>
+        <div class="validation-warning">⚠ {{localize "SCIONS.Validation.RefreshMismatch"}}</div>
       {{/unless}}
     </div>
   </header>
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="faction">{{localize "SCIONS.Faction.Title"}}</a>
-    <a class="item" data-tab="scion">{{localize "SCIONS.Scion.Title"}}</a>
+    <a class="item" data-tab="main">{{localize "SCIONS.Tabs.Main"}}</a>
+    <a class="item" data-tab="stunts">{{localize "SCIONS.Tabs.Stunts"}}</a>
+    <a class="item" data-tab="extras">{{localize "SCIONS.Tabs.Extras"}}</a>
+    <a class="item" data-tab="notes">{{localize "SCIONS.Tabs.Notes"}}</a>
   </nav>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
 
-    {{!-- Faction Tab --}}
-    <div class="tab faction" data-group="primary" data-tab="faction">
+    {{!-- Main Tab: Faction and Scion Side by Side --}}
+    <div class="tab main-tab" data-group="primary" data-tab="main">
+      <div class="two-column-layout">
 
-      {{!-- Faction Aspects --}}
-      <div class="section-header">{{localize "SCIONS.Faction.Title"}} {{localize "SCIONS.Threat.Aspects"}}</div>
+        {{!-- Left Column: Faction --}}
+        <div class="column faction-column">
+          <div class="section-header">{{localize "SCIONS.Faction.Title"}}</div>
 
-      <div class="aspect-box">
-        <label>{{localize "SCIONS.Faction.HighConcept"}}</label>
-        <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="High Concept"/>
-      </div>
+          {{!-- Faction Aspects --}}
+          <div class="aspect-box">
+            <label>{{localize "SCIONS.Faction.HighConcept"}}</label>
+            <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="{{localize 'SCIONS.Faction.HighConcept'}}"/>
+          </div>
 
-      <div class="aspect-box">
-        <label>{{localize "SCIONS.Faction.Trouble"}}</label>
-        <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="Trouble"/>
-      </div>
+          <div class="aspect-box">
+            <label>{{localize "SCIONS.Faction.Trouble"}}</label>
+            <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Faction.Trouble'}}"/>
+          </div>
 
-      <div class="aspect-box">
-        <label>{{localize "SCIONS.Faction.Inheritance"}}</label>
-        <input type="text" name="system.faction.aspects.inheritance.value" value="{{system.faction.aspects.inheritance.value}}" placeholder="Generational Legacy"/>
-      </div>
+          <div class="aspect-box">
+            <label>{{localize "SCIONS.Faction.Inheritance"}}</label>
+            <input type="text" name="system.faction.aspects.inheritance.value" value="{{system.faction.aspects.inheritance.value}}" placeholder="{{localize 'SCIONS.Faction.Inheritance'}}"/>
+          </div>
 
-      {{!-- Capabilities --}}
-      <div class="section-header">
-        {{localize "SCIONS.Faction.Capabilities"}}
-        {{#unless capabilityValidation.valid}}
-          <span class="validation-warning">⚠ Pyramid Invalid</span>
-        {{/unless}}
-      </div>
+          {{!-- Capabilities --}}
+          <div class="subsection-header">
+            {{localize "SCIONS.Faction.Capabilities"}}
+            {{#unless capabilityValidation.valid}}
+              <span class="validation-warning">⚠</span>
+            {{/unless}}
+          </div>
 
-      <div class="capabilities-grid">
-        {{#each system.faction.capabilities as |capability key|}}
-          <div class="capability-item">
-            <span class="capability-label">{{capability.label}}</span>
-            <input type="number" class="capability-value" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="{{../globals.maxCapability}}"/>
-            <button type="button" class="roll-button roll-capability rollable" data-capability="{{key}}" title="Roll {{capability.label}}">
-              <i class="fas fa-dice-d6"></i>
+          <div class="capabilities-list">
+            {{#each system.faction.capabilities as |capability key|}}
+              <div class="capability-item">
+                <span class="capability-label">{{capability.label}}</span>
+                <input type="number" class="capability-value" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="10"/>
+                <button type="button" class="roll-button roll-capability rollable" data-capability="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{capability.label}}">
+                  <i class="fas fa-dice-d6"></i>
+                </button>
+              </div>
+            {{/each}}
+          </div>
+
+          {{!-- People Track --}}
+          <div class="subsection-header">{{localize "SCIONS.Faction.PeopleTrack"}}</div>
+          <div class="people-track">
+            {{#each system.faction.peopleTrack.boxes as |box index|}}
+              <div class="stress-box growing people-box {{#if box.committed}}committed{{/if}} {{#if box.expended}}expended{{/if}}"
+                   data-index="{{index}}"
+                   data-value="{{box.value}}"
+                   title="{{localize 'SCIONS.PeopleTrack.ClickInstructions'}}">
+                {{#if box.expended}}
+                  <span class="box-mark">✖</span>
+                {{else if box.committed}}
+                  <span class="box-mark">◐</span>
+                {{else}}
+                  <span class="box-number">{{box.value}}</span>
+                {{/if}}
+              </div>
+            {{/each}}
+          </div>
+          <div class="track-legend">
+            <span>{{localize "SCIONS.PeopleTrack.Legend"}}: {{localize "SCIONS.PeopleTrack.Empty"}} → {{localize "SCIONS.PeopleTrack.Committed"}} → {{localize "SCIONS.PeopleTrack.Expended"}}</span>
+          </div>
+
+          {{!-- Consequences --}}
+          <div class="subsection-header">{{localize "SCIONS.Faction.Consequences"}}</div>
+
+          <div class="consequence-box">
+            <div class="consequence-header">
+              <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
+              <div class="consequence-treated">
+                <label>
+                  <input type="checkbox" name="system.consequences.minor.treated" {{checked system.consequences.minor.treated}}/>
+                  {{localize "SCIONS.Consequences.Treated"}}
+                </label>
+              </div>
+            </div>
+            <input type="text" name="system.consequences.minor.value" value="{{system.consequences.minor.value}}" placeholder="{{localize 'SCIONS.Consequences.MinorPlaceholder'}}"/>
+          </div>
+
+          <div class="consequence-box">
+            <div class="consequence-header">
+              <label class="consequence-label">{{localize "SCIONS.Consequences.Moderate"}}</label>
+              <div class="consequence-treated">
+                <label>
+                  <input type="checkbox" name="system.consequences.moderate.treated" {{checked system.consequences.moderate.treated}}/>
+                  {{localize "SCIONS.Consequences.Treated"}}
+                </label>
+              </div>
+            </div>
+            <input type="text" name="system.consequences.moderate.value" value="{{system.consequences.moderate.value}}" placeholder="{{localize 'SCIONS.Consequences.ModeratePlaceholder'}}"/>
+          </div>
+
+          <div class="consequence-box severe">
+            <div class="consequence-header">
+              <label class="consequence-label">{{localize "SCIONS.Consequences.Severe"}}</label>
+              <div class="consequence-treated">
+                <label>
+                  <input type="checkbox" name="system.consequences.severe.treated" {{checked system.consequences.severe.treated}}/>
+                  {{localize "SCIONS.Consequences.Treated"}}
+                </label>
+              </div>
+            </div>
+            <input type="text" name="system.consequences.severe.value" value="{{system.consequences.severe.value}}" placeholder="{{localize 'SCIONS.Consequences.SeverePlaceholder'}}"/>
+          </div>
+
+        </div>
+
+        {{!-- Right Column: Scion --}}
+        <div class="column scion-column">
+          <div class="section-header">{{localize "SCIONS.Scion.Title"}}</div>
+
+          {{!-- Scion Aspect --}}
+          <div class="aspect-box">
+            <label>{{localize "SCIONS.Scion.Aspect"}}</label>
+            <input type="text" name="system.scion.aspects.scionAspect.value" value="{{system.scion.aspects.scionAspect.value}}" placeholder="{{localize 'SCIONS.Scion.Aspect'}}"/>
+          </div>
+
+          {{!-- Skills --}}
+          <div class="subsection-header">
+            {{localize "SCIONS.Scion.Skills"}}
+            {{#unless skillValidation.valid}}
+              <span class="validation-warning">⚠</span>
+            {{/unless}}
+          </div>
+
+          <div class="skills-list">
+            {{#each system.scion.skills as |skill key|}}
+              <div class="skill-item">
+                <span class="skill-label">{{skill.label}}</span>
+                <input type="number" class="skill-value" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
+                <button type="button" class="roll-button roll-skill rollable" data-skill="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{skill.label}}">
+                  <i class="fas fa-dice-d6"></i>
+                </button>
+              </div>
+            {{/each}}
+          </div>
+
+          {{!-- Stress Track --}}
+          <div class="subsection-header">{{localize "SCIONS.Scion.Stress"}}</div>
+          <div class="stress-track">
+            {{#each system.scion.stress.boxes as |box index|}}
+              <div class="stress-box {{#if box.value}}checked{{/if}}" data-index="{{index}}" title="{{localize 'SCIONS.Stress.Toggle'}}"></div>
+            {{/each}}
+          </div>
+
+          {{!-- Age Track --}}
+          <div class="subsection-header">{{localize "SCIONS.Scion.AgeTrack"}}</div>
+          <div class="age-track">
+            {{#each system.scion.ageTrack as |stage key|}}
+              <div class="age-stage">
+                <div class="age-stage-label">{{stage.label}}</div>
+                <div class="age-stage-checks">
+                  <label title="{{localize 'SCIONS.AgeTrack.PassedHint'}}">
+                    <input type="checkbox" class="age-passed" data-stage="{{key}}" {{checked stage.passed}}/>
+                    {{localize "SCIONS.AgeTrack.Passed"}}
+                  </label>
+                  <label title="{{localize 'SCIONS.AgeTrack.WoundHint'}}">
+                    <input type="checkbox" class="age-wound" data-stage="{{key}}" {{checked stage.wound}}/>
+                    {{localize "SCIONS.AgeTrack.Wound"}}
+                  </label>
+                  <label title="{{localize 'SCIONS.AgeTrack.UsedHint'}}">
+                    <input type="checkbox" class="age-invoke-used" data-stage="{{key}}" {{checked stage.freeInvokeUsed}}/>
+                    {{localize "SCIONS.AgeTrack.Used"}}
+                  </label>
+                  <label title="{{localize 'SCIONS.AgeTrack.ScarHint'}}">
+                    <input type="checkbox" class="age-scar" data-stage="{{key}}" {{checked stage.scar}}/>
+                    {{localize "SCIONS.AgeTrack.Scar"}}
+                  </label>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+
+          <div class="roll-section">
+            <button type="button" class="roll-button roll-fate">
+              <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
             </button>
           </div>
-        {{/each}}
-      </div>
 
-      {{#if capabilityValidation.errors}}
-        <div class="validation-errors">
-          {{#each capabilityValidation.errors as |error|}}
-            <div class="error-message">{{error}}</div>
-          {{/each}}
         </div>
-      {{/if}}
-
-      {{!-- People Track --}}
-      <div class="section-header">{{localize "SCIONS.Faction.PeopleTrack"}}</div>
-      <div class="people-track">
-        {{#each system.faction.peopleTrack.boxes as |box index|}}
-          <div class="stress-box growing people-box {{#if box.checked}}checked{{/if}}" data-index="{{index}}" data-value="{{box.value}}">
-            {{#unless box.checked}}<span class="box-number">{{box.value}}</span>{{/unless}}
-          </div>
-        {{/each}}
       </div>
+    </div>
 
-      {{!-- Consequences --}}
-      <div class="section-header">{{localize "SCIONS.Faction.Consequences"}}</div>
-
-      <div class="consequence-box">
-        <div class="consequence-header">
-          <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
-          <div class="consequence-treated">
-            <label>
-              <input type="checkbox" name="system.consequences.minor.treated" {{checked system.consequences.minor.treated}}/>
-              {{localize "SCIONS.Consequences.Treated"}}
-            </label>
-          </div>
-        </div>
-        <input type="text" name="system.consequences.minor.value" value="{{system.consequences.minor.value}}" placeholder="Minor Consequence"/>
+    {{!-- Stunts Tab --}}
+    <div class="tab stunts-tab" data-group="primary" data-tab="stunts">
+      <div class="section-header">
+        {{localize "SCIONS.Faction.Stunts"}} ({{system.faction.stuntCount}})
       </div>
-
-      <div class="consequence-box">
-        <div class="consequence-header">
-          <label class="consequence-label">{{localize "SCIONS.Consequences.Moderate"}}</label>
-          <div class="consequence-treated">
-            <label>
-              <input type="checkbox" name="system.consequences.moderate.treated" {{checked system.consequences.moderate.treated}}/>
-              {{localize "SCIONS.Consequences.Treated"}}
-            </label>
-          </div>
-        </div>
-        <input type="text" name="system.consequences.moderate.value" value="{{system.consequences.moderate.value}}" placeholder="Moderate Consequence"/>
-      </div>
-
-      <div class="consequence-box severe">
-        <div class="consequence-header">
-          <label class="consequence-label">{{localize "SCIONS.Consequences.Severe"}}</label>
-          <div class="consequence-treated">
-            <label>
-              <input type="checkbox" name="system.consequences.severe.treated" {{checked system.consequences.severe.treated}}/>
-              {{localize "SCIONS.Consequences.Treated"}}
-            </label>
-          </div>
-        </div>
-        <input type="text" name="system.consequences.severe.value" value="{{system.consequences.severe.value}}" placeholder="Severe Consequence"/>
-      </div>
-
-      {{!-- Stunts --}}
-      <div class="section-header">{{localize "SCIONS.Faction.Stunts"}} ({{system.faction.stuntCount}})</div>
 
       {{#each system.faction.stunts as |stunt index|}}
         <div class="stunt-item">
           <div class="stunt-header">
-            <input type="text" class="stunt-name" name="system.faction.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="Stunt Name"/>
-            <button type="button" class="stunt-delete" data-index="{{index}}" title="Delete Stunt"><i class="fas fa-trash"></i></button>
+            <input type="text" class="stunt-name" name="system.faction.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="{{localize 'SCIONS.Stunts.NamePlaceholder'}}"/>
+            <button type="button" class="stunt-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
           </div>
-          <textarea name="system.faction.stunts.{{index}}.description" rows="2" placeholder="Stunt description...">{{stunt.description}}</textarea>
+          <textarea name="system.faction.stunts.{{index}}.description" rows="3" placeholder="{{localize 'SCIONS.Stunts.DescriptionPlaceholder'}}">{{stunt.description}}</textarea>
         </div>
       {{/each}}
 
       <button type="button" class="add-item-button stunt-add">
-        <i class="fas fa-plus"></i> {{localize "SCIONS.Threat.AddStunt"}}
+        <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddStunt"}}
       </button>
+    </div>
 
-      {{!-- Extras --}}
+    {{!-- Extras Tab --}}
+    <div class="tab extras-tab" data-group="primary" data-tab="extras">
       <div class="section-header">{{localize "SCIONS.Faction.Extras"}}</div>
 
       {{#each system.faction.extras as |extra index|}}
         <div class="extra-item">
           <div class="extra-header">
-            <input type="text" class="extra-name" name="system.faction.extras.{{index}}.name" value="{{extra.name}}" placeholder="Extra Name"/>
-            <button type="button" class="extra-delete" data-index="{{index}}" title="Delete Extra"><i class="fas fa-trash"></i></button>
+            <input type="text" class="extra-name" name="system.faction.extras.{{index}}.name" value="{{extra.name}}" placeholder="{{localize 'SCIONS.Extras.NamePlaceholder'}}"/>
+            <button type="button" class="extra-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
           </div>
-          <textarea name="system.faction.extras.{{index}}.description" rows="2" placeholder="Extra description...">{{extra.description}}</textarea>
+          <textarea name="system.faction.extras.{{index}}.description" rows="3" placeholder="{{localize 'SCIONS.Extras.DescriptionPlaceholder'}}">{{extra.description}}</textarea>
         </div>
       {{/each}}
 
       <button type="button" class="add-item-button extra-add">
-        <i class="fas fa-plus"></i> {{localize "SCIONS.Threat.AddExtra"}}
+        <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddExtra"}}
       </button>
-
     </div>
 
-    {{!-- Scion Tab --}}
-    <div class="tab scion" data-group="primary" data-tab="scion">
-
-      {{!-- Scion Aspect --}}
-      <div class="section-header">{{localize "SCIONS.Scion.Title"}}</div>
-
-      <div class="aspect-box">
-        <label>{{localize "SCIONS.Scion.Aspect"}}</label>
-        <input type="text" name="system.scion.aspects.scionAspect.value" value="{{system.scion.aspects.scionAspect.value}}" placeholder="Scion Aspect"/>
+    {{!-- Notes Tab --}}
+    <div class="tab notes-tab" data-group="primary" data-tab="notes">
+      <div class="section-header">{{localize "SCIONS.Tabs.Notes"}}</div>
+      <div class="editor-container">
+        {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
       </div>
-
-      {{!-- Skills --}}
-      <div class="section-header">
-        {{localize "SCIONS.Scion.Skills"}}
-        {{#unless skillValidation.valid}}
-          <span class="validation-warning">⚠ Pyramid Invalid</span>
-        {{/unless}}
-      </div>
-
-      <div class="skills-grid">
-        {{#each system.scion.skills as |skill key|}}
-          <div class="skill-item">
-            <span class="skill-label">{{skill.label}}</span>
-            <input type="number" class="skill-value" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="{{../globals.maxSkill}}"/>
-            <button type="button" class="roll-button roll-skill rollable" data-skill="{{key}}" title="Roll {{skill.label}}">
-              <i class="fas fa-dice-d6"></i>
-            </button>
-          </div>
-        {{/each}}
-      </div>
-
-      {{#if skillValidation.errors}}
-        <div class="validation-errors">
-          {{#each skillValidation.errors as |error|}}
-            <div class="error-message">{{error}}</div>
-          {{/each}}
-        </div>
-      {{/if}}
-
-      {{!-- Stress Track --}}
-      <div class="section-header">{{localize "SCIONS.Scion.Stress"}}</div>
-      <div class="stress-track">
-        {{#each system.scion.stress.boxes as |box index|}}
-          <div class="stress-box {{#if box.value}}checked{{/if}}" data-index="{{index}}"></div>
-        {{/each}}
-      </div>
-
-      {{!-- Age Track --}}
-      <div class="section-header">{{localize "SCIONS.Scion.AgeTrack"}}</div>
-      <div class="age-track">
-        {{#each system.scion.ageTrack as |stage key|}}
-          <div class="age-stage">
-            <div class="age-stage-label">{{stage.label}}</div>
-            <div class="age-stage-checks">
-              <label title="Passed - Crossed to next age">
-                <input type="checkbox" class="age-passed" data-stage="{{key}}" {{checked stage.passed}}/>
-                {{localize "SCIONS.AgeTrack.Passed"}}
-              </label>
-              <label title="Wound - Absorbs stress, gives free invoke to enemies">
-                <input type="checkbox" class="age-wound" data-stage="{{key}}" {{checked stage.wound}}/>
-                {{localize "SCIONS.AgeTrack.Wound"}}
-              </label>
-              <label title="Free Invoke Used">
-                <input type="checkbox" class="age-invoke-used" data-stage="{{key}}" {{checked stage.freeInvokeUsed}}/>
-                Used
-              </label>
-              <label title="Scar - Permanent wound">
-                <input type="checkbox" class="age-scar" data-stage="{{key}}" {{checked stage.scar}}/>
-                {{localize "SCIONS.AgeTrack.Scar"}}
-              </label>
-            </div>
-          </div>
-        {{/each}}
-      </div>
-
-      <div class="roll-section">
-        <button type="button" class="roll-button roll-fate">
-          <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
-        </button>
-      </div>
-
     </div>
 
   </section>

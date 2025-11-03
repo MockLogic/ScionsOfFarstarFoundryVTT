@@ -460,3 +460,146 @@
 .font-bold {
   font-weight: bold;
 }
+
+/* ===========================
+   Two-Column Layout
+   =========================== */
+
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 10px;
+}
+
+.column {
+  min-width: 0; /* Prevent grid blowout */
+}
+
+.subsection-header {
+  background: var(--sof-secondary);
+  color: white;
+  padding: 6px 10px;
+  margin: 8px 0 4px 0;
+  font-weight: bold;
+  font-size: 13px;
+  border-radius: 3px;
+}
+
+/* Skills and Capabilities Lists (Vertical) */
+.skills-list,
+.capabilities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+/* Stunt and Extra Header Fix */
+.stunt-name,
+.extra-name {
+  font-weight: bold;
+  flex: 1;
+  min-width: 0; /* Allow flexbox to shrink */
+  padding: 4px 8px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+}
+
+.stunt-delete,
+.extra-delete {
+  background: var(--sof-danger);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0; /* Don't let delete button shrink */
+  min-width: 32px;
+}
+
+.stunt-delete:hover,
+.extra-delete:hover {
+  background: #c0392b;
+}
+
+/* People Track States */
+.people-box {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.people-box.committed {
+  background: #f39c12;
+  border-color: #e67e22;
+}
+
+.people-box.expended {
+  background: #e74c3c;
+  border-color: #c0392b;
+}
+
+.people-box .box-mark {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.track-legend {
+  font-size: 11px;
+  color: var(--sof-secondary);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Editor Container for Notes Tab */
+.editor-container {
+  min-height: 400px;
+  padding: 10px;
+}
+
+.editor-container .editor {
+  min-height: 350px;
+}
+
+/* Validation Warning Styling */
+.validation-warning {
+  color: var(--sof-warning);
+  font-weight: bold;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+/* Fate Point Controls */
+.fate-point-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fate-points-increment,
+.fate-points-decrement {
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  min-width: 30px;
+}
+
+.fate-points-increment:hover,
+.fate-points-decrement:hover {
+  background: #2980b9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .two-column-layout {
+    grid-template-columns: 1fr;
+  }
+}

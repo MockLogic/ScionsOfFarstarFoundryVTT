@@ -49,13 +49,48 @@
       "Ancient": "Ancient (90+)",
       "Passed": "Passed",
       "Wound": "Wound",
-      "Scar": "Scar"
+      "Used": "Used",
+      "Scar": "Scar",
+      "PassedHint": "Mark when advancing to next age stage",
+      "WoundHint": "Mark to absorb stress - gives enemies a free invoke",
+      "UsedHint": "Mark when enemy uses the free invoke from a wound",
+      "ScarHint": "Permanent wound marker"
     },
     "Consequences": {
       "Minor": "Minor (2)",
       "Moderate": "Moderate (4)",
       "Severe": "Severe (6)",
-      "Treated": "Treated"
+      "Treated": "Treated",
+      "MinorPlaceholder": "Minor Consequence",
+      "ModeratePlaceholder": "Moderate Consequence",
+      "SeverePlaceholder": "Severe Consequence"
+    },
+    "PeopleTrack": {
+      "ClickInstructions": "Click to cycle: Empty → Committed → Expended → Empty",
+      "Legend": "Legend",
+      "Empty": "Empty",
+      "Committed": "Committed",
+      "Expended": "Expended"
+    },
+    "Stress": {
+      "Toggle": "Click to toggle stress"
+    },
+    "Stunts": {
+      "NamePlaceholder": "Stunt Name",
+      "DescriptionPlaceholder": "Stunt description..."
+    },
+    "Extras": {
+      "NamePlaceholder": "Extra Name",
+      "DescriptionPlaceholder": "Extra description..."
+    },
+    "Tabs": {
+      "Main": "Main",
+      "Stunts": "Stunts",
+      "Extras": "Extras",
+      "Notes": "Notes"
+    },
+    "Validation": {
+      "RefreshMismatch": "Refresh does not match stunt count"
     },
     "Threat": {
       "Type": "Threat Type",
@@ -86,7 +121,11 @@
       "Delete": "Delete",
       "Edit": "Edit",
       "Clear": "Clear",
-      "Save": "Save"
+      "Save": "Save",
+      "Increase": "Increase",
+      "Decrease": "Decrease",
+      "AddStunt": "Add Stunt",
+      "AddExtra": "Add Extra"
     },
     "Labels": {
       "Name": "Name",

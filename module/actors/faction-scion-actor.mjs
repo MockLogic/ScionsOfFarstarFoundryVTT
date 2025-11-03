@@ -64,11 +64,13 @@ export class FactionScionActor extends Actor {
 
     // Generate People Track boxes based on People capability rating
     const peopleRating = faction.capabilities.people.value;
+    const oldBoxes = faction.peopleTrack.boxes || [];
     faction.peopleTrack.boxes = [];
     for (let i = 1; i <= peopleRating; i++) {
       faction.peopleTrack.boxes.push({
         value: i,
-        checked: faction.peopleTrack.boxes[i - 1]?.checked || false
+        committed: oldBoxes[i - 1]?.committed || false,
+        expended: oldBoxes[i - 1]?.expended || false
       });
     }
 
@@ -76,8 +78,12 @@ export class FactionScionActor extends Actor {
     faction.stuntCount = faction.stunts.filter(s => s.name || s.description).length;
 
     // Validate Refresh vs Stunts
-    const expectedRefresh = Math.max(1, 3 - (faction.stuntCount - 3));
+    // Starting: 3 stunts, refresh 3
+    // Each additional stunt costs 1 refresh
+    // Refresh minimum = 1
+    const expectedRefresh = Math.max(1, 3 - Math.max(0, faction.stuntCount - 3));
     faction.refreshValid = faction.refresh.value === expectedRefresh;
+    faction.expectedRefresh = expectedRefresh;
   }
 
   /**
