@@ -1,0 +1,99 @@
+{
+  "SCIONS": {
+    "ActorTypes": {
+      "faction-scion": "Faction-Scion",
+      "threat": "Threat Front",
+      "colony": "Colony"
+    },
+    "Scion": {
+      "Title": "Scion",
+      "Aspect": "Scion Aspect",
+      "Skills": "Skills",
+      "Stress": "Stress",
+      "AgeTrack": "Age Track"
+    },
+    "Faction": {
+      "Title": "Faction",
+      "HighConcept": "High Concept",
+      "Trouble": "Trouble",
+      "Inheritance": "Inheritance",
+      "Capabilities": "Capabilities",
+      "PeopleTrack": "People Track",
+      "Consequences": "Consequences",
+      "Stunts": "Stunts",
+      "Extras": "Extras",
+      "Refresh": "Refresh",
+      "FatePoints": "Fate Points"
+    },
+    "Skills": {
+      "Academics": "Academics",
+      "Combat": "Combat",
+      "Deception": "Deception",
+      "Engineering": "Engineering",
+      "Exploration": "Exploration",
+      "Influence": "Influence"
+    },
+    "Capabilities": {
+      "Culture": "Culture",
+      "Industrial": "Industrial",
+      "Military": "Military",
+      "Mobility": "Mobility",
+      "People": "People",
+      "Technology": "Technology"
+    },
+    "AgeTrack": {
+      "Youthful": "Youthful (16-29)",
+      "Seasoned": "Seasoned (30-49)",
+      "Older": "Older (50-69)",
+      "Geriatric": "Geriatric (70-89)",
+      "Ancient": "Ancient (90+)",
+      "Passed": "Passed",
+      "Wound": "Wound",
+      "Scar": "Scar"
+    },
+    "Consequences": {
+      "Minor": "Minor (2)",
+      "Moderate": "Moderate (4)",
+      "Severe": "Severe (6)",
+      "Treated": "Treated"
+    },
+    "Threat": {
+      "Type": "Threat Type",
+      "EditMode": "Edit Mode",
+      "PlayMode": "Play Mode",
+      "Aspects": "Aspects",
+      "Skills": "Skills",
+      "Capabilities": "Capabilities",
+      "CountdownLadders": "Countdown Ladders",
+      "StressTracks": "Stress Tracks",
+      "AddStunt": "Add Stunt",
+      "AddExtra": "Add Extra"
+    },
+    "Colony": {
+      "Title": "Colony",
+      "Attributes": "Attributes",
+      "Population": "Population",
+      "PopulationTrack": "Population Track",
+      "AddAttribute": "Add Attribute"
+    },
+    "Roll": {
+      "Roll": "Roll",
+      "RollFate": "Roll 4dF",
+      "Result": "Result"
+    },
+    "Actions": {
+      "Add": "Add",
+      "Delete": "Delete",
+      "Edit": "Edit",
+      "Clear": "Clear",
+      "Save": "Save"
+    },
+    "Labels": {
+      "Name": "Name",
+      "Description": "Description",
+      "Value": "Value",
+      "Rating": "Rating",
+      "Visible": "Visible"
+    }
+  }
+}

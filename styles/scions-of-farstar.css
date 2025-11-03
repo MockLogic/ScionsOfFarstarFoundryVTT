@@ -1,0 +1,462 @@
+/* ===========================
+   Scions of FarStar - CSS
+   =========================== */
+
+/* Fate Core Font Integration */
+@font-face {
+  font-family: 'FateCore';
+  src: url('../assets/fonts/fate_core_font-webfont.woff') format('woff'),
+       url('../assets/fonts/fate_core_font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Root Variables */
+:root {
+  --sof-primary: #2c3e50;
+  --sof-secondary: #34495e;
+  --sof-accent: #3498db;
+  --sof-success: #27ae60;
+  --sof-warning: #f39c12;
+  --sof-danger: #e74c3c;
+  --sof-light: #ecf0f1;
+  --sof-dark: #2c3e50;
+  --sof-border: #bdc3c7;
+
+  --fate-plus: "\002B";
+  --fate-minus: "\002D";
+  --fate-blank: "\0030";
+}
+
+/* General Sheet Styling */
+.scions-of-farstar {
+  font-family: 'Signika', 'Palatino Linotype', serif;
+  font-size: 14px;
+  color: var(--sof-dark);
+}
+
+.scions-of-farstar .window-content {
+  background: var(--sof-light);
+  padding: 10px;
+}
+
+/* Section Headers */
+.scions-of-farstar .section-header {
+  background: var(--sof-primary);
+  color: white;
+  padding: 8px 12px;
+  margin: 10px 0 5px 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+/* Input Fields */
+.scions-of-farstar input[type="text"],
+.scions-of-farstar input[type="number"],
+.scions-of-farstar textarea {
+  background: white;
+  border: 1px solid var(--sof-border);
+  padding: 4px 8px;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.scions-of-farstar input[type="text"]:focus,
+.scions-of-farstar input[type="number"]:focus,
+.scions-of-farstar textarea:focus {
+  outline: none;
+  border-color: var(--sof-accent);
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* Fate Dice Display */
+.fate-die {
+  font-family: 'FateCore', monospace;
+  font-size: 24px;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  margin: 0 2px;
+  background: white;
+  border: 2px solid var(--sof-border);
+  border-radius: 4px;
+}
+
+.fate-die.plus {
+  color: var(--sof-success);
+  border-color: var(--sof-success);
+}
+
+.fate-die.minus {
+  color: var(--sof-danger);
+  border-color: var(--sof-danger);
+}
+
+.fate-die.blank {
+  color: var(--sof-border);
+}
+
+/* Roll Buttons */
+.scions-of-farstar .roll-button {
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background 0.2s;
+}
+
+.scions-of-farstar .roll-button:hover {
+  background: #2980b9;
+}
+
+.scions-of-farstar .roll-button:active {
+  background: #21618c;
+}
+
+/* Checkboxes */
+.scions-of-farstar input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Stress Boxes */
+.stress-box {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  margin: 0 3px;
+  cursor: pointer;
+  background: white;
+  position: relative;
+}
+
+.stress-box.checked::before {
+  content: '✖';
+  color: var(--sof-danger);
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stress-box:hover {
+  border-color: var(--sof-accent);
+}
+
+/* Growing Stress Track (Fate style) */
+.stress-box.growing {
+  position: relative;
+}
+
+.stress-box.growing::after {
+  content: attr(data-value);
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--sof-border);
+}
+
+/* Aspect Boxes */
+.aspect-box {
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-left: 4px solid var(--sof-accent);
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 3px;
+}
+
+.aspect-box label {
+  font-weight: bold;
+  color: var(--sof-primary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Skills and Capabilities Grid */
+.skills-grid,
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.skill-item,
+.capability-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 6px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+}
+
+.skill-label,
+.capability-label {
+  flex: 1;
+  font-weight: bold;
+}
+
+.skill-value,
+.capability-value {
+  width: 50px;
+  text-align: center;
+}
+
+.skill-item .roll-button,
+.capability-item .roll-button {
+  padding: 2px 6px;
+  font-size: 11px;
+}
+
+/* Age Track */
+.age-track {
+  margin: 10px 0;
+}
+
+.age-stage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  margin: 3px 0;
+  border-radius: 3px;
+}
+
+.age-stage-label {
+  flex: 1;
+  font-weight: bold;
+}
+
+.age-stage-checks {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.age-stage-checks label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+/* Consequences */
+.consequence-box {
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-left: 4px solid var(--sof-warning);
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 3px;
+}
+
+.consequence-box.severe {
+  border-left-color: var(--sof-danger);
+}
+
+.consequence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.consequence-label {
+  font-weight: bold;
+  color: var(--sof-warning);
+}
+
+.consequence-box.severe .consequence-label {
+  color: var(--sof-danger);
+}
+
+.consequence-treated {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+/* Stunts and Extras */
+.stunt-item,
+.extra-item {
+  background: white;
+  border: 1px solid var(--sof-border);
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 3px;
+}
+
+.stunt-header,
+.extra-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.stunt-name,
+.extra-name {
+  font-weight: bold;
+  flex: 1;
+}
+
+.stunt-delete,
+.extra-delete {
+  background: var(--sof-danger);
+  color: white;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.add-item-button {
+  background: var(--sof-success);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.add-item-button:hover {
+  background: #229954;
+}
+
+/* Refresh and Fate Points */
+.fate-points-container {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.fate-point-box {
+  flex: 1;
+  background: white;
+  border: 2px solid var(--sof-accent);
+  border-radius: 3px;
+  padding: 10px;
+  text-align: center;
+}
+
+.fate-point-label {
+  font-size: 12px;
+  color: var(--sof-primary);
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.fate-point-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--sof-accent);
+}
+
+/* Edit Mode Toggle */
+.edit-mode-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--sof-secondary);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.edit-mode-toggle.active {
+  background: var(--sof-accent);
+}
+
+/* Countdown Ladders */
+.countdown-ladder {
+  margin: 10px 0;
+}
+
+.ladder-stage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  margin: 3px 0;
+  border-radius: 3px;
+}
+
+.ladder-checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.ladder-stage-name {
+  flex: 1;
+}
+
+/* Utility Classes */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.gap-sm {
+  gap: 5px;
+}
+
+.gap-md {
+  gap: 10px;
+}
+
+.gap-lg {
+  gap: 15px;
+}
+
+.mb-sm {
+  margin-bottom: 5px;
+}
+
+.mb-md {
+  margin-bottom: 10px;
+}
+
+.mb-lg {
+  margin-bottom: 15px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: bold;
+}

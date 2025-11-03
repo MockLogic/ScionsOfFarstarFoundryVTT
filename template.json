@@ -1,0 +1,445 @@
+{
+  "Actor": {
+    "types": ["faction-scion", "threat", "colony"],
+    "templates": {
+      "commonAspects": {
+        "aspects": {
+          "highConcept": {
+            "value": ""
+          },
+          "trouble": {
+            "value": ""
+          }
+        }
+      },
+      "consequences": {
+        "consequences": {
+          "minor": {
+            "value": "",
+            "treated": false
+          },
+          "moderate": {
+            "value": "",
+            "treated": false
+          },
+          "severe": {
+            "value": "",
+            "treated": false
+          }
+        }
+      }
+    },
+    "faction-scion": {
+      "templates": ["commonAspects", "consequences"],
+      "scion": {
+        "aspects": {
+          "scionAspect": {
+            "value": ""
+          }
+        },
+        "skills": {
+          "academics": {
+            "value": 0,
+            "label": "Academics"
+          },
+          "combat": {
+            "value": 0,
+            "label": "Combat"
+          },
+          "deception": {
+            "value": 0,
+            "label": "Deception"
+          },
+          "engineering": {
+            "value": 0,
+            "label": "Engineering"
+          },
+          "exploration": {
+            "value": 0,
+            "label": "Exploration"
+          },
+          "influence": {
+            "value": 0,
+            "label": "Influence"
+          }
+        },
+        "stress": {
+          "max": 3,
+          "boxes": [
+            {"value": false},
+            {"value": false},
+            {"value": false}
+          ]
+        },
+        "ageTrack": {
+          "youthful": {
+            "label": "Youthful",
+            "ageRange": "16-29",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "seasoned": {
+            "label": "Seasoned",
+            "ageRange": "30-49",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "older": {
+            "label": "Older",
+            "ageRange": "50-69",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "geriatric": {
+            "label": "Geriatric",
+            "ageRange": "70-89",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "ancient": {
+            "label": "Ancient",
+            "ageRange": "90+",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          }
+        }
+      },
+      "faction": {
+        "aspects": {
+          "inheritance": {
+            "value": ""
+          }
+        },
+        "refresh": {
+          "value": 3
+        },
+        "fatePoints": {
+          "value": 3
+        },
+        "capabilities": {
+          "culture": {
+            "value": 0,
+            "label": "Culture"
+          },
+          "industrial": {
+            "value": 0,
+            "label": "Industrial"
+          },
+          "military": {
+            "value": 0,
+            "label": "Military"
+          },
+          "mobility": {
+            "value": 0,
+            "label": "Mobility"
+          },
+          "people": {
+            "value": 0,
+            "label": "People"
+          },
+          "technology": {
+            "value": 0,
+            "label": "Technology"
+          }
+        },
+        "peopleTrack": {
+          "boxes": []
+        },
+        "stunts": [
+          {
+            "name": "",
+            "description": ""
+          },
+          {
+            "name": "",
+            "description": ""
+          },
+          {
+            "name": "",
+            "description": ""
+          }
+        ],
+        "extras": []
+      }
+    },
+    "threat": {
+      "threatType": "",
+      "aspects": {
+        "highConcept": {
+          "value": "",
+          "visible": true
+        },
+        "aspect2": {
+          "label": "Trouble",
+          "value": "",
+          "visible": true
+        },
+        "aspect3": {
+          "label": "Aspect 3",
+          "value": "",
+          "visible": true
+        },
+        "aspect4": {
+          "label": "Aspect 4",
+          "value": "",
+          "visible": false
+        },
+        "aspect5": {
+          "label": "Aspect 5",
+          "value": "",
+          "visible": false
+        }
+      },
+      "skills": [
+        {
+          "name": "Influence",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Combat",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Academics",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Engineering",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Exploration",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Deception",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Extra A",
+          "value": 0,
+          "visible": false
+        },
+        {
+          "name": "Extra B",
+          "value": 0,
+          "visible": false
+        }
+      ],
+      "capabilities": [
+        {
+          "name": "Military",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Industrial",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Technology",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Culture",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Mobility",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "People",
+          "value": 0,
+          "visible": true
+        },
+        {
+          "name": "Extra A",
+          "value": 0,
+          "visible": false
+        },
+        {
+          "name": "Extra B",
+          "value": 0,
+          "visible": false
+        }
+      ],
+      "ageTrack": {
+        "visible": false,
+        "stages": {
+          "youthful": {
+            "label": "Youthful",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "seasoned": {
+            "label": "Seasoned",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "older": {
+            "label": "Older",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "geriatric": {
+            "label": "Geriatric",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          },
+          "ancient": {
+            "label": "Ancient",
+            "passed": false,
+            "wound": false,
+            "scar": false
+          }
+        }
+      },
+      "countdownLadders": {
+        "ladder1": {
+          "name": "Countdown 1",
+          "visible": true,
+          "stages": [
+            {"name": "", "checked": false},
+            {"name": "", "checked": false},
+            {"name": "", "checked": false},
+            {"name": "", "checked": false},
+            {"name": "", "checked": false}
+          ]
+        },
+        "ladder2": {
+          "name": "Countdown 2",
+          "visible": false,
+          "stages": [
+            {"name": "", "checked": false},
+            {"name": "", "checked": false},
+            {"name": "", "checked": false},
+            {"name": "", "checked": false},
+            {"name": "", "checked": false}
+          ]
+        }
+      },
+      "stressTracks": {
+        "singleBox": {
+          "name": "Stress",
+          "visible": false,
+          "max": 3,
+          "boxes": []
+        },
+        "growingBox": {
+          "name": "People",
+          "visible": true,
+          "max": 3,
+          "boxes": []
+        }
+      },
+      "consequences": {
+        "minor": {
+          "value": "",
+          "treated": false,
+          "visible": true
+        },
+        "minor2": {
+          "value": "",
+          "treated": false,
+          "visible": false
+        },
+        "moderate": {
+          "value": "",
+          "treated": false,
+          "visible": true
+        },
+        "severe": {
+          "value": "",
+          "treated": false,
+          "visible": true
+        }
+      },
+      "stunts": [],
+      "extras": [],
+      "editMode": false
+    },
+    "colony": {
+      "aspects": {
+        "highConcept": {
+          "value": ""
+        },
+        "trouble": {
+          "value": ""
+        },
+        "aspect3": {
+          "label": "Aspect 3",
+          "value": "",
+          "visible": false
+        },
+        "aspect4": {
+          "label": "Aspect 4",
+          "value": "",
+          "visible": false
+        },
+        "aspect5": {
+          "label": "Aspect 5",
+          "value": "",
+          "visible": false
+        }
+      },
+      "attributes": {
+        "population": {
+          "label": "Population",
+          "value": 0
+        },
+        "power": {
+          "label": "Power",
+          "value": 0
+        },
+        "food": {
+          "label": "Food",
+          "value": 0
+        },
+        "water": {
+          "label": "Water",
+          "value": 0
+        }
+      },
+      "populationTrack": {
+        "boxes": []
+      },
+      "consequences": {
+        "minor": {
+          "value": "",
+          "treated": false
+        },
+        "moderate": {
+          "value": "",
+          "treated": false
+        },
+        "severe": {
+          "value": "",
+          "treated": false
+        }
+      }
+    }
+  },
+  "Item": {
+    "types": []
+  }
+}

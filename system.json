@@ -1,0 +1,39 @@
+{
+  "id": "scions-of-farstar",
+  "title": "Scions of FarStar",
+  "description": "A custom Foundry VTT system for Scions of FarStar, a multigenerational sci-fi colony-building RPG using heavily modified Fate mechanics.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13.350",
+    "maximum": "13"
+  },
+  "authors": [
+    {
+      "name": "MockLogic",
+      "flags": {}
+    }
+  ],
+  "esmodules": [
+    "module/scions-of-farstar.mjs"
+  ],
+  "styles": [
+    "styles/scions-of-farstar.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "gridDistance": 5,
+  "gridUnits": "m",
+  "primaryTokenAttribute": null,
+  "secondaryTokenAttribute": null,
+  "url": "https://github.com/MockLogic/ScionsOfFarstarFoundryVTT",
+  "manifest": "https://raw.githubusercontent.com/MockLogic/ScionsOfFarstarFoundryVTT/main/system.json",
+  "download": "https://github.com/MockLogic/ScionsOfFarstarFoundryVTT/archive/refs/heads/main.zip",
+  "background": "",
+  "media": []
+}
