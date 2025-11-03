@@ -77,6 +77,7 @@
             "ageRange": "16-29",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "seasoned": {
@@ -84,6 +85,7 @@
             "ageRange": "30-49",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "older": {
@@ -91,6 +93,7 @@
             "ageRange": "50-69",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "geriatric": {
@@ -98,6 +101,7 @@
             "ageRange": "70-89",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "ancient": {
@@ -105,6 +109,7 @@
             "ageRange": "90+",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           }
         }
@@ -286,30 +291,35 @@
             "label": "Youthful",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "seasoned": {
             "label": "Seasoned",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "older": {
             "label": "Older",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "geriatric": {
             "label": "Geriatric",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           },
           "ancient": {
             "label": "Ancient",
             "passed": false,
             "wound": false,
+            "freeInvokeUsed": false,
             "scar": false
           }
         }

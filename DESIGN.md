@@ -1,6 +1,6 @@
 # Scions of FarStar - Foundry VTT System Design Document
 
-**Design Version:** 1.0  
+**Design Version:** 1.1  
 **Target Foundry Version:** v13 build 350  
 **System Type:** Custom Fate-based system  
 **Repository:** GitHub (private/personal use)
@@ -139,9 +139,9 @@ Each stage has three checkboxes:
 - No Validation
 
 **Skill Validation:** Faction-Scion sheets SHOULD validate skills, capabilities, and stunts. Indicate when too high or low.
- - Scion Skills should always total base values + 1 per age track marked. 
- - Faction Capabilities should always total starting capbilities +1 per Signficant Milestone.
- - The number of Stunts should always be at least 3 and for each additional one, the Refresh should be reduced. Refresh should never go below 1.
+ - Scion Skills: Should follow Fate pyramid (one at peak, two at next level, etc.). Max rating = Max Skill setting. Scions can exceed max via Age Track advancement (manual tracking).
+ - Faction Capabilities: Should follow Fate pyramid. Max rating = Base Max Capability + Major Milestones.
+ - Stunts vs Refresh: Starting stunts = 3, Refresh = 3. Each additional stunt reduces Refresh by 1. Refresh minimum = 1.
 
 ---
 
@@ -289,6 +289,45 @@ When creating new threat, these elements are visible:
 
 ---
 
+## Game Globals
+
+These settings track campaign-wide progression and affect validation rules across all sheets.
+
+### Campaign Progression Trackers
+- **Generation Number:** Default: 1
+  - Tracks which generation of Scions the campaign is on
+  - Increments when the party advances to next generation
+  - For reference only - consequence recovery is handled manually by players
+
+- **Significant Milestones:** Default: 0
+  - Tracks number of Significant Milestones achieved
+  - Each Significant Milestone allows Factions to increase one Capability by +1
+  - For reference only - players manually adjust capabilities
+
+- **Major Milestones:** Default: 0
+  - Tracks number of Major Milestones achieved
+  - Each Major Milestone increases Max Capability by +1
+  - Used for Faction Capability validation caps
+
+### Validation Caps
+- **Max Skill:** Default: +4
+  - Maximum rating for Scion Skills
+  - May be adjusted by GM for high-powered campaigns
+  - Scions can exceed this via Age Track advancement
+
+- **Max Capability:** Default: +3
+  - Maximum rating for Faction Capabilities at campaign start
+  - Increases by +1 per Major Milestone
+  - Formula: Base (+3) + Major Milestones = Current Max Capability
+  - Used for Faction Capability validation
+
+**Implementation Notes:**
+- These should be accessible from world settings or a campaign tracker UI
+- Validation logic should reference these globals when checking skill/capability limits
+- Max Capability should be dynamic based on Major Milestones count
+
+---
+
 ## Technical Requirements
 
 ### Foundry Version
@@ -316,13 +355,48 @@ When creating new threat, these elements are visible:
 - Support for Foundry Add-on Module PopOut! (https://github.com/League-of-Foundry-Developers/fvtt-module-popout)
 - Responsive design for different screen sizes
 - Clean separation of Scion/Faction sections on combined sheet, highlighting Faction as primary and Scion as a major feature of the Faction.
-- Edit/Play mode toggle for Threat sheets
-- Consequence text fields should be editble play mode.
+
+### Interactive Elements (Always Available in Play)
+All sheets should have these elements clickable/editable during normal play:
+
+**Stress-like Tracks (Click to Toggle):**
+- Scion Stress boxes (toggle checked/unchecked)
+- Faction People Track boxes (toggle checked/unchecked)
+- Colony Population Track boxes (toggle checked/unchecked)
+- Threat stress tracks - both single-box and growing-box types (toggle checked/unchecked)
+
+**Age Tracks (Click to Toggle - All Four States):**
+- Passed checkboxes (mark when advancing age)
+- Wound checkboxes (mark to absorb stress)
+- Free Invoke Used/Unused toggle (wounds give free invokes to enemies until used)
+- Scar checkboxes (permanent marks)
+
+**Countdown Ladders (Click to Toggle Only):**
+- Stage checkboxes (mark stages as they're reached)
+- Stage text is locked in Edit Mode, not editable during play
+
+**Consequences (EXCEPTION - Text Editable + Checkbox):**
+- Consequence text fields (edit to write/rename consequences during play)
+- Treatment checkboxes (mark when consequence is treated)
+
+**Aspects (Generally Not Editable in Play):**
+- Most aspects are set outside of play and not edited during sessions
+- Exception: Consequences can be edited (see above)
+- Threat aspects may need to be editable in Edit Mode only
+
+**Fate Points:**
+- Current Fate Points should be easily adjustable (increment/decrement buttons helpful)
+
+### Edit vs Play Mode (Threat Sheets Only)
+- **Edit Mode:** Configure which elements are visible, set track lengths, customize labels, add/remove skills/capabilities
+- **Play Mode:** All configured elements visible, but interactive elements (stress, ladders, consequences, aspects) remain editable
+- Toggle between modes via button in sheet header
 
 ### Data Validation
-- **Faction-Scion sheets:** Enforce various skill/capability/stunt counts
-- **Colony sheet:** Enforce pyramid rules for Attributes
+- **Faction-Scion sheets:** Validate Fate pyramid structure for skills/capabilities, max ratings, and stunt/refresh balance
+- **Colony sheet:** Validate Fate pyramid structure for Attributes
 - **Threat sheets:** No validation (freeform)
+- **Manual Player Management:** Consequence recovery, Age Track advancement, capability increases from milestones
 
 ### Permissions
 - Players should be able to edit their Faction-Scion sheet

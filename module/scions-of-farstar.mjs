@@ -3,18 +3,15 @@
  * A custom system for multigenerational sci-fi colony building using modified Fate mechanics
  */
 
-// Import actor classes (to be created)
-// import { FactionScionActor } from "./actors/faction-scion.mjs";
-// import { ThreatActor } from "./actors/threat.mjs";
-// import { ColonyActor } from "./actors/colony.mjs";
+// Import actor classes
+import { FactionScionActor } from "./actors/faction-scion-actor.mjs";
+// import { ThreatActor } from "./actors/threat-actor.mjs";
+// import { ColonyActor } from "./actors/colony-actor.mjs";
 
-// Import sheet classes (to be created)
-// import { FactionScionSheet } from "./sheets/faction-scion-sheet.mjs";
-// import { ThreatSheet } from "./sheets/threat-sheet.mjs";
-// import { ColonySheet } from "./sheets/colony-sheet.mjs";
-
-// Import dice roller (to be created)
-// import { FateDiceRoller } from "./dice/fate-dice.mjs";
+// Import sheet classes
+import { FactionScionSheet } from "./actors/faction-scion-sheet.mjs";
+// import { ThreatSheet } from "./actors/threat-sheet.mjs";
+// import { ColonySheet } from "./actors/colony-sheet.mjs";
 
 /**
  * Initialize the Scions of FarStar system
@@ -24,7 +21,41 @@ Hooks.once('init', async function() {
 
   // Store system configuration
   game.scionsOfFarstar = {
-    config: {}
+    config: {},
+
+    /**
+     * Get the current maximum capability rating based on base + major milestones
+     * @returns {number} Current max capability
+     */
+    getMaxCapability: function() {
+      const base = game.settings.get('scions-of-farstar', 'baseMaxCapability');
+      const majorMilestones = game.settings.get('scions-of-farstar', 'majorMilestones');
+      return base + majorMilestones;
+    },
+
+    /**
+     * Get the current generation number
+     * @returns {number} Current generation
+     */
+    getGenerationNumber: function() {
+      return game.settings.get('scions-of-farstar', 'generationNumber');
+    },
+
+    /**
+     * Get the number of significant milestones
+     * @returns {number} Significant milestones count
+     */
+    getSignificantMilestones: function() {
+      return game.settings.get('scions-of-farstar', 'significantMilestones');
+    },
+
+    /**
+     * Get the max skill rating
+     * @returns {number} Max skill rating
+     */
+    getMaxSkill: function() {
+      return game.settings.get('scions-of-farstar', 'maxSkill');
+    }
   };
 
   // Register system settings
@@ -32,6 +63,17 @@ Hooks.once('init', async function() {
 
   // Register custom Handlebars helpers
   registerHandlebarsHelpers();
+
+  // Register custom Document classes
+  CONFIG.Actor.documentClass = FactionScionActor;
+
+  // Register sheet application classes
+  Actors.unregisterSheet("core", ActorSheet);
+  Actors.registerSheet("scions-of-farstar", FactionScionSheet, {
+    types: ["faction-scion"],
+    makeDefault: true,
+    label: "SCIONS.ActorTypes.faction-scion"
+  });
 
   console.log('Scions of FarStar | System initialized');
 });
@@ -47,7 +89,79 @@ Hooks.once('ready', async function() {
  * Register system settings
  */
 function registerSystemSettings() {
-  // Example setting for showing debug info
+  // Campaign Progression Trackers
+  game.settings.register('scions-of-farstar', 'generationNumber', {
+    name: 'Generation Number',
+    hint: 'Current generation of Scions (used for consequence recovery timing)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 1,
+    range: {
+      min: 1,
+      max: 100,
+      step: 1
+    }
+  });
+
+  game.settings.register('scions-of-farstar', 'significantMilestones', {
+    name: 'Significant Milestones',
+    hint: 'Number of Significant Milestones achieved (each allows +1 to a Faction Capability)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 0,
+    range: {
+      min: 0,
+      max: 100,
+      step: 1
+    }
+  });
+
+  game.settings.register('scions-of-farstar', 'majorMilestones', {
+    name: 'Major Milestones',
+    hint: 'Number of Major Milestones achieved (each increases Max Capability by +1)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 0,
+    range: {
+      min: 0,
+      max: 100,
+      step: 1
+    }
+  });
+
+  // Validation Caps
+  game.settings.register('scions-of-farstar', 'maxSkill', {
+    name: 'Max Skill Rating',
+    hint: 'Maximum rating for Scion Skills (default +4, Scions can exceed this via Age Track)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 4,
+    range: {
+      min: 1,
+      max: 10,
+      step: 1
+    }
+  });
+
+  game.settings.register('scions-of-farstar', 'baseMaxCapability', {
+    name: 'Base Max Capability',
+    hint: 'Base maximum rating for Faction Capabilities (default +3, increases with Major Milestones)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 3,
+    range: {
+      min: 1,
+      max: 10,
+      step: 1
+    }
+  });
+
+  // Debug setting
   game.settings.register('scions-of-farstar', 'debugMode', {
     name: 'Debug Mode',
     hint: 'Show additional debug information in console',
