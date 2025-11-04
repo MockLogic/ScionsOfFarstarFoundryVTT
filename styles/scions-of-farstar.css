@@ -927,6 +927,22 @@
   min-width: 80px;
 }
 
+/* Current age highlighting */
+.age-track-cell.age-label.current-age {
+  font-weight: bold;
+  font-size: 15px;
+  color: var(--sof-accent);
+  background: #e3f2fd;
+  border-left: 4px solid var(--sof-accent);
+}
+
+/* Passed and Scarred age strikethrough */
+.age-track-cell.age-label.passed-age,
+.age-track-cell.age-label.scarred-age {
+  text-decoration: line-through;
+  color: #999;
+}
+
 .age-track-cell.age-checkbox {
   width: 40px;
   background: white;

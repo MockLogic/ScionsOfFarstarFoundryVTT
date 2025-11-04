@@ -31,6 +31,9 @@ export class FactionScionSheet extends ActorSheet {
     context.skillValidation = this.actor.validateSkillPyramid();
     context.capabilityValidation = this.actor.validateCapabilityPyramid();
 
+    // Determine current age stage
+    context.currentAgeStage = this._determineCurrentAge(context.system.scion.ageTrack);
+
     // Add game globals for display
     context.globals = {
       generationNumber: game.scionsOfFarstar.getGenerationNumber(),
@@ -47,6 +50,35 @@ export class FactionScionSheet extends ActorSheet {
     context.enrichedInheritance = await TextEditor.enrichHTML(context.system.faction.aspects.inheritance.value, { async: true });
 
     return context;
+  }
+
+  /**
+   * Determine the current age stage based on which stages are marked as "Passed"
+   * Current age = the first stage after the last "Passed" stage
+   * @param {Object} ageTrack - The age track object
+   * @returns {string|null} - The key of the current age stage
+   */
+  _determineCurrentAge(ageTrack) {
+    const stages = ['youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
+
+    // Find the last stage marked as "Passed"
+    let lastPassedIndex = -1;
+    for (let i = 0; i < stages.length; i++) {
+      if (ageTrack[stages[i]].passed) {
+        lastPassedIndex = i;
+      }
+    }
+
+    // Current age is the stage after the last passed one
+    // If no stages are passed, current age is the first stage
+    const currentIndex = lastPassedIndex + 1;
+
+    // If we've passed Ancient (index 4), there's no current age
+    if (currentIndex >= stages.length) {
+      return null;
+    }
+
+    return stages[currentIndex];
   }
 
   /** @override */
@@ -172,6 +204,7 @@ export class FactionScionSheet extends ActorSheet {
 
   /**
    * Toggle age track "passed" checkbox
+   * Validation: Passed must be checked from youngest to oldest
    * When checked: clears and hides Wound, Invoke, Scar
    * When unchecked: reverts to normal (Wound visible, Invoke hidden)
    */
@@ -179,8 +212,18 @@ export class FactionScionSheet extends ActorSheet {
     event.preventDefault();
     const stage = event.currentTarget.dataset.stage;
     const current = this.actor.system.scion.ageTrack[stage].passed;
+    const stages = ['youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
+    const stageIndex = stages.indexOf(stage);
 
     if (!current) {
+      // Checking Passed: validate that all previous stages are passed
+      for (let i = 0; i < stageIndex; i++) {
+        if (!this.actor.system.scion.ageTrack[stages[i]].passed) {
+          ui.notifications.warn(`You must pass ${stages[i]} before passing ${stage}.`);
+          return;
+        }
+      }
+
       // Checking Passed: clear Wound, Invoke, and Scar
       await this.actor.update({
         [`system.scion.ageTrack.${stage}.passed`]: true,
@@ -189,6 +232,14 @@ export class FactionScionSheet extends ActorSheet {
         [`system.scion.ageTrack.${stage}.scar`]: false
       });
     } else {
+      // Unchecking Passed: validate that no later stages are passed
+      for (let i = stageIndex + 1; i < stages.length; i++) {
+        if (this.actor.system.scion.ageTrack[stages[i]].passed) {
+          ui.notifications.warn(`You must uncheck ${stages[i]} before unchecking ${stage}.`);
+          return;
+        }
+      }
+
       // Unchecking Passed: just uncheck it, revert to normal state
       await this.actor.update({ [`system.scion.ageTrack.${stage}.passed`]: false });
     }
@@ -227,6 +278,7 @@ export class FactionScionSheet extends ActorSheet {
 
   /**
    * Toggle age track "scar" checkbox
+   * Validation: Scars must be checked from oldest to youngest
    * When checked: clears and hides Wound, Invoke, Passed
    * When unchecked: reverts to normal (Wound visible, Invoke hidden)
    */
@@ -234,8 +286,18 @@ export class FactionScionSheet extends ActorSheet {
     event.preventDefault();
     const stage = event.currentTarget.dataset.stage;
     const current = this.actor.system.scion.ageTrack[stage].scar;
+    const stages = ['youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
+    const stageIndex = stages.indexOf(stage);
 
     if (!current) {
+      // Checking Scar: validate that all later stages are scarred
+      for (let i = stageIndex + 1; i < stages.length; i++) {
+        if (!this.actor.system.scion.ageTrack[stages[i]].scar) {
+          ui.notifications.warn(`You must scar ${stages[i]} before scarring ${stage}.`);
+          return;
+        }
+      }
+
       // Checking Scar: clear Wound, Invoke, and Passed
       await this.actor.update({
         [`system.scion.ageTrack.${stage}.scar`]: true,
@@ -244,6 +306,14 @@ export class FactionScionSheet extends ActorSheet {
         [`system.scion.ageTrack.${stage}.passed`]: false
       });
     } else {
+      // Unchecking Scar: validate that no earlier stages are scarred
+      for (let i = 0; i < stageIndex; i++) {
+        if (this.actor.system.scion.ageTrack[stages[i]].scar) {
+          ui.notifications.warn(`You must uncheck ${stages[i]} before unchecking ${stage}.`);
+          return;
+        }
+      }
+
       // Unchecking Scar: just uncheck it, revert to normal state
       await this.actor.update({ [`system.scion.ageTrack.${stage}.scar`]: false });
     }

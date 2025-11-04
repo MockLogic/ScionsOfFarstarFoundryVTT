@@ -240,7 +240,7 @@
             </div>
             {{#each system.scion.ageTrack as |stage key|}}
               <div class="age-track-row">
-                <div class="age-track-cell age-label">{{stage.label}}</div>
+                <div class="age-track-cell age-label {{#if (eq ../currentAgeStage key)}}current-age{{/if}} {{#if stage.passed}}passed-age{{/if}} {{#if stage.scar}}scarred-age{{/if}}">{{stage.label}}</div>
                 <div class="age-track-cell age-checkbox wound-cell">
                   <div class="wound-stress-box {{#if stage.wound}}checked{{/if}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" title="{{localize 'SCIONS.AgeTrack.WoundHint'}}"></div>
                 </div>
