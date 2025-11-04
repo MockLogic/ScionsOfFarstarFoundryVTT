@@ -279,6 +279,27 @@ export async function createFateRoll(label, modifier = 0, actor = null, speakerN
     return '<span class="fate-die blank">0</span>';
   }).join(' ');
 
+  // Determine color based on final result compared to modifier
+  // Priority: red for < 1, then orange/blue/green based on distance from modifier
+  let colorClass = 'result-blue'; // Default (within ±1 of modifier)
+
+  if (finalResult < 1) {
+    // Red for any result under 1 (highest priority)
+    colorClass = 'result-red';
+  } else {
+    // Calculate distance from modifier
+    const distance = finalResult - modifier;
+
+    if (distance > 1) {
+      // Green for results more than 1 above modifier
+      colorClass = 'result-green';
+    } else if (distance < -1) {
+      // Orange for results more than 1 below modifier
+      colorClass = 'result-orange';
+    }
+    // else stays blue (within ±1 of modifier: distance is -1, 0, or 1)
+  }
+
   // Create speaker data
   let speaker;
   if (actor) {
@@ -302,7 +323,7 @@ export async function createFateRoll(label, modifier = 0, actor = null, speakerN
           ${diceSymbols}
         </div>
         <div class="roll-total">
-          <strong>Total:</strong> ${dice.total} ${modifier !== 0 ? `+ ${modifier}` : ''} = <strong>${finalResult}</strong>
+          <strong>Total:</strong> ${dice.total} ${modifier !== 0 ? `+ ${modifier}` : ''} = <strong class="${colorClass}">${finalResult}</strong>
         </div>
       </div>
     `,

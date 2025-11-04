@@ -821,8 +821,24 @@
 
 .fate-roll .roll-total strong:last-child {
   font-size: 28px;
-  color: var(--sof-accent);
   margin-left: 8px;
+}
+
+/* Roll result color coding */
+.fate-roll .roll-total .result-blue {
+  color: var(--sof-accent); /* Blue for within ±1 of modifier */
+}
+
+.fate-roll .roll-total .result-green {
+  color: #27ae60; /* Green for high rolls (>modifier+1) */
+}
+
+.fate-roll .roll-total .result-orange {
+  color: #f39c12; /* Orange for low rolls (<modifier-1) */
+}
+
+.fate-roll .roll-total .result-red {
+  color: #e74c3c; /* Red for very low rolls (<1) */
 }
 
 /* ===========================
@@ -857,7 +873,7 @@
 }
 
 .age-stage-checks label.hidden {
-  display: none;
+  visibility: hidden;
 }
 
 .age-stage-label {
