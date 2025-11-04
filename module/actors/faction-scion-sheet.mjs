@@ -68,7 +68,7 @@ export class FactionScionSheet extends ActorSheet {
 
     // Age track handlers
     html.find('.age-passed').click(this._onToggleAgePassed.bind(this));
-    html.find('.age-wound').click(this._onToggleAgeWound.bind(this));
+    html.find('.wound-stress-box').click(this._onToggleAgeWound.bind(this));
     html.find('.age-invoke-used').click(this._onToggleAgeInvokeUsed.bind(this));
     html.find('.age-scar').click(this._onToggleAgeScar.bind(this));
 

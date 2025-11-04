@@ -2,7 +2,7 @@
   "id": "scions-of-farstar",
   "title": "Scions of FarStar",
   "description": "A custom Foundry VTT system for Scions of FarStar, a multigenerational sci-fi colony-building RPG using heavily modified Fate mechanics.",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "compatibility": {
     "minimum": "13",
     "verified": "13.350",
@@ -27,8 +27,10 @@
       "path": "lang/en.json"
     }
   ],
-  "gridDistance": 5,
-  "gridUnits": "m",
+  "grid": {
+    "distance": 5,
+    "units": "m"
+  },
   "primaryTokenAttribute": null,
   "secondaryTokenAttribute": null,
   "url": "https://github.com/MockLogic/ScionsOfFarstarFoundryVTT",

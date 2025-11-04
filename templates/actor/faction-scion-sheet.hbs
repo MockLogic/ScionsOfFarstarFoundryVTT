@@ -230,36 +230,28 @@
 
           {{!-- Age Track --}}
           <div class="subsection-header">{{localize "SCIONS.Scion.AgeTrack"}}</div>
-          <div class="age-track">
+          <div class="age-track-table">
+            <div class="age-track-header">
+              <div class="age-track-cell age-header"></div>
+              <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.WoundHint'}}">{{localize "SCIONS.AgeTrack.Wound"}}</div>
+              <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.InvokeHint'}}">{{localize "SCIONS.AgeTrack.Invoke"}}</div>
+              <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.ScarHint'}}">{{localize "SCIONS.AgeTrack.Scar"}}</div>
+              <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.PassedHint'}}">{{localize "SCIONS.AgeTrack.Passed"}}</div>
+            </div>
             {{#each system.scion.ageTrack as |stage key|}}
-              <div class="age-stage">
-                <div class="age-stage-checks">
-                  {{!-- Wound checkbox - hidden if Scar or Passed is checked --}}
-                  <label title="{{localize 'SCIONS.AgeTrack.WoundHint'}}" class="age-check-wound {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}">
-                    <input type="checkbox" class="age-wound" data-stage="{{key}}" {{checked stage.wound}}/>
-                    {{localize "SCIONS.AgeTrack.Wound"}}
-                  </label>
-
-                  {{!-- Invoke checkbox - always present but visibility controlled by CSS --}}
-                  <label title="{{localize 'SCIONS.AgeTrack.InvokeHint'}}" class="age-check-invoke {{#unless stage.wound}}hidden{{/unless}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}">
-                    <input type="checkbox" class="age-invoke-used" data-stage="{{key}}" {{checked stage.freeInvokeUsed}}/>
-                    {{localize "SCIONS.AgeTrack.Invoke"}}
-                  </label>
-
-                  {{!-- Age Label --}}
-                  <div class="age-stage-label">{{stage.label}}</div>
-
-                  {{!-- Scar checkbox - hidden if Passed is checked --}}
-                  <label title="{{localize 'SCIONS.AgeTrack.ScarHint'}}" class="age-check-scar {{#if stage.passed}}hidden{{/if}}">
-                    <input type="checkbox" class="age-scar" data-stage="{{key}}" {{checked stage.scar}}/>
-                    {{localize "SCIONS.AgeTrack.Scar"}}
-                  </label>
-
-                  {{!-- Passed checkbox - hidden if Scar is checked --}}
-                  <label title="{{localize 'SCIONS.AgeTrack.PassedHint'}}" class="age-check-passed {{#if stage.scar}}hidden{{/if}}">
-                    <input type="checkbox" class="age-passed" data-stage="{{key}}" {{checked stage.passed}}/>
-                    {{localize "SCIONS.AgeTrack.Passed"}}
-                  </label>
+              <div class="age-track-row">
+                <div class="age-track-cell age-label">{{stage.label}}</div>
+                <div class="age-track-cell age-checkbox wound-cell">
+                  <div class="wound-stress-box {{#if stage.wound}}checked{{/if}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" title="{{localize 'SCIONS.AgeTrack.WoundHint'}}"></div>
+                </div>
+                <div class="age-track-cell age-checkbox">
+                  <input type="checkbox" class="age-invoke-used {{#unless stage.wound}}hidden{{/unless}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.freeInvokeUsed}} title="{{localize 'SCIONS.AgeTrack.InvokeHint'}}"/>
+                </div>
+                <div class="age-track-cell age-checkbox">
+                  <input type="checkbox" class="age-scar {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.scar}} title="{{localize 'SCIONS.AgeTrack.ScarHint'}}"/>
+                </div>
+                <div class="age-track-cell age-checkbox">
+                  <input type="checkbox" class="age-passed {{#if stage.scar}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.passed}} title="{{localize 'SCIONS.AgeTrack.PassedHint'}}"/>
                 </div>
               </div>
             {{/each}}

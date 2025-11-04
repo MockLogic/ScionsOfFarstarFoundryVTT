@@ -671,6 +671,49 @@
   height: 12px;
 }
 
+.people-box {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  cursor: pointer;
+  background: white;
+  position: relative;
+}
+
+.people-box:hover {
+  border-color: var(--sof-accent);
+}
+
+.people-box.growing {
+  position: relative;
+}
+
+.people-box .box-mark {
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+}
+
+.people-box.committed .box-mark {
+  color: var(--sof-warning);
+}
+
+.people-box.expended .box-mark {
+  color: var(--sof-danger);
+}
+
+.people-box .box-number {
+  font-size: 12px;
+  color: var(--sof-secondary);
+}
+
 /* ===========================
    Consequence States
    =========================== */
@@ -842,69 +885,88 @@
 }
 
 /* ===========================
-   Age Track Enhancements
+   Age Track Table Layout
    =========================== */
 
-.age-track {
+.age-track-table {
   margin: 10px 0;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.age-stage {
-  margin-bottom: 8px;
-  padding: 8px;
-  background: #f8f9fa;
-  border-radius: 4px;
+.age-track-header,
+.age-track-row {
+  display: table-row;
+}
+
+.age-track-cell {
+  display: table-cell;
+  padding: 6px 8px;
   border: 1px solid var(--sof-border);
+  text-align: center;
+  vertical-align: middle;
 }
 
-.age-stage-checks {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.age-stage-checks label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.age-stage-checks label.hidden {
-  visibility: hidden;
-}
-
-.age-stage-label {
+.age-track-cell.age-header {
+  background: var(--sof-secondary);
+  color: white;
   font-weight: bold;
-  font-size: 14px;
-  color: var(--sof-primary);
-  margin: 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 
-.age-stage-checks input[type="checkbox"] {
+.age-track-cell.age-label {
+  font-weight: bold;
+  font-size: 13px;
+  color: var(--sof-primary);
+  background: #f8f9fa;
+  text-align: left;
+  min-width: 80px;
+}
+
+.age-track-cell.age-checkbox {
+  width: 40px;
+  background: white;
+}
+
+.age-track-cell.age-checkbox input[type="checkbox"] {
   margin: 0;
   cursor: pointer;
 }
 
-/* Age check positioning */
-.age-check-wound {
-  order: 1;
+.age-track-cell.age-checkbox input[type="checkbox"].hidden {
+  visibility: hidden;
 }
 
-.age-check-invoke {
-  order: 2;
+/* Wound stress box styling */
+.wound-stress-box {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  cursor: pointer;
+  background: white;
+  position: relative;
 }
 
-.age-stage-label {
-  order: 3;
+.wound-stress-box.checked::before {
+  content: '✖';
+  color: var(--sof-danger);
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.age-check-scar {
-  order: 4;
+.wound-stress-box:hover {
+  border-color: var(--sof-accent);
 }
 
-.age-check-passed {
-  order: 5;
+.wound-stress-box.hidden {
+  visibility: hidden;
 }
