@@ -266,8 +266,9 @@ export function rollFateDice() {
  * @param {string} label - The label for the roll (e.g., "Combat +2")
  * @param {number} modifier - The modifier to add to the roll
  * @param {Actor} actor - The actor making the roll
+ * @param {string} speakerName - Optional custom speaker name (e.g., Scion name instead of Faction name)
  */
-export async function createFateRoll(label, modifier = 0, actor = null) {
+export async function createFateRoll(label, modifier = 0, actor = null, speakerName = null) {
   const dice = rollFateDice();
   const finalResult = dice.total + modifier;
 
@@ -278,10 +279,22 @@ export async function createFateRoll(label, modifier = 0, actor = null) {
     return '<span class="fate-die blank">0</span>';
   }).join(' ');
 
+  // Create speaker data
+  let speaker;
+  if (actor) {
+    speaker = ChatMessage.getSpeaker({ actor: actor });
+    // Override alias if custom speaker name provided
+    if (speakerName) {
+      speaker.alias = speakerName;
+    }
+  } else {
+    speaker = ChatMessage.getSpeaker();
+  }
+
   // Create chat message
   const chatData = {
     user: game.user.id,
-    speaker: actor ? ChatMessage.getSpeaker({ actor: actor }) : ChatMessage.getSpeaker(),
+    speaker: speaker,
     content: `
       <div class="fate-roll">
         <h3>${label}</h3>

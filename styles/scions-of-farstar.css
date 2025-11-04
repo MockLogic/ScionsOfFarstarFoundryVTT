@@ -786,3 +786,109 @@
   min-height: 300px;
   height: 100%;
 }
+
+/* ===========================
+   Chat Message Fate Roll Styling
+   =========================== */
+
+.fate-roll {
+  padding: 10px;
+  border-left: 4px solid var(--sof-accent);
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.fate-roll h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--sof-primary);
+}
+
+.fate-roll .dice-results {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.fate-roll .roll-total {
+  margin-top: 12px;
+  padding: 8px;
+  background: white;
+  border-radius: 3px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.fate-roll .roll-total strong:last-child {
+  font-size: 28px;
+  color: var(--sof-accent);
+  margin-left: 8px;
+}
+
+/* ===========================
+   Age Track Enhancements
+   =========================== */
+
+.age-track {
+  margin: 10px 0;
+}
+
+.age-stage {
+  margin-bottom: 8px;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid var(--sof-border);
+}
+
+.age-stage-checks {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.age-stage-checks label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.age-stage-checks label.hidden {
+  display: none;
+}
+
+.age-stage-label {
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--sof-primary);
+  margin: 0 8px;
+}
+
+.age-stage-checks input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Age check positioning */
+.age-check-wound {
+  order: 1;
+}
+
+.age-check-invoke {
+  order: 2;
+}
+
+.age-stage-label {
+  order: 3;
+}
+
+.age-check-scar {
+  order: 4;
+}
+
+.age-check-passed {
+  order: 5;
+}

@@ -163,13 +163,14 @@ export class FactionScionActor extends Actor {
    * @param {String} skillOrCap - The skill/capability being rolled
    * @param {Number} modifier - The modifier value
    * @param {String} label - Label for the roll
+   * @param {String} speakerName - Optional custom speaker name for the roll
    */
-  async rollFateDice(skillOrCap, modifier = 0, label = null) {
+  async rollFateDice(skillOrCap, modifier = 0, label = null, speakerName = null) {
     const rollLabel = label || skillOrCap;
 
     // Use the imported function from main module
     const { rollFateDice, createFateRoll } = await import('../scions-of-farstar.mjs');
 
-    return createFateRoll(rollLabel, modifier, this);
+    return createFateRoll(rollLabel, modifier, this, speakerName);
   }
 }

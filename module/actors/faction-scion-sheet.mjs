@@ -98,7 +98,9 @@ export class FactionScionSheet extends ActorSheet {
     const skill = this.actor.system.scion.skills[skillKey];
 
     if (skill) {
-      await this.actor.rollFateDice(skill.label, skill.value, `${skill.label}`);
+      const scionName = this.actor.system.scion.name || "Scion";
+      const label = `${skill.label} (+${skill.value})`;
+      await this.actor.rollFateDice(skill.label, skill.value, label, scionName);
     }
   }
 
@@ -111,7 +113,8 @@ export class FactionScionSheet extends ActorSheet {
     const capability = this.actor.system.faction.capabilities[capKey];
 
     if (capability) {
-      await this.actor.rollFateDice(capability.label, capability.value, `${capability.label}`);
+      const label = `${capability.label} (+${capability.value})`;
+      await this.actor.rollFateDice(capability.label, capability.value, label);
     }
   }
 
@@ -169,22 +172,47 @@ export class FactionScionSheet extends ActorSheet {
 
   /**
    * Toggle age track "passed" checkbox
+   * When checked: clears and hides Wound, Invoke, Scar
+   * When unchecked: reverts to normal (Wound visible, Invoke hidden)
    */
   async _onToggleAgePassed(event) {
     event.preventDefault();
     const stage = event.currentTarget.dataset.stage;
     const current = this.actor.system.scion.ageTrack[stage].passed;
-    await this.actor.update({ [`system.scion.ageTrack.${stage}.passed`]: !current });
+
+    if (!current) {
+      // Checking Passed: clear Wound, Invoke, and Scar
+      await this.actor.update({
+        [`system.scion.ageTrack.${stage}.passed`]: true,
+        [`system.scion.ageTrack.${stage}.wound`]: false,
+        [`system.scion.ageTrack.${stage}.freeInvokeUsed`]: false,
+        [`system.scion.ageTrack.${stage}.scar`]: false
+      });
+    } else {
+      // Unchecking Passed: just uncheck it, revert to normal state
+      await this.actor.update({ [`system.scion.ageTrack.${stage}.passed`]: false });
+    }
   }
 
   /**
    * Toggle age track "wound" checkbox
+   * When unchecked: also clears Invoke checkbox
    */
   async _onToggleAgeWound(event) {
     event.preventDefault();
     const stage = event.currentTarget.dataset.stage;
     const current = this.actor.system.scion.ageTrack[stage].wound;
-    await this.actor.update({ [`system.scion.ageTrack.${stage}.wound`]: !current });
+
+    if (current) {
+      // Unchecking Wound: also clear Invoke
+      await this.actor.update({
+        [`system.scion.ageTrack.${stage}.wound`]: false,
+        [`system.scion.ageTrack.${stage}.freeInvokeUsed`]: false
+      });
+    } else {
+      // Checking Wound: just check it
+      await this.actor.update({ [`system.scion.ageTrack.${stage}.wound`]: true });
+    }
   }
 
   /**
@@ -199,12 +227,26 @@ export class FactionScionSheet extends ActorSheet {
 
   /**
    * Toggle age track "scar" checkbox
+   * When checked: clears and hides Wound, Invoke, Passed
+   * When unchecked: reverts to normal (Wound visible, Invoke hidden)
    */
   async _onToggleAgeScar(event) {
     event.preventDefault();
     const stage = event.currentTarget.dataset.stage;
     const current = this.actor.system.scion.ageTrack[stage].scar;
-    await this.actor.update({ [`system.scion.ageTrack.${stage}.scar`]: !current });
+
+    if (!current) {
+      // Checking Scar: clear Wound, Invoke, and Passed
+      await this.actor.update({
+        [`system.scion.ageTrack.${stage}.scar`]: true,
+        [`system.scion.ageTrack.${stage}.wound`]: false,
+        [`system.scion.ageTrack.${stage}.freeInvokeUsed`]: false,
+        [`system.scion.ageTrack.${stage}.passed`]: false
+      });
+    } else {
+      // Unchecking Scar: just uncheck it, revert to normal state
+      await this.actor.update({ [`system.scion.ageTrack.${stage}.scar`]: false });
+    }
   }
 
   /**

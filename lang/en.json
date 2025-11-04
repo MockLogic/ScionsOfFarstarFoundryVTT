@@ -51,11 +51,11 @@
       "Ancient": "Ancient (90+)",
       "Passed": "Passed",
       "Wound": "Wound",
-      "Used": "Used",
+      "Invoke": "Invoke",
       "Scar": "Scar",
       "PassedHint": "Mark when advancing to next age stage",
       "WoundHint": "Mark to absorb stress - gives enemies a free invoke",
-      "UsedHint": "Mark when enemy uses the free invoke from a wound",
+      "InvokeHint": "Mark when enemy uses the free invoke from a wound",
       "ScarHint": "Permanent wound marker"
     },
     "Consequences": {
