@@ -196,6 +196,13 @@
   color: #7f8c8d;
 }
 
+.stress-reminder {
+  font-size: 11px;
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 4px;
+}
+
 /* Growing Stress Track (Fate style) */
 .stress-box.growing {
   position: relative;
@@ -260,6 +267,14 @@
   min-width: 40px;
   max-width: 40px;
   text-align: center;
+}
+
+.skill-value.invalid,
+.capability-value.invalid {
+  background-color: #ffebee;
+  border-color: var(--sof-danger);
+  color: var(--sof-danger);
+  font-weight: bold;
 }
 
 .skill-item .roll-button,
@@ -652,6 +667,19 @@
   margin-left: 8px;
 }
 
+.validation-section {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: rgba(255, 152, 0, 0.1);
+  border-left: 3px solid var(--sof-warning);
+  border-radius: 4px;
+}
+
+.validation-section .validation-warning {
+  margin: 4px 0;
+  display: block;
+}
+
 /* Fate Point Controls */
 .fate-point-controls {
   display: flex;
@@ -775,6 +803,12 @@
   font-size: 18px;
   font-weight: bold;
   color: var(--sof-primary);
+}
+
+.refresh-display .refresh-value.invalid {
+  background: #ffebee;
+  border-color: var(--sof-danger);
+  color: var(--sof-danger);
 }
 
 /* Fate Points - compact controls */
@@ -965,6 +999,16 @@
   justify-content: center;
 }
 
+.stunt-description,
+.extra-description {
+  margin-top: 8px;
+}
+
+.stunt-description .editor,
+.extra-description .editor {
+  min-height: 100px;
+}
+
 .stunt-item textarea,
 .extra-item textarea {
   width: 100%;
@@ -980,8 +1024,8 @@
    =========================== */
 
 .notes-tab .editor-container {
-  height: calc(100vh - 300px);
   min-height: 400px;
+  max-height: 600px;
   display: flex;
   flex-direction: column;
 }
@@ -989,12 +1033,12 @@
 .notes-tab .editor-container .editor {
   flex: 1;
   min-height: 350px;
-  height: 100%;
+  max-height: 550px;
 }
 
 .notes-tab .editor-container .editor-content {
   min-height: 300px;
-  height: 100%;
+  max-height: 500px;
 }
 
 /* ===========================
@@ -1173,20 +1217,19 @@
 
 .sheet-body {
   flex: 0 0 auto;
+  overflow: hidden;
 }
 
-.stunts-tab,
-.extras-tab,
-.notes-tab,
-.main-tab {
+.sheet-body .tab {
+  display: none;
   padding: 10px;
+}
+
+.sheet-body .tab.active {
+  display: block;
 }
 
 .stunts-tab,
 .extras-tab {
-  min-height: auto;
-}
-
-.notes-tab {
-  min-height: 400px;
+  min-height: 0;
 }

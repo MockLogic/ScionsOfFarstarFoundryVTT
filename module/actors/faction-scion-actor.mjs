@@ -43,6 +43,57 @@ export class FactionScionActor extends Actor {
     const skills = Object.values(scion.skills);
     scion.totalSkillPoints = skills.reduce((sum, skill) => sum + skill.value, 0);
 
+    // Validate skills
+    const maxSkill = game.scionsOfFarstar.getMaxSkill();
+    const startingSkillTotal = game.scionsOfFarstar.getStartingSkillTotal();
+    const expectedTotal = startingSkillTotal + agesPassed;
+
+    // Track individual skill validity
+    scion.skillValidation = {
+      valid: true,
+      errors: [],
+      invalidSkills: {}
+    };
+
+    // Check each skill
+    for (const [key, skill] of Object.entries(scion.skills)) {
+      const value = skill.value;
+      const issues = [];
+
+      // Check minimum (-1)
+      if (value < -1) {
+        issues.push('below_min');
+        scion.skillValidation.valid = false;
+        scion.skillValidation.errors.push(`${skill.label} cannot be less than -1`);
+      }
+
+      // Check maximum (maxSkill, typically +4)
+      if (value > maxSkill) {
+        issues.push('above_max');
+        scion.skillValidation.valid = false;
+        scion.skillValidation.errors.push(`${skill.label} exceeds maximum of +${maxSkill}`);
+      }
+
+      // Store validation state for this skill
+      if (issues.length > 0) {
+        scion.skillValidation.invalidSkills[key] = issues;
+      }
+    }
+
+    // Check total skill points (starting + ages passed)
+    if (scion.totalSkillPoints > expectedTotal) {
+      scion.skillValidation.valid = false;
+      scion.skillValidation.errors.push(`Total skill points (${scion.totalSkillPoints}) exceeds expected (${expectedTotal})`);
+      scion.skillValidation.totalTooHigh = true;
+    } else if (scion.totalSkillPoints < expectedTotal) {
+      scion.skillValidation.valid = false;
+      scion.skillValidation.errors.push(`Total skill points (${scion.totalSkillPoints}) is below expected (${expectedTotal})`);
+      scion.skillValidation.totalTooLow = true;
+    }
+
+    // Store expected total for display
+    scion.expectedSkillTotal = expectedTotal;
+
     // Initialize stress boxes if needed
     if (!Array.isArray(scion.stress.boxes) || scion.stress.boxes.length !== scion.stress.max) {
       scion.stress.boxes = [];
@@ -61,6 +112,53 @@ export class FactionScionActor extends Actor {
     // Calculate total capability points
     const capabilities = Object.values(faction.capabilities);
     faction.totalCapabilityPoints = capabilities.reduce((sum, cap) => sum + cap.value, 0);
+
+    // Validate capabilities
+    const maxCapability = game.scionsOfFarstar.getMaxCapability();
+    const expectedTotal = game.scionsOfFarstar.getExpectedCapabilityTotal();
+
+    // Track individual capability validity
+    faction.capabilityValidation = {
+      valid: true,
+      errors: [],
+      invalidCapabilities: {}
+    };
+
+    // Check each capability
+    for (const [key, capability] of Object.entries(faction.capabilities)) {
+      const value = capability.value;
+      const issues = [];
+
+      // Check minimum (-1)
+      if (value < -1) {
+        issues.push('below_min');
+        faction.capabilityValidation.valid = false;
+        faction.capabilityValidation.errors.push(`${capability.label} cannot be less than -1`);
+      }
+
+      // Check maximum (baseMaxCapability + majorMilestones)
+      if (value > maxCapability) {
+        issues.push('above_max');
+        faction.capabilityValidation.valid = false;
+        faction.capabilityValidation.errors.push(`${capability.label} exceeds maximum of +${maxCapability}`);
+      }
+
+      // Store validation state for this capability
+      if (issues.length > 0) {
+        faction.capabilityValidation.invalidCapabilities[key] = issues;
+      }
+    }
+
+    // Check total capability points
+    if (faction.totalCapabilityPoints > expectedTotal) {
+      faction.capabilityValidation.valid = false;
+      faction.capabilityValidation.errors.push(`Total capability points (${faction.totalCapabilityPoints}) exceeds expected (${expectedTotal})`);
+      faction.capabilityValidation.totalTooHigh = true;
+    } else if (faction.totalCapabilityPoints < expectedTotal) {
+      faction.capabilityValidation.valid = false;
+      faction.capabilityValidation.errors.push(`Total capability points (${faction.totalCapabilityPoints}) is below expected (${expectedTotal})`);
+      faction.capabilityValidation.totalTooLow = true;
+    }
 
     // Generate People Track boxes based on People capability rating
     const peopleRating = faction.capabilities.people.value;
@@ -82,14 +180,14 @@ export class FactionScionActor extends Actor {
 
     // Calculate Refresh
     // Formula: 3 + Significant Milestones - Extra Stunts (beyond 3)
-    // Refresh minimum = 1
+    // Allow negative values to show when too many stunts are taken
     const significantMilestones = game.scionsOfFarstar.getSignificantMilestones();
     const extraStunts = Math.max(0, faction.stuntCount - 3);
-    const calculatedRefresh = Math.max(1, 3 + significantMilestones - extraStunts);
+    const calculatedRefresh = 3 + significantMilestones - extraStunts;
 
-    // Auto-update refresh value
+    // Auto-update refresh value (no minimum, can go negative)
     faction.refresh.value = calculatedRefresh;
-    faction.refreshValid = true; // Always valid since it's calculated
+    faction.refreshValid = calculatedRefresh >= 1; // Invalid if below 1
     faction.expectedRefresh = calculatedRefresh;
   }
 

@@ -84,7 +84,8 @@
     "Stress": {
       "Toggle": "Click to toggle stress",
       "Extended": "Extended",
-      "SizeHint": "Toggle extended stress (5 boxes instead of 3)"
+      "SizeHint": "Toggle extended stress (5 boxes instead of 3)",
+      "ExtendedReminder": "Extended (requires stunt)"
     },
     "Stunts": {
       "NamePlaceholder": "Stunt Name",
@@ -101,7 +102,17 @@
       "Notes": "Notes"
     },
     "Validation": {
-      "RefreshMismatch": "Refresh does not match stunt count"
+      "RefreshMismatch": "Refresh does not match stunt count",
+      "TooFewStunts": "Factions should have at least 3 stunts",
+      "TooManyStunts": "Too many stunts - Refresh is below 1",
+      "CapabilityTotalTooHigh": "Total capability points ({total}) exceeds expected ({expected})",
+      "CapabilityTotalTooLow": "Total capability points ({total}) is below expected ({expected})",
+      "CapabilityBelowMin": "Capability cannot be less than -1",
+      "CapabilityAboveMax": "Capability exceeds maximum",
+      "SkillTotalTooHigh": "Total skill points ({total}) exceeds expected ({expected})",
+      "SkillTotalTooLow": "Total skill points ({total}) is below expected ({expected})",
+      "SkillBelowMin": "Skill cannot be less than -1",
+      "SkillAboveMax": "Skill exceeds maximum"
     },
     "Threat": {
       "Type": "Threat Type",

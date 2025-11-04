@@ -43,7 +43,8 @@ export class FactionScionSheet extends ActorSheet {
       significantMilestones: game.scionsOfFarstar.getSignificantMilestones(),
       majorMilestones: game.settings.get('scions-of-farstar', 'majorMilestones'),
       maxSkill: game.scionsOfFarstar.getMaxSkill(),
-      maxCapability: game.scionsOfFarstar.getMaxCapability()
+      maxCapability: game.scionsOfFarstar.getMaxCapability(),
+      expectedCapabilityTotal: game.scionsOfFarstar.getExpectedCapabilityTotal()
     };
 
     // Enrich text fields (for rich text editors)

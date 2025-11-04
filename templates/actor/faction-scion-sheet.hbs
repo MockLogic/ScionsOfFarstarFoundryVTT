@@ -16,7 +16,7 @@
       <div class="resource-row">
         <div class="resource refresh-display">
           <label class="resource-label">{{localize "SCIONS.Faction.Refresh"}}</label>
-          <div class="refresh-value" title="{{localize 'SCIONS.Faction.RefreshHint'}}">{{system.faction.refresh.value}}</div>
+          <div class="refresh-value {{#unless system.faction.refreshValid}}invalid{{/unless}}" title="{{localize 'SCIONS.Faction.RefreshHint'}}">{{system.faction.refresh.value}}</div>
         </div>
         <div class="resource fate-points-display">
           <label class="resource-label">{{localize "SCIONS.Faction.FatePoints"}}</label>
@@ -88,11 +88,23 @@
                 <button type="button" class="roll-button roll-capability rollable" data-capability="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{capability.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
-                <input type="number" class="capability-value" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="10"/>
+                <input type="number" class="capability-value {{#if (lookup ../system.faction.capabilityValidation.invalidCapabilities key)}}invalid{{/if}}" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="10"/>
                 <span class="capability-label">{{capability.label}}</span>
               </div>
             {{/each}}
           </div>
+
+          {{!-- Capability Validation Warnings --}}
+          {{#unless system.faction.capabilityValidation.valid}}
+            <div class="validation-section">
+              {{#if system.faction.capabilityValidation.totalTooHigh}}
+                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.CapabilityTotalTooHigh" total=system.faction.totalCapabilityPoints expected=globals.expectedCapabilityTotal}}</div>
+              {{/if}}
+              {{#if system.faction.capabilityValidation.totalTooLow}}
+                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.CapabilityTotalTooLow" total=system.faction.totalCapabilityPoints expected=globals.expectedCapabilityTotal}}</div>
+              {{/if}}
+            </div>
+          {{/unless}}
 
           {{!-- People Track --}}
           <div class="subsection-header">{{localize "SCIONS.Faction.PeopleTrack"}}</div>
@@ -206,7 +218,7 @@
           {{!-- Skills --}}
           <div class="subsection-header">
             {{localize "SCIONS.Scion.Skills"}}
-            {{#unless skillValidation.valid}}
+            {{#unless system.scion.skillValidation.valid}}
               <span class="validation-warning">⚠</span>
             {{/unless}}
           </div>
@@ -217,11 +229,23 @@
                 <button type="button" class="roll-button roll-skill rollable" data-skill="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{skill.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
-                <input type="number" class="skill-value" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
+                <input type="number" class="skill-value {{#if (lookup ../system.scion.skillValidation.invalidSkills key)}}invalid{{/if}}" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
                 <span class="skill-label">{{skill.label}}</span>
               </div>
             {{/each}}
           </div>
+
+          {{!-- Skill Validation Warnings --}}
+          {{#unless system.scion.skillValidation.valid}}
+            <div class="validation-section">
+              {{#if system.scion.skillValidation.totalTooHigh}}
+                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.SkillTotalTooHigh" total=system.scion.totalSkillPoints expected=system.scion.expectedSkillTotal}}</div>
+              {{/if}}
+              {{#if system.scion.skillValidation.totalTooLow}}
+                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.SkillTotalTooLow" total=system.scion.totalSkillPoints expected=system.scion.expectedSkillTotal}}</div>
+              {{/if}}
+            </div>
+          {{/unless}}
 
           {{!-- Stress Track --}}
           <div class="subsection-header">
@@ -236,6 +260,9 @@
               <div class="stress-box {{#if box.value}}checked{{/if}}" data-index="{{index}}" title="{{localize 'SCIONS.Stress.Toggle'}}"></div>
             {{/each}}
           </div>
+          {{#if (eq system.scion.stress.max 5)}}
+            <div class="stress-reminder">{{localize "SCIONS.Stress.ExtendedReminder"}}</div>
+          {{/if}}
 
           {{!-- Age Track --}}
           <div class="subsection-header">{{localize "SCIONS.Scion.AgeTrack"}}</div>
@@ -275,6 +302,12 @@
       <div class="section-header">
         {{localize "SCIONS.Faction.Stunts"}} ({{system.faction.stuntCount}})
       </div>
+      {{#if (lt system.faction.stuntCount 3)}}
+        <div class="validation-warning">⚠ {{localize "SCIONS.Validation.TooFewStunts"}}</div>
+      {{/if}}
+      {{#unless system.faction.refreshValid}}
+        <div class="validation-warning">⚠ {{localize "SCIONS.Validation.TooManyStunts"}}</div>
+      {{/unless}}
 
       {{#each system.faction.stunts as |stunt index|}}
         <div class="stunt-item">
@@ -282,7 +315,9 @@
             <input type="text" class="stunt-name" name="system.faction.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="{{localize 'SCIONS.Stunts.NamePlaceholder'}}"/>
             <button type="button" class="stunt-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
           </div>
-          <textarea name="system.faction.stunts.{{index}}.description" rows="3" placeholder="{{localize 'SCIONS.Stunts.DescriptionPlaceholder'}}">{{stunt.description}}</textarea>
+          <div class="stunt-description">
+            {{editor stunt.description target=(concat "system.faction.stunts." index ".description") button=true owner=owner editable=editable}}
+          </div>
         </div>
       {{/each}}
 
@@ -301,7 +336,9 @@
             <input type="text" class="extra-name" name="system.faction.extras.{{index}}.name" value="{{extra.name}}" placeholder="{{localize 'SCIONS.Extras.NamePlaceholder'}}"/>
             <button type="button" class="extra-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
           </div>
-          <textarea name="system.faction.extras.{{index}}.description" rows="3" placeholder="{{localize 'SCIONS.Extras.DescriptionPlaceholder'}}">{{extra.description}}</textarea>
+          <div class="extra-description">
+            {{editor extra.description target=(concat "system.faction.extras." index ".description") button=true owner=owner editable=editable}}
+          </div>
         </div>
       {{/each}}
 

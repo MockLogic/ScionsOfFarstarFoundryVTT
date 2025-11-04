@@ -55,6 +55,32 @@ Hooks.once('init', async function() {
      */
     getMaxSkill: function() {
       return game.settings.get('scions-of-farstar', 'maxSkill');
+    },
+
+    /**
+     * Get the starting skill total for new Scions
+     * @returns {number} Starting skill total
+     */
+    getStartingSkillTotal: function() {
+      return game.settings.get('scions-of-farstar', 'startingSkillTotal');
+    },
+
+    /**
+     * Get the starting capability total for new Factions
+     * @returns {number} Starting capability total
+     */
+    getStartingCapabilityTotal: function() {
+      return game.settings.get('scions-of-farstar', 'startingCapabilityTotal');
+    },
+
+    /**
+     * Get the expected capability total (starting + major milestones)
+     * @returns {number} Expected capability total
+     */
+    getExpectedCapabilityTotal: function() {
+      const starting = game.settings.get('scions-of-farstar', 'startingCapabilityTotal');
+      const majorMilestones = game.settings.get('scions-of-farstar', 'majorMilestones');
+      return starting + majorMilestones;
     }
   };
 
@@ -147,6 +173,20 @@ function registerSystemSettings() {
     }
   });
 
+  game.settings.register('scions-of-farstar', 'startingSkillTotal', {
+    name: 'Starting Skill Total',
+    hint: 'Total skill points for new Scions (default 6, for +3/+2/+1/+1/+0/-1 distribution)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 6,
+    range: {
+      min: -10,
+      max: 50,
+      step: 1
+    }
+  });
+
   game.settings.register('scions-of-farstar', 'baseMaxCapability', {
     name: 'Base Max Capability',
     hint: 'Base maximum rating for Faction Capabilities (default +3, increases with Major Milestones)',
@@ -157,6 +197,20 @@ function registerSystemSettings() {
     range: {
       min: 1,
       max: 10,
+      step: 1
+    }
+  });
+
+  game.settings.register('scions-of-farstar', 'startingCapabilityTotal', {
+    name: 'Starting Capability Total',
+    hint: 'Total capability points for new Factions (default 5, for +2/+2/+1/+1/+0/-1 distribution)',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 5,
+    range: {
+      min: -10,
+      max: 50,
       step: 1
     }
   });
