@@ -135,6 +135,7 @@ export class FactionScionSheet extends ActorSheet {
 
     // Stress box handlers
     html.find('.stress-box').click(this._onToggleStress.bind(this));
+    html.find('.stress-size-checkbox').click(this._onToggleStressSize.bind(this));
     html.find('.people-box').click(this._onTogglePeople.bind(this));
 
     // Age track handlers
@@ -209,6 +210,29 @@ export class FactionScionSheet extends ActorSheet {
       boxes[index].value = !boxes[index].value;
       await this.actor.update({ 'system.scion.stress.boxes': boxes });
     }
+  }
+
+  /**
+   * Toggle stress track size between 3 and 5 boxes
+   */
+  async _onToggleStressSize(event) {
+    event.preventDefault();
+    const currentMax = this.actor.system.scion.stress.max;
+    const newMax = currentMax === 3 ? 5 : 3;
+
+    // Build new boxes array
+    const boxes = [];
+    for (let i = 0; i < newMax; i++) {
+      // Preserve existing box values, default to false for new boxes
+      boxes.push({
+        value: this.actor.system.scion.stress.boxes[i]?.value || false
+      });
+    }
+
+    await this.actor.update({
+      'system.scion.stress.max': newMax,
+      'system.scion.stress.boxes': boxes
+    });
   }
 
   /**

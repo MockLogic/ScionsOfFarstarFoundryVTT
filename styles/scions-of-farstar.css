@@ -162,6 +162,26 @@
   border-color: var(--sof-accent);
 }
 
+/* Stress size toggle */
+.stress-size-toggle {
+  float: right;
+  font-size: 11px;
+  font-weight: normal;
+  text-transform: none;
+}
+
+.stress-size-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.stress-size-toggle input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
 /* Growing Stress Track (Fate style) */
 .stress-box.growing {
   position: relative;
@@ -614,11 +634,36 @@
    Header Enhancements
    =========================== */
 
+.sheet-header {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.header-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-img {
+  border: 2px solid var(--sof-border);
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.profile-img:hover {
+  border-color: var(--sof-accent);
+}
+
 .name-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-bottom: 10px;
 }
 
 .name-field {
@@ -642,16 +687,75 @@
   font-weight: bold;
 }
 
-.roll-fate-container {
+/* Resource row - Refresh and Fate Points on same line */
+.resource-row {
   display: flex;
   align-items: center;
+  gap: 20px;
+}
+
+.resource {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resource-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Refresh display - read-only, compact */
+.refresh-display .refresh-value {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  min-width: 40px;
+  padding: 6px 12px;
+  background: #f8f9fa;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--sof-primary);
+}
+
+/* Fate Points - compact controls */
+.fate-points-display .fate-point-controls {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.fate-points-display input[type="number"] {
+  width: 50px;
+  text-align: center;
+  padding: 4px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.fate-points-increment,
+.fate-points-decrement {
+  min-width: 28px;
+  padding: 4px 6px;
+  font-size: 14px;
+}
+
+/* Roll 4dF button - separate row with spacing */
+.roll-fate-row {
+  margin-top: 8px;
+  display: flex;
 }
 
 .roll-fate-header {
   padding: 8px 16px;
   font-size: 14px;
   background: var(--sof-success);
+  width: 100%;
 }
 
 .roll-fate-header:hover {

@@ -25,6 +25,7 @@
       "Stunts": "Stunts",
       "Extras": "Extras",
       "Refresh": "Refresh",
+      "RefreshHint": "Refresh = 3 + Significant Milestones - Extra Stunts",
       "FatePoints": "Fate Points"
     },
     "Skills": {
@@ -49,11 +50,11 @@
       "Older": "Older (50-69)",
       "Geriatric": "Geriatric (70-89)",
       "Ancient": "Ancient (90+)",
-      "Passed": "Passed",
+      "Passed": "Aged",
       "Wound": "Wound",
       "Invoke": "Invoke",
       "Scar": "Scar",
-      "PassedHint": "Mark when advancing to next age stage",
+      "PassedHint": "Mark when you have aged past this stage",
       "WoundHint": "Mark to absorb stress - gives enemies a free invoke",
       "InvokeHint": "Mark when enemy uses the free invoke from a wound",
       "ScarHint": "Permanent wound marker"
@@ -78,7 +79,9 @@
       "Expended": "Expended"
     },
     "Stress": {
-      "Toggle": "Click to toggle stress"
+      "Toggle": "Click to toggle stress",
+      "Extended": "Extended (5 boxes)",
+      "SizeHint": "Check to use 5 stress boxes instead of 3"
     },
     "Stunts": {
       "NamePlaceholder": "Stunt Name",

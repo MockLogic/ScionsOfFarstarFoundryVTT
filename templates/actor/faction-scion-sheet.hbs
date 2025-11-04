@@ -2,7 +2,6 @@
 
   {{!-- Sheet Header --}}
   <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
     <div class="header-fields">
       <div class="name-row">
         <div class="name-field">
@@ -15,9 +14,9 @@
         </div>
       </div>
       <div class="resource-row">
-        <div class="resource">
+        <div class="resource refresh-display">
           <label class="resource-label">{{localize "SCIONS.Faction.Refresh"}}</label>
-          <input type="number" name="system.faction.refresh.value" value="{{system.faction.refresh.value}}" data-dtype="Number"/>
+          <div class="refresh-value" title="{{localize 'SCIONS.Faction.RefreshHint'}}">{{system.faction.refresh.value}}</div>
         </div>
         <div class="resource fate-points-display">
           <label class="resource-label">{{localize "SCIONS.Faction.FatePoints"}}</label>
@@ -27,16 +26,17 @@
             <button type="button" class="fate-points-increment" title="{{localize 'SCIONS.Actions.Increase'}}">+</button>
           </div>
         </div>
-        <div class="resource roll-fate-container">
-          <button type="button" class="roll-button roll-fate-header">
-            <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
-          </button>
-        </div>
+      </div>
+      <div class="roll-fate-row">
+        <button type="button" class="roll-button roll-fate-header">
+          <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
+        </button>
       </div>
       {{#unless system.faction.refreshValid}}
         <div class="validation-warning">⚠ {{localize "SCIONS.Validation.RefreshMismatch"}}</div>
       {{/unless}}
     </div>
+    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
   </header>
 
   {{!-- Sheet Tab Navigation --}}
@@ -221,7 +221,15 @@
           </div>
 
           {{!-- Stress Track --}}
-          <div class="subsection-header">{{localize "SCIONS.Scion.Stress"}}</div>
+          <div class="subsection-header">
+            {{localize "SCIONS.Scion.Stress"}}
+            <span class="stress-size-toggle">
+              <label title="{{localize 'SCIONS.Stress.SizeHint'}}">
+                <input type="checkbox" class="stress-size-checkbox" {{checked (eq system.scion.stress.max 5)}}/>
+                {{localize "SCIONS.Stress.Extended"}}
+              </label>
+            </span>
+          </div>
           <div class="stress-track">
             {{#each system.scion.stress.boxes as |box index|}}
               <div class="stress-box {{#if box.value}}checked{{/if}}" data-index="{{index}}" title="{{localize 'SCIONS.Stress.Toggle'}}"></div>
@@ -240,7 +248,7 @@
             </div>
             {{#each system.scion.ageTrack as |stage key|}}
               <div class="age-track-row">
-                <div class="age-track-cell age-label {{#if (eq ../currentAgeStage key)}}current-age{{/if}} {{#if stage.passed}}passed-age{{/if}} {{#if stage.scar}}scarred-age{{/if}}">{{stage.label}}</div>
+                <div class="age-track-cell age-label {{#if (eq ../currentAgeStage key)}}current-age{{/if}} {{#if stage.passed}}passed-age{{/if}} {{#if stage.scar}}scarred-age{{/if}}" title="{{stage.ageRange}}">{{stage.label}}</div>
                 <div class="age-track-cell age-checkbox wound-cell">
                   <div class="wound-stress-box {{#if stage.wound}}checked{{/if}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" title="{{localize 'SCIONS.AgeTrack.WoundHint'}}"></div>
                 </div>
