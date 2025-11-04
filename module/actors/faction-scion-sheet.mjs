@@ -34,6 +34,9 @@ export class FactionScionSheet extends ActorSheet {
     // Determine current age stage
     context.currentAgeStage = this._determineCurrentAge(context.system.scion.ageTrack);
 
+    // Add age track validation info (which checkboxes can be clicked)
+    context.ageTrackValidation = this._getAgeTrackValidation(context.system.scion.ageTrack);
+
     // Add game globals for display
     context.globals = {
       generationNumber: game.scionsOfFarstar.getGenerationNumber(),
@@ -79,6 +82,42 @@ export class FactionScionSheet extends ActorSheet {
     }
 
     return stages[currentIndex];
+  }
+
+  /**
+   * Determine which age track checkboxes can be clicked based on validation rules
+   * @param {Object} ageTrack - The age track object
+   * @returns {Object} - Object with enabled status for each stage's passed/scar checkboxes
+   */
+  _getAgeTrackValidation(ageTrack) {
+    const stages = ['youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
+    const validation = {};
+
+    // Find last passed and first scarred
+    let lastPassedIndex = -1;
+    let firstScarredIndex = stages.length;
+
+    for (let i = 0; i < stages.length; i++) {
+      if (ageTrack[stages[i]].passed) {
+        lastPassedIndex = i;
+      }
+      if (ageTrack[stages[i]].scar && i < firstScarredIndex) {
+        firstScarredIndex = i;
+      }
+    }
+
+    // Determine which checkboxes can be clicked
+    for (let i = 0; i < stages.length; i++) {
+      const stage = stages[i];
+      validation[stage] = {
+        // Passed can be checked if: it's the next one after last passed, OR it's already checked
+        canCheckPassed: (i === lastPassedIndex + 1) || ageTrack[stage].passed,
+        // Scar can be checked if: it's the next one before first scarred, OR it's already checked
+        canCheckScar: (i === firstScarredIndex - 1) || ageTrack[stage].scar
+      };
+    }
+
+    return validation;
   }
 
   /** @override */

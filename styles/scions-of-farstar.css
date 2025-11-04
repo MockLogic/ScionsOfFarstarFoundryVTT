@@ -957,6 +957,12 @@
   visibility: hidden;
 }
 
+.age-track-cell.age-checkbox input[type="checkbox"].disabled-checkbox {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 /* Wound stress box styling */
 .wound-stress-box {
   display: inline-block;

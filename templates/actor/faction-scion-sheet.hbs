@@ -248,10 +248,10 @@
                   <input type="checkbox" class="age-invoke-used {{#unless stage.wound}}hidden{{/unless}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.freeInvokeUsed}} title="{{localize 'SCIONS.AgeTrack.InvokeHint'}}"/>
                 </div>
                 <div class="age-track-cell age-checkbox">
-                  <input type="checkbox" class="age-scar {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.scar}} title="{{localize 'SCIONS.AgeTrack.ScarHint'}}"/>
+                  <input type="checkbox" class="age-scar {{#if stage.passed}}hidden{{/if}} {{#unless (lookup (lookup ../ageTrackValidation key) 'canCheckScar')}}disabled-checkbox{{/unless}}" data-stage="{{key}}" {{checked stage.scar}} title="{{localize 'SCIONS.AgeTrack.ScarHint'}}"/>
                 </div>
                 <div class="age-track-cell age-checkbox">
-                  <input type="checkbox" class="age-passed {{#if stage.scar}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.passed}} title="{{localize 'SCIONS.AgeTrack.PassedHint'}}"/>
+                  <input type="checkbox" class="age-passed {{#if stage.scar}}hidden{{/if}} {{#unless (lookup (lookup ../ageTrackValidation key) 'canCheckPassed')}}disabled-checkbox{{/unless}}" data-stage="{{key}}" {{checked stage.passed}} title="{{localize 'SCIONS.AgeTrack.PassedHint'}}"/>
                 </div>
               </div>
             {{/each}}
