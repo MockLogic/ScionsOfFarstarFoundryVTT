@@ -105,9 +105,9 @@
                      data-value="{{box.value}}"
                      title="{{localize 'SCIONS.PeopleTrack.ClickInstructions'}}">
                   {{#if box.expended}}
-                    <span class="box-mark">✖</span>
+                    <span class="box-number expended-number">{{box.value}}</span>
                   {{else if box.committed}}
-                    <span class="box-mark">◐</span>
+                    <span class="box-number">{{box.value}}</span>
                   {{else}}
                     <span class="box-number">{{box.value}}</span>
                   {{/if}}

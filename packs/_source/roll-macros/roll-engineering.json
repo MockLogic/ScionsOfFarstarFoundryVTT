@@ -1,0 +1,17 @@
+{
+  "name": "Roll Engineering",
+  "type": "script",
+  "scope": "global",
+  "command": "const actor = game.user.character;\nif (!actor) {\n  ui.notifications.warn(\"No character assigned to your user!\");\n  return;\n}\nconst skill = actor.system.scion.skills.engineering;\ngame.scionsOfFarstar.createFateRoll(\"Engineering\", skill.value, actor);",
+  "img": "icons/svg/clockwork.svg",
+  "folder": null,
+  "sort": 400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "scions-of-farstar",
+    "systemVersion": "0.1.12"
+  }
+}

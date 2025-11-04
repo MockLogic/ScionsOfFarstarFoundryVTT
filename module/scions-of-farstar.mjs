@@ -86,6 +86,26 @@ Hooks.once('ready', async function() {
 });
 
 /**
+ * Add 4dF button to chat controls
+ */
+Hooks.on('renderChatLog', (app, html, data) => {
+  // Create the 4dF button
+  const button = $(`
+    <button class="roll-fate-global" title="Roll 4dF">
+      <i class="fas fa-dice"></i> Roll 4dF
+    </button>
+  `);
+
+  // Add click handler
+  button.click(() => {
+    game.scionsOfFarstar.createFateRoll("4dF Roll", 0);
+  });
+
+  // Insert the button before the chat input
+  html.find('#chat-controls').prepend(button);
+});
+
+/**
  * Register system settings
  */
 function registerSystemSettings() {

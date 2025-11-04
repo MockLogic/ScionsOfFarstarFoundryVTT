@@ -1,0 +1,17 @@
+{
+  "name": "Roll People",
+  "type": "script",
+  "scope": "global",
+  "command": "const actor = game.user.character;\nif (!actor) {\n  ui.notifications.warn(\"No character assigned to your user!\");\n  return;\n}\nconst capability = actor.system.faction.capabilities.people;\ngame.scionsOfFarstar.createFateRoll(\"People\", capability.value, actor);",
+  "img": "icons/svg/village.svg",
+  "folder": null,
+  "sort": 1400,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "scions-of-farstar",
+    "systemVersion": "0.1.12"
+  }
+}

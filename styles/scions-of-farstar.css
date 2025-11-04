@@ -256,12 +256,14 @@
 
 .skill-value,
 .capability-value {
-  width: 50px;
+  width: 40px;
   text-align: center;
 }
 
 .skill-item .roll-button,
 .capability-item .roll-button {
+  width: 40px;
+  min-width: 40px;
   padding: 2px 6px;
   font-size: 11px;
 }
@@ -600,9 +602,21 @@
   border-color: #e67e22;
 }
 
+.people-box.committed .box-number {
+  color: white;
+  font-weight: bold;
+}
+
 .people-box.expended {
   background: #e74c3c;
   border-color: #c0392b;
+}
+
+.people-box.expended .box-number {
+  color: white;
+  font-weight: bold;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
 }
 
 .people-box .box-mark {
@@ -770,6 +784,7 @@
 
 .fate-points-display input[type="number"] {
   width: 40px;
+  min-width: 40px;
   height: 40px;
   text-align: center;
   padding: 0;
@@ -806,10 +821,10 @@
   background: #229954;
 }
 
-/* Aspect row in header */
+/* Aspect row in header - stacked vertically for full width */
 .aspect-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   margin-top: 8px;
 }
@@ -854,19 +869,6 @@
   position: relative;
 }
 
-.people-box .box-mark {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.people-box.committed .box-mark {
-  color: var(--sof-warning);
-}
-
-.people-box.expended .box-mark {
-  color: var(--sof-danger);
-}
-
 .people-box .box-number {
   font-size: 16px;
   color: var(--sof-secondary);
@@ -889,11 +891,6 @@
 .consequence-box.severe.active {
   border-left-color: var(--sof-danger);
   background: #ffebee;
-}
-
-.consequence-box.treated {
-  border-left-color: var(--sof-success);
-  background: #e8f8f5;
 }
 
 .consequence-status {
@@ -1077,7 +1074,7 @@
 }
 
 .age-track-cell.age-header {
-  background: var(--sof-secondary);
+  background: #5a748c; /* Match Scion subsection header color */
   color: white;
   font-weight: bold;
   font-size: 12px;
@@ -1166,4 +1163,29 @@
 
 .wound-stress-box.hidden {
   visibility: hidden;
+}
+
+/* ===========================
+   Global 4dF Roll Button
+   =========================== */
+
+.roll-fate-global {
+  background: var(--sof-success);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  margin: 0 5px 5px 0;
+  transition: background 0.2s;
+}
+
+.roll-fate-global:hover {
+  background: #229954;
+}
+
+.roll-fate-global i {
+  margin-right: 4px;
 }

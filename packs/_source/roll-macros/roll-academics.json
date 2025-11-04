@@ -1,0 +1,17 @@
+{
+  "name": "Roll Academics",
+  "type": "script",
+  "scope": "global",
+  "command": "const actor = game.user.character;\nif (!actor) {\n  ui.notifications.warn(\"No character assigned to your user!\");\n  return;\n}\nconst skill = actor.system.scion.skills.academics;\ngame.scionsOfFarstar.createFateRoll(\"Academics\", skill.value, actor);",
+  "img": "icons/svg/book.svg",
+  "folder": null,
+  "sort": 100,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "scions-of-farstar",
+    "systemVersion": "0.1.12"
+  }
+}

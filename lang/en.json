@@ -70,8 +70,8 @@
       "MinorPlaceholder": "Minor Consequence",
       "ModeratePlaceholder": "Moderate Consequence",
       "SeverePlaceholder": "Severe Consequence",
-      "MinorHint": "Clears at end of scene when treated",
-      "ModerateHint": "Clears at end of generation when treated",
+      "MinorHint": "Clears at end of scene it was treated",
+      "ModerateHint": "Clears at end of generation it was treated",
       "SevereHint": "Clears at end of next generation when treated"
     },
     "PeopleTrack": {
