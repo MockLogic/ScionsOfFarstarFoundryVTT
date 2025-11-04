@@ -89,8 +89,11 @@ Hooks.once('ready', async function() {
  * Add 4dF button to chat controls
  */
 Hooks.on('renderChatLog', (app, html, data) => {
+  // Ensure html is a jQuery object
+  const $html = html instanceof jQuery ? html : $(html);
+
   // Prevent duplicate buttons
-  if (html.find('.roll-fate-global').length > 0) return;
+  if ($html.find('.roll-fate-global').length > 0) return;
 
   // Create the 4dF button
   const button = $(`
@@ -105,8 +108,8 @@ Hooks.on('renderChatLog', (app, html, data) => {
   });
 
   // Try multiple insertion points
-  const chatControls = html.find('#chat-controls');
-  const chatForm = html.find('#chat-form');
+  const chatControls = $html.find('#chat-controls');
+  const chatForm = $html.find('#chat-form');
 
   if (chatControls.length > 0) {
     chatControls.prepend(button);

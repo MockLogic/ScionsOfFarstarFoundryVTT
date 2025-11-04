@@ -145,13 +145,13 @@
             "value": 0,
             "label": "Mobility"
           },
-          "people": {
-            "value": 0,
-            "label": "People"
-          },
           "technology": {
             "value": 0,
             "label": "Technology"
+          },
+          "people": {
+            "value": 0,
+            "label": "People"
           }
         },
         "peopleTrack": {

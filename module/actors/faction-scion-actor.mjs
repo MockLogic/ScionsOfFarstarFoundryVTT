@@ -74,7 +74,10 @@ export class FactionScionActor extends Actor {
       });
     }
 
-    // Count stunts
+    // Count stunts (ensure stunts is an array)
+    if (!Array.isArray(faction.stunts)) {
+      faction.stunts = [];
+    }
     faction.stuntCount = faction.stunts.filter(s => s.name || s.description).length;
 
     // Calculate Refresh
