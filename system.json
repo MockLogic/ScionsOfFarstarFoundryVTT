@@ -2,7 +2,7 @@
   "id": "scions-of-farstar",
   "title": "Scions of FarStar",
   "description": "A custom Foundry VTT system for Scions of FarStar, a multigenerational sci-fi colony-building RPG using heavily modified Fate mechanics.",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "compatibility": {
     "minimum": "13",
     "verified": "13.350",
