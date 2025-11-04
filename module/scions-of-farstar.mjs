@@ -293,6 +293,23 @@ function registerHandlebarsHelpers() {
   Handlebars.registerHelper('and', function() {
     return Array.prototype.slice.call(arguments, 0, -1).every(Boolean);
   });
+
+  // Helper to get population value for People capability rating
+  Handlebars.registerHelper('peoplePopulation', function(rating) {
+    const populations = {
+      1: '20',
+      2: '100',
+      3: '500',
+      4: '2k',
+      5: '8k',
+      6: '30k',
+      7: '100k',
+      8: '500k',
+      9: '1m',
+      10: '1m+'
+    };
+    return populations[rating] || '';
+  });
 }
 
 /**

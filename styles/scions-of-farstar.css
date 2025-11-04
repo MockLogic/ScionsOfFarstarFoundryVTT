@@ -649,6 +649,19 @@
   margin-top: 4px;
 }
 
+.people-track-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.track-legend-inline {
+  font-size: 10px;
+  color: var(--sof-secondary);
+  font-style: italic;
+  font-weight: normal;
+}
+
 /* Editor Container for Notes Tab */
 .editor-container {
   min-height: 400px;
@@ -882,6 +895,14 @@
   color: var(--sof-secondary);
   margin-bottom: 4px;
   height: 16px;
+}
+
+.population-label {
+  font-size: 9px;
+  color: #888;
+  margin-top: 2px;
+  height: 12px;
+  font-style: italic;
 }
 
 .people-box {

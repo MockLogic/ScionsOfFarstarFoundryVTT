@@ -88,7 +88,7 @@
                 <button type="button" class="roll-button roll-capability rollable" data-capability="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{capability.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
-                <input type="number" class="capability-value {{#if (lookup ../system.faction.capabilityValidation.invalidCapabilities key)}}invalid{{/if}}" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="10"/>
+                <input type="number" class="capability-value {{#if (lookup ../system.faction.capabilityValidation.invalidCapabilities key)}}invalid{{/if}}" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="{{#if (eq key 'people')}}0{{else}}-1{{/if}}" max="10"/>
                 <span class="capability-label">{{capability.label}}</span>
               </div>
             {{/each}}
@@ -97,17 +97,17 @@
           {{!-- Capability Validation Warnings --}}
           {{#unless system.faction.capabilityValidation.valid}}
             <div class="validation-section">
-              {{#if system.faction.capabilityValidation.totalTooHigh}}
-                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.CapabilityTotalTooHigh" total=system.faction.totalCapabilityPoints expected=globals.expectedCapabilityTotal}}</div>
-              {{/if}}
-              {{#if system.faction.capabilityValidation.totalTooLow}}
-                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.CapabilityTotalTooLow" total=system.faction.totalCapabilityPoints expected=globals.expectedCapabilityTotal}}</div>
-              {{/if}}
+              {{#each system.faction.capabilityValidation.errors as |error|}}
+                <div class="validation-warning">⚠ {{error}}</div>
+              {{/each}}
             </div>
           {{/unless}}
 
           {{!-- People Track --}}
-          <div class="subsection-header">{{localize "SCIONS.Faction.PeopleTrack"}}</div>
+          <div class="subsection-header people-track-header">
+            <span>{{localize "SCIONS.Faction.PeopleTrack"}}</span>
+            <span class="track-legend-inline">{{localize "SCIONS.PeopleTrack.Legend"}}: {{localize "SCIONS.PeopleTrack.Empty"}} → {{localize "SCIONS.PeopleTrack.Committed"}} → {{localize "SCIONS.PeopleTrack.Expended"}}</span>
+          </div>
           <div class="people-track">
             {{#each system.faction.peopleTrack.boxes as |box index|}}
               <div class="people-box-container">
@@ -124,11 +124,9 @@
                     <span class="box-number">{{box.value}}</span>
                   {{/if}}
                 </div>
+                <div class="population-label">{{peoplePopulation box.value}}</div>
               </div>
             {{/each}}
-          </div>
-          <div class="track-legend">
-            <span>{{localize "SCIONS.PeopleTrack.Legend"}}: {{localize "SCIONS.PeopleTrack.Empty"}} → {{localize "SCIONS.PeopleTrack.Committed"}} → {{localize "SCIONS.PeopleTrack.Expended"}}</span>
           </div>
 
           {{!-- Consequences --}}
@@ -238,12 +236,9 @@
           {{!-- Skill Validation Warnings --}}
           {{#unless system.scion.skillValidation.valid}}
             <div class="validation-section">
-              {{#if system.scion.skillValidation.totalTooHigh}}
-                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.SkillTotalTooHigh" total=system.scion.totalSkillPoints expected=system.scion.expectedSkillTotal}}</div>
-              {{/if}}
-              {{#if system.scion.skillValidation.totalTooLow}}
-                <div class="validation-warning">⚠ {{localize "SCIONS.Validation.SkillTotalTooLow" total=system.scion.totalSkillPoints expected=system.scion.expectedSkillTotal}}</div>
-              {{/if}}
+              {{#each system.scion.skillValidation.errors as |error|}}
+                <div class="validation-warning">⚠ {{error}}</div>
+              {{/each}}
             </div>
           {{/unless}}
 

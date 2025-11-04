@@ -101,6 +101,33 @@ export class FactionScionActor extends Actor {
         scion.stress.boxes.push({ value: false });
       }
     }
+
+    // Calculate trauma capacity and usage for token bar
+    // Trauma capacity = stress boxes + available age track slots (not passed, not scarred)
+    let availableAgeSlots = 0;
+    for (const [key, stage] of Object.entries(scion.ageTrack)) {
+      if (!stage.passed && !stage.scar) {
+        availableAgeSlots++;
+      }
+    }
+
+    // Count used trauma (checked stress boxes + wounds in age track)
+    const usedStressBoxes = scion.stress.boxes.filter(box => box.value).length;
+    let ageWounds = 0;
+    for (const [key, stage] of Object.entries(scion.ageTrack)) {
+      if (stage.wound) {
+        ageWounds++;
+      }
+    }
+
+    const traumaCapacity = scion.stress.max + availableAgeSlots;
+    const traumaUsed = usedStressBoxes + ageWounds;
+
+    // Store for token bar (value = remaining, max = capacity)
+    scion.trauma = {
+      value: traumaCapacity - traumaUsed,  // Remaining capacity
+      max: traumaCapacity                   // Total capacity
+    };
   }
 
   /**
@@ -129,11 +156,20 @@ export class FactionScionActor extends Actor {
       const value = capability.value;
       const issues = [];
 
-      // Check minimum (-1)
-      if (value < -1) {
-        issues.push('below_min');
-        faction.capabilityValidation.valid = false;
-        faction.capabilityValidation.errors.push(`${capability.label} cannot be less than -1`);
+      // Special check for People capability (cannot be negative, min 0)
+      if (key === 'people') {
+        if (value < 0) {
+          issues.push('below_min');
+          faction.capabilityValidation.valid = false;
+          faction.capabilityValidation.errors.push(`${capability.label} cannot be negative`);
+        }
+      } else {
+        // Check minimum (-1) for other capabilities
+        if (value < -1) {
+          issues.push('below_min');
+          faction.capabilityValidation.valid = false;
+          faction.capabilityValidation.errors.push(`${capability.label} cannot be less than -1`);
+        }
       }
 
       // Check maximum (baseMaxCapability + majorMilestones)
@@ -261,6 +297,21 @@ export class FactionScionActor extends Actor {
       counts,
       maxRating
     };
+  }
+
+  /**
+   * Override token bar attribute updates to make trauma read-only
+   * @override
+   */
+  async modifyTokenAttribute(attribute, value, isDelta = false, isBar = true) {
+    // Block direct updates to trauma (it's calculated from stress/age track)
+    if (attribute === 'scion.trauma') {
+      ui.notifications.warn("Trauma cannot be edited directly. Use the character sheet to manage stress and age track.");
+      return this;
+    }
+
+    // Allow other attributes to be modified normally
+    return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
   }
 
   /**
