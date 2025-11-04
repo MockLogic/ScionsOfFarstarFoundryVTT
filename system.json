@@ -27,15 +27,6 @@
       "path": "lang/en.json"
     }
   ],
-  "packs": [
-    {
-      "name": "roll-macros",
-      "label": "Roll Macros",
-      "path": "packs/roll-macros",
-      "type": "Macro",
-      "system": "scions-of-farstar"
-    }
-  ],
   "grid": {
     "distance": 5,
     "units": "m",

@@ -89,6 +89,9 @@ Hooks.once('ready', async function() {
  * Add 4dF button to chat controls
  */
 Hooks.on('renderChatLog', (app, html, data) => {
+  // Prevent duplicate buttons
+  if (html.find('.roll-fate-global').length > 0) return;
+
   // Create the 4dF button
   const button = $(`
     <button class="roll-fate-global" title="Roll 4dF">
@@ -101,8 +104,17 @@ Hooks.on('renderChatLog', (app, html, data) => {
     game.scionsOfFarstar.createFateRoll("4dF Roll", 0);
   });
 
-  // Insert the button before the chat input
-  html.find('#chat-controls').prepend(button);
+  // Try multiple insertion points
+  const chatControls = html.find('#chat-controls');
+  const chatForm = html.find('#chat-form');
+
+  if (chatControls.length > 0) {
+    chatControls.prepend(button);
+  } else if (chatForm.length > 0) {
+    chatForm.before(button);
+  } else {
+    console.warn('Scions of FarStar | Could not find chat controls to add 4dF button');
+  }
 });
 
 /**
