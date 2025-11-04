@@ -140,16 +140,22 @@
   cursor: pointer;
   background: white;
   position: relative;
+  font-size: 12px;
+  color: var(--sof-secondary);
+}
+
+.stress-box::before {
+  content: '1';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .stress-box.checked::before {
   content: '✖';
   color: var(--sof-danger);
   font-weight: bold;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .stress-box:hover {
@@ -694,10 +700,6 @@
 
 .people-box .box-mark {
   font-weight: bold;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   font-size: 14px;
 }
 
@@ -951,16 +953,22 @@
   cursor: pointer;
   background: white;
   position: relative;
+  font-size: 12px;
+  color: var(--sof-secondary);
+}
+
+.wound-stress-box::before {
+  content: '1';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .wound-stress-box.checked::before {
   content: '✖';
   color: var(--sof-danger);
   font-weight: bold;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .wound-stress-box:hover {

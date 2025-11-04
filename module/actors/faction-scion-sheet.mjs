@@ -132,7 +132,7 @@ export class FactionScionSheet extends ActorSheet {
   async _onToggleStress(event) {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
-    const boxes = this.actor.system.scion.stress.boxes;
+    const boxes = [...this.actor.system.scion.stress.boxes]; // Create copy to trigger update
 
     if (boxes[index]) {
       boxes[index].value = !boxes[index].value;
@@ -146,7 +146,7 @@ export class FactionScionSheet extends ActorSheet {
   async _onTogglePeople(event) {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
-    const boxes = this.actor.system.faction.peopleTrack.boxes;
+    const boxes = [...this.actor.system.faction.peopleTrack.boxes]; // Create copy to trigger update
 
     if (boxes[index]) {
       const box = boxes[index];
