@@ -4,7 +4,16 @@
   <header class="sheet-header">
     <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
     <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'SCIONS.ActorTypes.faction-scion'}}"/></h1>
+      <div class="name-row">
+        <div class="name-field">
+          <label class="field-label">{{localize "SCIONS.Faction.FactionName"}}</label>
+          <input name="name" type="text" value="{{actor.name}}" placeholder="{{localize 'SCIONS.Faction.FactionName'}}"/>
+        </div>
+        <div class="name-field">
+          <label class="field-label">{{localize "SCIONS.Scion.ScionName"}}</label>
+          <input name="system.scion.name" type="text" value="{{system.scion.name}}" placeholder="{{localize 'SCIONS.Scion.ScionName'}}"/>
+        </div>
+      </div>
       <div class="resource-row">
         <div class="resource">
           <label class="resource-label">{{localize "SCIONS.Faction.Refresh"}}</label>
@@ -17,6 +26,11 @@
             <input type="number" name="system.faction.fatePoints.value" value="{{system.faction.fatePoints.value}}" data-dtype="Number"/>
             <button type="button" class="fate-points-increment" title="{{localize 'SCIONS.Actions.Increase'}}">+</button>
           </div>
+        </div>
+        <div class="resource roll-fate-container">
+          <button type="button" class="roll-button roll-fate-header">
+            <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
+          </button>
         </div>
       </div>
       {{#unless system.faction.refreshValid}}
@@ -84,17 +98,20 @@
           <div class="subsection-header">{{localize "SCIONS.Faction.PeopleTrack"}}</div>
           <div class="people-track">
             {{#each system.faction.peopleTrack.boxes as |box index|}}
-              <div class="stress-box growing people-box {{#if box.committed}}committed{{/if}} {{#if box.expended}}expended{{/if}}"
-                   data-index="{{index}}"
-                   data-value="{{box.value}}"
-                   title="{{localize 'SCIONS.PeopleTrack.ClickInstructions'}}">
-                {{#if box.expended}}
-                  <span class="box-mark">✖</span>
-                {{else if box.committed}}
-                  <span class="box-mark">◐</span>
-                {{else}}
-                  <span class="box-number">{{box.value}}</span>
-                {{/if}}
+              <div class="people-box-container">
+                <div class="box-value-label">{{box.value}}</div>
+                <div class="stress-box growing people-box {{#if box.committed}}committed{{/if}} {{#if box.expended}}expended{{/if}}"
+                     data-index="{{index}}"
+                     data-value="{{box.value}}"
+                     title="{{localize 'SCIONS.PeopleTrack.ClickInstructions'}}">
+                  {{#if box.expended}}
+                    <span class="box-mark">✖</span>
+                  {{else if box.committed}}
+                    <span class="box-mark">◐</span>
+                  {{else}}
+                    <span class="box-number">{{box.value}}</span>
+                  {{/if}}
+                </div>
               </div>
             {{/each}}
           </div>
@@ -105,39 +122,66 @@
           {{!-- Consequences --}}
           <div class="subsection-header">{{localize "SCIONS.Faction.Consequences"}}</div>
 
-          <div class="consequence-box">
+          <div class="consequence-box {{#if system.consequences.minor.value}}active{{/if}} {{#if system.consequences.minor.treated}}treated{{/if}}">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
-              <div class="consequence-treated">
-                <label>
+              <div class="consequence-status">
+                {{#if system.consequences.minor.value}}
+                  {{#if system.consequences.minor.treated}}
+                    <span class="status-badge treated">{{localize "SCIONS.Consequences.Treated"}}</span>
+                  {{else}}
+                    <span class="status-badge active">{{localize "SCIONS.Consequences.Active"}}</span>
+                  {{/if}}
+                {{else}}
+                  <span class="status-badge unused">{{localize "SCIONS.Consequences.Unused"}}</span>
+                {{/if}}
+                <label class="treated-checkbox">
                   <input type="checkbox" name="system.consequences.minor.treated" {{checked system.consequences.minor.treated}}/>
-                  {{localize "SCIONS.Consequences.Treated"}}
+                  {{localize "SCIONS.Consequences.MarkTreated"}}
                 </label>
               </div>
             </div>
             <input type="text" name="system.consequences.minor.value" value="{{system.consequences.minor.value}}" placeholder="{{localize 'SCIONS.Consequences.MinorPlaceholder'}}"/>
           </div>
 
-          <div class="consequence-box">
+          <div class="consequence-box {{#if system.consequences.moderate.value}}active{{/if}} {{#if system.consequences.moderate.treated}}treated{{/if}}">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Moderate"}}</label>
-              <div class="consequence-treated">
-                <label>
+              <div class="consequence-status">
+                {{#if system.consequences.moderate.value}}
+                  {{#if system.consequences.moderate.treated}}
+                    <span class="status-badge treated">{{localize "SCIONS.Consequences.Treated"}}</span>
+                  {{else}}
+                    <span class="status-badge active">{{localize "SCIONS.Consequences.Active"}}</span>
+                  {{/if}}
+                {{else}}
+                  <span class="status-badge unused">{{localize "SCIONS.Consequences.Unused"}}</span>
+                {{/if}}
+                <label class="treated-checkbox">
                   <input type="checkbox" name="system.consequences.moderate.treated" {{checked system.consequences.moderate.treated}}/>
-                  {{localize "SCIONS.Consequences.Treated"}}
+                  {{localize "SCIONS.Consequences.MarkTreated"}}
                 </label>
               </div>
             </div>
             <input type="text" name="system.consequences.moderate.value" value="{{system.consequences.moderate.value}}" placeholder="{{localize 'SCIONS.Consequences.ModeratePlaceholder'}}"/>
           </div>
 
-          <div class="consequence-box severe">
+          <div class="consequence-box severe {{#if system.consequences.severe.value}}active{{/if}} {{#if system.consequences.severe.treated}}treated{{/if}}">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Severe"}}</label>
-              <div class="consequence-treated">
-                <label>
+              <div class="consequence-status">
+                {{#if system.consequences.severe.value}}
+                  {{#if system.consequences.severe.treated}}
+                    <span class="status-badge treated">{{localize "SCIONS.Consequences.Treated"}}</span>
+                  {{else}}
+                    <span class="status-badge active">{{localize "SCIONS.Consequences.Active"}}</span>
+                  {{/if}}
+                {{else}}
+                  <span class="status-badge unused">{{localize "SCIONS.Consequences.Unused"}}</span>
+                {{/if}}
+                <label class="treated-checkbox">
                   <input type="checkbox" name="system.consequences.severe.treated" {{checked system.consequences.severe.treated}}/>
-                  {{localize "SCIONS.Consequences.Treated"}}
+                  {{localize "SCIONS.Consequences.MarkTreated"}}
                 </label>
               </div>
             </div>
@@ -210,12 +254,6 @@
                 </div>
               </div>
             {{/each}}
-          </div>
-
-          <div class="roll-section">
-            <button type="button" class="roll-button roll-fate">
-              <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
-            </button>
           </div>
 
         </div>

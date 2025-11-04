@@ -33,6 +33,7 @@
       "templates": ["commonAspects", "consequences"],
       "notes": "",
       "scion": {
+        "name": "",
         "aspects": {
           "scionAspect": {
             "value": ""

@@ -603,3 +603,186 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ===========================
+   Header Enhancements
+   =========================== */
+
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.name-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.name-field input {
+  padding: 6px 8px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.roll-fate-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roll-fate-header {
+  padding: 8px 16px;
+  font-size: 14px;
+  background: var(--sof-success);
+}
+
+.roll-fate-header:hover {
+  background: #229954;
+}
+
+/* ===========================
+   People Track Enhancements
+   =========================== */
+
+.people-box-container {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 3px;
+}
+
+.box-value-label {
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+  margin-bottom: 2px;
+  height: 12px;
+}
+
+/* ===========================
+   Consequence States
+   =========================== */
+
+.consequence-box.active {
+  border-left-color: var(--sof-warning);
+  background: #fef5e7;
+}
+
+.consequence-box.treated {
+  border-left-color: var(--sof-success);
+  background: #e8f8f5;
+}
+
+.consequence-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-badge.unused {
+  background: #ecf0f1;
+  color: #95a5a6;
+}
+
+.status-badge.active {
+  background: #f39c12;
+  color: white;
+}
+
+.status-badge.treated {
+  background: #27ae60;
+  color: white;
+}
+
+.treated-checkbox {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===========================
+   Stunt/Extra Input Fixes
+   =========================== */
+
+.stunt-header,
+.extra-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stunt-name,
+.extra-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: bold;
+  padding: 6px 10px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.stunt-delete,
+.extra-delete {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stunt-item textarea,
+.extra-item textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+/* ===========================
+   Notes Editor Height Fix
+   =========================== */
+
+.notes-tab .editor-container {
+  height: calc(100vh - 300px);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-tab .editor-container .editor {
+  flex: 1;
+  min-height: 350px;
+  height: 100%;
+}
+
+.notes-tab .editor-container .editor-content {
+  min-height: 300px;
+  height: 100%;
+}

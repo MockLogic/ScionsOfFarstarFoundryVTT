@@ -60,6 +60,7 @@ export class FactionScionSheet extends ActorSheet {
     html.find('.roll-skill').click(this._onRollSkill.bind(this));
     html.find('.roll-capability').click(this._onRollCapability.bind(this));
     html.find('.roll-fate').click(this._onRollFate.bind(this));
+    html.find('.roll-fate-header').click(this._onRollFate.bind(this));
 
     // Stress box handlers
     html.find('.stress-box').click(this._onToggleStress.bind(this));
@@ -221,7 +222,7 @@ export class FactionScionSheet extends ActorSheet {
    */
   async _onAddStunt(event) {
     event.preventDefault();
-    const stunts = this.actor.system.faction.stunts;
+    const stunts = [...this.actor.system.faction.stunts];
     stunts.push({ name: "", description: "" });
     await this.actor.update({ 'system.faction.stunts': stunts });
   }
@@ -232,7 +233,7 @@ export class FactionScionSheet extends ActorSheet {
   async _onDeleteStunt(event) {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
-    const stunts = this.actor.system.faction.stunts;
+    const stunts = [...this.actor.system.faction.stunts];
     stunts.splice(index, 1);
     await this.actor.update({ 'system.faction.stunts': stunts });
   }
@@ -242,7 +243,7 @@ export class FactionScionSheet extends ActorSheet {
    */
   async _onAddExtra(event) {
     event.preventDefault();
-    const extras = this.actor.system.faction.extras;
+    const extras = [...this.actor.system.faction.extras];
     extras.push({ name: "", description: "" });
     await this.actor.update({ 'system.faction.extras': extras });
   }
@@ -253,7 +254,7 @@ export class FactionScionSheet extends ActorSheet {
   async _onDeleteExtra(event) {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
-    const extras = this.actor.system.faction.extras;
+    const extras = [...this.actor.system.faction.extras];
     extras.splice(index, 1);
     await this.actor.update({ 'system.faction.extras': extras });
   }

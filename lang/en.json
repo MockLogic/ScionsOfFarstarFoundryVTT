@@ -7,6 +7,7 @@
     },
     "Scion": {
       "Title": "Scion",
+      "ScionName": "Scion Name",
       "Aspect": "Scion Aspect",
       "Skills": "Skills",
       "Stress": "Stress",
@@ -14,6 +15,7 @@
     },
     "Faction": {
       "Title": "Faction",
+      "FactionName": "Faction Name",
       "HighConcept": "High Concept",
       "Trouble": "Trouble",
       "Inheritance": "Inheritance",
@@ -60,7 +62,10 @@
       "Minor": "Minor (2)",
       "Moderate": "Moderate (4)",
       "Severe": "Severe (6)",
+      "Unused": "Unused",
+      "Active": "Active",
       "Treated": "Treated",
+      "MarkTreated": "Mark Treated",
       "MinorPlaceholder": "Minor Consequence",
       "ModeratePlaceholder": "Moderate Consequence",
       "SeverePlaceholder": "Severe Consequence"
