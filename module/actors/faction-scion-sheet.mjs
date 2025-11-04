@@ -135,7 +135,7 @@ export class FactionScionSheet extends ActorSheet {
 
     // Stress box handlers
     html.find('.stress-box').click(this._onToggleStress.bind(this));
-    html.find('.stress-size-checkbox').click(this._onToggleStressSize.bind(this));
+    html.find('.stress-size-toggle').click(this._onToggleStressSize.bind(this));
     html.find('.people-box').click(this._onTogglePeople.bind(this));
 
     // Age track handlers

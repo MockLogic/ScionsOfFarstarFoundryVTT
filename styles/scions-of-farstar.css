@@ -127,12 +127,12 @@
   cursor: pointer;
 }
 
-/* Stress Boxes */
+/* Stress Boxes - standardized to 40px */
 .stress-box {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   border: 2px solid var(--sof-border);
   border-radius: 3px;
@@ -140,7 +140,7 @@
   cursor: pointer;
   background: white;
   position: relative;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--sof-secondary);
 }
 
@@ -156,30 +156,44 @@
   content: '✖';
   color: var(--sof-danger);
   font-weight: bold;
+  font-size: 18px;
 }
 
 .stress-box:hover {
   border-color: var(--sof-accent);
 }
 
-/* Stress size toggle */
+/* Stress size toggle - gear icon style */
 .stress-size-toggle {
   float: right;
   font-size: 11px;
   font-weight: normal;
   text-transform: none;
-}
-
-.stress-size-toggle label {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 }
 
-.stress-size-toggle input[type="checkbox"] {
-  margin: 0;
-  cursor: pointer;
+.stress-size-toggle:hover {
+  opacity: 1;
+}
+
+.stress-size-icon {
+  font-size: 14px;
+  color: #7f8c8d;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.stress-size-icon.extended {
+  color: var(--sof-accent);
+  transform: rotate(90deg);
+}
+
+.stress-size-label {
+  color: #7f8c8d;
 }
 
 /* Growing Stress Track (Fate style) */
@@ -296,6 +310,10 @@
   border-radius: 3px;
 }
 
+.consequence-box.minor {
+  border-left-color: var(--sof-accent);
+}
+
 .consequence-box.severe {
   border-left-color: var(--sof-danger);
 }
@@ -312,8 +330,19 @@
   color: var(--sof-warning);
 }
 
+.consequence-box.minor .consequence-label {
+  color: var(--sof-accent);
+}
+
 .consequence-box.severe .consequence-label {
   color: var(--sof-danger);
+}
+
+.consequence-hint {
+  font-size: 11px;
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 4px;
 }
 
 .consequence-treated {
@@ -510,6 +539,15 @@
   font-weight: bold;
   font-size: 13px;
   border-radius: 3px;
+}
+
+/* Scion column headers - lighter navy to differentiate from Faction */
+.scion-column .section-header {
+  background: #4a6278; /* Lighter shade of navy */
+}
+
+.scion-column .subsection-header {
+  background: #5a748c; /* Lighter shade of secondary navy */
 }
 
 /* Skills and Capabilities Lists (Vertical) */
@@ -731,11 +769,14 @@
 }
 
 .fate-points-display input[type="number"] {
-  width: 50px;
+  width: 40px;
+  height: 40px;
   text-align: center;
-  padding: 4px;
-  font-size: 16px;
+  padding: 0;
+  font-size: 18px;
   font-weight: bold;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
 }
 
 .fate-points-increment,
@@ -745,21 +786,32 @@
   font-size: 14px;
 }
 
-/* Roll 4dF button - separate row with spacing */
-.roll-fate-row {
-  margin-top: 8px;
+/* Roll 4dF button - inline with Fate Points */
+.roll-fate-inline {
   display: flex;
+  align-items: center;
 }
 
-.roll-fate-header {
+.roll-fate-inline .roll-fate-header {
   padding: 8px 16px;
   font-size: 14px;
   background: var(--sof-success);
-  width: 100%;
+  white-space: nowrap;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
-.roll-fate-header:hover {
+.roll-fate-inline .roll-fate-header:hover {
   background: #229954;
+}
+
+/* Aspect row in header */
+.aspect-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 /* ===========================
@@ -774,18 +826,18 @@
 }
 
 .box-value-label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
   color: var(--sof-secondary);
-  margin-bottom: 2px;
-  height: 12px;
+  margin-bottom: 4px;
+  height: 16px;
 }
 
 .people-box {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   border: 2px solid var(--sof-border);
   border-radius: 3px;
@@ -804,7 +856,7 @@
 
 .people-box .box-mark {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .people-box.committed .box-mark {
@@ -816,7 +868,7 @@
 }
 
 .people-box .box-number {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--sof-secondary);
 }
 
@@ -827,6 +879,16 @@
 .consequence-box.active {
   border-left-color: var(--sof-warning);
   background: #fef5e7;
+}
+
+.consequence-box.minor.active {
+  border-left-color: var(--sof-accent);
+  background: #e3f2fd;
+}
+
+.consequence-box.severe.active {
+  border-left-color: var(--sof-danger);
+  background: #ffebee;
 }
 
 .consequence-box.treated {
@@ -1067,19 +1129,19 @@
   pointer-events: none;
 }
 
-/* Wound stress box styling */
+/* Wound stress box styling - standardized to 40px */
 .wound-stress-box {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   border: 2px solid var(--sof-border);
   border-radius: 3px;
   cursor: pointer;
   background: white;
   position: relative;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--sof-secondary);
 }
 
@@ -1095,6 +1157,7 @@
   content: '✖';
   color: var(--sof-danger);
   font-weight: bold;
+  font-size: 18px;
 }
 
 .wound-stress-box:hover {

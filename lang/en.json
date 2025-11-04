@@ -69,7 +69,10 @@
       "MarkTreated": "Mark Treated",
       "MinorPlaceholder": "Minor Consequence",
       "ModeratePlaceholder": "Moderate Consequence",
-      "SeverePlaceholder": "Severe Consequence"
+      "SeverePlaceholder": "Severe Consequence",
+      "MinorHint": "Clears at end of scene when treated",
+      "ModerateHint": "Clears at end of generation when treated",
+      "SevereHint": "Clears at end of next generation when treated"
     },
     "PeopleTrack": {
       "ClickInstructions": "Click to cycle: Empty → Committed → Expended → Empty",
@@ -80,8 +83,8 @@
     },
     "Stress": {
       "Toggle": "Click to toggle stress",
-      "Extended": "Extended (5 boxes)",
-      "SizeHint": "Check to use 5 stress boxes instead of 3"
+      "Extended": "Extended",
+      "SizeHint": "Toggle extended stress (5 boxes instead of 3)"
     },
     "Stunts": {
       "NamePlaceholder": "Stunt Name",

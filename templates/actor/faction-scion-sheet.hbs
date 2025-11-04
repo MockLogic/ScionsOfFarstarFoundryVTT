@@ -26,11 +26,21 @@
             <button type="button" class="fate-points-increment" title="{{localize 'SCIONS.Actions.Increase'}}">+</button>
           </div>
         </div>
+        <div class="resource roll-fate-inline">
+          <button type="button" class="roll-button roll-fate-header">
+            <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
+          </button>
+        </div>
       </div>
-      <div class="roll-fate-row">
-        <button type="button" class="roll-button roll-fate-header">
-          <i class="fas fa-dice"></i> {{localize "SCIONS.Roll.RollFate"}}
-        </button>
+      <div class="aspect-row">
+        <div class="aspect-box">
+          <label>{{localize "SCIONS.Faction.HighConcept"}}</label>
+          <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="{{localize 'SCIONS.Faction.HighConcept'}}"/>
+        </div>
+        <div class="aspect-box">
+          <label>{{localize "SCIONS.Faction.Trouble"}}</label>
+          <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Faction.Trouble'}}"/>
+        </div>
       </div>
       {{#unless system.faction.refreshValid}}
         <div class="validation-warning">⚠ {{localize "SCIONS.Validation.RefreshMismatch"}}</div>
@@ -58,17 +68,7 @@
         <div class="column faction-column">
           <div class="section-header">{{localize "SCIONS.Faction.Title"}}</div>
 
-          {{!-- Faction Aspects --}}
-          <div class="aspect-box">
-            <label>{{localize "SCIONS.Faction.HighConcept"}}</label>
-            <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="{{localize 'SCIONS.Faction.HighConcept'}}"/>
-          </div>
-
-          <div class="aspect-box">
-            <label>{{localize "SCIONS.Faction.Trouble"}}</label>
-            <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Faction.Trouble'}}"/>
-          </div>
-
+          {{!-- Inheritance Aspect --}}
           <div class="aspect-box">
             <label>{{localize "SCIONS.Faction.Inheritance"}}</label>
             <input type="text" name="system.faction.aspects.inheritance.value" value="{{system.faction.aspects.inheritance.value}}" placeholder="{{localize 'SCIONS.Faction.Inheritance'}}"/>
@@ -85,11 +85,11 @@
           <div class="capabilities-list">
             {{#each system.faction.capabilities as |capability key|}}
               <div class="capability-item">
-                <span class="capability-label">{{capability.label}}</span>
-                <input type="number" class="capability-value" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="10"/>
                 <button type="button" class="roll-button roll-capability rollable" data-capability="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{capability.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
+                <input type="number" class="capability-value" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="-1" max="10"/>
+                <span class="capability-label">{{capability.label}}</span>
               </div>
             {{/each}}
           </div>
@@ -122,7 +122,7 @@
           {{!-- Consequences --}}
           <div class="subsection-header">{{localize "SCIONS.Faction.Consequences"}}</div>
 
-          <div class="consequence-box {{#if system.consequences.minor.value}}active{{/if}} {{#if system.consequences.minor.treated}}treated{{/if}}">
+          <div class="consequence-box minor {{#if system.consequences.minor.value}}active{{/if}} {{#if system.consequences.minor.treated}}treated{{/if}}">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
               <div class="consequence-status">
@@ -142,6 +142,7 @@
               </div>
             </div>
             <input type="text" name="system.consequences.minor.value" value="{{system.consequences.minor.value}}" placeholder="{{localize 'SCIONS.Consequences.MinorPlaceholder'}}"/>
+            <div class="consequence-hint">{{localize "SCIONS.Consequences.MinorHint"}}</div>
           </div>
 
           <div class="consequence-box {{#if system.consequences.moderate.value}}active{{/if}} {{#if system.consequences.moderate.treated}}treated{{/if}}">
@@ -164,6 +165,7 @@
               </div>
             </div>
             <input type="text" name="system.consequences.moderate.value" value="{{system.consequences.moderate.value}}" placeholder="{{localize 'SCIONS.Consequences.ModeratePlaceholder'}}"/>
+            <div class="consequence-hint">{{localize "SCIONS.Consequences.ModerateHint"}}</div>
           </div>
 
           <div class="consequence-box severe {{#if system.consequences.severe.value}}active{{/if}} {{#if system.consequences.severe.treated}}treated{{/if}}">
@@ -186,6 +188,7 @@
               </div>
             </div>
             <input type="text" name="system.consequences.severe.value" value="{{system.consequences.severe.value}}" placeholder="{{localize 'SCIONS.Consequences.SeverePlaceholder'}}"/>
+            <div class="consequence-hint">{{localize "SCIONS.Consequences.SevereHint"}}</div>
           </div>
 
         </div>
@@ -211,11 +214,11 @@
           <div class="skills-list">
             {{#each system.scion.skills as |skill key|}}
               <div class="skill-item">
-                <span class="skill-label">{{skill.label}}</span>
-                <input type="number" class="skill-value" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
                 <button type="button" class="roll-button roll-skill rollable" data-skill="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{skill.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
+                <input type="number" class="skill-value" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
+                <span class="skill-label">{{skill.label}}</span>
               </div>
             {{/each}}
           </div>
@@ -223,11 +226,9 @@
           {{!-- Stress Track --}}
           <div class="subsection-header">
             {{localize "SCIONS.Scion.Stress"}}
-            <span class="stress-size-toggle">
-              <label title="{{localize 'SCIONS.Stress.SizeHint'}}">
-                <input type="checkbox" class="stress-size-checkbox" {{checked (eq system.scion.stress.max 5)}}/>
-                {{localize "SCIONS.Stress.Extended"}}
-              </label>
+            <span class="stress-size-toggle" title="{{localize 'SCIONS.Stress.SizeHint'}}">
+              <i class="fas fa-cog stress-size-icon {{#if (eq system.scion.stress.max 5)}}extended{{/if}}"></i>
+              <span class="stress-size-label">{{localize "SCIONS.Stress.Extended"}}</span>
             </span>
           </div>
           <div class="stress-track">
