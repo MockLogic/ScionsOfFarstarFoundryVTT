@@ -47,12 +47,37 @@ export class FactionScionSheet extends ActorSheet {
     };
 
     // Enrich text fields (for rich text editors)
-    context.enrichedScionAspect = await TextEditor.enrichHTML(context.system.scion.aspects.scionAspect.value, { async: true });
-    context.enrichedHighConcept = await TextEditor.enrichHTML(context.system.aspects.highConcept.value, { async: true });
-    context.enrichedTrouble = await TextEditor.enrichHTML(context.system.aspects.trouble.value, { async: true });
-    context.enrichedInheritance = await TextEditor.enrichHTML(context.system.faction.aspects.inheritance.value, { async: true });
+    const enrichHTML = foundry.applications?.ux?.TextEditor?.implementation?.enrichHTML || TextEditor.enrichHTML;
+    context.enrichedScionAspect = await enrichHTML(context.system.scion.aspects.scionAspect.value, { async: true });
+    context.enrichedHighConcept = await enrichHTML(context.system.aspects.highConcept.value, { async: true });
+    context.enrichedTrouble = await enrichHTML(context.system.aspects.trouble.value, { async: true });
+    context.enrichedInheritance = await enrichHTML(context.system.faction.aspects.inheritance.value, { async: true });
 
     return context;
+  }
+
+  /** @override */
+  async _updateObject(event, formData) {
+    // Expand the formData to handle arrays properly
+    const expandedData = foundry.utils.expandObject(formData);
+
+    // Ensure stunts and extras arrays are properly handled
+    if (expandedData.system?.faction?.stunts) {
+      // Convert the stunts object back to an array
+      const stuntsObj = expandedData.system.faction.stunts;
+      const stuntsArray = Object.values(stuntsObj);
+      expandedData.system.faction.stunts = stuntsArray;
+    }
+
+    if (expandedData.system?.faction?.extras) {
+      // Convert the extras object back to an array
+      const extrasObj = expandedData.system.faction.extras;
+      const extrasArray = Object.values(extrasObj);
+      expandedData.system.faction.extras = extrasArray;
+    }
+
+    // Update the actor with the expanded data
+    return this.actor.update(expandedData);
   }
 
   /**
@@ -398,8 +423,11 @@ export class FactionScionSheet extends ActorSheet {
   async _onAddStunt(event) {
     event.preventDefault();
     const stunts = [...this.actor.system.faction.stunts];
+    console.log("Current stunts before add:", stunts);
     stunts.push({ name: "", description: "" });
+    console.log("Stunts after push:", stunts);
     await this.actor.update({ 'system.faction.stunts': stunts });
+    console.log("Stunts after update:", this.actor.system.faction.stunts);
   }
 
   /**

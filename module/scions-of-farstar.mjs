@@ -86,41 +86,6 @@ Hooks.once('ready', async function() {
 });
 
 /**
- * Add 4dF button to chat controls
- */
-Hooks.on('renderChatLog', (app, html, data) => {
-  // Ensure html is a jQuery object
-  const $html = html instanceof jQuery ? html : $(html);
-
-  // Prevent duplicate buttons
-  if ($html.find('.roll-fate-global').length > 0) return;
-
-  // Create the 4dF button
-  const button = $(`
-    <button class="roll-fate-global" title="Roll 4dF">
-      <i class="fas fa-dice"></i> Roll 4dF
-    </button>
-  `);
-
-  // Add click handler
-  button.click(() => {
-    game.scionsOfFarstar.createFateRoll("4dF Roll", 0);
-  });
-
-  // Try multiple insertion points
-  const chatControls = $html.find('#chat-controls');
-  const chatForm = $html.find('#chat-form');
-
-  if (chatControls.length > 0) {
-    chatControls.prepend(button);
-  } else if (chatForm.length > 0) {
-    chatForm.before(button);
-  } else {
-    console.warn('Scions of FarStar | Could not find chat controls to add 4dF button');
-  }
-});
-
-/**
  * Register system settings
  */
 function registerSystemSettings() {

@@ -1168,26 +1168,25 @@
 }
 
 /* ===========================
-   Global 4dF Roll Button
+   Tab Content Styling
    =========================== */
 
-.roll-fate-global {
-  background: var(--sof-success);
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: bold;
-  margin: 0 5px 5px 0;
-  transition: background 0.2s;
+.sheet-body {
+  flex: 0 0 auto;
 }
 
-.roll-fate-global:hover {
-  background: #229954;
+.stunts-tab,
+.extras-tab,
+.notes-tab,
+.main-tab {
+  padding: 10px;
 }
 
-.roll-fate-global i {
-  margin-right: 4px;
+.stunts-tab,
+.extras-tab {
+  min-height: auto;
+}
+
+.notes-tab {
+  min-height: 400px;
 }
