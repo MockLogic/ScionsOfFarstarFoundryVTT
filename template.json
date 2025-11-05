@@ -126,7 +126,8 @@
           "value": 3
         },
         "fatePoints": {
-          "value": 3
+          "value": 3,
+          "max": 3
         },
         "capabilities": {
           "culture": {

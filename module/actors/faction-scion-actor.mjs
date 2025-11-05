@@ -225,6 +225,9 @@ export class FactionScionActor extends Actor {
     faction.refresh.value = calculatedRefresh;
     faction.refreshValid = calculatedRefresh >= 1; // Invalid if below 1
     faction.expectedRefresh = calculatedRefresh;
+
+    // Sync Fate Points max with Refresh (for display reference, value can exceed max)
+    faction.fatePoints.max = calculatedRefresh;
   }
 
   /**
@@ -328,5 +331,23 @@ export class FactionScionActor extends Actor {
     const { rollFateDice, createFateRoll } = await import('../scions-of-farstar.mjs');
 
     return createFateRoll(rollLabel, modifier, this, speakerName);
+  }
+
+  /**
+   * Configure default token settings for new actors
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+
+    // Set default token configuration
+    const prototypeToken = {
+      displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show name
+      displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show bars
+      bar1: { attribute: "scion.trauma" },             // Primary bar: Trauma
+      bar2: { attribute: "faction.fatePoints" }        // Secondary bar: Fate Points
+    };
+
+    this.updateSource({ prototypeToken });
   }
 }
