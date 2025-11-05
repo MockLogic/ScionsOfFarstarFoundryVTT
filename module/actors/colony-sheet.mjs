@@ -2,7 +2,7 @@
  * Colony Actor Sheet
  * Handles the UI for colony management
  */
-export class ColonySheet extends foundry.applications.sheets.ActorSheet {
+export class ColonySheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
