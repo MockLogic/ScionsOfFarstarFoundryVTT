@@ -1340,6 +1340,7 @@
   background: white;
   border: 1px solid var(--sof-border);
   border-radius: 4px;
+  cursor: grab;
   transition: all 0.2s;
   overflow: hidden;
 }

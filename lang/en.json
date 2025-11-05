@@ -152,13 +152,6 @@
       "AddStunt": "Add Stunt",
       "AddExtra": "Add Extra"
     },
-    "Colony": {
-      "Title": "Colony",
-      "Attributes": "Attributes",
-      "Population": "Population",
-      "PopulationTrack": "Population Track",
-      "AddAttribute": "Add Attribute"
-    },
     "Roll": {
       "Roll": "Roll",
       "RollFate": "Roll 4dF",
