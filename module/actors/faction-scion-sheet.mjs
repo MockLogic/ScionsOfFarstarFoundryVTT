@@ -2,7 +2,7 @@
  * Faction-Scion Actor Sheet
  * Handles the UI for the combined Faction-Scion character sheet
  */
-export class FactionScionSheet extends foundry.applications.sheets.ActorSheetV2 {
+export class FactionScionSheet extends foundry.applications.sheets.ActorSheet {
 
   /** @override */
   static get defaultOptions() {
