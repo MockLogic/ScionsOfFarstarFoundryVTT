@@ -10,8 +10,18 @@
     </div>
   </header>
 
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="main">{{localize "SCIONS.Tabs.Main"}}</a>
+    <a class="item" data-tab="extras">{{localize "SCIONS.Tabs.Extras"}}</a>
+    <a class="item" data-tab="notes">{{localize "SCIONS.Tabs.Notes"}}</a>
+  </nav>
+
   {{!-- Sheet Body --}}
   <section class="sheet-body">
+
+    {{!-- Main Tab --}}
+    <div class="tab main-tab" data-group="primary" data-tab="main">
 
     {{!-- Aspects Section --}}
     <div class="aspects-section colony-aspects">
@@ -105,6 +115,41 @@
             </div>
           </div>
         {{/each}}
+      </div>
+    </div>
+
+    </div>{{!-- End Main Tab --}}
+
+    {{!-- Extras Tab --}}
+    <div class="tab extras-tab" data-group="primary" data-tab="extras">
+      <div class="section-header">{{localize "SCIONS.Colony.Extras"}}</div>
+
+      {{#if (hasItems system.extras)}}
+        {{#each system.extras as |extra index|}}
+          <div class="extra-item">
+            <div class="extra-header">
+              <input type="text" class="extra-name" name="system.extras.{{index}}.name" value="{{extra.name}}" placeholder="{{localize 'SCIONS.Extras.NamePlaceholder'}}"/>
+              <button type="button" class="extra-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="extra-description">
+              {{editor extra.description target=(concat "system.extras." index ".description") button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="empty-message">No extras yet. Click the button below to add an extra.</div>
+      {{/if}}
+
+      <button type="button" class="add-item-button extra-add">
+        <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddExtra"}}
+      </button>
+    </div>
+
+    {{!-- Notes Tab --}}
+    <div class="tab notes-tab" data-group="primary" data-tab="notes">
+      <div class="section-header">{{localize "SCIONS.Tabs.Notes"}}</div>
+      <div class="editor-container">
+        {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
       </div>
     </div>
 

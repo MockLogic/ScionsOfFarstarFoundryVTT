@@ -434,7 +434,9 @@
       ],
       "populationTrack": {
         "boxes": []
-      }
+      },
+      "extras": [],
+      "notes": ""
     }
   },
   "Item": {

@@ -34,7 +34,8 @@
       "Attributes": "Colony Attributes",
       "AddAttribute": "Add Attribute",
       "LockedAttribute": "This attribute is locked and cannot be renamed or moved",
-      "PopulationTrack": "Population Track"
+      "PopulationTrack": "Population Track",
+      "Extras": "Colony Extras"
     },
     "PopulationTrack": {
       "Legend": "Legend",
