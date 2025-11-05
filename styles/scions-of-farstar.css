@@ -1325,6 +1325,11 @@
   background: rgba(52, 152, 219, 0.1);
 }
 
+.attribute-rank.invalid {
+  border-color: var(--sof-warning);
+  background: rgba(255, 152, 0, 0.1);
+}
+
 .rank-label {
   font-size: 18px;
   font-weight: bold;

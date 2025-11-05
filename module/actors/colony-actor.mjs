@@ -20,6 +20,9 @@ export class ColonyActor extends Actor {
 
     // Generate Population Track boxes based on Population attribute rank
     this._preparePopulationTrack(systemData);
+
+    // Validate attribute column structure
+    this._validateAttributeColumn(systemData);
   }
 
   /**
@@ -61,6 +64,48 @@ export class ColonyActor extends Actor {
     }
 
     console.log('Colony Actor | Final boxes:', systemData.populationTrack.boxes);
+  }
+
+  /**
+   * Validate attribute column structure (Fate Core skill column rule)
+   * @param {Object} systemData - The actor's system data
+   */
+  _validateAttributeColumn(systemData) {
+    // Count attributes at each rank (1-6, excluding rank 0)
+    const rankCounts = {};
+    for (let rank = 1; rank <= 6; rank++) {
+      rankCounts[rank] = 0;
+    }
+
+    systemData.attributes.forEach(attr => {
+      const rank = attr.rank;
+      if (rank >= 1 && rank <= 6) {
+        rankCounts[rank]++;
+      }
+    });
+
+    // Validate column structure: can't have more at a rank than the rank below
+    systemData.attributeValidation = {
+      valid: true,
+      errors: [],
+      invalidRanks: {}
+    };
+
+    for (let rank = 6; rank >= 2; rank--) {
+      const currentCount = rankCounts[rank];
+      const belowCount = rankCounts[rank - 1];
+
+      if (currentCount > belowCount) {
+        systemData.attributeValidation.valid = false;
+        systemData.attributeValidation.errors.push(
+          `Column violation: ${currentCount} attribute(s) at +${rank} but only ${belowCount} at +${rank - 1}`
+        );
+        systemData.attributeValidation.invalidRanks[rank] = true;
+      }
+    }
+
+    // Store counts for display
+    systemData.attributeRankCounts = rankCounts;
   }
 
   /**

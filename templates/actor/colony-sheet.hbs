@@ -30,10 +30,23 @@
     <div class="attributes-section">
       <div class="section-header">{{localize "SCIONS.Colony.Attributes"}}</div>
 
+      {{!-- Validation Warnings --}}
+      {{#unless system.attributeValidation.valid}}
+        <div class="validation-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <strong>Attribute Column Validation Issues:</strong>
+          <ul>
+            {{#each system.attributeValidation.errors as |error|}}
+              <li>{{error}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/unless}}
+
       <div class="attributes-pyramid">
         {{!-- Display ranks from 6 down to 0 --}}
         {{#each (reverse (array 0 1 2 3 4 5 6)) as |rank|}}
-          <div class="attribute-rank" data-rank="{{rank}}">
+          <div class="attribute-rank {{#if (lookup ../system.attributeValidation.invalidRanks rank)}}invalid{{/if}}" data-rank="{{rank}}">
             <div class="rank-label">+{{rank}}</div>
             <div class="rank-attributes">
               {{#each (lookup ../attributesByRank rank) as |attr|}}
