@@ -30,10 +30,18 @@ export class ColonyActor extends Actor {
     const populationAttr = systemData.attributes.find(attr => attr.name === "Population");
     const populationRank = populationAttr ? populationAttr.rank : 0;
 
+    console.log('Colony Actor | Population attribute:', populationAttr);
+    console.log('Colony Actor | Population rank:', populationRank);
+
     // Generate boxes based on population rank (max 6)
     const numBoxes = Math.max(0, Math.min(6, populationRank));
 
+    console.log('Colony Actor | Number of boxes to generate:', numBoxes);
+
     // Initialize boxes array if needed
+    if (!systemData.populationTrack) {
+      systemData.populationTrack = { boxes: [] };
+    }
     if (!systemData.populationTrack.boxes) {
       systemData.populationTrack.boxes = [];
     }
@@ -51,6 +59,8 @@ export class ColonyActor extends Actor {
     if (systemData.populationTrack.boxes.length > numBoxes) {
       systemData.populationTrack.boxes = systemData.populationTrack.boxes.slice(0, numBoxes);
     }
+
+    console.log('Colony Actor | Final boxes:', systemData.populationTrack.boxes);
   }
 
   /**

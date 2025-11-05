@@ -176,15 +176,6 @@ export class ColonySheet extends ActorSheet {
 
     if (!index) return;
 
-    const attribute = this.actor.system.attributes[index];
-
-    // Prevent dragging locked attributes
-    if (attribute.locked) {
-      event.preventDefault();
-      ui.notifications.warn(`Cannot move ${attribute.name} - it is locked.`);
-      return;
-    }
-
     event.dataTransfer.setData("text/plain", JSON.stringify({
       type: "Attribute",
       actorId: this.actor.id,

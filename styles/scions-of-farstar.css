@@ -1271,14 +1271,15 @@
    Colony Sheet Styles
    =========================== */
 
-.colony .aspects-section {
+.colony .aspects-section.colony-aspects {
   display: flex;
+  flex-direction: column;
   gap: 12px;
   margin-bottom: 20px;
 }
 
 .colony .aspect-field {
-  flex: 1;
+  width: 100%;
 }
 
 .colony .aspect-field label {
@@ -1286,6 +1287,14 @@
   font-weight: bold;
   margin-bottom: 4px;
   color: var(--sof-primary);
+}
+
+.colony .aspect-field input[type="text"] {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 /* Attributes Pyramid */
@@ -1422,6 +1431,11 @@
   transition: opacity 0.2s;
   flex-shrink: 0;
   margin-right: 4px;
+}
+
+/* Add spacing for locked attributes (no delete button) */
+.attribute-item .attribute-name.locked {
+  margin-right: 44px;
 }
 
 .attribute-item:hover .delete-attribute {
