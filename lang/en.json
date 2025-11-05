@@ -34,12 +34,11 @@
       "Attributes": "Colony Attributes",
       "AddAttribute": "Add Attribute",
       "LockedAttribute": "This attribute is locked and cannot be renamed or moved",
-      "PopulationTrack": "Population Resources"
+      "PopulationTrack": "Population Track"
     },
     "PopulationTrack": {
       "Legend": "Legend",
-      "Empty": "Empty",
-      "Committed": "Committed",
+      "Ok": "Ok",
       "Expended": "Expended",
       "Thousands": "thousands",
       "TensOfThousands": "tens of thousands",

@@ -1333,6 +1333,16 @@
   text-align: center;
 }
 
+.rank-count {
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+  min-width: 30px;
+  text-align: center;
+  margin-left: auto;
+  padding-right: 8px;
+}
+
 .rank-attributes {
   display: flex;
   flex-wrap: wrap;
@@ -1519,17 +1529,31 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.population-box.committed {
-  background: var(--sof-accent);
-  color: white;
-  border-color: var(--sof-accent);
+.population-box.expended {
+  position: relative;
+  opacity: 0.6;
 }
 
-.population-box.expended {
+.population-box.expended::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 3px;
   background: var(--sof-danger);
-  color: white;
-  border-color: var(--sof-danger);
-  opacity: 0.7;
+  transform: translateY(-50%) rotate(-15deg);
+}
+
+.population-box.expended::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: 3px;
+  background: var(--sof-danger);
+  transform: translateY(-50%) rotate(15deg);
 }
 
 .population-scale {

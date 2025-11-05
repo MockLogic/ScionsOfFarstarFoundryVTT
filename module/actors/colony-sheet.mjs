@@ -152,16 +152,9 @@ export class ColonySheet extends ActorSheet {
 
     if (!boxes[index]) return;
 
-    // Cycle through states: empty -> committed -> expended -> empty
-    if (!boxes[index].committed && !boxes[index].expended) {
-      boxes[index].committed = true;
-    } else if (boxes[index].committed) {
-      boxes[index].committed = false;
-      boxes[index].expended = true;
-    } else {
-      boxes[index].committed = false;
-      boxes[index].expended = false;
-    }
+    // Toggle between ok and expended (no committed state)
+    boxes[index].expended = !boxes[index].expended;
+    boxes[index].committed = false; // Remove committed state entirely
 
     await this.actor.update({ "system.populationTrack.boxes": boxes });
   }

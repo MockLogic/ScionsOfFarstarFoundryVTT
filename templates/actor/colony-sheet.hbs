@@ -60,6 +60,9 @@
                 </button>
               {{/if}}
             </div>
+            {{#if (gt rank 0)}}
+              <div class="rank-count">({{(lookup ../attributesByRank rank).length}})</div>
+            {{/if}}
           </div>
         {{/each}}
       </div>
@@ -69,12 +72,12 @@
     <div class="population-track-section">
       <div class="section-header">
         {{localize "SCIONS.Colony.PopulationTrack"}}
-        <span class="track-legend">{{localize "SCIONS.PopulationTrack.Legend"}}: {{localize "SCIONS.PopulationTrack.Empty"}} → {{localize "SCIONS.PopulationTrack.Committed"}} → {{localize "SCIONS.PopulationTrack.Expended"}}</span>
+        <span class="track-legend">{{localize "SCIONS.PopulationTrack.Legend"}}: {{localize "SCIONS.PopulationTrack.Ok"}} → {{localize "SCIONS.PopulationTrack.Expended"}}</span>
       </div>
       <div class="population-track">
         {{#each system.populationTrack.boxes as |box index|}}
           <div class="population-box-container">
-            <div class="population-box {{#if box.committed}}committed{{/if}} {{#if box.expended}}expended{{/if}}"
+            <div class="population-box {{#if box.expended}}expended{{/if}}"
                  data-index="{{index}}">
               <span class="box-number">{{box.value}}</span>
             </div>
