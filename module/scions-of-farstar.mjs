@@ -98,17 +98,49 @@ Hooks.once('init', async function() {
   // Register custom Handlebars helpers
   registerHandlebarsHelpers();
 
-  // Create a proxy Actor class that routes to the correct subclass
+  // Create a unified Actor class with all methods from both actor types
   class ScionsActor extends Actor {
+    prepareData() {
+      super.prepareData();
+      // Call type-specific prepareData if it exists
+      if (this.type === "faction-scion" && FactionScionActor.prototype.prepareData !== Actor.prototype.prepareData) {
+        FactionScionActor.prototype.prepareData.call(this);
+      } else if (this.type === "colony" && ColonyActor.prototype.prepareData !== Actor.prototype.prepareData) {
+        ColonyActor.prototype.prepareData.call(this);
+      }
+    }
+
     prepareDerivedData() {
       super.prepareDerivedData();
 
-      // Route to the appropriate actor class based on type
+      // Call type-specific prepareDerivedData
       if (this.type === "faction-scion") {
-        FactionScionActor.prototype.prepareDerivedData.call(this);
+        this._prepareScionData(this.system);
+        this._prepareFactionData(this.system);
       } else if (this.type === "colony") {
-        ColonyActor.prototype.prepareDerivedData.call(this);
+        this._preparePopulationTrack(this.system);
       }
+    }
+
+    // FactionScionActor methods
+    _prepareScionData(systemData) {
+      return FactionScionActor.prototype._prepareScionData.call(this, systemData);
+    }
+
+    _prepareFactionData(systemData) {
+      return FactionScionActor.prototype._prepareFactionData.call(this, systemData);
+    }
+
+    validateSkillPyramid() {
+      return FactionScionActor.prototype.validateSkillPyramid.call(this);
+    }
+
+    validateCapabilityPyramid() {
+      return FactionScionActor.prototype.validateCapabilityPyramid.call(this);
+    }
+
+    _validatePyramid(items, maxRating, type) {
+      return FactionScionActor.prototype._validatePyramid.call(this, items, maxRating, type);
     }
 
     async modifyTokenAttribute(attribute, value, isDelta, isBar) {
@@ -118,6 +150,19 @@ Hooks.once('init', async function() {
       return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
     }
 
+    async _preCreate(data, options, user) {
+      await super._preCreate(data, options, user);
+      if (this.type === "faction-scion") {
+        return FactionScionActor.prototype._preCreate.call(this, data, options, user);
+      }
+    }
+
+    // ColonyActor methods
+    _preparePopulationTrack(systemData) {
+      return ColonyActor.prototype._preparePopulationTrack.call(this, systemData);
+    }
+
+    // Shared rollFateDice method
     async rollFateDice(skillOrCap, modifier, label, speakerName) {
       if (this.type === "faction-scion") {
         return FactionScionActor.prototype.rollFateDice.call(this, skillOrCap, modifier, label, speakerName);
@@ -127,7 +172,7 @@ Hooks.once('init', async function() {
     }
   }
 
-  // Register the proxy Actor class
+  // Register the unified Actor class
   CONFIG.Actor.documentClass = ScionsActor;
 
   // Register sheet application classes
