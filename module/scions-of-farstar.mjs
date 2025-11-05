@@ -74,13 +74,13 @@ Hooks.once('init', async function() {
     },
 
     /**
-     * Get the expected capability total (starting + major milestones)
+     * Get the expected capability total (starting + significant milestones)
      * @returns {number} Expected capability total
      */
     getExpectedCapabilityTotal: function() {
       const starting = game.settings.get('scions-of-farstar', 'startingCapabilityTotal');
-      const majorMilestones = game.settings.get('scions-of-farstar', 'majorMilestones');
-      return starting + majorMilestones;
+      const significantMilestones = game.settings.get('scions-of-farstar', 'significantMilestones');
+      return starting + significantMilestones;
     }
   };
 
@@ -132,7 +132,7 @@ function registerSystemSettings() {
 
   game.settings.register('scions-of-farstar', 'significantMilestones', {
     name: 'Significant Milestones',
-    hint: 'Number of Significant Milestones achieved (each allows +1 to a Faction Capability)',
+    hint: 'Number of Significant Milestones achieved (each adds +1 capability point to the expected total)',
     scope: 'world',
     config: true,
     type: Number,
@@ -146,7 +146,7 @@ function registerSystemSettings() {
 
   game.settings.register('scions-of-farstar', 'majorMilestones', {
     name: 'Major Milestones',
-    hint: 'Number of Major Milestones achieved (each increases Max Capability by +1)',
+    hint: 'Number of Major Milestones achieved (each increases max capability rating by +1)',
     scope: 'world',
     config: true,
     type: Number,

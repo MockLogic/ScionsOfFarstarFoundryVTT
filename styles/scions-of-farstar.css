@@ -656,10 +656,11 @@
 }
 
 .track-legend-inline {
-  font-size: 10px;
-  color: var(--sof-secondary);
+  font-size: 11px;
+  color: #888;
   font-style: italic;
   font-weight: normal;
+  white-space: nowrap;
 }
 
 /* Editor Container for Notes Tab */
