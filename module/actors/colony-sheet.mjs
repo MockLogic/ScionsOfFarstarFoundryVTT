@@ -11,6 +11,7 @@ export class ColonySheet extends ActorSheet {
       template: "systems/scions-of-farstar/templates/actor/colony-sheet.hbs",
       width: 720,
       height: 800,
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main" }],
       dragDrop: [{ dragSelector: ".attribute-item", dropSelector: ".attribute-rank" }]
     });
   }
