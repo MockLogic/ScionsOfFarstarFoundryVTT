@@ -10,6 +10,19 @@
     </div>
   </header>
 
+  {{!-- Aspects Section (Always Visible) --}}
+  <div class="aspects-section colony-aspects">
+    <div class="aspect-field">
+      <label>{{localize "SCIONS.Aspects.HighConcept"}}</label>
+      <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="{{localize 'SCIONS.Aspects.HighConceptPlaceholder'}}"/>
+    </div>
+
+    <div class="aspect-field">
+      <label>{{localize "SCIONS.Aspects.Trouble"}}</label>
+      <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Aspects.TroublePlaceholder'}}"/>
+    </div>
+  </div>
+
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="main">{{localize "SCIONS.Tabs.Main"}}</a>
@@ -22,19 +35,6 @@
 
     {{!-- Main Tab --}}
     <div class="tab main-tab" data-group="primary" data-tab="main">
-
-    {{!-- Aspects Section --}}
-    <div class="aspects-section colony-aspects">
-      <div class="aspect-field">
-        <label>{{localize "SCIONS.Aspects.HighConcept"}}</label>
-        <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="{{localize 'SCIONS.Aspects.HighConceptPlaceholder'}}"/>
-      </div>
-
-      <div class="aspect-field">
-        <label>{{localize "SCIONS.Aspects.Trouble"}}</label>
-        <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Aspects.TroublePlaceholder'}}"/>
-      </div>
-    </div>
 
     {{!-- Attributes Pyramid --}}
     <div class="attributes-section">
