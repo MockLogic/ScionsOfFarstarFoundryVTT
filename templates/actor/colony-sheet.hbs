@@ -61,7 +61,7 @@
               {{/if}}
             </div>
             {{#if (gt rank 0)}}
-              <div class="rank-count">({{(lookup ../attributesByRank rank).length}})</div>
+              <div class="rank-count">({{lookup ../rankCounts rank}})</div>
             {{/if}}
           </div>
         {{/each}}

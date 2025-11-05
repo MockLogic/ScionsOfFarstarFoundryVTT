@@ -2,7 +2,7 @@
  * Colony Actor Sheet
  * Handles the UI for colony management
  */
-export class ColonySheet extends ActorSheet {
+export class ColonySheet extends foundry.applications.sheets.ActorSheetV2 {
 
   /** @override */
   static get defaultOptions() {
@@ -25,6 +25,12 @@ export class ColonySheet extends ActorSheet {
 
     // Organize attributes by rank for pyramid display
     context.attributesByRank = this._organizeAttributesByRank(context.system.attributes);
+
+    // Calculate counts for each rank
+    context.rankCounts = {};
+    for (let rank = 0; rank <= 6; rank++) {
+      context.rankCounts[rank] = context.attributesByRank[rank].length;
+    }
 
     return context;
   }

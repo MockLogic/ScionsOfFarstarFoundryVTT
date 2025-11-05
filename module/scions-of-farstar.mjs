@@ -176,15 +176,15 @@ Hooks.once('init', async function() {
   CONFIG.Actor.documentClass = ScionsActor;
 
   // Register sheet application classes
-  DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.applications.sheets.ActorSheetV2);
+  foundry.applications.apps.DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.applications.sheets.ActorSheetV2);
 
-  DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", FactionScionSheet, {
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", FactionScionSheet, {
     types: ["faction-scion"],
     makeDefault: true,
     label: "SCIONS.ActorTypes.faction-scion"
   });
 
-  DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", ColonySheet, {
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", ColonySheet, {
     types: ["colony"],
     makeDefault: true,
     label: "SCIONS.ActorTypes.colony"
