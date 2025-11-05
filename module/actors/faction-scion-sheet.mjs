@@ -59,26 +59,76 @@ export class FactionScionSheet extends ActorSheet {
 
   /** @override */
   async _updateObject(event, formData) {
+    // Save all ProseMirror editor content first
+    this._saveProseMirrorEditors();
+
     // Expand the formData to handle arrays properly
     const expandedData = foundry.utils.expandObject(formData);
 
     // Ensure stunts and extras arrays are properly handled
     if (expandedData.system?.faction?.stunts) {
-      // Convert the stunts object back to an array
+      // Convert the stunts object back to an array, preserving existing descriptions
       const stuntsObj = expandedData.system.faction.stunts;
       const stuntsArray = Object.values(stuntsObj);
+
+      // Merge with existing stunt data to preserve rich text descriptions
+      const currentStunts = this.actor.system.faction.stunts || [];
+      stuntsArray.forEach((stunt, index) => {
+        if (currentStunts[index] && !stunt.description) {
+          stunt.description = currentStunts[index].description;
+        }
+      });
+
       expandedData.system.faction.stunts = stuntsArray;
     }
 
     if (expandedData.system?.faction?.extras) {
-      // Convert the extras object back to an array
+      // Convert the extras object back to an array, preserving existing descriptions
       const extrasObj = expandedData.system.faction.extras;
       const extrasArray = Object.values(extrasObj);
+
+      // Merge with existing extra data to preserve rich text descriptions
+      const currentExtras = this.actor.system.faction.extras || [];
+      extrasArray.forEach((extra, index) => {
+        if (currentExtras[index] && !extra.description) {
+          extra.description = currentExtras[index].description;
+        }
+      });
+
       expandedData.system.faction.extras = extrasArray;
     }
 
     // Update the actor with the expanded data
     return this.actor.update(expandedData);
+  }
+
+  /**
+   * Save all ProseMirror editor content before form submission
+   * This ensures rich text content is captured in the form data
+   */
+  _saveProseMirrorEditors() {
+    // Find all ProseMirror editor elements in the sheet
+    const editors = this.element.find('.editor-content[data-edit]');
+
+    editors.each((i, el) => {
+      const $editor = $(el);
+      const fieldName = $editor.attr('data-edit');
+
+      // Get the ProseMirror instance for this editor
+      const editorInstance = this.editors?.[fieldName];
+
+      if (editorInstance) {
+        // Save the editor content back to the element
+        // This updates the hidden input field that will be included in formData
+        if (editorInstance.instance) {
+          const content = editorInstance.instance.getHTML?.() || editorInstance.instance.innerHTML || '';
+          const input = this.element.find(`input[name="${fieldName}"], textarea[name="${fieldName}"]`);
+          if (input.length) {
+            input.val(content);
+          }
+        }
+      }
+    });
   }
 
   /**

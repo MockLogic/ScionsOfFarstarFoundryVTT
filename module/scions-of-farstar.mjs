@@ -50,6 +50,14 @@ Hooks.once('init', async function() {
     },
 
     /**
+     * Get the number of major milestones
+     * @returns {number} Major milestones count
+     */
+    getMajorMilestones: function() {
+      return game.settings.get('scions-of-farstar', 'majorMilestones');
+    },
+
+    /**
      * Get the max skill rating
      * @returns {number} Max skill rating
      */

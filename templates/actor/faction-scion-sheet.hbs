@@ -304,17 +304,21 @@
         <div class="validation-warning">⚠ {{localize "SCIONS.Validation.TooManyStunts"}}</div>
       {{/unless}}
 
-      {{#each system.faction.stunts as |stunt index|}}
-        <div class="stunt-item">
-          <div class="stunt-header">
-            <input type="text" class="stunt-name" name="system.faction.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="{{localize 'SCIONS.Stunts.NamePlaceholder'}}"/>
-            <button type="button" class="stunt-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
+      {{#if (hasItems system.faction.stunts)}}
+        {{#each system.faction.stunts as |stunt index|}}
+          <div class="stunt-item">
+            <div class="stunt-header">
+              <input type="text" class="stunt-name" name="system.faction.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="{{localize 'SCIONS.Stunts.NamePlaceholder'}}"/>
+              <button type="button" class="stunt-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="stunt-description">
+              {{editor stunt.description target=(concat "system.faction.stunts." index ".description") button=true owner=owner editable=editable}}
+            </div>
           </div>
-          <div class="stunt-description">
-            {{editor stunt.description target=(concat "system.faction.stunts." index ".description") button=true owner=owner editable=editable}}
-          </div>
-        </div>
-      {{/each}}
+        {{/each}}
+      {{else}}
+        <div class="empty-message">No stunts yet. Click the button below to add your first stunt.</div>
+      {{/if}}
 
       <button type="button" class="add-item-button stunt-add">
         <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddStunt"}}
@@ -325,17 +329,21 @@
     <div class="tab extras-tab" data-group="primary" data-tab="extras">
       <div class="section-header">{{localize "SCIONS.Faction.Extras"}}</div>
 
-      {{#each system.faction.extras as |extra index|}}
-        <div class="extra-item">
-          <div class="extra-header">
-            <input type="text" class="extra-name" name="system.faction.extras.{{index}}.name" value="{{extra.name}}" placeholder="{{localize 'SCIONS.Extras.NamePlaceholder'}}"/>
-            <button type="button" class="extra-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
+      {{#if (hasItems system.faction.extras)}}
+        {{#each system.faction.extras as |extra index|}}
+          <div class="extra-item">
+            <div class="extra-header">
+              <input type="text" class="extra-name" name="system.faction.extras.{{index}}.name" value="{{extra.name}}" placeholder="{{localize 'SCIONS.Extras.NamePlaceholder'}}"/>
+              <button type="button" class="extra-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="extra-description">
+              {{editor extra.description target=(concat "system.faction.extras." index ".description") button=true owner=owner editable=editable}}
+            </div>
           </div>
-          <div class="extra-description">
-            {{editor extra.description target=(concat "system.faction.extras." index ".description") button=true owner=owner editable=editable}}
-          </div>
-        </div>
-      {{/each}}
+        {{/each}}
+      {{else}}
+        <div class="empty-message">No extras yet. Click the button below to add an extra.</div>
+      {{/if}}
 
       <button type="button" class="add-item-button extra-add">
         <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddExtra"}}

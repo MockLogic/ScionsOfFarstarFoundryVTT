@@ -215,11 +215,11 @@ export class FactionScionActor extends Actor {
     faction.stuntCount = faction.stunts.filter(s => s.name || s.description).length;
 
     // Calculate Refresh
-    // Formula: 3 + Significant Milestones - Extra Stunts (beyond 3)
+    // Formula: 3 + Major Milestones - Extra Stunts (beyond 3)
     // Allow negative values to show when too many stunts are taken
-    const significantMilestones = game.scionsOfFarstar.getSignificantMilestones();
+    const majorMilestones = game.scionsOfFarstar.getMajorMilestones();
     const extraStunts = Math.max(0, faction.stuntCount - 3);
-    const calculatedRefresh = 3 + significantMilestones - extraStunts;
+    const calculatedRefresh = 3 + majorMilestones - extraStunts;
 
     // Auto-update refresh value (no minimum, can go negative)
     faction.refresh.value = calculatedRefresh;

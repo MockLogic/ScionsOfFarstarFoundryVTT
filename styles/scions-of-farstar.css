@@ -1255,3 +1255,14 @@
 .extras-tab {
   min-height: 0;
 }
+
+/* Empty state message */
+.empty-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: #95a5a6;
+  font-style: italic;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  margin: 20px 0;
+}
