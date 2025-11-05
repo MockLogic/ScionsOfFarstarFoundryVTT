@@ -19,20 +19,12 @@ export class ColonySheet extends ActorSheet {
   async getData(options) {
     const context = super.getData(options);
 
-    // Use a safe clone of actor data for manipulation
-    const actorData = this.actor.toObject(false);
-
-    // Add system data for easy access
-    context.system = actorData.system;
-    context.flags = actorData.flags;
+    // Use the actor's system data directly to include derived data
+    context.system = this.actor.system;
+    context.flags = this.actor.flags;
 
     // Organize attributes by rank for pyramid display
     context.attributesByRank = this._organizeAttributesByRank(context.system.attributes);
-
-    // Enrich text fields (for rich text editors)
-    const enrichHTML = foundry.applications?.ux?.TextEditor?.implementation?.enrichHTML || TextEditor.enrichHTML;
-    context.enrichedHighConcept = await enrichHTML(context.system.aspects.highConcept.value, { async: true });
-    context.enrichedTrouble = await enrichHTML(context.system.aspects.trouble.value, { async: true });
 
     return context;
   }

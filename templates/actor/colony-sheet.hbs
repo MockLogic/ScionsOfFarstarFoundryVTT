@@ -3,7 +3,7 @@
   {{!-- Sheet Header --}}
   <header class="sheet-header">
     <div class="header-fields">
-      <div class="field-group">
+      <div class="field-group colony-name-field">
         <label>{{localize "SCIONS.Colony.ColonyName"}}</label>
         <input type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'SCIONS.Colony.ColonyNamePlaceholder'}}"/>
       </div>
@@ -17,16 +17,12 @@
     <div class="aspects-section">
       <div class="aspect-field">
         <label>{{localize "SCIONS.Aspects.HighConcept"}}</label>
-        <div class="editor-container">
-          {{editor system.aspects.highConcept.value target="system.aspects.highConcept.value" button=false owner=owner editable=editable}}
-        </div>
+        <input type="text" name="system.aspects.highConcept.value" value="{{system.aspects.highConcept.value}}" placeholder="{{localize 'SCIONS.Aspects.HighConceptPlaceholder'}}"/>
       </div>
 
       <div class="aspect-field">
         <label>{{localize "SCIONS.Aspects.Trouble"}}</label>
-        <div class="editor-container">
-          {{editor system.aspects.trouble.value target="system.aspects.trouble.value" button=false owner=owner editable=editable}}
-        </div>
+        <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Aspects.TroublePlaceholder'}}"/>
       </div>
     </div>
 

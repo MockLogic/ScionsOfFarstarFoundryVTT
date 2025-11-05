@@ -1336,15 +1336,26 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 10px;
+  padding: 0;
   background: white;
   border: 1px solid var(--sof-border);
   border-radius: 4px;
-  cursor: grab;
   transition: all 0.2s;
+  overflow: hidden;
 }
 
-.attribute-item:active {
+.attribute-item::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(to bottom, #95a5a6 0%, #7f8c8d 100%);
+  cursor: grab;
+  flex-shrink: 0;
+  border-right: 1px solid var(--sof-border);
+}
+
+.attribute-item:active::before {
   cursor: grabbing;
 }
 
@@ -1353,15 +1364,22 @@
   transform: translateY(-1px);
 }
 
+.attribute-item:hover::before {
+  background: linear-gradient(to bottom, var(--sof-accent) 0%, #2980b9 100%);
+}
+
 .attribute-item .roll-button {
-  padding: 4px 8px;
+  width: 40px;
+  height: 32px;
+  padding: 0;
   font-size: 14px;
   background: var(--sof-accent);
   color: white;
   border: none;
-  border-radius: 3px;
   cursor: pointer;
   transition: background 0.2s;
+  flex-shrink: 0;
+  margin-left: 6px;
 }
 
 .attribute-item .roll-button:hover {
@@ -1374,8 +1392,9 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--sof-primary);
-  padding: 0;
+  padding: 6px 8px;
   min-width: 80px;
+  flex: 1;
 }
 
 .attribute-item .attribute-name.locked {
@@ -1390,14 +1409,18 @@
 }
 
 .attribute-item .delete-attribute {
-  padding: 2px 6px;
-  font-size: 12px;
+  width: 40px;
+  height: 32px;
+  padding: 0;
+  font-size: 14px;
   background: transparent;
   color: var(--sof-danger);
   border: none;
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s;
+  flex-shrink: 0;
+  margin-right: 4px;
 }
 
 .attribute-item:hover .delete-attribute {
@@ -1406,6 +1429,7 @@
 
 .attribute-item .delete-attribute:hover {
   color: #c0392b;
+  background: rgba(231, 76, 60, 0.1);
 }
 
 .add-attribute {
@@ -1416,10 +1440,11 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   transition: background 0.2s;
+  width: auto;
 }
 
 .add-attribute:hover {

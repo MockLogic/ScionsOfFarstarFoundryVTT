@@ -64,6 +64,12 @@
       "People": "People",
       "Technology": "Technology"
     },
+    "Aspects": {
+      "HighConcept": "High Concept",
+      "HighConceptPlaceholder": "Enter high concept",
+      "Trouble": "Trouble",
+      "TroublePlaceholder": "Enter trouble"
+    },
     "AgeTrack": {
       "Youthful": "Youthful (16-29)",
       "Seasoned": "Seasoned (30-49)",
