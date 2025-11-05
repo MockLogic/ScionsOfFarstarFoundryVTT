@@ -98,14 +98,37 @@ Hooks.once('init', async function() {
   // Register custom Handlebars helpers
   registerHandlebarsHelpers();
 
-  // Register custom Document classes
-  CONFIG.Actor.documentClass = FactionScionActor;
+  // Create a proxy Actor class that routes to the correct subclass
+  class ScionsActor extends Actor {
+    prepareDerivedData() {
+      super.prepareDerivedData();
 
-  // Register actor type classes
-  CONFIG.Actor.documentClasses = {
-    "faction-scion": FactionScionActor,
-    "colony": ColonyActor
-  };
+      // Route to the appropriate actor class based on type
+      if (this.type === "faction-scion") {
+        FactionScionActor.prototype.prepareDerivedData.call(this);
+      } else if (this.type === "colony") {
+        ColonyActor.prototype.prepareDerivedData.call(this);
+      }
+    }
+
+    async modifyTokenAttribute(attribute, value, isDelta, isBar) {
+      if (this.type === "faction-scion") {
+        return FactionScionActor.prototype.modifyTokenAttribute.call(this, attribute, value, isDelta, isBar);
+      }
+      return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+    }
+
+    async rollFateDice(skillOrCap, modifier, label, speakerName) {
+      if (this.type === "faction-scion") {
+        return FactionScionActor.prototype.rollFateDice.call(this, skillOrCap, modifier, label, speakerName);
+      } else if (this.type === "colony") {
+        return ColonyActor.prototype.rollFateDice.call(this, skillOrCap, modifier, label, speakerName);
+      }
+    }
+  }
+
+  // Register the proxy Actor class
+  CONFIG.Actor.documentClass = ScionsActor;
 
   // Register sheet application classes
   DocumentSheetConfig.unregisterSheet(Actor, "core", foundry.applications.sheets.ActorSheetV2);
