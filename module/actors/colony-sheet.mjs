@@ -225,7 +225,7 @@ export class ColonySheet extends ActorSheet {
    */
   async _onAddExtra(event) {
     event.preventDefault();
-    const extras = [...this.actor.system.extras];
+    const extras = [...(this.actor.system.extras || [])];
     extras.push({ name: "", description: "" });
     await this.actor.update({ 'system.extras': extras });
   }
@@ -237,7 +237,7 @@ export class ColonySheet extends ActorSheet {
   async _onDeleteExtra(event) {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
-    const extras = [...this.actor.system.extras];
+    const extras = [...(this.actor.system.extras || [])];
     extras.splice(index, 1);
     await this.actor.update({ 'system.extras': extras });
   }
