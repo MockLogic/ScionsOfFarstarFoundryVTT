@@ -71,6 +71,9 @@ export class ColonyActor extends Actor {
    * @param {Object} systemData - The actor's system data
    */
   _validateAttributeColumn(systemData) {
+    console.log('Colony Actor | Validating attribute column');
+    console.log('Colony Actor | Attributes:', systemData.attributes);
+
     // Count attributes at each rank (1-6, excluding rank 0)
     const rankCounts = {};
     for (let rank = 1; rank <= 6; rank++) {
@@ -79,10 +82,13 @@ export class ColonyActor extends Actor {
 
     systemData.attributes.forEach(attr => {
       const rank = attr.rank;
+      console.log(`Colony Actor | Attribute "${attr.name}" at rank ${rank}`);
       if (rank >= 1 && rank <= 6) {
         rankCounts[rank]++;
       }
     });
+
+    console.log('Colony Actor | Rank counts:', rankCounts);
 
     // Validate column structure: can't have more at a rank than the rank below
     systemData.attributeValidation = {
@@ -95,7 +101,10 @@ export class ColonyActor extends Actor {
       const currentCount = rankCounts[rank];
       const belowCount = rankCounts[rank - 1];
 
+      console.log(`Colony Actor | Checking rank ${rank}: ${currentCount} vs rank ${rank-1}: ${belowCount}`);
+
       if (currentCount > belowCount) {
+        console.log(`Colony Actor | VIOLATION at rank ${rank}`);
         systemData.attributeValidation.valid = false;
         systemData.attributeValidation.errors.push(
           `Column violation: ${currentCount} attribute(s) at +${rank} but only ${belowCount} at +${rank - 1}`
@@ -103,6 +112,8 @@ export class ColonyActor extends Actor {
         systemData.attributeValidation.invalidRanks[rank] = true;
       }
     }
+
+    console.log('Colony Actor | Validation result:', systemData.attributeValidation);
 
     // Store counts for display
     systemData.attributeRankCounts = rankCounts;

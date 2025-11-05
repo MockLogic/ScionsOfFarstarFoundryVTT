@@ -113,12 +113,16 @@ Hooks.once('init', async function() {
     prepareDerivedData() {
       super.prepareDerivedData();
 
+      console.log('ScionsActor | prepareDerivedData called for type:', this.type);
+
       // Call type-specific prepareDerivedData
       if (this.type === "faction-scion") {
         this._prepareScionData(this.system);
         this._prepareFactionData(this.system);
       } else if (this.type === "colony") {
+        console.log('ScionsActor | Calling colony-specific methods');
         this._preparePopulationTrack(this.system);
+        this._validateAttributeColumn(this.system);
       }
     }
 
@@ -160,6 +164,10 @@ Hooks.once('init', async function() {
     // ColonyActor methods
     _preparePopulationTrack(systemData) {
       return ColonyActor.prototype._preparePopulationTrack.call(this, systemData);
+    }
+
+    _validateAttributeColumn(systemData) {
+      return ColonyActor.prototype._validateAttributeColumn.call(this, systemData);
     }
 
     // Shared rollFateDice method
