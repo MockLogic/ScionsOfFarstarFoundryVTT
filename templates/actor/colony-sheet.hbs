@@ -1,0 +1,101 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="field-group">
+        <label>{{localize "SCIONS.Colony.ColonyName"}}</label>
+        <input type="text" name="name" value="{{actor.name}}" placeholder="{{localize 'SCIONS.Colony.ColonyNamePlaceholder'}}"/>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Aspects Section --}}
+    <div class="aspects-section">
+      <div class="aspect-field">
+        <label>{{localize "SCIONS.Aspects.HighConcept"}}</label>
+        <div class="editor-container">
+          {{editor system.aspects.highConcept.value target="system.aspects.highConcept.value" button=false owner=owner editable=editable}}
+        </div>
+      </div>
+
+      <div class="aspect-field">
+        <label>{{localize "SCIONS.Aspects.Trouble"}}</label>
+        <div class="editor-container">
+          {{editor system.aspects.trouble.value target="system.aspects.trouble.value" button=false owner=owner editable=editable}}
+        </div>
+      </div>
+    </div>
+
+    {{!-- Attributes Pyramid --}}
+    <div class="attributes-section">
+      <div class="section-header">{{localize "SCIONS.Colony.Attributes"}}</div>
+
+      <div class="attributes-pyramid">
+        {{!-- Display ranks from 6 down to 0 --}}
+        {{#each (reverse (array 0 1 2 3 4 5 6)) as |rank|}}
+          <div class="attribute-rank" data-rank="{{rank}}">
+            <div class="rank-label">+{{rank}}</div>
+            <div class="rank-attributes">
+              {{#each (lookup ../attributesByRank rank) as |attr|}}
+                <div class="attribute-item" data-index="{{attr.index}}" draggable="{{#unless attr.locked}}true{{else}}false{{/unless}}">
+                  <button type="button" class="roll-button roll-attribute" title="{{localize 'SCIONS.Actions.Roll'}}">
+                    <i class="fas fa-dice-d6"></i>
+                  </button>
+                  <input type="text"
+                         class="attribute-name {{#if attr.locked}}locked{{/if}}"
+                         value="{{attr.name}}"
+                         {{#if attr.locked}}readonly{{/if}}
+                         title="{{#if attr.locked}}{{localize 'SCIONS.Colony.LockedAttribute'}}{{/if}}"/>
+                  {{#unless attr.locked}}
+                    <button type="button" class="delete-attribute" title="{{localize 'SCIONS.Actions.Delete'}}">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  {{/unless}}
+                </div>
+              {{/each}}
+              {{!-- Add attribute button in rank 0 --}}
+              {{#if (eq rank 0)}}
+                <button type="button" class="add-attribute" title="{{localize 'SCIONS.Colony.AddAttribute'}}">
+                  <i class="fas fa-plus"></i> {{localize "SCIONS.Colony.AddAttribute"}}
+                </button>
+              {{/if}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Population Track --}}
+    <div class="population-track-section">
+      <div class="section-header">
+        {{localize "SCIONS.Colony.PopulationTrack"}}
+        <span class="track-legend">{{localize "SCIONS.PopulationTrack.Legend"}}: {{localize "SCIONS.PopulationTrack.Empty"}} → {{localize "SCIONS.PopulationTrack.Committed"}} → {{localize "SCIONS.PopulationTrack.Expended"}}</span>
+      </div>
+      <div class="population-track">
+        {{#each system.populationTrack.boxes as |box index|}}
+          <div class="population-box-container">
+            <div class="population-box {{#if box.committed}}committed{{/if}} {{#if box.expended}}expended{{/if}}"
+                 data-index="{{index}}">
+              <span class="box-number">{{box.value}}</span>
+            </div>
+            <div class="population-scale">
+              {{#if (eq box.value 1)}}{{localize "SCIONS.PopulationTrack.Thousands"}}
+              {{else if (eq box.value 2)}}{{localize "SCIONS.PopulationTrack.TensOfThousands"}}
+              {{else if (eq box.value 3)}}{{localize "SCIONS.PopulationTrack.HundredsOfThousands"}}
+              {{else if (eq box.value 4)}}{{localize "SCIONS.PopulationTrack.Millions"}}
+              {{else if (eq box.value 5)}}{{localize "SCIONS.PopulationTrack.TensOfMillions"}}
+              {{else if (eq box.value 6)}}{{localize "SCIONS.PopulationTrack.HundredsOfMillions"}}
+              {{/if}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+  </section>
+
+</form>

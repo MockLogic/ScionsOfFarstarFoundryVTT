@@ -28,6 +28,26 @@
       "RefreshHint": "Refresh = 3 + Significant Milestones - Extra Stunts",
       "FatePoints": "Fate Points"
     },
+    "Colony": {
+      "ColonyName": "Colony Name",
+      "ColonyNamePlaceholder": "Enter colony name",
+      "Attributes": "Colony Attributes",
+      "AddAttribute": "Add Attribute",
+      "LockedAttribute": "This attribute is locked and cannot be renamed or moved",
+      "PopulationTrack": "Population Resources"
+    },
+    "PopulationTrack": {
+      "Legend": "Legend",
+      "Empty": "Empty",
+      "Committed": "Committed",
+      "Expended": "Expended",
+      "Thousands": "thousands",
+      "TensOfThousands": "tens of thousands",
+      "HundredsOfThousands": "hundreds of thousands",
+      "Millions": "millions",
+      "TensOfMillions": "tens of millions",
+      "HundredsOfMillions": "hundreds of millions"
+    },
     "Skills": {
       "Academics": "Academics",
       "Combat": "Combat",

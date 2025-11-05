@@ -6,12 +6,12 @@
 // Import actor classes
 import { FactionScionActor } from "./actors/faction-scion-actor.mjs";
 // import { ThreatActor } from "./actors/threat-actor.mjs";
-// import { ColonyActor } from "./actors/colony-actor.mjs";
+import { ColonyActor } from "./actors/colony-actor.mjs";
 
 // Import sheet classes
 import { FactionScionSheet } from "./actors/faction-scion-sheet.mjs";
 // import { ThreatSheet } from "./actors/threat-sheet.mjs";
-// import { ColonySheet } from "./actors/colony-sheet.mjs";
+import { ColonySheet } from "./actors/colony-sheet.mjs";
 
 /**
  * Initialize the Scions of FarStar system
@@ -101,12 +101,25 @@ Hooks.once('init', async function() {
   // Register custom Document classes
   CONFIG.Actor.documentClass = FactionScionActor;
 
+  // Register actor type classes
+  CONFIG.Actor.documentClasses = {
+    "faction-scion": FactionScionActor,
+    "colony": ColonyActor
+  };
+
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
+
   Actors.registerSheet("scions-of-farstar", FactionScionSheet, {
     types: ["faction-scion"],
     makeDefault: true,
     label: "SCIONS.ActorTypes.faction-scion"
+  });
+
+  Actors.registerSheet("scions-of-farstar", ColonySheet, {
+    types: ["colony"],
+    makeDefault: true,
+    label: "SCIONS.ActorTypes.colony"
   });
 
   console.log('Scions of FarStar | System initialized');
@@ -317,6 +330,17 @@ function registerHandlebarsHelpers() {
       10: '1m+'
     };
     return populations[rating] || '';
+  });
+
+  // Helper to create an array from arguments
+  Handlebars.registerHelper('array', function() {
+    return Array.prototype.slice.call(arguments, 0, -1);
+  });
+
+  // Helper to reverse an array
+  Handlebars.registerHelper('reverse', function(array) {
+    if (!Array.isArray(array)) return array;
+    return array.slice().reverse();
   });
 }
 

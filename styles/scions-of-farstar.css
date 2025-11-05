@@ -1266,3 +1266,236 @@
   border-radius: 4px;
   margin: 20px 0;
 }
+
+/* ===========================
+   Colony Sheet Styles
+   =========================== */
+
+.colony .aspects-section {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.colony .aspect-field {
+  flex: 1;
+}
+
+.colony .aspect-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: var(--sof-primary);
+}
+
+/* Attributes Pyramid */
+.attributes-section {
+  margin-bottom: 24px;
+}
+
+.attributes-pyramid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attribute-rank {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  border: 2px dashed transparent;
+  transition: all 0.2s;
+}
+
+.attribute-rank.drag-over {
+  border-color: var(--sof-accent);
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.rank-label {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--sof-primary);
+  min-width: 40px;
+  text-align: center;
+}
+
+.rank-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+}
+
+.attribute-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  cursor: grab;
+  transition: all 0.2s;
+}
+
+.attribute-item:active {
+  cursor: grabbing;
+}
+
+.attribute-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.attribute-item .roll-button {
+  padding: 4px 8px;
+  font-size: 14px;
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.attribute-item .roll-button:hover {
+  background: #2980b9;
+}
+
+.attribute-item .attribute-name {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--sof-primary);
+  padding: 0;
+  min-width: 80px;
+}
+
+.attribute-item .attribute-name.locked {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.attribute-item .attribute-name:focus {
+  outline: 1px solid var(--sof-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.attribute-item .delete-attribute {
+  padding: 2px 6px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--sof-danger);
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.attribute-item:hover .delete-attribute {
+  opacity: 1;
+}
+
+.attribute-item .delete-attribute:hover {
+  color: #c0392b;
+}
+
+.add-attribute {
+  padding: 8px 16px;
+  background: var(--sof-success);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+
+.add-attribute:hover {
+  background: #229954;
+}
+
+/* Population Track Section */
+.population-track-section {
+  margin-top: 24px;
+}
+
+.population-track-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.population-track-section .track-legend {
+  font-size: 11px;
+  color: #888;
+  font-style: italic;
+  font-weight: normal;
+}
+
+.population-track {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.population-box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.population-box {
+  width: 50px;
+  height: 50px;
+  border: 2px solid var(--sof-primary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--sof-primary);
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s;
+}
+
+.population-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.population-box.committed {
+  background: var(--sof-accent);
+  color: white;
+  border-color: var(--sof-accent);
+}
+
+.population-box.expended {
+  background: var(--sof-danger);
+  color: white;
+  border-color: var(--sof-danger);
+  opacity: 0.7;
+}
+
+.population-scale {
+  font-size: 9px;
+  color: #888;
+  text-align: center;
+  font-style: italic;
+  min-height: 12px;
+}

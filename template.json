@@ -398,57 +398,42 @@
         },
         "trouble": {
           "value": ""
-        },
-        "aspect3": {
-          "label": "Aspect 3",
-          "value": "",
-          "visible": false
-        },
-        "aspect4": {
-          "label": "Aspect 4",
-          "value": "",
-          "visible": false
-        },
-        "aspect5": {
-          "label": "Aspect 5",
-          "value": "",
-          "visible": false
         }
       },
-      "attributes": {
-        "population": {
-          "label": "Population",
-          "value": 0
+      "attributes": [
+        {
+          "name": "Population",
+          "rank": 1,
+          "locked": true
         },
-        "power": {
-          "label": "Power",
-          "value": 0
+        {
+          "name": "Food",
+          "rank": 1,
+          "locked": false
         },
-        "food": {
-          "label": "Food",
-          "value": 0
+        {
+          "name": "Water",
+          "rank": 1,
+          "locked": false
         },
-        "water": {
-          "label": "Water",
-          "value": 0
+        {
+          "name": "Power",
+          "rank": 2,
+          "locked": false
+        },
+        {
+          "name": "Defense",
+          "rank": 1,
+          "locked": false
+        },
+        {
+          "name": "Housing",
+          "rank": 1,
+          "locked": false
         }
-      },
+      ],
       "populationTrack": {
         "boxes": []
-      },
-      "consequences": {
-        "minor": {
-          "value": "",
-          "treated": false
-        },
-        "moderate": {
-          "value": "",
-          "treated": false
-        },
-        "severe": {
-          "value": "",
-          "treated": false
-        }
       }
     }
   },
