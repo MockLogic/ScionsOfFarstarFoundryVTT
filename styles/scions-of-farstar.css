@@ -203,6 +203,46 @@
   margin-top: 4px;
 }
 
+/* Consequence toggle - gear icon style */
+.consequence-toggle {
+  float: right;
+  font-size: 11px;
+  font-weight: normal;
+  text-transform: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.consequence-toggle:hover {
+  opacity: 1;
+}
+
+.consequence-toggle-icon {
+  font-size: 14px;
+  color: #7f8c8d;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.consequence-toggle-icon.extended {
+  color: var(--sof-accent);
+  transform: rotate(90deg);
+}
+
+.consequence-toggle-label {
+  color: #7f8c8d;
+}
+
+.consequence-reminder {
+  font-size: 11px;
+  color: #7f8c8d;
+  font-style: italic;
+  margin-top: 4px;
+}
+
 /* Growing Stress Track (Fate style) */
 .growing-stress-box {
   display: inline-block;

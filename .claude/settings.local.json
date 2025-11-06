@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e:*)",
       "Bash(\"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\templates\\actor\\threat-sheet.hbs\")",
-      "Bash(\"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\styles\\scions-of-farstar.css\")"
+      "Bash(\"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\styles\\scions-of-farstar.css\")",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

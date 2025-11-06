@@ -263,7 +263,7 @@ When creating new threat, these elements are visible:
   - etc,
 
 **Pyramid Rules:** 
-- Attributes use Fate skill pyramid structure
+- Attributes use Fate skill column structure
 
 #### Population Track
 - Based on Population attribute rating

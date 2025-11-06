@@ -214,6 +214,9 @@ export class FactionScionSheet extends ActorSheet {
     html.find('.stress-size-toggle').click(this._onToggleStressSize.bind(this));
     html.find('.people-box').click(this._onTogglePeople.bind(this));
 
+    // Consequence toggle handler
+    html.find('.consequence-toggle').click(this._onToggleConsequenceSlot.bind(this));
+
     // Age track handlers
     html.find('.age-passed').click(this._onToggleAgePassed.bind(this));
     html.find('.wound-stress-box').click(this._onToggleAgeWound.bind(this));
@@ -308,6 +311,17 @@ export class FactionScionSheet extends ActorSheet {
     await this.actor.update({
       'system.scion.stress.max': newMax,
       'system.scion.stress.boxes': boxes
+    });
+  }
+
+  /**
+   * Toggle the second minor consequence slot on/off
+   */
+  async _onToggleConsequenceSlot(event) {
+    event.preventDefault();
+    const currentEnabled = this.actor.system.consequences.minor2.enabled;
+    await this.actor.update({
+      'system.consequences.minor2.enabled': !currentEnabled
     });
   }
 

@@ -18,6 +18,11 @@
             "value": "",
             "treated": false
           },
+          "minor2": {
+            "value": "",
+            "treated": false,
+            "enabled": false
+          },
           "moderate": {
             "value": "",
             "treated": false
