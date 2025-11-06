@@ -28,7 +28,7 @@
                   <input type="text" name="system.aspects.{{key}}.label" value="{{aspect.label}}" placeholder="Aspect Label" class="aspect-label-edit"/>
                   <label class="aspect-visibility-toggle">
                     <input type="checkbox" class="aspect-visibility-toggle" data-aspect="{{key}}" {{checked aspect.visible}}/>
-                    Visible
+                    {{localize "SCIONS.Labels.Visible"}}
                   </label>
                 </div>
               {{else}}
@@ -58,15 +58,6 @@
     <div class="tab main-tab" data-group="primary" data-tab="main">
       <div class="two-column-layout">
         {{#each sortedSections as |section|}}
-          {{!-- Determine column (alternate left/right) --}}
-          {{#if (eq @index 0)}}
-            <div class="column left-column">
-          {{else if (eq (mod @index 2) 0)}}
-            </div><div class="column left-column">
-          {{else if (eq @index 1)}}
-            </div><div class="column right-column">
-          {{/if}}
-
           {{!-- Render section based on key --}}
           {{#if (eq section.key "capabilitiesColumn")}}
             {{> threatSkillColumn section=section.data columnKey="capabilitiesColumn" editMode=../editMode}}
@@ -84,11 +75,6 @@
             {{> threatLadder section=section.data ladderKey="ladder1" editMode=../editMode}}
           {{else if (eq section.key "ladder2")}}
             {{> threatLadder section=section.data ladderKey="ladder2" editMode=../editMode}}
-          {{/if}}
-
-          {{!-- Close last column at end --}}
-          {{#if (eq @index (subtract @root.sortedSections.length 1))}}
-            </div>
           {{/if}}
         {{/each}}
       </div>
@@ -164,9 +150,9 @@
         <input type="text" name="system.modularSections.{{columnKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="{{columnKey}}" {{checked section.visible}}/>
-          Visible
+          {{localize "SCIONS.Labels.Visible"}}
         </label>
-        <label>Priority: <input type="number" name="system.modularSections.{{columnKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.{{columnKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
         <div class="skill-count-controls">
           <button type="button" class="skill-count-decrement" data-column="{{columnKey}}" title="Decrease">−</button>
           <span>{{section.skillCount}}/8 skills</span>
@@ -190,7 +176,7 @@
             {{/unless}}
             <input type="number" class="skill-value" name="system.modularSections.{{../columnKey}}.skills.{{index}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
             {{#if ../editMode}}
-              <input type="text" class="skill-name-edit" name="system.modularSections.{{../columnKey}}.skills.{{index}}.name" value="{{skill.name}}" placeholder="Skill Name"/>
+              <input type="text" class="skill-name-edit" name="system.modularSections.{{../columnKey}}.skills.{{index}}.name" value="{{skill.name}}" placeholder="{{localize 'SCIONS.Threat.SkillName'}}"/>
             {{else}}
               <span class="skill-label">{{skill.name}}</span>
             {{/if}}
@@ -209,9 +195,9 @@
         <input type="text" name="system.modularSections.singlePointStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="singlePointStress" {{checked section.visible}}/>
-          Visible
+          {{localize "SCIONS.Labels.Visible"}}
         </label>
-        <label>Priority: <input type="number" name="system.modularSections.singlePointStress.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.singlePointStress.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
         <div class="subsection-header">{{section.heading}}</div>
       {{/if}}
@@ -224,11 +210,11 @@
           <input type="text" name="system.modularSections.singlePointStress.track1.label" value="{{section.track1.label}}" class="track-label-edit"/>
           <label>
             <input type="checkbox" class="track-visibility-toggle" data-section="singlePointStress" data-track="track1" {{checked section.track1.visible}}/>
-            Visible
+            {{localize "SCIONS.Labels.Visible"}}
           </label>
           <div class="stress-max-controls">
             <button type="button" class="stress-max-decrement" data-section="singlePointStress" data-track="track1" title="Decrease">−</button>
-            <span>{{section.track1.max}} boxes</span>
+            <span>{{section.track1.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
             <button type="button" class="stress-max-increment" data-section="singlePointStress" data-track="track1" title="Increase">+</button>
           </div>
         {{else}}
@@ -249,11 +235,11 @@
           <input type="text" name="system.modularSections.singlePointStress.track2.label" value="{{section.track2.label}}" class="track-label-edit"/>
           <label>
             <input type="checkbox" class="track-visibility-toggle" data-section="singlePointStress" data-track="track2" {{checked section.track2.visible}}/>
-            Visible
+            {{localize "SCIONS.Labels.Visible"}}
           </label>
           <div class="stress-max-controls">
             <button type="button" class="stress-max-decrement" data-section="singlePointStress" data-track="track2" title="Decrease">−</button>
-            <span>{{section.track2.max}} boxes</span>
+            <span>{{section.track2.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
             <button type="button" class="stress-max-increment" data-section="singlePointStress" data-track="track2" title="Increase">+</button>
           </div>
         {{else}}
@@ -277,9 +263,9 @@
         <input type="text" name="system.modularSections.growingStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="growingStress" {{checked section.visible}}/>
-          Visible
+          {{localize "SCIONS.Labels.Visible"}}
         </label>
-        <label>Priority: <input type="number" name="system.modularSections.growingStress.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.growingStress.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
         <div class="subsection-header">{{section.heading}}</div>
       {{/if}}
@@ -291,7 +277,7 @@
         <input type="text" name="system.modularSections.growingStress.track1.label" value="{{section.track1.label}}" class="track-label-edit"/>
         <div class="stress-max-controls">
           <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track1" title="Decrease">−</button>
-          <span>{{section.track1.max}} boxes</span>
+          <span>{{section.track1.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
           <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track1" title="Increase">+</button>
         </div>
       {{else}}
@@ -313,7 +299,7 @@
         <input type="text" name="system.modularSections.growingStress.track2.label" value="{{section.track2.label}}" class="track-label-edit"/>
         <div class="stress-max-controls">
           <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track2" title="Decrease">−</button>
-          <span>{{section.track2.max}} boxes</span>
+          <span>{{section.track2.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
           <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track2" title="Increase">+</button>
         </div>
       {{else}}
@@ -339,9 +325,9 @@
         <input type="text" name="system.modularSections.consequences.heading" value="{{section.heading}}" class="section-heading-edit"/>
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="consequences" {{checked section.visible}}/>
-          Visible
+          {{localize "SCIONS.Labels.Visible"}}
         </label>
-        <label>Priority: <input type="number" name="system.modularSections.consequences.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.consequences.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
         <div class="subsection-header">{{section.heading}}</div>
       {{/if}}
@@ -351,11 +337,11 @@
     {{#if (or section.minor.visible editMode)}}
       <div class="consequence-box minor {{#if section.minor.value}}active{{/if}} {{#if section.minor.treated}}treated{{/if}}">
         <div class="consequence-header">
-          <label class="consequence-label">Minor (2)</label>
+          <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
           {{#if editMode}}
             <label>
               <input type="checkbox" class="consequence-visibility-toggle" data-consequence="minor" {{checked section.minor.visible}}/>
-              Visible
+              {{localize "SCIONS.Labels.Visible"}}
             </label>
           {{/if}}
           <div class="consequence-status">
@@ -370,11 +356,11 @@
             {{/if}}
             <label class="treated-checkbox">
               <input type="checkbox" name="system.modularSections.consequences.minor.treated" {{checked section.minor.treated}}/>
-              Mark Treated
+              {{localize "SCIONS.Consequences.MarkTreated"}}
             </label>
           </div>
         </div>
-        <input type="text" name="system.modularSections.consequences.minor.value" value="{{section.minor.value}}" placeholder="Minor Consequence"/>
+        <input type="text" name="system.modularSections.consequences.minor.value" value="{{section.minor.value}}" placeholder="{{localize 'SCIONS.Consequences.MinorPlaceholder'}}"/>
       </div>
     {{/if}}
 
@@ -382,11 +368,11 @@
     {{#if (or section.minor2.visible editMode)}}
       <div class="consequence-box minor {{#if section.minor2.value}}active{{/if}} {{#if section.minor2.treated}}treated{{/if}}">
         <div class="consequence-header">
-          <label class="consequence-label">Minor (2)</label>
+          <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
           {{#if editMode}}
             <label>
               <input type="checkbox" class="consequence-visibility-toggle" data-consequence="minor2" {{checked section.minor2.visible}}/>
-              Visible
+              {{localize "SCIONS.Labels.Visible"}}
             </label>
           {{/if}}
           <div class="consequence-status">
@@ -401,11 +387,11 @@
             {{/if}}
             <label class="treated-checkbox">
               <input type="checkbox" name="system.modularSections.consequences.minor2.treated" {{checked section.minor2.treated}}/>
-              Mark Treated
+              {{localize "SCIONS.Consequences.MarkTreated"}}
             </label>
           </div>
         </div>
-        <input type="text" name="system.modularSections.consequences.minor2.value" value="{{section.minor2.value}}" placeholder="Minor Consequence"/>
+        <input type="text" name="system.modularSections.consequences.minor2.value" value="{{section.minor2.value}}" placeholder="{{localize 'SCIONS.Consequences.MinorPlaceholder'}}"/>
       </div>
     {{/if}}
 
@@ -413,11 +399,11 @@
     {{#if (or section.moderate.visible editMode)}}
       <div class="consequence-box {{#if section.moderate.value}}active{{/if}} {{#if section.moderate.treated}}treated{{/if}}">
         <div class="consequence-header">
-          <label class="consequence-label">Moderate (4)</label>
+          <label class="consequence-label">{{localize "SCIONS.Consequences.Moderate"}}</label>
           {{#if editMode}}
             <label>
               <input type="checkbox" class="consequence-visibility-toggle" data-consequence="moderate" {{checked section.moderate.visible}}/>
-              Visible
+              {{localize "SCIONS.Labels.Visible"}}
             </label>
           {{/if}}
           <div class="consequence-status">
@@ -432,11 +418,11 @@
             {{/if}}
             <label class="treated-checkbox">
               <input type="checkbox" name="system.modularSections.consequences.moderate.treated" {{checked section.moderate.treated}}/>
-              Mark Treated
+              {{localize "SCIONS.Consequences.MarkTreated"}}
             </label>
           </div>
         </div>
-        <input type="text" name="system.modularSections.consequences.moderate.value" value="{{section.moderate.value}}" placeholder="Moderate Consequence"/>
+        <input type="text" name="system.modularSections.consequences.moderate.value" value="{{section.moderate.value}}" placeholder="{{localize 'SCIONS.Consequences.ModeratePlaceholder'}}"/>
       </div>
     {{/if}}
 
@@ -444,11 +430,11 @@
     {{#if (or section.severe.visible editMode)}}
       <div class="consequence-box severe {{#if section.severe.value}}active{{/if}} {{#if section.severe.treated}}treated{{/if}}">
         <div class="consequence-header">
-          <label class="consequence-label">Severe (6)</label>
+          <label class="consequence-label">{{localize "SCIONS.Consequences.Severe"}}</label>
           {{#if editMode}}
             <label>
               <input type="checkbox" class="consequence-visibility-toggle" data-consequence="severe" {{checked section.severe.visible}}/>
-              Visible
+              {{localize "SCIONS.Labels.Visible"}}
             </label>
           {{/if}}
           <div class="consequence-status">
@@ -463,11 +449,11 @@
             {{/if}}
             <label class="treated-checkbox">
               <input type="checkbox" name="system.modularSections.consequences.severe.treated" {{checked section.severe.treated}}/>
-              Mark Treated
+              {{localize "SCIONS.Consequences.MarkTreated"}}
             </label>
           </div>
         </div>
-        <input type="text" name="system.modularSections.consequences.severe.value" value="{{section.severe.value}}" placeholder="Severe Consequence"/>
+        <input type="text" name="system.modularSections.consequences.severe.value" value="{{section.severe.value}}" placeholder="{{localize 'SCIONS.Consequences.SeverePlaceholder'}}"/>
       </div>
     {{/if}}
   </div>
@@ -481,9 +467,9 @@
         <input type="text" name="system.modularSections.ageTrack.heading" value="{{section.heading}}" class="section-heading-edit"/>
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="ageTrack" {{checked section.visible}}/>
-          Visible
+          {{localize "SCIONS.Labels.Visible"}}
         </label>
-        <label>Priority: <input type="number" name="system.modularSections.ageTrack.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.ageTrack.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
         <div class="subsection-header">{{section.heading}}</div>
       {{/if}}
@@ -492,10 +478,10 @@
     <div class="age-track-table">
       <div class="age-track-header">
         <div class="age-track-cell age-header"></div>
-        <div class="age-track-cell age-header" title="Wound">Wound</div>
-        <div class="age-track-cell age-header" title="Invoke">Invoke</div>
-        <div class="age-track-cell age-header" title="Scar">Scar</div>
-        <div class="age-track-cell age-header" title="Passed">Passed</div>
+        <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.WoundHint'}}">{{localize "SCIONS.AgeTrack.Wound"}}</div>
+        <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.InvokeHint'}}">{{localize "SCIONS.AgeTrack.Invoke"}}</div>
+        <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.ScarHint'}}">{{localize "SCIONS.AgeTrack.Scar"}}</div>
+        <div class="age-track-cell age-header" title="{{localize 'SCIONS.AgeTrack.PassedHint'}}">{{localize "SCIONS.AgeTrack.Passed"}}</div>
       </div>
       {{#each section.stages as |stage key|}}
         <div class="age-track-row">
@@ -526,12 +512,12 @@
         <input type="text" name="system.modularSections.{{ladderKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="{{ladderKey}}" {{checked section.visible}}/>
-          Visible
+          {{localize "SCIONS.Labels.Visible"}}
         </label>
-        <label>Priority: <input type="number" name="system.modularSections.{{ladderKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.{{ladderKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
         <div class="ladder-rung-controls">
           <button type="button" class="ladder-rung-decrement" data-ladder="{{ladderKey}}" title="Decrease">−</button>
-          <span>{{section.rungCount}} rungs</span>
+          <span>{{section.rungCount}} {{localize "SCIONS.Threat.Rungs"}}</span>
           <button type="button" class="ladder-rung-increment" data-ladder="{{ladderKey}}" title="Increase">+</button>
         </div>
       {{else}}

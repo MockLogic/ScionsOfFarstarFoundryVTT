@@ -150,7 +150,12 @@
       "CountdownLadders": "Countdown Ladders",
       "StressTracks": "Stress Tracks",
       "AddStunt": "Add Stunt",
-      "AddExtra": "Add Extra"
+      "AddExtra": "Add Extra",
+      "Priority": "Priority",
+      "Rungs": "rungs",
+      "Boxes": "boxes",
+      "SkillName": "Skill Name",
+      "LadderAspect": "Ladder Aspect"
     },
     "Roll": {
       "Roll": "Roll",
