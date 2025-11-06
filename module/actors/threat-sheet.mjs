@@ -262,7 +262,7 @@ export class ThreatSheet extends ActorSheet {
 
     // Stress box handlers (play mode)
     html.find('.stress-box').click(this._onToggleStressBox.bind(this));
-    html.find('.growing-stress-box').click(this._onToggleGrowingStressBox.bind(this));
+    // Growing stress boxes now use standard checkbox form submission
 
     // Ladder rung checkbox handlers (play mode)
     html.find('.ladder-rung-checkbox').click(this._onToggleLadderRung.bind(this));
