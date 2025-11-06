@@ -104,9 +104,6 @@ export class ThreatSheet extends ActorSheet {
     // Expand the formData to handle arrays properly
     const expandedData = foundry.utils.expandObject(formData);
 
-    console.log('ThreatSheet _updateObject - formData:', formData);
-    console.log('ThreatSheet _updateObject - expandedData:', expandedData);
-
     // Ensure stunts and extras arrays are properly handled
     if (expandedData.system?.stunts) {
       const stuntsObj = expandedData.system.stunts;
@@ -163,7 +160,23 @@ export class ThreatSheet extends ActorSheet {
         if (modularSections[columnKey]?.skills) {
           const skillsObj = modularSections[columnKey].skills;
           if (typeof skillsObj === 'object' && !Array.isArray(skillsObj)) {
-            modularSections[columnKey].skills = Object.values(skillsObj);
+            const skillsArray = Object.values(skillsObj);
+
+            // Merge with existing skills to preserve data not in this update
+            const currentSkills = this.actor.system.modularSections[columnKey]?.skills || [];
+            const mergedSkills = [];
+
+            for (let i = 0; i < Math.max(skillsArray.length, currentSkills.length); i++) {
+              const updatedSkill = skillsArray[i] || {};
+              const currentSkill = currentSkills[i] || { name: "", value: 0 };
+
+              mergedSkills.push({
+                name: updatedSkill.name !== undefined ? updatedSkill.name : currentSkill.name,
+                value: updatedSkill.value !== undefined ? updatedSkill.value : currentSkill.value
+              });
+            }
+
+            modularSections[columnKey].skills = mergedSkills;
           }
         }
       });
