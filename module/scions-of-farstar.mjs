@@ -464,6 +464,24 @@ function registerHandlebarsHelpers() {
   Handlebars.registerHelper('checked', function(value) {
     return value ? 'checked' : '';
   });
+
+  // Helper to get visible ladder rungs (only up to rungCount)
+  Handlebars.registerHelper('getLadderRungs', function(ladder) {
+    if (!ladder || !Array.isArray(ladder.rungs)) return [];
+    return ladder.rungs.slice(0, ladder.rungCount);
+  });
+
+  // Helper to find highest unchecked rung index for highlighting
+  Handlebars.registerHelper('getHighestUncheckedRung', function(ladder) {
+    if (!ladder || !Array.isArray(ladder.rungs)) return -1;
+    const rungs = ladder.rungs.slice(0, ladder.rungCount);
+    for (let i = rungs.length - 1; i >= 0; i--) {
+      if (!rungs[i].checked) {
+        return i;
+      }
+    }
+    return -1; // All checked
+  });
 }
 
 /**

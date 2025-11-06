@@ -81,9 +81,9 @@
           {{else if (eq section.key "ageTrack")}}
             {{> threatAgeTrack section=section.data editMode=../editMode ageTrackValidation=../ageTrackValidation currentAgeStage=../currentAgeStage}}
           {{else if (eq section.key "ladder1")}}
-            {{> threatLadder section=section.data ladderKey="ladder1" editMode=../editMode getLadderRungs=../getLadderRungs getHighestUncheckedRung=../getHighestUncheckedRung}}
+            {{> threatLadder section=section.data ladderKey="ladder1" editMode=../editMode}}
           {{else if (eq section.key "ladder2")}}
-            {{> threatLadder section=section.data ladderKey="ladder2" editMode=../editMode getLadderRungs=../getLadderRungs getHighestUncheckedRung=../getHighestUncheckedRung}}
+            {{> threatLadder section=section.data ladderKey="ladder2" editMode=../editMode}}
           {{/if}}
 
           {{!-- Close last column at end --}}

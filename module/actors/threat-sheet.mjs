@@ -36,22 +36,6 @@ export class ThreatSheet extends ActorSheet {
       context.currentAgeStage = context.system.currentAgeStage;
     }
 
-    // Helper to get ladder rungs for display (only up to rungCount)
-    context.getLadderRungs = (ladder) => {
-      return ladder.rungs.slice(0, ladder.rungCount);
-    };
-
-    // Helper to find highest unchecked rung for highlighting
-    context.getHighestUncheckedRung = (ladder) => {
-      const rungs = ladder.rungs.slice(0, ladder.rungCount);
-      for (let i = rungs.length - 1; i >= 0; i--) {
-        if (!rungs[i].checked) {
-          return i;
-        }
-      }
-      return -1; // All checked
-    };
-
     return context;
   }
 
