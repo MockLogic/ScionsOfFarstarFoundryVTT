@@ -162,7 +162,7 @@
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.{{columnKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
-        <label class="section-visibility-toggle">
+        <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="{{columnKey}}" {{checked section.visible}}/>
           Visible
         </label>
@@ -207,7 +207,7 @@
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.singlePointStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
-        <label class="section-visibility-toggle">
+        <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="singlePointStress" {{checked section.visible}}/>
           Visible
         </label>
@@ -275,7 +275,7 @@
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.growingStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
-        <label class="section-visibility-toggle">
+        <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="growingStress" {{checked section.visible}}/>
           Visible
         </label>
@@ -341,7 +341,7 @@
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.consequences.heading" value="{{section.heading}}" class="section-heading-edit"/>
-        <label class="section-visibility-toggle">
+        <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="consequences" {{checked section.visible}}/>
           Visible
         </label>
@@ -483,7 +483,7 @@
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.ageTrack.heading" value="{{section.heading}}" class="section-heading-edit"/>
-        <label class="section-visibility-toggle">
+        <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="ageTrack" {{checked section.visible}}/>
           Visible
         </label>
@@ -528,7 +528,7 @@
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.{{ladderKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
-        <label class="section-visibility-toggle">
+        <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="{{ladderKey}}" {{checked section.visible}}/>
           Visible
         </label>
@@ -542,15 +542,6 @@
         <div class="subsection-header">{{section.heading}}</div>
       {{/if}}
     </div>
-
-    {{#if editMode}}
-      <div class="ladder-label-edit">
-        <label>Ladder Label:</label>
-        <input type="text" name="system.modularSections.{{ladderKey}}.label" value="{{section.label}}" class="ladder-label-input"/>
-      </div>
-    {{else}}
-      <div class="ladder-label">{{section.label}}</div>
-    {{/if}}
 
     <div class="ladder-track">
       {{#each (getLadderRungs section) as |rung index|}}

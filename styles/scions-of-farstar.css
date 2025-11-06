@@ -551,13 +551,14 @@
 }
 
 .subsection-header {
+  display: block;
   background: var(--sof-secondary);
   color: white;
   padding: 6px 10px;
-  margin: 8px 0 4px 0;
+  margin: -12px -12px 8px -12px;
   font-weight: bold;
   font-size: 13px;
-  border-radius: 3px;
+  border-radius: 4px 4px 0 0;
 }
 
 /* Scion column headers - lighter navy to differentiate from Faction */

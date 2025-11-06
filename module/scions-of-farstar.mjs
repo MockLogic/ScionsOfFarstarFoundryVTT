@@ -120,6 +120,7 @@ Hooks.once('init', async function() {
         this._prepareScionData(this.system);
         this._prepareFactionData(this.system);
       } else if (this.type === "threat") {
+        this._prepareSkillColumns(this.system);
         this._prepareStressTracks(this.system);
         this._prepareLadders(this.system);
         if (this.system.modularSections.ageTrack.visible) {
@@ -167,6 +168,10 @@ Hooks.once('init', async function() {
     }
 
     // ThreatActor methods
+    _prepareSkillColumns(systemData) {
+      return ThreatActor.prototype._prepareSkillColumns.call(this, systemData);
+    }
+
     _prepareStressTracks(systemData) {
       return ThreatActor.prototype._prepareStressTracks.call(this, systemData);
     }
@@ -471,11 +476,11 @@ function registerHandlebarsHelpers() {
     return ladder.rungs.slice(0, ladder.rungCount);
   });
 
-  // Helper to find highest unchecked rung index for highlighting
+  // Helper to find topmost unchecked rung index for highlighting
   Handlebars.registerHelper('getHighestUncheckedRung', function(ladder) {
     if (!ladder || !Array.isArray(ladder.rungs)) return -1;
     const rungs = ladder.rungs.slice(0, ladder.rungCount);
-    for (let i = rungs.length - 1; i >= 0; i--) {
+    for (let i = 0; i < rungs.length; i++) {
       if (!rungs[i].checked) {
         return i;
       }

@@ -18,6 +18,9 @@ export class ThreatActor extends Actor {
     const actorData = this;
     const systemData = actorData.system;
 
+    // Initialize skill columns to ensure all 8 slots exist
+    this._prepareSkillColumns(systemData);
+
     // Initialize stress track boxes based on max values
     this._prepareStressTracks(systemData);
 
@@ -28,6 +31,22 @@ export class ThreatActor extends Actor {
     if (systemData.modularSections.ageTrack.visible) {
       systemData.currentAgeStage = this._determineCurrentAge(systemData.modularSections.ageTrack.stages);
     }
+  }
+
+  /**
+   * Ensure skill columns have all 8 slots populated
+   */
+  _prepareSkillColumns(systemData) {
+    ['capabilitiesColumn', 'skillsColumn'].forEach(columnKey => {
+      const column = systemData.modularSections[columnKey];
+      if (!Array.isArray(column.skills)) {
+        column.skills = [];
+      }
+      // Ensure we have exactly 8 skill slots
+      while (column.skills.length < 8) {
+        column.skills.push({ name: "", value: 0 });
+      }
+    });
   }
 
   /**
