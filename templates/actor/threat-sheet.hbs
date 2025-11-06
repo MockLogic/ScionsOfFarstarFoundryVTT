@@ -75,6 +75,8 @@
             {{> threatLadder section=section.data ladderKey="ladder1" editMode=../editMode}}
           {{else if (eq section.key "ladder2")}}
             {{> threatLadder section=section.data ladderKey="ladder2" editMode=../editMode}}
+          {{else if (eq section.key "details")}}
+            {{> threatDetails section=section.data editMode=../editMode}}
           {{/if}}
         {{/each}}
       </div>
@@ -534,6 +536,29 @@
           <input type="text" name="system.modularSections.{{../ladderKey}}.rungs.{{index}}.aspect" value="{{rung.aspect}}" placeholder="Rung {{add index 1}}" class="ladder-rung-aspect {{#if rung.checked}}checked-aspect{{/if}}"/>
         </div>
       {{/each}}
+    </div>
+  </div>
+{{/inline}}
+
+
+{{!-- Partial: Details Section --}}
+{{#*inline "threatDetails"}}
+  <div class="section-box details-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.details.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label>
+          <input type="checkbox" class="section-visibility-toggle" data-section="details" {{checked section.visible}}/>
+          {{localize "SCIONS.Labels.Visible"}}
+        </label>
+        <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.details.priority" value="{{section.priority}}" class="priority-input"/></label>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    <div class="details-content">
+      {{editor section.content target="system.modularSections.details.content" button=true owner=owner editable=editable}}
     </div>
   </div>
 {{/inline}}

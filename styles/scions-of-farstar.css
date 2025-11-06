@@ -1918,3 +1918,13 @@
   background: #f5f5f5;
   border-color: #e0e0e0;
 }
+
+/* Details Section - Rich text editor with extra space */
+.threat .details-content {
+  min-height: 200px;
+  padding: 10px;
+}
+
+.threat .details-content .editor {
+  min-height: 180px;
+}

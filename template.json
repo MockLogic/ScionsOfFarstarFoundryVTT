@@ -395,6 +395,12 @@
             {"aspect": "", "checked": false},
             {"aspect": "", "checked": false}
           ]
+        },
+        "details": {
+          "visible": false,
+          "priority": 90,
+          "heading": "Details",
+          "content": ""
         }
       },
       "stunts": [],

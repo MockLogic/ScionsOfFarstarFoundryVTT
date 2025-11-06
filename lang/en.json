@@ -155,7 +155,8 @@
       "Rungs": "rungs",
       "Boxes": "boxes",
       "SkillName": "Skill Name",
-      "LadderAspect": "Ladder Aspect"
+      "LadderAspect": "Ladder Aspect",
+      "Details": "Details"
     },
     "Roll": {
       "Roll": "Roll",
