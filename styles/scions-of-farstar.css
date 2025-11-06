@@ -1921,12 +1921,12 @@
 
 /* Details Section - Rich text editor with extra space */
 .threat .details-content {
-  min-height: 300px;
-  padding: 10px;
+  min-height: 220px;
+  padding: 5px;
 }
 
 .threat .details-content .editor {
-  min-height: 250px;
+  min-height: 210px;
 }
 
 .threat .details-content .editor-content {

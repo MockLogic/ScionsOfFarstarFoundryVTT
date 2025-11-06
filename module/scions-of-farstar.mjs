@@ -240,6 +240,38 @@ Hooks.once('ready', async function() {
 });
 
 /**
+ * Chat command handler for Fate dice rolls
+ * Supports /fate and /4df commands with optional modifiers
+ */
+Hooks.on('chatMessage', (log, message, chatData) => {
+  // Match /fate or /4df with optional modifier (e.g., /fate +2, /4df -1)
+  const match = message.match(/^\/(fate|4df)(\s+([+-]?\d+))?$/i);
+
+  if (match) {
+    // Extract modifier if provided, default to 0
+    const modifier = match[3] ? parseInt(match[3]) : 0;
+
+    // Create label with modifier if present
+    const label = modifier !== 0
+      ? `Roll 4dF ${modifier >= 0 ? '+' : ''}${modifier}`
+      : 'Roll 4dF';
+
+    // Get the speaker's actor if they have a character assigned
+    const speaker = ChatMessage.getSpeaker();
+    const actor = game.actors.get(speaker.actor);
+
+    // Get speaker name (use player name if no actor assigned)
+    const speakerName = actor ? null : game.user.name;
+
+    // Create the fate roll
+    createFateRoll(label, modifier, actor, speakerName);
+
+    // Return false to prevent the message from being processed as a normal chat message
+    return false;
+  }
+});
+
+/**
  * Register system settings
  */
 function registerSystemSettings() {

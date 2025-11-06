@@ -1,0 +1,18 @@
+{
+  "name": "Roll 4dF +6",
+  "type": "chat",
+  "scope": "global",
+  "command": "/fate +6",
+  "author": "",
+  "img": "icons/sundries/gaming/dice-runed-brown.webp",
+  "folder": null,
+  "sort": 600000,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "scions-of-farstar",
+    "systemVersion": "0.3.3"
+  }
+}
