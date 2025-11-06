@@ -154,6 +154,16 @@ export class ThreatSheet extends ActorSheet {
           modularSections.ladder2.rungs = Object.values(rungsObj);
         }
       }
+
+      // Process skills arrays in skill columns
+      ['capabilitiesColumn', 'skillsColumn'].forEach(columnKey => {
+        if (modularSections[columnKey]?.skills) {
+          const skillsObj = modularSections[columnKey].skills;
+          if (typeof skillsObj === 'object' && !Array.isArray(skillsObj)) {
+            modularSections[columnKey].skills = Object.values(skillsObj);
+          }
+        }
+      });
     }
 
     // Update the actor with the expanded data

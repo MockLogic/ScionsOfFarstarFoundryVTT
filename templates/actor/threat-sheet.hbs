@@ -297,13 +297,11 @@
       {{else}}
         <label>{{section.track1.label}}:</label>
       {{/if}}
-      <div class="stress-track">
+      <div class="stress-boxes">
         {{#each section.track1.boxes as |box index|}}
-          <div class="stress-box-container">
-            <div class="box-value-label">{{add index 1}}</div>
-            <div class="growing-stress-box growing {{#if box.value}}checked{{/if}}" data-track="track1" data-index="{{index}}" title="Toggle">
-              <span class="box-number">{{add index 1}}</span>
-            </div>
+          <div class="stress-box-wrapper">
+            <input type="checkbox" class="stress-box-checkbox" name="system.modularSections.growingStress.track1.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
+            <label class="stress-box-label">[{{add index 1}}]</label>
           </div>
         {{/each}}
       </div>
@@ -321,13 +319,11 @@
       {{else}}
         <label>{{section.track2.label}}:</label>
       {{/if}}
-      <div class="stress-track">
+      <div class="stress-boxes">
         {{#each section.track2.boxes as |box index|}}
-          <div class="stress-box-container">
-            <div class="box-value-label">{{add index 1}}</div>
-            <div class="growing-stress-box growing {{#if box.value}}checked{{/if}}" data-track="track2" data-index="{{index}}" title="Toggle">
-              <span class="box-number">{{add index 1}}</span>
-            </div>
+          <div class="stress-box-wrapper">
+            <input type="checkbox" class="stress-box-checkbox" name="system.modularSections.growingStress.track2.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
+            <label class="stress-box-label">[{{add index 1}}]</label>
           </div>
         {{/each}}
       </div>
