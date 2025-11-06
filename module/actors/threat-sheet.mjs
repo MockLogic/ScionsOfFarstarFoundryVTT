@@ -28,7 +28,7 @@ export class ThreatSheet extends ActorSheet {
     context.editMode = context.system.editMode;
 
     // Build sorted sections list for main tab
-    context.sortedSections = this._getSortedSections(context.system.modularSections);
+    context.sortedSections = this._getSortedSections(context.system.modularSections, context.editMode);
 
     // Add age track validation if age track is visible
     if (context.system.modularSections.ageTrack.visible) {
@@ -41,13 +41,15 @@ export class ThreatSheet extends ActorSheet {
 
   /**
    * Sort modular sections by priority and return them in display order
+   * In edit mode, show ALL sections regardless of visibility
    */
-  _getSortedSections(modularSections) {
+  _getSortedSections(modularSections, editMode) {
     const sections = [];
 
     // Build array of section objects with their keys and data
     for (const [key, section] of Object.entries(modularSections)) {
-      if (section.visible) {
+      // In edit mode, show all sections; in play mode, only show visible ones
+      if (editMode || section.visible) {
         sections.push({
           key: key,
           data: section,
@@ -131,6 +133,27 @@ export class ThreatSheet extends ActorSheet {
       });
 
       expandedData.system.extras = extrasArray;
+    }
+
+    // Handle ladder rungs arrays in modular sections
+    if (expandedData.system?.modularSections) {
+      const modularSections = expandedData.system.modularSections;
+
+      // Process ladder1 rungs
+      if (modularSections.ladder1?.rungs) {
+        const rungsObj = modularSections.ladder1.rungs;
+        if (typeof rungsObj === 'object' && !Array.isArray(rungsObj)) {
+          modularSections.ladder1.rungs = Object.values(rungsObj);
+        }
+      }
+
+      // Process ladder2 rungs
+      if (modularSections.ladder2?.rungs) {
+        const rungsObj = modularSections.ladder2.rungs;
+        if (typeof rungsObj === 'object' && !Array.isArray(rungsObj)) {
+          modularSections.ladder2.rungs = Object.values(rungsObj);
+        }
+      }
     }
 
     // Update the actor with the expanded data

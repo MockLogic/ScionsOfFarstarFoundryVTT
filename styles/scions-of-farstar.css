@@ -1568,3 +1568,269 @@
   font-style: italic;
   min-height: 12px;
 }
+
+/* ===========================
+   Threat Sheet Styles
+   =========================== */
+
+/* Edit/Play Mode Toggle */
+.threat .mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.threat .toggle-edit-mode {
+  background: var(--sof-secondary);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.threat .toggle-edit-mode:hover {
+  background: var(--sof-primary);
+}
+
+/* Priority Number Inputs - Make them compact */
+.threat .priority-input {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  text-align: center;
+  padding: 4px !important;
+  font-size: 12px;
+}
+
+/* Skill/Ladder Count Controls - Compact buttons */
+.threat .skill-count-controls,
+.threat .ladder-rung-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.threat .skill-count-increment,
+.threat .skill-count-decrement,
+.threat .ladder-rung-increment,
+.threat .ladder-rung-decrement {
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 28px;
+  transition: background 0.2s;
+}
+
+.threat .skill-count-increment:hover,
+.threat .skill-count-decrement:hover,
+.threat .ladder-rung-increment:hover,
+.threat .ladder-rung-decrement:hover {
+  background: #2980b9;
+}
+
+/* Stress Max Controls - Compact buttons */
+.threat .stress-max-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+.threat .stress-max-increment,
+.threat .stress-max-decrement {
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  height: 28px;
+  transition: background 0.2s;
+}
+
+.threat .stress-max-increment:hover,
+.threat .stress-max-decrement:hover {
+  background: #2980b9;
+}
+
+/* Section Header Row - Layout for edit mode controls */
+.threat .section-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.threat .section-heading-edit {
+  flex: 1;
+  min-width: 150px;
+  font-weight: bold;
+  padding: 6px 10px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  background: white;
+}
+
+.threat .section-visibility-toggle,
+.threat .track-visibility-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* Aspect Edit Controls */
+.threat .aspect-edit-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.threat .aspect-label-edit {
+  flex: 1;
+  min-width: 120px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+/* Hidden in Play Mode */
+.threat .hidden-in-play {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+/* Ladder Track Styles */
+.threat .ladder-section {
+  margin: 10px 0;
+}
+
+.threat .ladder-label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--sof-primary);
+}
+
+.threat .ladder-label-edit {
+  margin-bottom: 8px;
+}
+
+.threat .ladder-label-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+.threat .ladder-track {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.threat .ladder-rung {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.threat .ladder-rung.checked {
+  background: #f8f9fa;
+  opacity: 0.7;
+}
+
+.threat .ladder-rung.highest-unchecked {
+  border-color: var(--sof-accent);
+  border-width: 2px;
+  background: #e3f2fd;
+}
+
+.threat .ladder-rung-checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.threat .ladder-rung-aspect {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  min-width: 0;
+}
+
+.threat .ladder-rung-aspect.checked-aspect {
+  text-decoration: line-through;
+  color: #999;
+}
+
+/* Stress Track Row */
+.threat .stress-track-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.threat .track-label-edit {
+  min-width: 100px;
+  max-width: 150px;
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+.threat .stress-boxes {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+/* Section Box - Container for each modular section */
+.threat .section-box {
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+/* Visible sections in edit mode get a subtle green tint */
+.threat .section-box.section-visible-in-edit {
+  background: #f0f8f0;
+  border-color: #c8e6c9;
+}
+
+/* Hidden sections in edit mode get a subtle gray tint */
+.threat .section-box.section-hidden-in-edit {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+}

@@ -158,7 +158,7 @@
 
 {{!-- Partial: Skill Column (Capabilities or Skills) --}}
 {{#*inline "threatSkillColumn"}}
-  <div class="section-box skill-column-section">
+  <div class="section-box skill-column-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.{{columnKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
@@ -203,7 +203,7 @@
 
 {{!-- Partial: Single-Point Stress Tracks --}}
 {{#*inline "threatSinglePointStress"}}
-  <div class="section-box stress-section">
+  <div class="section-box stress-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.singlePointStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
@@ -271,7 +271,7 @@
 
 {{!-- Partial: Growing Stress Tracks --}}
 {{#*inline "threatGrowingStress"}}
-  <div class="section-box stress-section">
+  <div class="section-box stress-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.growingStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
@@ -337,7 +337,7 @@
 
 {{!-- Partial: Consequences --}}
 {{#*inline "threatConsequences"}}
-  <div class="section-box consequences-section">
+  <div class="section-box consequences-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.consequences.heading" value="{{section.heading}}" class="section-heading-edit"/>
@@ -479,7 +479,7 @@
 
 {{!-- Partial: Age Track --}}
 {{#*inline "threatAgeTrack"}}
-  <div class="section-box age-track-section">
+  <div class="section-box age-track-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.ageTrack.heading" value="{{section.heading}}" class="section-heading-edit"/>
@@ -524,7 +524,7 @@
 
 {{!-- Partial: Ladder Track --}}
 {{#*inline "threatLadder"}}
-  <div class="section-box ladder-section">
+  <div class="section-box ladder-section {{#if editMode}}{{#if section.visible}}section-visible-in-edit{{else}}section-hidden-in-edit{{/if}}{{/if}}">
     <div class="section-header-row">
       {{#if editMode}}
         <input type="text" name="system.modularSections.{{ladderKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
