@@ -596,8 +596,8 @@
   font-size: 13px;
 }
 
-/* Threat sheet specific subsection header styling */
-.threat .subsection-header {
+/* Threat sheet specific subsection header styling - ONLY when NOT inside section-header-row */
+.threat .section-box > .subsection-header {
   display: block;
   margin: -12px -12px 8px -12px;
   border-radius: 4px 4px 0 0;
