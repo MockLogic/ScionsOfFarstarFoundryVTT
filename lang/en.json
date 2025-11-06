@@ -98,7 +98,10 @@
       "SeverePlaceholder": "Severe Consequence",
       "MinorHint": "Clears at end of scene it was treated",
       "ModerateHint": "Clears at end of generation it was treated",
-      "SevereHint": "Clears at end of next generation when treated"
+      "SevereHint": "Clears at end of next generation when treated",
+      "ExtraMinor": "Extra Minor",
+      "ExtraMinorToggle": "Toggle second Minor (2) consequence slot",
+      "ExtraMinorReminder": "2nd Minor requires a stunt"
     },
     "PeopleTrack": {
       "ClickInstructions": "Click to cycle: Empty → Committed → Expended → Empty",

@@ -132,13 +132,13 @@
           {{!-- Consequences --}}
           <div class="subsection-header">
             {{localize "SCIONS.Faction.Consequences"}}
-            <span class="consequence-toggle" title="Toggle second Minor (2) consequence slot">
+            <span class="consequence-toggle" title="{{localize 'SCIONS.Consequences.ExtraMinorToggle'}}">
               <i class="fas fa-cog consequence-toggle-icon {{#if system.consequences.minor2.enabled}}extended{{/if}}"></i>
-              <span class="consequence-toggle-label">Extra Minor</span>
+              <span class="consequence-toggle-label">{{localize "SCIONS.Consequences.ExtraMinor"}}</span>
             </span>
           </div>
           {{#if system.consequences.minor2.enabled}}
-            <div class="consequence-reminder">Requires a stunt</div>
+            <div class="consequence-reminder">{{localize "SCIONS.Consequences.ExtraMinorReminder"}}</div>
           {{/if}}
 
           <div class="consequence-box minor {{#if system.consequences.minor.value}}active{{/if}} {{#if system.consequences.minor.treated}}treated{{/if}}">

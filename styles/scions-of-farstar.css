@@ -213,7 +213,6 @@
   align-items: center;
   gap: 5px;
   cursor: pointer;
-  opacity: 0.6;
   transition: opacity 0.2s;
 }
 
@@ -223,24 +222,25 @@
 
 .consequence-toggle-icon {
   font-size: 14px;
-  color: #7f8c8d;
+  color: #999;
   transition: color 0.2s, transform 0.2s;
 }
 
 .consequence-toggle-icon.extended {
-  color: var(--sof-accent);
+  color: #5dade2;
   transform: rotate(90deg);
 }
 
 .consequence-toggle-label {
-  color: #7f8c8d;
+  color: #999;
 }
 
 .consequence-reminder {
   font-size: 11px;
-  color: #7f8c8d;
+  color: #999;
   font-style: italic;
   margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 /* Growing Stress Track (Fate style) */
