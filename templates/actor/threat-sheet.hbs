@@ -299,10 +299,10 @@
       {{/if}}
       <div class="stress-boxes">
         {{#each section.track1.boxes as |box index|}}
-          <div class="stress-box-wrapper">
-            <input type="checkbox" class="stress-box-checkbox" name="system.modularSections.growingStress.track1.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
-            <label class="stress-box-label">[{{add index 1}}]</label>
-          </div>
+          <label class="growing-stress-box {{#if box.value}}checked{{/if}}">
+            <input type="checkbox" class="stress-box-checkbox-hidden" name="system.modularSections.growingStress.track1.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
+            <span class="stress-box-number">{{add index 1}}</span>
+          </label>
         {{/each}}
       </div>
     </div>
@@ -321,10 +321,10 @@
       {{/if}}
       <div class="stress-boxes">
         {{#each section.track2.boxes as |box index|}}
-          <div class="stress-box-wrapper">
-            <input type="checkbox" class="stress-box-checkbox" name="system.modularSections.growingStress.track2.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
-            <label class="stress-box-label">[{{add index 1}}]</label>
-          </div>
+          <label class="growing-stress-box {{#if box.value}}checked{{/if}}">
+            <input type="checkbox" class="stress-box-checkbox-hidden" name="system.modularSections.growingStress.track2.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
+            <span class="stress-box-number">{{add index 1}}</span>
+          </label>
         {{/each}}
       </div>
     </div>

@@ -204,18 +204,48 @@
 }
 
 /* Growing Stress Track (Fate style) */
-.stress-box.growing {
+.growing-stress-box {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  margin: 0 3px;
+  cursor: pointer;
+  background: white;
   position: relative;
+  font-size: 16px;
+  color: var(--sof-secondary);
 }
 
-.stress-box.growing::after {
-  content: attr(data-value);
+.growing-stress-box .stress-box-checkbox-hidden {
   position: absolute;
-  bottom: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  color: var(--sof-border);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.growing-stress-box .stress-box-number {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 40px;
+}
+
+.growing-stress-box.checked .stress-box-number::before {
+  content: '✖';
+  color: var(--sof-danger);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.growing-stress-box.checked .stress-box-number {
+  font-size: 0; /* Hide the number when checked */
+}
+
+.growing-stress-box:hover {
+  border-color: var(--sof-accent);
 }
 
 /* Aspect Boxes */
@@ -551,13 +581,17 @@
 }
 
 .subsection-header {
-  display: block;
   background: var(--sof-secondary);
   color: white;
   padding: 6px 10px;
-  margin: -12px -12px 8px -12px;
   font-weight: bold;
   font-size: 13px;
+}
+
+/* Threat sheet specific subsection header styling */
+.threat .subsection-header {
+  display: block;
+  margin: -12px -12px 8px -12px;
   border-radius: 4px 4px 0 0;
 }
 
