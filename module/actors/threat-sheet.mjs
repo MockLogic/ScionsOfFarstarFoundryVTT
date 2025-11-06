@@ -36,6 +36,12 @@ export class ThreatSheet extends ActorSheet {
       context.currentAgeStage = context.system.currentAgeStage;
     }
 
+    // Enrich HTML content for details section
+    context.enrichedDetailsContent = await TextEditor.enrichHTML(context.system.modularSections.details.content, {
+      async: true,
+      secrets: this.actor.isOwner
+    });
+
     return context;
   }
 
@@ -194,6 +200,11 @@ export class ThreatSheet extends ActorSheet {
           });
         }
       });
+
+      // Preserve details content from editor if not in formData
+      if (modularSections.details && !modularSections.details.content) {
+        modularSections.details.content = this.actor.system.modularSections.details?.content || '';
+      }
     }
 
     // Update the actor with the expanded data
