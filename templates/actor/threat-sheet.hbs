@@ -1,0 +1,566 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="name-row">
+        <div class="name-field">
+          <input name="name" type="text" value="{{actor.name}}" placeholder="Threat Name"/>
+        </div>
+        <div class="mode-toggle">
+          <button type="button" class="toggle-edit-mode" title="Toggle Edit/Play Mode">
+            {{#if editMode}}
+              <i class="fas fa-eye"></i> Switch to Play Mode
+            {{else}}
+              <i class="fas fa-edit"></i> Switch to Edit Mode
+            {{/if}}
+          </button>
+        </div>
+      </div>
+
+      {{!-- Aspects (visible on all tabs) --}}
+      <div class="aspect-section">
+        {{#each system.aspects as |aspect key|}}
+          {{#if (or aspect.visible editMode)}}
+            <div class="aspect-box {{#unless aspect.visible}}hidden-in-play{{/unless}}">
+              {{#if editMode}}
+                <div class="aspect-edit-controls">
+                  <input type="text" name="system.aspects.{{key}}.label" value="{{aspect.label}}" placeholder="Aspect Label" class="aspect-label-edit"/>
+                  <label class="aspect-visibility-toggle">
+                    <input type="checkbox" class="aspect-visibility-toggle" data-aspect="{{key}}" {{checked aspect.visible}}/>
+                    Visible
+                  </label>
+                </div>
+              {{else}}
+                <label>{{aspect.label}}</label>
+              {{/if}}
+              <input type="text" name="system.aspects.{{key}}.value" value="{{aspect.value}}" placeholder="{{aspect.label}}"/>
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="main">Main</a>
+    <a class="item" data-tab="stunts">Stunts</a>
+    <a class="item" data-tab="extras">Extras</a>
+    <a class="item" data-tab="notes">Notes</a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Main Tab --}}
+    <div class="tab main-tab" data-group="primary" data-tab="main">
+      <div class="two-column-layout">
+        {{#each sortedSections as |section|}}
+          {{!-- Determine column (alternate left/right) --}}
+          {{#if (eq @index 0)}}
+            <div class="column left-column">
+          {{else if (eq (mod @index 2) 0)}}
+            </div><div class="column left-column">
+          {{else if (eq @index 1)}}
+            </div><div class="column right-column">
+          {{/if}}
+
+          {{!-- Render section based on key --}}
+          {{#if (eq section.key "capabilitiesColumn")}}
+            {{> threatSkillColumn section=section.data columnKey="capabilitiesColumn" editMode=../editMode}}
+          {{else if (eq section.key "skillsColumn")}}
+            {{> threatSkillColumn section=section.data columnKey="skillsColumn" editMode=../editMode}}
+          {{else if (eq section.key "singlePointStress")}}
+            {{> threatSinglePointStress section=section.data editMode=../editMode}}
+          {{else if (eq section.key "growingStress")}}
+            {{> threatGrowingStress section=section.data editMode=../editMode}}
+          {{else if (eq section.key "consequences")}}
+            {{> threatConsequences section=section.data editMode=../editMode}}
+          {{else if (eq section.key "ageTrack")}}
+            {{> threatAgeTrack section=section.data editMode=../editMode ageTrackValidation=../ageTrackValidation currentAgeStage=../currentAgeStage}}
+          {{else if (eq section.key "ladder1")}}
+            {{> threatLadder section=section.data ladderKey="ladder1" editMode=../editMode getLadderRungs=../getLadderRungs getHighestUncheckedRung=../getHighestUncheckedRung}}
+          {{else if (eq section.key "ladder2")}}
+            {{> threatLadder section=section.data ladderKey="ladder2" editMode=../editMode getLadderRungs=../getLadderRungs getHighestUncheckedRung=../getHighestUncheckedRung}}
+          {{/if}}
+
+          {{!-- Close last column at end --}}
+          {{#if (eq @index (subtract @root.sortedSections.length 1))}}
+            </div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Stunts Tab --}}
+    <div class="tab stunts-tab" data-group="primary" data-tab="stunts">
+      <div class="section-header">Stunts</div>
+
+      {{#if (hasItems system.stunts)}}
+        {{#each system.stunts as |stunt index|}}
+          <div class="stunt-item">
+            <div class="stunt-header">
+              <input type="text" class="stunt-name" name="system.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="Stunt Name"/>
+              <button type="button" class="stunt-delete" data-index="{{index}}" title="Delete"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="stunt-description">
+              {{editor stunt.description target=(concat "system.stunts." index ".description") button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="empty-message">No stunts yet. Click the button below to add a stunt.</div>
+      {{/if}}
+
+      <button type="button" class="add-item-button stunt-add">
+        <i class="fas fa-plus"></i> Add Stunt
+      </button>
+    </div>
+
+    {{!-- Extras Tab --}}
+    <div class="tab extras-tab" data-group="primary" data-tab="extras">
+      <div class="section-header">Extras</div>
+
+      {{#if (hasItems system.extras)}}
+        {{#each system.extras as |extra index|}}
+          <div class="extra-item">
+            <div class="extra-header">
+              <input type="text" class="extra-name" name="system.extras.{{index}}.name" value="{{extra.name}}" placeholder="Extra Name"/>
+              <button type="button" class="extra-delete" data-index="{{index}}" title="Delete"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="extra-description">
+              {{editor extra.description target=(concat "system.extras." index ".description") button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        <div class="empty-message">No extras yet. Click the button below to add an extra.</div>
+      {{/if}}
+
+      <button type="button" class="add-item-button extra-add">
+        <i class="fas fa-plus"></i> Add Extra
+      </button>
+    </div>
+
+    {{!-- Notes Tab --}}
+    <div class="tab notes-tab" data-group="primary" data-tab="notes">
+      <div class="section-header">Notes</div>
+      <div class="editor-container">
+        {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
+      </div>
+    </div>
+
+  </section>
+
+</form>
+
+{{!-- Partial: Skill Column (Capabilities or Skills) --}}
+{{#*inline "threatSkillColumn"}}
+  <div class="section-box skill-column-section">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.{{columnKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label class="section-visibility-toggle">
+          <input type="checkbox" class="section-visibility-toggle" data-section="{{columnKey}}" {{checked section.visible}}/>
+          Visible
+        </label>
+        <label>Priority: <input type="number" name="system.modularSections.{{columnKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <div class="skill-count-controls">
+          <button type="button" class="skill-count-decrement" data-column="{{columnKey}}" title="Decrease">−</button>
+          <span>{{section.skillCount}}/8 skills</span>
+          <button type="button" class="skill-count-increment" data-column="{{columnKey}}" title="Increase">+</button>
+        </div>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    <div class="skills-list">
+      {{#each section.skills as |skill index|}}
+        {{#if (lt index ../section.skillCount)}}
+          <div class="skill-item">
+            {{#unless ../editMode}}
+              {{#if skill.name}}
+                <button type="button" class="roll-button roll-skill rollable" data-column="{{../columnKey}}" data-index="{{index}}" title="Roll {{skill.name}}">
+                  <i class="fas fa-dice-d6"></i>
+                </button>
+              {{/if}}
+            {{/unless}}
+            <input type="number" class="skill-value" name="system.modularSections.{{../columnKey}}.skills.{{index}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
+            {{#if ../editMode}}
+              <input type="text" class="skill-name-edit" name="system.modularSections.{{../columnKey}}.skills.{{index}}.name" value="{{skill.name}}" placeholder="Skill Name"/>
+            {{else}}
+              <span class="skill-label">{{skill.name}}</span>
+            {{/if}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
+  </div>
+{{/inline}}
+
+{{!-- Partial: Single-Point Stress Tracks --}}
+{{#*inline "threatSinglePointStress"}}
+  <div class="section-box stress-section">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.singlePointStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label class="section-visibility-toggle">
+          <input type="checkbox" class="section-visibility-toggle" data-section="singlePointStress" {{checked section.visible}}/>
+          Visible
+        </label>
+        <label>Priority: <input type="number" name="system.modularSections.singlePointStress.priority" value="{{section.priority}}" class="priority-input"/></label>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    {{!-- Track 1 --}}
+    {{#if (or section.track1.visible editMode)}}
+      <div class="stress-track-row">
+        {{#if editMode}}
+          <input type="text" name="system.modularSections.singlePointStress.track1.label" value="{{section.track1.label}}" class="track-label-edit"/>
+          <label>
+            <input type="checkbox" class="track-visibility-toggle" data-section="singlePointStress" data-track="track1" {{checked section.track1.visible}}/>
+            Visible
+          </label>
+          <div class="stress-max-controls">
+            <button type="button" class="stress-max-decrement" data-section="singlePointStress" data-track="track1" title="Decrease">−</button>
+            <span>{{section.track1.max}} boxes</span>
+            <button type="button" class="stress-max-increment" data-section="singlePointStress" data-track="track1" title="Increase">+</button>
+          </div>
+        {{else}}
+          <label>{{section.track1.label}}:</label>
+        {{/if}}
+        <div class="stress-boxes">
+          {{#each section.track1.boxes as |box index|}}
+            <div class="stress-box {{#if box.value}}checked{{/if}}" data-track="track1" data-index="{{index}}" title="Toggle"></div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Track 2 --}}
+    {{#if (or section.track2.visible editMode)}}
+      <div class="stress-track-row">
+        {{#if editMode}}
+          <input type="text" name="system.modularSections.singlePointStress.track2.label" value="{{section.track2.label}}" class="track-label-edit"/>
+          <label>
+            <input type="checkbox" class="track-visibility-toggle" data-section="singlePointStress" data-track="track2" {{checked section.track2.visible}}/>
+            Visible
+          </label>
+          <div class="stress-max-controls">
+            <button type="button" class="stress-max-decrement" data-section="singlePointStress" data-track="track2" title="Decrease">−</button>
+            <span>{{section.track2.max}} boxes</span>
+            <button type="button" class="stress-max-increment" data-section="singlePointStress" data-track="track2" title="Increase">+</button>
+          </div>
+        {{else}}
+          <label>{{section.track2.label}}:</label>
+        {{/if}}
+        <div class="stress-boxes">
+          {{#each section.track2.boxes as |box index|}}
+            <div class="stress-box {{#if box.value}}checked{{/if}}" data-track="track2" data-index="{{index}}" title="Toggle"></div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+{{/inline}}
+
+{{!-- Partial: Growing Stress Tracks --}}
+{{#*inline "threatGrowingStress"}}
+  <div class="section-box stress-section">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.growingStress.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label class="section-visibility-toggle">
+          <input type="checkbox" class="section-visibility-toggle" data-section="growingStress" {{checked section.visible}}/>
+          Visible
+        </label>
+        <label>Priority: <input type="number" name="system.modularSections.growingStress.priority" value="{{section.priority}}" class="priority-input"/></label>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    {{!-- Track 1 --}}
+    <div class="stress-track-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.growingStress.track1.label" value="{{section.track1.label}}" class="track-label-edit"/>
+        <div class="stress-max-controls">
+          <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track1" title="Decrease">−</button>
+          <span>{{section.track1.max}} boxes</span>
+          <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track1" title="Increase">+</button>
+        </div>
+      {{else}}
+        <label>{{section.track1.label}}:</label>
+      {{/if}}
+      <div class="stress-track">
+        {{#each section.track1.boxes as |box index|}}
+          <div class="stress-box-container">
+            <div class="box-value-label">{{add index 1}}</div>
+            <div class="growing-stress-box growing {{#if box.value}}checked{{/if}}" data-track="track1" data-index="{{index}}" title="Toggle">
+              <span class="box-number">{{add index 1}}</span>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Track 2 --}}
+    <div class="stress-track-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.growingStress.track2.label" value="{{section.track2.label}}" class="track-label-edit"/>
+        <div class="stress-max-controls">
+          <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track2" title="Decrease">−</button>
+          <span>{{section.track2.max}} boxes</span>
+          <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track2" title="Increase">+</button>
+        </div>
+      {{else}}
+        <label>{{section.track2.label}}:</label>
+      {{/if}}
+      <div class="stress-track">
+        {{#each section.track2.boxes as |box index|}}
+          <div class="stress-box-container">
+            <div class="box-value-label">{{add index 1}}</div>
+            <div class="growing-stress-box growing {{#if box.value}}checked{{/if}}" data-track="track2" data-index="{{index}}" title="Toggle">
+              <span class="box-number">{{add index 1}}</span>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+{{/inline}}
+
+{{!-- Partial: Consequences --}}
+{{#*inline "threatConsequences"}}
+  <div class="section-box consequences-section">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.consequences.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label class="section-visibility-toggle">
+          <input type="checkbox" class="section-visibility-toggle" data-section="consequences" {{checked section.visible}}/>
+          Visible
+        </label>
+        <label>Priority: <input type="number" name="system.modularSections.consequences.priority" value="{{section.priority}}" class="priority-input"/></label>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    {{!-- Minor (2) --}}
+    {{#if (or section.minor.visible editMode)}}
+      <div class="consequence-box minor {{#if section.minor.value}}active{{/if}} {{#if section.minor.treated}}treated{{/if}}">
+        <div class="consequence-header">
+          <label class="consequence-label">Minor (2)</label>
+          {{#if editMode}}
+            <label>
+              <input type="checkbox" class="consequence-visibility-toggle" data-consequence="minor" {{checked section.minor.visible}}/>
+              Visible
+            </label>
+          {{/if}}
+          <div class="consequence-status">
+            {{#if section.minor.value}}
+              {{#if section.minor.treated}}
+                <span class="status-badge treated">Treated</span>
+              {{else}}
+                <span class="status-badge active">Active</span>
+              {{/if}}
+            {{else}}
+              <span class="status-badge unused">Unused</span>
+            {{/if}}
+            <label class="treated-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.minor.treated" {{checked section.minor.treated}}/>
+              Mark Treated
+            </label>
+          </div>
+        </div>
+        <input type="text" name="system.modularSections.consequences.minor.value" value="{{section.minor.value}}" placeholder="Minor Consequence"/>
+      </div>
+    {{/if}}
+
+    {{!-- Minor2 (2) --}}
+    {{#if (or section.minor2.visible editMode)}}
+      <div class="consequence-box minor {{#if section.minor2.value}}active{{/if}} {{#if section.minor2.treated}}treated{{/if}}">
+        <div class="consequence-header">
+          <label class="consequence-label">Minor (2)</label>
+          {{#if editMode}}
+            <label>
+              <input type="checkbox" class="consequence-visibility-toggle" data-consequence="minor2" {{checked section.minor2.visible}}/>
+              Visible
+            </label>
+          {{/if}}
+          <div class="consequence-status">
+            {{#if section.minor2.value}}
+              {{#if section.minor2.treated}}
+                <span class="status-badge treated">Treated</span>
+              {{else}}
+                <span class="status-badge active">Active</span>
+              {{/if}}
+            {{else}}
+              <span class="status-badge unused">Unused</span>
+            {{/if}}
+            <label class="treated-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.minor2.treated" {{checked section.minor2.treated}}/>
+              Mark Treated
+            </label>
+          </div>
+        </div>
+        <input type="text" name="system.modularSections.consequences.minor2.value" value="{{section.minor2.value}}" placeholder="Minor Consequence"/>
+      </div>
+    {{/if}}
+
+    {{!-- Moderate (4) --}}
+    {{#if (or section.moderate.visible editMode)}}
+      <div class="consequence-box {{#if section.moderate.value}}active{{/if}} {{#if section.moderate.treated}}treated{{/if}}">
+        <div class="consequence-header">
+          <label class="consequence-label">Moderate (4)</label>
+          {{#if editMode}}
+            <label>
+              <input type="checkbox" class="consequence-visibility-toggle" data-consequence="moderate" {{checked section.moderate.visible}}/>
+              Visible
+            </label>
+          {{/if}}
+          <div class="consequence-status">
+            {{#if section.moderate.value}}
+              {{#if section.moderate.treated}}
+                <span class="status-badge treated">Treated</span>
+              {{else}}
+                <span class="status-badge active">Active</span>
+              {{/if}}
+            {{else}}
+              <span class="status-badge unused">Unused</span>
+            {{/if}}
+            <label class="treated-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.moderate.treated" {{checked section.moderate.treated}}/>
+              Mark Treated
+            </label>
+          </div>
+        </div>
+        <input type="text" name="system.modularSections.consequences.moderate.value" value="{{section.moderate.value}}" placeholder="Moderate Consequence"/>
+      </div>
+    {{/if}}
+
+    {{!-- Severe (6) --}}
+    {{#if (or section.severe.visible editMode)}}
+      <div class="consequence-box severe {{#if section.severe.value}}active{{/if}} {{#if section.severe.treated}}treated{{/if}}">
+        <div class="consequence-header">
+          <label class="consequence-label">Severe (6)</label>
+          {{#if editMode}}
+            <label>
+              <input type="checkbox" class="consequence-visibility-toggle" data-consequence="severe" {{checked section.severe.visible}}/>
+              Visible
+            </label>
+          {{/if}}
+          <div class="consequence-status">
+            {{#if section.severe.value}}
+              {{#if section.severe.treated}}
+                <span class="status-badge treated">Treated</span>
+              {{else}}
+                <span class="status-badge active">Active</span>
+              {{/if}}
+            {{else}}
+              <span class="status-badge unused">Unused</span>
+            {{/if}}
+            <label class="treated-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.severe.treated" {{checked section.severe.treated}}/>
+              Mark Treated
+            </label>
+          </div>
+        </div>
+        <input type="text" name="system.modularSections.consequences.severe.value" value="{{section.severe.value}}" placeholder="Severe Consequence"/>
+      </div>
+    {{/if}}
+  </div>
+{{/inline}}
+
+{{!-- Partial: Age Track --}}
+{{#*inline "threatAgeTrack"}}
+  <div class="section-box age-track-section">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.ageTrack.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label class="section-visibility-toggle">
+          <input type="checkbox" class="section-visibility-toggle" data-section="ageTrack" {{checked section.visible}}/>
+          Visible
+        </label>
+        <label>Priority: <input type="number" name="system.modularSections.ageTrack.priority" value="{{section.priority}}" class="priority-input"/></label>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    <div class="age-track-table">
+      <div class="age-track-header">
+        <div class="age-track-cell age-header"></div>
+        <div class="age-track-cell age-header" title="Wound">Wound</div>
+        <div class="age-track-cell age-header" title="Invoke">Invoke</div>
+        <div class="age-track-cell age-header" title="Scar">Scar</div>
+        <div class="age-track-cell age-header" title="Passed">Passed</div>
+      </div>
+      {{#each section.stages as |stage key|}}
+        <div class="age-track-row">
+          <div class="age-track-cell age-label {{#if (eq ../currentAgeStage key)}}current-age{{/if}} {{#if stage.passed}}passed-age{{/if}} {{#if stage.scar}}scarred-age{{/if}}" title="{{stage.ageRange}}">{{stage.label}}</div>
+          <div class="age-track-cell age-checkbox wound-cell">
+            <div class="wound-stress-box {{#if stage.wound}}checked{{/if}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" title="Wound"></div>
+          </div>
+          <div class="age-track-cell age-checkbox">
+            <input type="checkbox" class="age-invoke-used {{#unless stage.wound}}hidden{{/unless}} {{#if stage.scar}}hidden{{/if}} {{#if stage.passed}}hidden{{/if}}" data-stage="{{key}}" {{checked stage.freeInvokeUsed}} title="Invoke Used"/>
+          </div>
+          <div class="age-track-cell age-checkbox">
+            <input type="checkbox" class="age-scar {{#if stage.passed}}hidden{{/if}} {{#unless (lookup (lookup ../ageTrackValidation key) 'canCheckScar')}}disabled-checkbox{{/unless}}" data-stage="{{key}}" {{checked stage.scar}} title="Scar"/>
+          </div>
+          <div class="age-track-cell age-checkbox">
+            <input type="checkbox" class="age-passed {{#if stage.scar}}hidden{{/if}} {{#unless (lookup (lookup ../ageTrackValidation key) 'canCheckPassed')}}disabled-checkbox{{/unless}}" data-stage="{{key}}" {{checked stage.passed}} title="Passed"/>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+{{/inline}}
+
+{{!-- Partial: Ladder Track --}}
+{{#*inline "threatLadder"}}
+  <div class="section-box ladder-section">
+    <div class="section-header-row">
+      {{#if editMode}}
+        <input type="text" name="system.modularSections.{{ladderKey}}.heading" value="{{section.heading}}" class="section-heading-edit"/>
+        <label class="section-visibility-toggle">
+          <input type="checkbox" class="section-visibility-toggle" data-section="{{ladderKey}}" {{checked section.visible}}/>
+          Visible
+        </label>
+        <label>Priority: <input type="number" name="system.modularSections.{{ladderKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <div class="ladder-rung-controls">
+          <button type="button" class="ladder-rung-decrement" data-ladder="{{ladderKey}}" title="Decrease">−</button>
+          <span>{{section.rungCount}} rungs</span>
+          <button type="button" class="ladder-rung-increment" data-ladder="{{ladderKey}}" title="Increase">+</button>
+        </div>
+      {{else}}
+        <div class="subsection-header">{{section.heading}}</div>
+      {{/if}}
+    </div>
+
+    {{#if editMode}}
+      <div class="ladder-label-edit">
+        <label>Ladder Label:</label>
+        <input type="text" name="system.modularSections.{{ladderKey}}.label" value="{{section.label}}" class="ladder-label-input"/>
+      </div>
+    {{else}}
+      <div class="ladder-label">{{section.label}}</div>
+    {{/if}}
+
+    <div class="ladder-track">
+      {{#each (getLadderRungs section) as |rung index|}}
+        <div class="ladder-rung {{#if rung.checked}}checked{{/if}} {{#if (eq index (getHighestUncheckedRung ../section))}}highest-unchecked{{/if}}">
+          {{#unless ../editMode}}
+            <input type="checkbox" class="ladder-rung-checkbox" data-ladder="{{../ladderKey}}" data-index="{{index}}" {{checked rung.checked}}/>
+          {{/unless}}
+          <input type="text" name="system.modularSections.{{../ladderKey}}.rungs.{{index}}.aspect" value="{{rung.aspect}}" placeholder="Rung {{add index 1}}" class="ladder-rung-aspect {{#if rung.checked}}checked-aspect{{/if}}"/>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+{{/inline}}

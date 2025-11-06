@@ -5,12 +5,12 @@
 
 // Import actor classes
 import { FactionScionActor } from "./actors/faction-scion-actor.mjs";
-// import { ThreatActor } from "./actors/threat-actor.mjs";
+import { ThreatActor } from "./actors/threat-actor.mjs";
 import { ColonyActor } from "./actors/colony-actor.mjs";
 
 // Import sheet classes
 import { FactionScionSheet } from "./actors/faction-scion-sheet.mjs";
-// import { ThreatSheet } from "./actors/threat-sheet.mjs";
+import { ThreatSheet } from "./actors/threat-sheet.mjs";
 import { ColonySheet } from "./actors/colony-sheet.mjs";
 
 /**
@@ -105,6 +105,8 @@ Hooks.once('init', async function() {
       // Call type-specific prepareData if it exists
       if (this.type === "faction-scion" && FactionScionActor.prototype.prepareData !== Actor.prototype.prepareData) {
         FactionScionActor.prototype.prepareData.call(this);
+      } else if (this.type === "threat" && ThreatActor.prototype.prepareData !== Actor.prototype.prepareData) {
+        ThreatActor.prototype.prepareData.call(this);
       } else if (this.type === "colony" && ColonyActor.prototype.prepareData !== Actor.prototype.prepareData) {
         ColonyActor.prototype.prepareData.call(this);
       }
@@ -117,6 +119,12 @@ Hooks.once('init', async function() {
       if (this.type === "faction-scion") {
         this._prepareScionData(this.system);
         this._prepareFactionData(this.system);
+      } else if (this.type === "threat") {
+        this._prepareStressTracks(this.system);
+        this._prepareLadders(this.system);
+        if (this.system.modularSections.ageTrack.visible) {
+          this.system.currentAgeStage = this._determineCurrentAge(this.system.modularSections.ageTrack.stages);
+        }
       } else if (this.type === "colony") {
         this._preparePopulationTrack(this.system);
         this._validateAttributeColumn(this.system);
@@ -158,6 +166,19 @@ Hooks.once('init', async function() {
       }
     }
 
+    // ThreatActor methods
+    _prepareStressTracks(systemData) {
+      return ThreatActor.prototype._prepareStressTracks.call(this, systemData);
+    }
+
+    _prepareLadders(systemData) {
+      return ThreatActor.prototype._prepareLadders.call(this, systemData);
+    }
+
+    _determineCurrentAge(ageTrack) {
+      return ThreatActor.prototype._determineCurrentAge.call(this, ageTrack);
+    }
+
     // ColonyActor methods
     _preparePopulationTrack(systemData) {
       return ColonyActor.prototype._preparePopulationTrack.call(this, systemData);
@@ -171,6 +192,8 @@ Hooks.once('init', async function() {
     async rollFateDice(skillOrCap, modifier, label, speakerName) {
       if (this.type === "faction-scion") {
         return FactionScionActor.prototype.rollFateDice.call(this, skillOrCap, modifier, label, speakerName);
+      } else if (this.type === "threat") {
+        return ThreatActor.prototype.rollFateDice.call(this, skillOrCap, modifier, label);
       } else if (this.type === "colony") {
         return ColonyActor.prototype.rollFateDice.call(this, skillOrCap, modifier, label, speakerName);
       }
@@ -187,6 +210,12 @@ Hooks.once('init', async function() {
     types: ["faction-scion"],
     makeDefault: true,
     label: "SCIONS.ActorTypes.faction-scion"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", ThreatSheet, {
+    types: ["threat"],
+    makeDefault: true,
+    label: "SCIONS.ActorTypes.threat"
   });
 
   foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", ColonySheet, {
@@ -414,6 +443,26 @@ function registerHandlebarsHelpers() {
   Handlebars.registerHelper('reverse', function(array) {
     if (!Array.isArray(array)) return array;
     return array.slice().reverse();
+  });
+
+  // Helper to add two numbers
+  Handlebars.registerHelper('add', function(a, b) {
+    return a + b;
+  });
+
+  // Helper to subtract two numbers
+  Handlebars.registerHelper('subtract', function(a, b) {
+    return a - b;
+  });
+
+  // Helper for modulo operation
+  Handlebars.registerHelper('mod', function(a, b) {
+    return a % b;
+  });
+
+  // Helper for checkbox checked attribute
+  Handlebars.registerHelper('checked', function(value) {
+    return value ? 'checked' : '';
   });
 }
 

@@ -176,9 +176,11 @@
       }
     },
     "threat": {
-      "threatType": "",
+      "editMode": true,
+      "notes": "",
       "aspects": {
-        "highConcept": {
+        "aspect1": {
+          "label": "High Concept",
           "value": "",
           "visible": true
         },
@@ -188,208 +190,215 @@
           "visible": true
         },
         "aspect3": {
-          "label": "Aspect 3",
+          "label": "Aspect",
           "value": "",
-          "visible": true
+          "visible": false
         },
         "aspect4": {
-          "label": "Aspect 4",
+          "label": "Aspect",
           "value": "",
           "visible": false
         },
         "aspect5": {
-          "label": "Aspect 5",
+          "label": "Aspect",
           "value": "",
           "visible": false
         }
       },
-      "skills": [
-        {
-          "name": "Influence",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Combat",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Academics",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Engineering",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Exploration",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Deception",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Extra A",
-          "value": 0,
-          "visible": false
-        },
-        {
-          "name": "Extra B",
-          "value": 0,
-          "visible": false
-        }
-      ],
-      "capabilities": [
-        {
-          "name": "Military",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Industrial",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Technology",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Culture",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Mobility",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "People",
-          "value": 0,
-          "visible": true
-        },
-        {
-          "name": "Extra A",
-          "value": 0,
-          "visible": false
-        },
-        {
-          "name": "Extra B",
-          "value": 0,
-          "visible": false
-        }
-      ],
-      "ageTrack": {
-        "visible": false,
-        "stages": {
-          "youthful": {
-            "label": "Youthful",
-            "passed": false,
-            "wound": false,
-            "freeInvokeUsed": false,
-            "scar": false
-          },
-          "seasoned": {
-            "label": "Seasoned",
-            "passed": false,
-            "wound": false,
-            "freeInvokeUsed": false,
-            "scar": false
-          },
-          "older": {
-            "label": "Older",
-            "passed": false,
-            "wound": false,
-            "freeInvokeUsed": false,
-            "scar": false
-          },
-          "geriatric": {
-            "label": "Geriatric",
-            "passed": false,
-            "wound": false,
-            "freeInvokeUsed": false,
-            "scar": false
-          },
-          "ancient": {
-            "label": "Ancient",
-            "passed": false,
-            "wound": false,
-            "freeInvokeUsed": false,
-            "scar": false
-          }
-        }
-      },
-      "countdownLadders": {
-        "ladder1": {
-          "name": "Countdown 1",
+      "modularSections": {
+        "capabilitiesColumn": {
           "visible": true,
-          "stages": [
-            {"name": "", "checked": false},
-            {"name": "", "checked": false},
-            {"name": "", "checked": false},
-            {"name": "", "checked": false},
-            {"name": "", "checked": false}
+          "priority": 10,
+          "heading": "Capabilities",
+          "skillCount": 6,
+          "skills": [
+            {"name": "Military", "value": 0},
+            {"name": "Industrial", "value": 0},
+            {"name": "Technology", "value": 0},
+            {"name": "Culture", "value": 0},
+            {"name": "Mobility", "value": 0},
+            {"name": "People", "value": 0},
+            {"name": "", "value": 0},
+            {"name": "", "value": 0}
+          ]
+        },
+        "skillsColumn": {
+          "visible": false,
+          "priority": 20,
+          "heading": "Skills",
+          "skillCount": 6,
+          "skills": [
+            {"name": "Academics", "value": 0},
+            {"name": "Combat", "value": 0},
+            {"name": "Deception", "value": 0},
+            {"name": "Engineering", "value": 0},
+            {"name": "Exploration", "value": 0},
+            {"name": "Influence", "value": 0},
+            {"name": "", "value": 0},
+            {"name": "", "value": 0}
+          ]
+        },
+        "singlePointStress": {
+          "visible": true,
+          "priority": 30,
+          "heading": "Stress Tracks",
+          "track1": {
+            "label": "Stress",
+            "visible": true,
+            "max": 3,
+            "boxes": [
+              {"value": false},
+              {"value": false},
+              {"value": false}
+            ]
+          },
+          "track2": {
+            "label": "Resources",
+            "visible": false,
+            "max": 3,
+            "boxes": [
+              {"value": false},
+              {"value": false},
+              {"value": false}
+            ]
+          }
+        },
+        "growingStress": {
+          "visible": false,
+          "priority": 40,
+          "heading": "Stress",
+          "track1": {
+            "label": "Physical",
+            "max": 3,
+            "boxes": [
+              {"value": false},
+              {"value": false},
+              {"value": false}
+            ]
+          },
+          "track2": {
+            "label": "Mental",
+            "max": 3,
+            "boxes": [
+              {"value": false},
+              {"value": false},
+              {"value": false}
+            ]
+          }
+        },
+        "consequences": {
+          "visible": true,
+          "priority": 50,
+          "heading": "Consequences",
+          "minor": {
+            "value": "",
+            "treated": false,
+            "visible": true
+          },
+          "minor2": {
+            "value": "",
+            "treated": false,
+            "visible": false
+          },
+          "moderate": {
+            "value": "",
+            "treated": false,
+            "visible": true
+          },
+          "severe": {
+            "value": "",
+            "treated": false,
+            "visible": true
+          }
+        },
+        "ageTrack": {
+          "visible": false,
+          "priority": 60,
+          "heading": "Age Track",
+          "stages": {
+            "youthful": {
+              "label": "Youthful",
+              "ageRange": "16-29",
+              "passed": false,
+              "wound": false,
+              "freeInvokeUsed": false,
+              "scar": false
+            },
+            "seasoned": {
+              "label": "Seasoned",
+              "ageRange": "30-49",
+              "passed": false,
+              "wound": false,
+              "freeInvokeUsed": false,
+              "scar": false
+            },
+            "older": {
+              "label": "Older",
+              "ageRange": "50-69",
+              "passed": false,
+              "wound": false,
+              "freeInvokeUsed": false,
+              "scar": false
+            },
+            "geriatric": {
+              "label": "Geriatric",
+              "ageRange": "70-89",
+              "passed": false,
+              "wound": false,
+              "freeInvokeUsed": false,
+              "scar": false
+            },
+            "ancient": {
+              "label": "Ancient",
+              "ageRange": "90+",
+              "passed": false,
+              "wound": false,
+              "freeInvokeUsed": false,
+              "scar": false
+            }
+          }
+        },
+        "ladder1": {
+          "visible": true,
+          "priority": 70,
+          "heading": "Ladder Track",
+          "label": "Ladder 1",
+          "rungCount": 5,
+          "rungs": [
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false}
           ]
         },
         "ladder2": {
-          "name": "Countdown 2",
           "visible": false,
-          "stages": [
-            {"name": "", "checked": false},
-            {"name": "", "checked": false},
-            {"name": "", "checked": false},
-            {"name": "", "checked": false},
-            {"name": "", "checked": false}
+          "priority": 80,
+          "heading": "Ladder Track",
+          "label": "Ladder 2",
+          "rungCount": 5,
+          "rungs": [
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false},
+            {"aspect": "", "checked": false}
           ]
         }
       },
-      "stressTracks": {
-        "singleBox": {
-          "name": "Stress",
-          "visible": false,
-          "max": 3,
-          "boxes": []
-        },
-        "growingBox": {
-          "name": "People",
-          "visible": true,
-          "max": 3,
-          "boxes": []
-        }
-      },
-      "consequences": {
-        "minor": {
-          "value": "",
-          "treated": false,
-          "visible": true
-        },
-        "minor2": {
-          "value": "",
-          "treated": false,
-          "visible": false
-        },
-        "moderate": {
-          "value": "",
-          "treated": false,
-          "visible": true
-        },
-        "severe": {
-          "value": "",
-          "treated": false,
-          "visible": true
-        }
-      },
       "stunts": [],
-      "extras": [],
-      "editMode": false
+      "extras": []
     },
     "colony": {
       "aspects": {
