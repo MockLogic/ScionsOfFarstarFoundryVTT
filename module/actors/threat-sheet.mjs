@@ -104,6 +104,9 @@ export class ThreatSheet extends ActorSheet {
     // Expand the formData to handle arrays properly
     const expandedData = foundry.utils.expandObject(formData);
 
+    console.log('ThreatSheet _updateObject - formData:', formData);
+    console.log('ThreatSheet _updateObject - expandedData:', expandedData);
+
     // Ensure stunts and extras arrays are properly handled
     if (expandedData.system?.stunts) {
       const stuntsObj = expandedData.system.stunts;
@@ -162,6 +165,20 @@ export class ThreatSheet extends ActorSheet {
           if (typeof skillsObj === 'object' && !Array.isArray(skillsObj)) {
             modularSections[columnKey].skills = Object.values(skillsObj);
           }
+        }
+      });
+
+      // Process stress track boxes arrays
+      ['singlePointStress', 'growingStress'].forEach(stressKey => {
+        if (modularSections[stressKey]) {
+          ['track1', 'track2'].forEach(trackKey => {
+            if (modularSections[stressKey][trackKey]?.boxes) {
+              const boxesObj = modularSections[stressKey][trackKey].boxes;
+              if (typeof boxesObj === 'object' && !Array.isArray(boxesObj)) {
+                modularSections[stressKey][trackKey].boxes = Object.values(boxesObj);
+              }
+            }
+          });
         }
       });
     }
