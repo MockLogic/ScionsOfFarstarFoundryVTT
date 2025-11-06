@@ -570,12 +570,20 @@
    =========================== */
 
 .two-column-layout {
-  column-count: 2;
-  column-gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
   padding: 10px;
 }
 
-.two-column-layout > * {
+/* Threat sheet specific: use CSS columns for better gap filling */
+.threat .two-column-layout {
+  display: block;
+  column-count: 2;
+  column-gap: 15px;
+}
+
+.threat .two-column-layout > * {
   break-inside: avoid;
   margin-bottom: 15px;
 }
@@ -1643,9 +1651,47 @@
   border: 1px solid #90caf9;
 }
 
+/* Section header row styling for edit mode */
+.threat .section-header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sof-secondary);
+  padding: 8px 10px;
+  margin: -12px -12px 8px -12px;
+  border-radius: 4px 4px 0 0;
+}
+
+.threat .section-header-row .section-heading-edit {
+  flex: 1;
+  min-width: 150px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--sof-secondary);
+  font-weight: bold;
+}
+
+.threat .section-header-row label {
+  color: white;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
 /* Priority label styling */
 .threat .section-header-row label:has(.priority-input) {
   background: #e3f2fd;
+  color: var(--sof-secondary);
+  padding: 4px 8px;
+  border-radius: 3px;
+  border: 1px solid #90caf9;
+}
+
+/* Visibility checkbox label styling - match priority styling */
+.threat .section-header-row label:has(.section-visibility-toggle),
+.threat .section-header-row label:has(.aspect-visibility-toggle),
+.threat .section-header-row label:has(.track-visibility-toggle),
+.threat .section-header-row label:has(.consequence-visibility-toggle) {
+  background: #e3f2fd;
+  color: var(--sof-secondary);
   padding: 4px 8px;
   border-radius: 3px;
   border: 1px solid #90caf9;
