@@ -549,11 +549,20 @@ export function rollFateDice() {
  * @param {string} speakerName - Optional custom speaker name (e.g., Scion name instead of Faction name)
  */
 export async function createFateRoll(label, modifier = 0, actor = null, speakerName = null) {
-  const dice = rollFateDice();
-  const finalResult = dice.total + modifier;
+  // Create the roll formula with modifier
+  const formula = modifier !== 0 ? `4dF + ${modifier}` : '4dF';
+  const roll = new Roll(formula);
+
+  // Evaluate the roll
+  await roll.evaluate();
+
+  // Extract individual dice results from the roll
+  const diceResults = roll.dice[0].results.map(r => r.result);
+  const diceTotal = diceResults.reduce((sum, val) => sum + val, 0);
+  const finalResult = roll.total;
 
   // Convert dice results to symbols
-  const diceSymbols = dice.results.map(d => {
+  const diceSymbols = diceResults.map(d => {
     if (d === 1) return '<span class="fate-die plus">+</span>';
     if (d === -1) return '<span class="fate-die minus">-</span>';
     return '<span class="fate-die blank">0</span>';
@@ -592,10 +601,11 @@ export async function createFateRoll(label, modifier = 0, actor = null, speakerN
     speaker = ChatMessage.getSpeaker();
   }
 
-  // Create chat message
+  // Create chat message with roll data for Dice So Nice compatibility
   const chatData = {
     user: game.user.id,
     speaker: speaker,
+    roll: roll,
     content: `
       <div class="fate-roll">
         <h3>${label}</h3>
@@ -603,12 +613,18 @@ export async function createFateRoll(label, modifier = 0, actor = null, speakerN
           ${diceSymbols}
         </div>
         <div class="roll-total">
-          <strong>Total:</strong> ${dice.total} ${modifier !== 0 ? `+ ${modifier}` : ''} = <strong class="${colorClass}">${finalResult}</strong>
+          <strong>Total:</strong> ${diceTotal} ${modifier !== 0 ? `+ ${modifier}` : ''} = <strong class="${colorClass}">${finalResult}</strong>
         </div>
       </div>
     `,
-    type: CONST.CHAT_MESSAGE_TYPES.ROLL
+    type: CONST.CHAT_MESSAGE_TYPES.ROLL,
+    sound: CONFIG.sounds.dice
   };
+
+  // Show dice animation if Dice So Nice is active
+  if (game.dice3d) {
+    await game.dice3d.showForRoll(roll, game.user, true);
+  }
 
   return ChatMessage.create(chatData);
 }

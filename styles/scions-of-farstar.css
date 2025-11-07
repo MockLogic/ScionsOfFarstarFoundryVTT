@@ -81,19 +81,14 @@
   line-height: 32px;
   text-align: center;
   margin: 0 2px;
-  background: white;
-  border: 2px solid var(--sof-border);
-  border-radius: 4px;
 }
 
 .fate-die.plus {
   color: var(--sof-success);
-  border-color: var(--sof-success);
 }
 
 .fate-die.minus {
   color: var(--sof-danger);
-  border-color: var(--sof-danger);
 }
 
 .fate-die.blank {
@@ -159,8 +154,9 @@
   font-size: 18px;
 }
 
-/* Hide the ::before pseudo-element when box-value span is present */
-.stress-box:has(.box-value)::before {
+/* Hide the ::before pseudo-element for Threat sheets (use .box-value instead) */
+.threat .stress-box::before,
+.threat .stress-box.checked::before {
   display: none;
 }
 
