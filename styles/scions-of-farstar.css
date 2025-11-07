@@ -159,6 +159,11 @@
   font-size: 18px;
 }
 
+/* Hide the ::before pseudo-element when box-value span is present */
+.stress-box:has(.box-value)::before {
+  display: none;
+}
+
 .stress-box:hover {
   border-color: var(--sof-accent);
 }
