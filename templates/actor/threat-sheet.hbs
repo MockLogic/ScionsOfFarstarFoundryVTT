@@ -580,6 +580,7 @@
               {{/if}}
             </div>
           {{/unless}}
+          <input type="hidden" name="system.modularSections.{{../ladderKey}}.rungs.{{index}}.checked" value="{{rung.checked}}" data-dtype="Boolean"/>
           <input type="text" name="system.modularSections.{{../ladderKey}}.rungs.{{index}}.aspect" value="{{rung.aspect}}" placeholder="Rung {{add index 1}}" class="ladder-rung-aspect {{#if rung.checked}}checked-aspect{{/if}}"/>
         </div>
       {{/each}}
