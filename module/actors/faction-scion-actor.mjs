@@ -228,6 +228,82 @@ export class FactionScionActor extends Actor {
 
     // Sync Fate Points max with Refresh (for display reference, value can exceed max)
     faction.fatePoints.max = calculatedRefresh;
+
+    // Calculate faction trauma capacity and usage for token bar
+    // Trauma capacity = sum of available people track boxes + available consequences
+    // People track boxes have dynamic values (1, 2, 3, etc.)
+    // Consequences have fixed values: minor=2, minor2=2, moderate=4, severe=6
+
+    // Calculate available people track capacity
+    let peopleCapacity = 0;
+    if (faction.peopleTrack.boxes && Array.isArray(faction.peopleTrack.boxes)) {
+      for (const box of faction.peopleTrack.boxes) {
+        peopleCapacity += box.value || 0;
+      }
+    }
+
+    // Calculate used people track (committed or expended boxes)
+    let peopleUsed = 0;
+    if (faction.peopleTrack.boxes && Array.isArray(faction.peopleTrack.boxes)) {
+      for (const box of faction.peopleTrack.boxes) {
+        if (box.committed || box.expended) {
+          peopleUsed += box.value || 0;
+        }
+      }
+    }
+
+    // Calculate available consequences capacity (only enabled consequences)
+    let consequencesCapacity = 0;
+    const consequences = systemData.consequences?.consequences;
+    if (consequences) {
+      // Minor consequence: always available, worth 2
+      consequencesCapacity += 2;
+
+      // Minor2 consequence: only if enabled, worth 2
+      if (consequences.minor2?.enabled) {
+        consequencesCapacity += 2;
+      }
+
+      // Moderate consequence: always available, worth 4
+      consequencesCapacity += 4;
+
+      // Severe consequence: always available, worth 6
+      consequencesCapacity += 6;
+    }
+
+    // Calculate used consequences (filled in consequences)
+    let consequencesUsed = 0;
+    if (consequences) {
+      // Minor consequence: used if has a value
+      if (consequences.minor?.value) {
+        consequencesUsed += 2;
+      }
+
+      // Minor2 consequence: used if enabled AND has a value
+      if (consequences.minor2?.enabled && consequences.minor2?.value) {
+        consequencesUsed += 2;
+      }
+
+      // Moderate consequence: used if has a value
+      if (consequences.moderate?.value) {
+        consequencesUsed += 4;
+      }
+
+      // Severe consequence: used if has a value
+      if (consequences.severe?.value) {
+        consequencesUsed += 6;
+      }
+    }
+
+    // Total faction trauma
+    const factionTraumaCapacity = peopleCapacity + consequencesCapacity;
+    const factionTraumaUsed = peopleUsed + consequencesUsed;
+
+    // Store for token bar (value = remaining, max = capacity)
+    faction.trauma = {
+      value: factionTraumaCapacity - factionTraumaUsed,  // Remaining capacity
+      max: factionTraumaCapacity                          // Total capacity
+    };
   }
 
   /**
@@ -310,6 +386,12 @@ export class FactionScionActor extends Actor {
     // Block direct updates to trauma (it's calculated from stress/age track)
     if (attribute === 'scion.trauma') {
       ui.notifications.warn("Trauma cannot be edited directly. Use the character sheet to manage stress and age track.");
+      return this;
+    }
+
+    // Block direct updates to faction trauma (it's calculated from people track/consequences)
+    if (attribute === 'faction.trauma') {
+      ui.notifications.warn("Faction Trauma cannot be edited directly. Use the character sheet to manage people track and consequences.");
       return this;
     }
 

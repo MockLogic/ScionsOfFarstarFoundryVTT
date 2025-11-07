@@ -274,6 +274,7 @@
           "heading": "Stress",
           "track1": {
             "label": "Physical",
+            "visible": true,
             "max": 3,
             "boxes": [
               {"value": false},
@@ -283,6 +284,7 @@
           },
           "track2": {
             "label": "Mental",
+            "visible": false,
             "max": 3,
             "boxes": [
               {"value": false},

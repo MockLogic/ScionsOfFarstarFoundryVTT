@@ -274,48 +274,60 @@
     </div>
 
     {{!-- Track 1 --}}
-    <div class="stress-track-row">
-      {{#if editMode}}
-        <input type="text" name="system.modularSections.growingStress.track1.label" value="{{section.track1.label}}" class="track-label-edit"/>
-        <div class="stress-max-controls">
-          <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track1" title="Decrease">−</button>
-          <span>{{section.track1.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
-          <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track1" title="Increase">+</button>
-        </div>
-      {{else}}
-        <label>{{section.track1.label}}:</label>
-      {{/if}}
-      <div class="stress-boxes">
-        {{#each section.track1.boxes as |box index|}}
-          <label class="growing-stress-box {{#if box.value}}checked{{/if}}">
-            <input type="checkbox" class="stress-box-checkbox-hidden" name="system.modularSections.growingStress.track1.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
-            <span class="stress-box-number">{{add index 1}}</span>
+    {{#if (or section.track1.visible editMode)}}
+      <div class="stress-track-row">
+        {{#if editMode}}
+          <input type="text" name="system.modularSections.growingStress.track1.label" value="{{section.track1.label}}" class="track-label-edit"/>
+          <label>
+            <input type="checkbox" class="track-visibility-toggle" data-section="growingStress" data-track="track1" {{checked section.track1.visible}}/>
+            {{localize "SCIONS.Labels.Visible"}}
           </label>
-        {{/each}}
+          <div class="stress-max-controls">
+            <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track1" title="Decrease">−</button>
+            <span>{{section.track1.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
+            <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track1" title="Increase">+</button>
+          </div>
+        {{else}}
+          <label>{{section.track1.label}}:</label>
+        {{/if}}
+        <div class="stress-boxes">
+          {{#each section.track1.boxes as |box index|}}
+            <label class="growing-stress-box {{#if box.value}}checked{{/if}}">
+              <input type="checkbox" class="stress-box-checkbox-hidden" name="system.modularSections.growingStress.track1.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
+              <span class="stress-box-number">{{add index 1}}</span>
+            </label>
+          {{/each}}
+        </div>
       </div>
-    </div>
+    {{/if}}
 
     {{!-- Track 2 --}}
-    <div class="stress-track-row">
-      {{#if editMode}}
-        <input type="text" name="system.modularSections.growingStress.track2.label" value="{{section.track2.label}}" class="track-label-edit"/>
-        <div class="stress-max-controls">
-          <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track2" title="Decrease">−</button>
-          <span>{{section.track2.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
-          <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track2" title="Increase">+</button>
-        </div>
-      {{else}}
-        <label>{{section.track2.label}}:</label>
-      {{/if}}
-      <div class="stress-boxes">
-        {{#each section.track2.boxes as |box index|}}
-          <label class="growing-stress-box {{#if box.value}}checked{{/if}}">
-            <input type="checkbox" class="stress-box-checkbox-hidden" name="system.modularSections.growingStress.track2.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
-            <span class="stress-box-number">{{add index 1}}</span>
+    {{#if (or section.track2.visible editMode)}}
+      <div class="stress-track-row">
+        {{#if editMode}}
+          <input type="text" name="system.modularSections.growingStress.track2.label" value="{{section.track2.label}}" class="track-label-edit"/>
+          <label>
+            <input type="checkbox" class="track-visibility-toggle" data-section="growingStress" data-track="track2" {{checked section.track2.visible}}/>
+            {{localize "SCIONS.Labels.Visible"}}
           </label>
-        {{/each}}
+          <div class="stress-max-controls">
+            <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track2" title="Decrease">−</button>
+            <span>{{section.track2.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
+            <button type="button" class="stress-max-increment" data-section="growingStress" data-track="track2" title="Increase">+</button>
+          </div>
+        {{else}}
+          <label>{{section.track2.label}}:</label>
+        {{/if}}
+        <div class="stress-boxes">
+          {{#each section.track2.boxes as |box index|}}
+            <label class="growing-stress-box {{#if box.value}}checked{{/if}}">
+              <input type="checkbox" class="stress-box-checkbox-hidden" name="system.modularSections.growingStress.track2.boxes.{{index}}.value" {{checked box.value}} data-dtype="Boolean"/>
+              <span class="stress-box-number">{{add index 1}}</span>
+            </label>
+          {{/each}}
+        </div>
       </div>
-    </div>
+    {{/if}}
   </div>
 {{/inline}}
 
