@@ -184,7 +184,9 @@
 
 /* Trauma value input in edit mode */
 .trauma-value-input {
-  width: 50px;
+  width: 40px !important;
+  max-width: 40px;
+  flex-shrink: 0;
   text-align: center;
   padding: 2px 4px;
   border: 1px solid var(--sof-border);
@@ -1957,9 +1959,24 @@
   flex-shrink: 0;
 }
 
+/* Clickable ladder rung value box (replaces checkbox in play mode) */
+.threat .ladder-rung-clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.threat .ladder-rung-clickable:hover {
+  border-color: var(--sof-accent);
+  background: #f0f8ff;
+}
+
 .threat .ladder-rung.checked .ladder-rung-value-box {
   background: #ffebee;
   border-color: var(--sof-danger);
+}
+
+.threat .ladder-rung.checked .ladder-rung-clickable:hover {
+  background: #ffcdd2;
 }
 
 .threat .ladder-rung-value-box .rung-value {

@@ -563,15 +563,22 @@
     <div class="ladder-track">
       {{#each (getLadderRungs section) as |rung index|}}
         <div class="ladder-rung {{#if rung.checked}}checked{{/if}} {{#if (eq index (getHighestUncheckedRung ../section))}}highest-unchecked{{/if}}">
-          <div class="ladder-rung-value-box">
-            {{#if (gt ../section.traumaValue 0)}}
-              <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../section.traumaValue}}{{/if}}</span>
-            {{else}}
-              <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>
-            {{/if}}
-          </div>
           {{#unless ../editMode}}
-            <input type="checkbox" class="ladder-rung-checkbox" data-ladder="{{../ladderKey}}" data-index="{{index}}" {{checked rung.checked}}/>
+            <div class="ladder-rung-value-box ladder-rung-clickable" data-ladder="{{../ladderKey}}" data-index="{{index}}">
+              {{#if (gt ../section.traumaValue 0)}}
+                <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../section.traumaValue}}{{/if}}</span>
+              {{else}}
+                <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>
+              {{/if}}
+            </div>
+          {{else}}
+            <div class="ladder-rung-value-box">
+              {{#if (gt ../section.traumaValue 0)}}
+                <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../section.traumaValue}}{{/if}}</span>
+              {{else}}
+                <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>
+              {{/if}}
+            </div>
           {{/unless}}
           <input type="text" name="system.modularSections.{{../ladderKey}}.rungs.{{index}}.aspect" value="{{rung.aspect}}" placeholder="Rung {{add index 1}}" class="ladder-rung-aspect {{#if rung.checked}}checked-aspect{{/if}}"/>
         </div>
