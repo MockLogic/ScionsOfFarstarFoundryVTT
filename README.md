@@ -31,7 +31,7 @@ This is a custom Foundry VTT system being built for a private home game. It is n
 
 I am building this with AI assistance.
 
-**Current Version:** Early Development  
+**Current Version:** 1.0.0 
 **Target Foundry Version:** v13 build 350
 
 ---
@@ -81,7 +81,7 @@ Before making any changes or additions to this system, **read the `DESIGN.md` fi
    - Focus on tracking and organization
    - Manual calculation for complex rolls (Leadership, Scale)
    - Individual die results must be visible (for invoke mechanic)
-   - Validation where needed (pyramids), freeform where appropriate (threats)
+   - Validation by alert where needed, freeform where appropriate (threats)
 
 4. **Dynamic Configuration:**
    - Threat sheets can show/hide features as needed
@@ -141,7 +141,7 @@ A **combined sheet** representing both the Scion (individual) and their Faction 
 **Philosophy:** The Scion is a specialized feature of the Faction, not a separate entity.
 
 #### 2. Threat Front (GM Tool)
-A **highly configurable sheet** that can represent anything threatening the colony:
+ **highly configurable sheet** that can represent anything threatening the colony:
 - Rival factions (skills + capabilities)
 - Environmental hazards (magnitude ratings)
 - Alien swarms (hive capabilities)
@@ -202,12 +202,11 @@ Threat sheets have two distinct modes:
 - Change `-` to `blank` or `+`
 - Change `blank` to `+`
 - Hostile invokes in reverse, making rolls worse.
-- Each die can only be invoked once.
 - Prevents stacking multiple +2s for alpha-strike attacks
 
 ### Age Track
 Replaces consequences for Scions. 5 stages, each with three states:
-- **Passed:** Crossed off when advancing to next age (skill +1)
+- **Aged:** Crossed off when advancing to next age (skill +1)
 - **Wound:** Marked to absorb 1 stress (gives enemies free invoke)
 - **Scar:** Permanent mark (no free invoke, but track box is used, clears other wounds)
 
@@ -218,7 +217,7 @@ Replaces consequences for Scions. 5 stages, each with three states:
 Faction resource that serves dual purpose:
 - **Resource:** Can be committed to multiple tasks (splitting forces)
 - **Stress:** Only committed boxes vulnerable during engagement
-- **Recovery:** Clears between scenes (casualties regroup/heal/resupply)
+- **Recovery:** Clears between large scale scenes (casualties regroup/heal/resupply)
 
 ### Consequences (Faction/Colony)
 Different recovery timing than standard Fate:
@@ -238,11 +237,11 @@ Different recovery timing than standard Fate:
 ### Countdown Ladders (Threats)
 Threats use **ladders instead of clocks** - each stage is a named aspect:
 ```
-[ ] Stage 5: Colony Under Siege (End State)
-[ ] Stage 4: Scouts Probing Defenses
-[ ] Stage 3: Swarm Detected on Sensors
-[✓] Stage 2: Strange Seismic Activity
 [✓] Stage 1: Livestock Acting Nervous
+[✓] Stage 2: Strange Seismic Activity
+[ ] Stage 3: Swarm Detected on Sensors
+[ ] Stage 4: Scouts Probing Defenses
+[ ] Stage 5: Colony Under Siege (End State)
 ```
 Each stage becomes a situation aspect when reached.
 

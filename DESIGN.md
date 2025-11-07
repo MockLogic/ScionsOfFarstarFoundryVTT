@@ -53,6 +53,7 @@ Uses Elective Action Order / Popcorn Initiative:
 - Players declare actions when narratively appropriate
 - No automated turn order needed
 - Status tracking (Ready vs Done states)
+- Hoping to use Lancer Initative module
 
 ---
 
@@ -60,7 +61,7 @@ Uses Elective Action Order / Popcorn Initiative:
 
 ### 1. Faction-Scion Sheet (Combined)
 
-**Philosophy:** A Scion is a feature of their Faction, not a separate entity. One combined sheet represents both.
+**Philosophy:** A Scion is a feature of their Faction, not a separate entity. One combined sheet represents both, but many features are specific to the Scion.
 
 #### Scion Section
 
@@ -87,9 +88,9 @@ Uses Elective Action Order / Popcorn Initiative:
 - Ancient (90+)
 
 Each stage has three checkboxes:
-- **Passed/Crossed:** Mark when advancing to next age
+- **Aged:** Mark when advancing to next age
 - **Wound:** Marked when taking hit on this stage (gives free invoke to enemies)
-- **Scar:** Permanent wound marker (no free invoke)
+- **Scar:** Permanent truama marker reduces lifespan but clears wounds.
 
 **Advancement:** Scions get a +1 to a Skill per age category crossed. Scions become more skilled but more fragile.
 
@@ -111,8 +112,8 @@ Each stage has three checkboxes:
 2. Industrial
 3. Military
 4. Mobility
-5. People
-6. Technology
+5. Technology
+6. People
 
 **People Track:** (Growing boxes like Fate Core stress: [1][2][3][4][5][6]...)
 - Functions as both resource and stress
@@ -139,9 +140,9 @@ Each stage has three checkboxes:
 - No Validation
 
 **Skill Validation:** Faction-Scion sheets SHOULD validate skills, capabilities, and stunts. Indicate when too high or low.
- - Scion Skills: Should follow Fate pyramid (one at peak, two at next level, etc.). Max rating = Max Skill setting. Scions can exceed max via Age Track advancement (manual tracking).
- - Faction Capabilities: Should follow Fate pyramid. Max rating = Base Max Capability + Major Milestones.
- - Stunts vs Refresh: Starting stunts = 3, Refresh = 3. Each additional stunt reduces Refresh by 1. Refresh minimum = 1.
+ - Scion Skills: Max rating = Highest skill. Total skills goes up with Age.
+ - Faction Capabilities: Max rating = highest Capability + Major Milestones. Total ratings is starting values + Signficatn Milestones.
+ - Stunts vs Refresh: Starting stunts = 3, Refresh = 3. Each additional stunt reduces Refresh by 1. Refresh minimum = 1. Refresh increases with Major Milestones.
 
 ---
 
@@ -151,7 +152,6 @@ Each stage has three checkboxes:
 
 #### Always Visible
 - **Threat Name**
-- **Type** (freeform text: Faction/Environmental/Ideological/etc.)
 - **High Concept** (Aspect 1)
 
 #### Aspects (Configurable Labels & Visibility)
@@ -263,7 +263,7 @@ When creating new threat, these elements are visible:
   - etc,
 
 **Pyramid Rules:** 
-- Attributes use Fate skill column structure
+- Attributes use Fate skill column structure like Fate Core skills.
 
 #### Population Track
 - Based on Population attribute rating
@@ -436,4 +436,5 @@ All sheets should have these elements clickable/editable during normal play:
 
 ## Version History
 
-- **v1.0** (2024-11-02): Initial design document
+- **v1.0** (2025-11-02): Initial design document
+- **v1.1** (2025-11-07): Tweaked at first "release" version.
