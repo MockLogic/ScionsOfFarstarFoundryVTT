@@ -35,7 +35,11 @@
       "AddAttribute": "Add Attribute",
       "LockedAttribute": "This attribute is locked and cannot be renamed or moved",
       "PopulationTrack": "Population Track",
-      "Extras": "Colony Extras"
+      "Extras": "Colony Extras",
+      "Validation": {
+        "TotalTooLow": "Total attribute points ({total}) is below expected ({expected}). You have {difference} unspent point(s).",
+        "TotalTooHigh": "Total attribute points ({total}) exceeds expected ({expected}). You are {difference} point(s) over budget."
+      }
     },
     "PopulationTrack": {
       "Legend": "Legend",

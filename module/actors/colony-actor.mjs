@@ -90,20 +90,30 @@ export class ColonyActor extends Actor {
       rankCounts[rank] = 0;
     }
 
+    let totalPoints = 0;
     systemData.attributes.forEach(attr => {
       const rank = attr.rank;
       if (rank >= 1 && rank <= 6) {
         rankCounts[rank]++;
+        totalPoints += rank;
       }
     });
+
+    // Calculate expected total based on generation (6 + generation)
+    const generationNumber = game.scionsOfFarstar?.getGenerationNumber() || 1;
+    const expectedTotal = 6 + generationNumber;
 
     // Validate column structure: can't have more at a rank than the rank below
     systemData.attributeValidation = {
       valid: true,
       errors: [],
-      invalidRanks: {}
+      warnings: [],
+      invalidRanks: {},
+      totalPoints: totalPoints,
+      expectedTotal: expectedTotal
     };
 
+    // Check column structure
     for (let rank = 6; rank >= 2; rank--) {
       const currentCount = rankCounts[rank];
       const belowCount = rankCounts[rank - 1];
@@ -115,6 +125,27 @@ export class ColonyActor extends Actor {
         );
         systemData.attributeValidation.invalidRanks[rank] = true;
       }
+    }
+
+    // Check total points
+    if (totalPoints < expectedTotal) {
+      systemData.attributeValidation.warnings.push({
+        type: 'low',
+        message: game.i18n.format("SCIONS.Colony.Validation.TotalTooLow", {
+          total: totalPoints,
+          expected: expectedTotal,
+          difference: expectedTotal - totalPoints
+        })
+      });
+    } else if (totalPoints > expectedTotal) {
+      systemData.attributeValidation.warnings.push({
+        type: 'high',
+        message: game.i18n.format("SCIONS.Colony.Validation.TotalTooHigh", {
+          total: totalPoints,
+          expected: expectedTotal,
+          difference: totalPoints - expectedTotal
+        })
+      });
     }
 
     // Store counts for display

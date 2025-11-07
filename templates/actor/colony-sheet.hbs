@@ -40,9 +40,14 @@
     <div class="attributes-section">
       <div class="section-header">{{localize "SCIONS.Colony.Attributes"}}</div>
 
-      {{!-- Validation Warnings --}}
+      {{!-- Point Total Display --}}
+      <div class="attribute-total-display">
+        <span>Total Points: {{system.attributeValidation.totalPoints}} / {{system.attributeValidation.expectedTotal}}</span>
+      </div>
+
+      {{!-- Validation Errors (Column violations) --}}
       {{#unless system.attributeValidation.valid}}
-        <div class="validation-warning">
+        <div class="validation-warning error">
           <i class="fas fa-exclamation-triangle"></i>
           <strong>Attribute Column Validation Issues:</strong>
           <ul>
@@ -52,6 +57,16 @@
           </ul>
         </div>
       {{/unless}}
+
+      {{!-- Point Total Warnings --}}
+      {{#if system.attributeValidation.warnings}}
+        {{#each system.attributeValidation.warnings as |warning|}}
+          <div class="validation-warning {{warning.type}}">
+            <i class="fas {{#if (eq warning.type 'low')}}fa-arrow-down{{else}}fa-arrow-up{{/if}}"></i>
+            <span>{{warning.message}}</span>
+          </div>
+        {{/each}}
+      {{/if}}
 
       <div class="attributes-pyramid">
         {{!-- Display ranks from 6 down to 0 --}}
@@ -69,11 +84,15 @@
                          value="{{attr.name}}"
                          {{#if attr.locked}}readonly{{/if}}
                          placeholder="{{#if attr.locked}}{{else}}Enter attribute name{{/if}}"/>
-                  {{#unless attr.locked}}
+                  {{#if attr.locked}}
+                    <div class="lock-indicator" title="{{localize 'SCIONS.Colony.LockedAttribute'}}">
+                      <i class="fas fa-lock"></i>
+                    </div>
+                  {{else}}
                     <button type="button" class="delete-attribute" title="{{localize 'SCIONS.Actions.Delete'}}">
                       <i class="fas fa-times"></i>
                     </button>
-                  {{/unless}}
+                  {{/if}}
                 </div>
               {{/each}}
               {{!-- Add attribute button in rank 0 --}}
