@@ -427,7 +427,8 @@ export class FactionScionActor extends Actor {
       displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show name
       displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show bars
       bar1: { attribute: "scion.trauma" },             // Primary bar: Trauma
-      bar2: { attribute: "faction.fatePoints" }        // Secondary bar: Fate Points
+      bar2: { attribute: "faction.fatePoints" },       // Secondary bar: Fate Points
+      disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY   // Faction-Scions are friendly by default
     };
 
     this.updateSource({ prototypeToken });

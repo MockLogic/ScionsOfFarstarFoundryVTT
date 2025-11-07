@@ -126,6 +126,7 @@ Hooks.once('init', async function() {
         if (this.system.modularSections.ageTrack.visible) {
           this.system.currentAgeStage = this._determineCurrentAge(this.system.modularSections.ageTrack.stages);
         }
+        this._calculateThreatTrauma(this.system);
       } else if (this.type === "colony") {
         this._preparePopulationTrack(this.system);
         this._validateAttributeColumn(this.system);
@@ -156,6 +157,10 @@ Hooks.once('init', async function() {
     async modifyTokenAttribute(attribute, value, isDelta, isBar) {
       if (this.type === "faction-scion") {
         return FactionScionActor.prototype.modifyTokenAttribute.call(this, attribute, value, isDelta, isBar);
+      } else if (this.type === "threat") {
+        return ThreatActor.prototype.modifyTokenAttribute.call(this, attribute, value, isDelta, isBar);
+      } else if (this.type === "colony") {
+        return ColonyActor.prototype.modifyTokenAttribute.call(this, attribute, value, isDelta, isBar);
       }
       return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
     }
@@ -164,6 +169,10 @@ Hooks.once('init', async function() {
       await super._preCreate(data, options, user);
       if (this.type === "faction-scion") {
         return FactionScionActor.prototype._preCreate.call(this, data, options, user);
+      } else if (this.type === "threat") {
+        return ThreatActor.prototype._preCreate.call(this, data, options, user);
+      } else if (this.type === "colony") {
+        return ColonyActor.prototype._preCreate.call(this, data, options, user);
       }
     }
 
@@ -182,6 +191,10 @@ Hooks.once('init', async function() {
 
     _determineCurrentAge(ageTrack) {
       return ThreatActor.prototype._determineCurrentAge.call(this, ageTrack);
+    }
+
+    _calculateThreatTrauma(systemData) {
+      return ThreatActor.prototype._calculateThreatTrauma.call(this, systemData);
     }
 
     // ColonyActor methods

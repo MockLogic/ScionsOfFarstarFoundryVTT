@@ -199,6 +199,10 @@
           <input type="checkbox" class="section-visibility-toggle" data-section="singlePointStress" {{checked section.visible}}/>
           {{localize "SCIONS.Labels.Visible"}}
         </label>
+        <label>
+          <input type="checkbox" name="system.modularSections.singlePointStress.countsTowardTrauma" {{checked section.countsTowardTrauma}} data-dtype="Boolean"/>
+          {{localize "SCIONS.Threat.CountsTowardTrauma"}}
+        </label>
         <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.singlePointStress.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
         <div class="subsection-header">{{section.heading}}</div>
@@ -300,6 +304,10 @@
             <input type="checkbox" class="track-visibility-toggle" data-section="growingStress" data-track="track1" {{checked section.track1.visible}}/>
             {{localize "SCIONS.Labels.Visible"}}
           </label>
+          <label>
+            <input type="checkbox" name="system.modularSections.growingStress.track1.countsTowardTrauma" {{checked section.track1.countsTowardTrauma}} data-dtype="Boolean"/>
+            {{localize "SCIONS.Threat.CountsTowardTrauma"}}
+          </label>
           <div class="stress-max-controls">
             <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track1" title="Decrease">−</button>
             <span>{{section.track1.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
@@ -327,6 +335,10 @@
           <label>
             <input type="checkbox" class="track-visibility-toggle" data-section="growingStress" data-track="track2" {{checked section.track2.visible}}/>
             {{localize "SCIONS.Labels.Visible"}}
+          </label>
+          <label>
+            <input type="checkbox" name="system.modularSections.growingStress.track2.countsTowardTrauma" {{checked section.track2.countsTowardTrauma}} data-dtype="Boolean"/>
+            {{localize "SCIONS.Threat.CountsTowardTrauma"}}
           </label>
           <div class="stress-max-controls">
             <button type="button" class="stress-max-decrement" data-section="growingStress" data-track="track2" title="Decrease">−</button>
@@ -358,6 +370,10 @@
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="consequences" {{checked section.visible}}/>
           {{localize "SCIONS.Labels.Visible"}}
+        </label>
+        <label>
+          <input type="checkbox" name="system.modularSections.consequences.countsTowardTrauma" {{checked section.countsTowardTrauma}} data-dtype="Boolean"/>
+          {{localize "SCIONS.Threat.CountsTowardTrauma"}}
         </label>
         <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.consequences.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
@@ -501,6 +517,10 @@
           <input type="checkbox" class="section-visibility-toggle" data-section="ageTrack" {{checked section.visible}}/>
           {{localize "SCIONS.Labels.Visible"}}
         </label>
+        <label>
+          <input type="checkbox" name="system.modularSections.ageTrack.countsTowardTrauma" {{checked section.countsTowardTrauma}} data-dtype="Boolean"/>
+          {{localize "SCIONS.Threat.CountsTowardTrauma"}}
+        </label>
         <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.ageTrack.priority" value="{{section.priority}}" class="priority-input"/></label>
       {{else}}
         <div class="subsection-header">{{section.heading}}</div>
@@ -545,6 +565,10 @@
         <label>
           <input type="checkbox" class="section-visibility-toggle" data-section="{{ladderKey}}" {{checked section.visible}}/>
           {{localize "SCIONS.Labels.Visible"}}
+        </label>
+        <label>
+          <input type="checkbox" name="system.modularSections.{{ladderKey}}.countsTowardTrauma" {{checked section.countsTowardTrauma}} data-dtype="Boolean"/>
+          {{localize "SCIONS.Threat.CountsTowardTrauma"}}
         </label>
         <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.{{ladderKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
         <label>{{localize "SCIONS.Threat.TraumaValue"}}:

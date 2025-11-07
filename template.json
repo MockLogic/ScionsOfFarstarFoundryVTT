@@ -247,6 +247,7 @@
           "visible": true,
           "priority": 30,
           "heading": "Stress Tracks",
+          "countsTowardTrauma": true,
           "track1": {
             "label": "Stress",
             "visible": true,
@@ -277,6 +278,7 @@
           "track1": {
             "label": "Physical",
             "visible": true,
+            "countsTowardTrauma": false,
             "max": 3,
             "boxes": [
               {"value": false},
@@ -287,6 +289,7 @@
           "track2": {
             "label": "Mental",
             "visible": false,
+            "countsTowardTrauma": false,
             "max": 3,
             "boxes": [
               {"value": false},
@@ -299,6 +302,7 @@
           "visible": true,
           "priority": 50,
           "heading": "Consequences",
+          "countsTowardTrauma": true,
           "minor": {
             "value": "",
             "treated": false,
@@ -324,6 +328,7 @@
           "visible": false,
           "priority": 60,
           "heading": "Age Track",
+          "countsTowardTrauma": true,
           "stages": {
             "youthful": {
               "label": "Youthful",
@@ -372,6 +377,7 @@
           "priority": 70,
           "heading": "Ladder Track",
           "label": "Ladder 1",
+          "countsTowardTrauma": false,
           "traumaValue": 0,
           "rungCount": 5,
           "rungs": [
@@ -392,6 +398,7 @@
           "priority": 80,
           "heading": "Ladder Track",
           "label": "Ladder 2",
+          "countsTowardTrauma": false,
           "traumaValue": 0,
           "rungCount": 5,
           "rungs": [

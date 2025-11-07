@@ -57,6 +57,26 @@ export class ColonyActor extends Actor {
     if (systemData.populationTrack.boxes.length > numBoxes) {
       systemData.populationTrack.boxes = systemData.populationTrack.boxes.slice(0, numBoxes);
     }
+
+    // Calculate population bar for token
+    // Available population = total capacity - expended boxes
+    let populationCapacity = 0;
+    let populationExpended = 0;
+
+    if (systemData.populationTrack.boxes && Array.isArray(systemData.populationTrack.boxes)) {
+      systemData.populationTrack.boxes.forEach(box => {
+        populationCapacity += box.value || 0;
+        if (box.expended) {
+          populationExpended += box.value || 0;
+        }
+      });
+    }
+
+    // Store for token bar (showing available population)
+    systemData.population = {
+      value: populationCapacity - populationExpended,
+      max: populationCapacity
+    };
   }
 
   /**
@@ -99,6 +119,35 @@ export class ColonyActor extends Actor {
 
     // Store counts for display
     systemData.attributeRankCounts = rankCounts;
+  }
+
+  /**
+   * Override modifyTokenAttribute to lock the population bar
+   */
+  async modifyTokenAttribute(attribute, value, isDelta = false, isBar = true) {
+    if (attribute === 'population') {
+      ui.notifications.warn("Population cannot be edited directly. Use the character sheet to manage the population track.");
+      return this;
+    }
+    return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+  }
+
+  /**
+   * Configure default token settings for new actors
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+
+    // Set default token configuration
+    const prototypeToken = {
+      displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show name
+      displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show bars
+      bar1: { attribute: "population" },               // Primary bar: Population
+      disposition: CONST.TOKEN_DISPOSITIONS.FRIENDLY   // Colonies are friendly by default
+    };
+
+    this.updateSource({ prototypeToken });
   }
 
   /**

@@ -31,6 +31,9 @@ export class ThreatActor extends Actor {
     if (systemData.modularSections.ageTrack.visible) {
       systemData.currentAgeStage = this._determineCurrentAge(systemData.modularSections.ageTrack.stages);
     }
+
+    // Calculate threat trauma for token bar
+    this._calculateThreatTrauma(systemData);
   }
 
   /**
@@ -119,6 +122,143 @@ export class ThreatActor extends Actor {
     }
 
     return stages[currentIndex];
+  }
+
+  /**
+   * Calculate threat trauma capacity and usage for token bar
+   * Only visible sections with countsTowardTrauma=true are included
+   */
+  _calculateThreatTrauma(systemData) {
+    const sections = systemData.modularSections;
+    let traumaCapacity = 0;
+    let traumaUsed = 0;
+
+    // Single-point stress tracks (per-section checkbox)
+    if (sections.singlePointStress.visible && sections.singlePointStress.countsTowardTrauma) {
+      ['track1', 'track2'].forEach(trackKey => {
+        const track = sections.singlePointStress[trackKey];
+        if (track.visible && Array.isArray(track.boxes)) {
+          const boxValue = track.traumaValue || 0;
+          if (boxValue > 0) {
+            track.boxes.forEach(box => {
+              traumaCapacity += boxValue;
+              if (box.value) traumaUsed += boxValue;
+            });
+          }
+        }
+      });
+    }
+
+    // Growing stress tracks (per-track checkboxes)
+    if (sections.growingStress.visible) {
+      ['track1', 'track2'].forEach(trackKey => {
+        const track = sections.growingStress[trackKey];
+        if (track.visible && track.countsTowardTrauma && Array.isArray(track.boxes)) {
+          track.boxes.forEach((box, index) => {
+            const boxValue = index + 1; // Growing boxes are worth 1, 2, 3, etc.
+            traumaCapacity += boxValue;
+            if (box.value) traumaUsed += boxValue;
+          });
+        }
+      });
+    }
+
+    // Consequences (per-section checkbox)
+    // Minor=2, Minor2=2, Moderate=4, Severe=6
+    // Treated consequences still count as used
+    if (sections.consequences.visible && sections.consequences.countsTowardTrauma) {
+      const cons = sections.consequences;
+
+      // Minor
+      if (cons.minor.visible) {
+        traumaCapacity += 2;
+        if (cons.minor.value) traumaUsed += 2;
+      }
+
+      // Minor2
+      if (cons.minor2.visible) {
+        traumaCapacity += 2;
+        if (cons.minor2.value) traumaUsed += 2;
+      }
+
+      // Moderate
+      if (cons.moderate.visible) {
+        traumaCapacity += 4;
+        if (cons.moderate.value) traumaUsed += 4;
+      }
+
+      // Severe
+      if (cons.severe.visible) {
+        traumaCapacity += 6;
+        if (cons.severe.value) traumaUsed += 6;
+      }
+    }
+
+    // Age track (per-section checkbox)
+    // 1 trauma per wound box (not hidden by scar or passed)
+    if (sections.ageTrack.visible && sections.ageTrack.countsTowardTrauma) {
+      const stages = sections.ageTrack.stages;
+      for (const stageKey in stages) {
+        const stage = stages[stageKey];
+        // Only count wounds that are not hidden (scar=false and passed=false)
+        if (!stage.scar && !stage.passed) {
+          traumaCapacity += 1;
+          if (stage.wound) traumaUsed += 1;
+        }
+      }
+    }
+
+    // Ladder tracks (per-section checkbox)
+    // Use configured traumaValue per rung
+    ['ladder1', 'ladder2'].forEach(ladderKey => {
+      const ladder = sections[ladderKey];
+      if (ladder.visible && ladder.countsTowardTrauma && Array.isArray(ladder.rungs)) {
+        const rungValue = ladder.traumaValue || 0;
+        if (rungValue > 0) {
+          // Only count up to rungCount rungs
+          const activeRungs = ladder.rungs.slice(0, ladder.rungCount);
+          activeRungs.forEach(rung => {
+            traumaCapacity += rungValue;
+            if (rung.checked) traumaUsed += rungValue;
+          });
+        }
+      }
+    });
+
+    // Store for token bar
+    systemData.trauma = {
+      value: traumaCapacity - traumaUsed,
+      max: traumaCapacity
+    };
+  }
+
+  /**
+   * Override modifyTokenAttribute to lock the trauma bar
+   */
+  async modifyTokenAttribute(attribute, value, isDelta = false, isBar = true) {
+    if (attribute === 'trauma') {
+      ui.notifications.warn("Threat Trauma cannot be edited directly. Use the character sheet to manage stress tracks, consequences, age track, and ladders.");
+      return this;
+    }
+    return super.modifyTokenAttribute(attribute, value, isDelta, isBar);
+  }
+
+  /**
+   * Configure default token settings for new actors
+   * @override
+   */
+  async _preCreate(data, options, user) {
+    await super._preCreate(data, options, user);
+
+    // Set default token configuration
+    const prototypeToken = {
+      displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show name
+      displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show bars
+      bar1: { attribute: "trauma" },                   // Primary bar: Trauma
+      disposition: CONST.TOKEN_DISPOSITIONS.HOSTILE    // Threats are hostile by default
+    };
+
+    this.updateSource({ prototypeToken });
   }
 
   /**
