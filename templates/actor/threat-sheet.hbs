@@ -214,6 +214,9 @@
             <input type="checkbox" class="track-visibility-toggle" data-section="singlePointStress" data-track="track1" {{checked section.track1.visible}}/>
             {{localize "SCIONS.Labels.Visible"}}
           </label>
+          <label>{{localize "SCIONS.Threat.TraumaValue"}}:
+            <input type="number" name="system.modularSections.singlePointStress.track1.traumaValue" value="{{section.track1.traumaValue}}" min="0" class="trauma-value-input"/>
+          </label>
           <div class="stress-max-controls">
             <button type="button" class="stress-max-decrement" data-section="singlePointStress" data-track="track1" title="Decrease">−</button>
             <span>{{section.track1.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
@@ -224,7 +227,13 @@
         {{/if}}
         <div class="stress-boxes">
           {{#each section.track1.boxes as |box index|}}
-            <div class="stress-box {{#if box.value}}checked{{/if}}" data-track="track1" data-index="{{index}}" title="Toggle"></div>
+            <div class="stress-box {{#if box.value}}checked{{/if}}" data-track="track1" data-index="{{index}}" title="Toggle">
+              {{#if (gt ../section.track1.traumaValue 0)}}
+                <span class="box-value">{{#if box.value}}✗{{else}}{{../section.track1.traumaValue}}{{/if}}</span>
+              {{else}}
+                <span class="box-value">{{#if box.value}}✗{{/if}}</span>
+              {{/if}}
+            </div>
           {{/each}}
         </div>
       </div>
@@ -239,6 +248,9 @@
             <input type="checkbox" class="track-visibility-toggle" data-section="singlePointStress" data-track="track2" {{checked section.track2.visible}}/>
             {{localize "SCIONS.Labels.Visible"}}
           </label>
+          <label>{{localize "SCIONS.Threat.TraumaValue"}}:
+            <input type="number" name="system.modularSections.singlePointStress.track2.traumaValue" value="{{section.track2.traumaValue}}" min="0" class="trauma-value-input"/>
+          </label>
           <div class="stress-max-controls">
             <button type="button" class="stress-max-decrement" data-section="singlePointStress" data-track="track2" title="Decrease">−</button>
             <span>{{section.track2.max}} {{localize "SCIONS.Threat.Boxes"}}</span>
@@ -249,7 +261,13 @@
         {{/if}}
         <div class="stress-boxes">
           {{#each section.track2.boxes as |box index|}}
-            <div class="stress-box {{#if box.value}}checked{{/if}}" data-track="track2" data-index="{{index}}" title="Toggle"></div>
+            <div class="stress-box {{#if box.value}}checked{{/if}}" data-track="track2" data-index="{{index}}" title="Toggle">
+              {{#if (gt ../section.track2.traumaValue 0)}}
+                <span class="box-value">{{#if box.value}}✗{{else}}{{../section.track2.traumaValue}}{{/if}}</span>
+              {{else}}
+                <span class="box-value">{{#if box.value}}✗{{/if}}</span>
+              {{/if}}
+            </div>
           {{/each}}
         </div>
       </div>
@@ -529,6 +547,9 @@
           {{localize "SCIONS.Labels.Visible"}}
         </label>
         <label>{{localize "SCIONS.Threat.Priority"}}: <input type="number" name="system.modularSections.{{ladderKey}}.priority" value="{{section.priority}}" class="priority-input"/></label>
+        <label>{{localize "SCIONS.Threat.TraumaValue"}}:
+          <input type="number" name="system.modularSections.{{ladderKey}}.traumaValue" value="{{section.traumaValue}}" min="0" class="trauma-value-input"/>
+        </label>
         <div class="ladder-rung-controls">
           <button type="button" class="ladder-rung-decrement" data-ladder="{{ladderKey}}" title="Decrease">−</button>
           <span>{{section.rungCount}} {{localize "SCIONS.Threat.Rungs"}}</span>
@@ -542,6 +563,13 @@
     <div class="ladder-track">
       {{#each (getLadderRungs section) as |rung index|}}
         <div class="ladder-rung {{#if rung.checked}}checked{{/if}} {{#if (eq index (getHighestUncheckedRung ../section))}}highest-unchecked{{/if}}">
+          <div class="ladder-rung-value-box">
+            {{#if (gt ../section.traumaValue 0)}}
+              <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../section.traumaValue}}{{/if}}</span>
+            {{else}}
+              <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>
+            {{/if}}
+          </div>
           {{#unless ../editMode}}
             <input type="checkbox" class="ladder-rung-checkbox" data-ladder="{{../ladderKey}}" data-index="{{index}}" {{checked rung.checked}}/>
           {{/unless}}

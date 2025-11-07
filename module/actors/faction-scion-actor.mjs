@@ -242,11 +242,11 @@ export class FactionScionActor extends Actor {
       }
     }
 
-    // Calculate used people track (committed or expended boxes)
+    // Calculate used people track (only expended boxes count as used)
     let peopleUsed = 0;
     if (faction.peopleTrack.boxes && Array.isArray(faction.peopleTrack.boxes)) {
       for (const box of faction.peopleTrack.boxes) {
-        if (box.committed || box.expended) {
+        if (box.expended) {
           peopleUsed += box.value || 0;
         }
       }
@@ -254,7 +254,7 @@ export class FactionScionActor extends Actor {
 
     // Calculate available consequences capacity (only enabled consequences)
     let consequencesCapacity = 0;
-    const consequences = systemData.consequences?.consequences;
+    const consequences = systemData.consequences;
     if (consequences) {
       // Minor consequence: always available, worth 2
       consequencesCapacity += 2;

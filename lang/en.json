@@ -159,7 +159,8 @@
       "Boxes": "boxes",
       "SkillName": "Skill Name",
       "LadderAspect": "Ladder Aspect",
-      "Details": "Details"
+      "Details": "Details",
+      "TraumaValue": "Trauma Value"
     },
     "Roll": {
       "Roll": "Roll",

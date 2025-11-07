@@ -163,6 +163,33 @@
   border-color: var(--sof-accent);
 }
 
+/* Stress box value display (for trauma values) */
+.stress-box .box-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--sof-secondary);
+  pointer-events: none;
+}
+
+.stress-box.checked .box-value {
+  color: var(--sof-danger);
+  font-weight: bold;
+  font-size: 20px;
+}
+
+/* Trauma value input in edit mode */
+.trauma-value-input {
+  width: 50px;
+  text-align: center;
+  padding: 2px 4px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+}
+
 /* Stress size toggle - gear icon style */
 .stress-size-toggle {
   float: right;
@@ -1914,6 +1941,36 @@
 .threat .ladder-rung-aspect.checked-aspect {
   text-decoration: line-through;
   color: #999;
+}
+
+/* Ladder rung value box */
+.threat .ladder-rung-value-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  background: white;
+  flex-shrink: 0;
+}
+
+.threat .ladder-rung.checked .ladder-rung-value-box {
+  background: #ffebee;
+  border-color: var(--sof-danger);
+}
+
+.threat .ladder-rung-value-box .rung-value {
+  font-size: 14px;
+  font-weight: normal;
+  color: var(--sof-secondary);
+}
+
+.threat .ladder-rung.checked .rung-value {
+  color: var(--sof-danger);
+  font-weight: bold;
+  font-size: 18px;
 }
 
 /* Stress Track Row */
