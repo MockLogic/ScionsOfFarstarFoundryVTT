@@ -104,7 +104,7 @@
       "ExtraMinorReminder": "2nd Minor requires a stunt"
     },
     "PeopleTrack": {
-      "ClickInstructions": "Click to cycle: Empty → Committed → Expended → Empty",
+      "ClickInstructions": "Click: Empty → Committed → Expended → Empty",
       "Legend": "Legend",
       "Empty": "Empty",
       "Committed": "Committed",

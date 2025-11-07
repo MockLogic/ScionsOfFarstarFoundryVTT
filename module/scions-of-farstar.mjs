@@ -457,15 +457,15 @@ function registerHandlebarsHelpers() {
   // Helper to get population value for People capability rating
   Handlebars.registerHelper('peoplePopulation', function(rating) {
     const populations = {
-      1: '20',
-      2: '100',
-      3: '500',
-      4: '2k',
-      5: '8k',
-      6: '30k',
-      7: '100k',
-      8: '500k',
-      9: '1m',
+      1: '12',
+      2: '50',
+      3: '200',
+      4: '1k',
+      5: '5k',
+      6: '20k',
+      7: '50k',
+      8: '200k',
+      9: '~1m',
       10: '1m+'
     };
     return populations[rating] || '';
