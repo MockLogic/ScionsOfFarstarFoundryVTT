@@ -16,20 +16,24 @@
         "consequences": {
           "minor": {
             "value": "",
-            "treated": false
+            "treated": false,
+            "freeInvoke": false
           },
           "minor2": {
             "value": "",
             "treated": false,
-            "enabled": false
+            "enabled": false,
+            "freeInvoke": false
           },
           "moderate": {
             "value": "",
-            "treated": false
+            "treated": false,
+            "freeInvoke": false
           },
           "severe": {
             "value": "",
-            "treated": false
+            "treated": false,
+            "freeInvoke": false
           }
         }
       }
@@ -306,21 +310,25 @@
           "minor": {
             "value": "",
             "treated": false,
+            "freeInvoke": false,
             "visible": true
           },
           "minor2": {
             "value": "",
             "treated": false,
+            "freeInvoke": false,
             "visible": false
           },
           "moderate": {
             "value": "",
             "treated": false,
+            "freeInvoke": false,
             "visible": true
           },
           "severe": {
             "value": "",
             "treated": false,
+            "freeInvoke": false,
             "visible": true
           }
         },

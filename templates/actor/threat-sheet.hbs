@@ -403,8 +403,12 @@
               <span class="status-badge unused">Unused</span>
             {{/if}}
             <label class="treated-checkbox">
-              <input type="checkbox" name="system.modularSections.consequences.minor.treated" {{checked section.minor.treated}}/>
+              <input type="checkbox" name="system.modularSections.consequences.minor.treated" {{checked section.minor.treated}} data-dtype="Boolean"/>
               {{localize "SCIONS.Consequences.MarkTreated"}}
+            </label>
+            <label class="free-invoke-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.minor.freeInvoke" {{checked section.minor.freeInvoke}} data-dtype="Boolean"/>
+              {{localize "SCIONS.Consequences.FreeInvoke"}}
             </label>
           </div>
         </div>
@@ -434,8 +438,12 @@
               <span class="status-badge unused">Unused</span>
             {{/if}}
             <label class="treated-checkbox">
-              <input type="checkbox" name="system.modularSections.consequences.minor2.treated" {{checked section.minor2.treated}}/>
+              <input type="checkbox" name="system.modularSections.consequences.minor2.treated" {{checked section.minor2.treated}} data-dtype="Boolean"/>
               {{localize "SCIONS.Consequences.MarkTreated"}}
+            </label>
+            <label class="free-invoke-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.minor2.freeInvoke" {{checked section.minor2.freeInvoke}} data-dtype="Boolean"/>
+              {{localize "SCIONS.Consequences.FreeInvoke"}}
             </label>
           </div>
         </div>
@@ -465,8 +473,12 @@
               <span class="status-badge unused">Unused</span>
             {{/if}}
             <label class="treated-checkbox">
-              <input type="checkbox" name="system.modularSections.consequences.moderate.treated" {{checked section.moderate.treated}}/>
+              <input type="checkbox" name="system.modularSections.consequences.moderate.treated" {{checked section.moderate.treated}} data-dtype="Boolean"/>
               {{localize "SCIONS.Consequences.MarkTreated"}}
+            </label>
+            <label class="free-invoke-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.moderate.freeInvoke" {{checked section.moderate.freeInvoke}} data-dtype="Boolean"/>
+              {{localize "SCIONS.Consequences.FreeInvoke"}}
             </label>
           </div>
         </div>
@@ -496,8 +508,12 @@
               <span class="status-badge unused">Unused</span>
             {{/if}}
             <label class="treated-checkbox">
-              <input type="checkbox" name="system.modularSections.consequences.severe.treated" {{checked section.severe.treated}}/>
+              <input type="checkbox" name="system.modularSections.consequences.severe.treated" {{checked section.severe.treated}} data-dtype="Boolean"/>
               {{localize "SCIONS.Consequences.MarkTreated"}}
+            </label>
+            <label class="free-invoke-checkbox">
+              <input type="checkbox" name="system.modularSections.consequences.severe.freeInvoke" {{checked section.severe.freeInvoke}} data-dtype="Boolean"/>
+              {{localize "SCIONS.Consequences.FreeInvoke"}}
             </label>
           </div>
         </div>

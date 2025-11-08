@@ -1148,6 +1148,57 @@
   gap: 4px;
 }
 
+/* Free Invoke Checkbox Styling */
+.free-invoke-checkbox {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Hide the default checkbox appearance */
+/* Unchecked = Available (bright green with white plus) */
+.free-invoke-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--sof-success);
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  background: var(--sof-success);
+  transition: all 0.2s ease;
+}
+
+.free-invoke-checkbox input[type="checkbox"]:hover {
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
+}
+
+/* Plus symbol using pseudo-element */
+.free-invoke-checkbox input[type="checkbox"]::before {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  transition: all 0.2s ease;
+}
+
+/* Checked = Spent/Used (faded with gray plus) */
+.free-invoke-checkbox input[type="checkbox"]:checked {
+  background: white;
+  border-color: var(--sof-border);
+}
+
+.free-invoke-checkbox input[type="checkbox"]:checked::before {
+  color: var(--sof-border);
+}
+
 /* ===========================
    Stunt/Extra Input Fixes
    =========================== */

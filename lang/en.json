@@ -97,6 +97,7 @@
       "Active": "Active",
       "Treated": "Treated",
       "MarkTreated": "Mark Treated",
+      "FreeInvoke": "Free Invoke",
       "MinorPlaceholder": "Minor Consequence",
       "ModeratePlaceholder": "Moderate Consequence",
       "SeverePlaceholder": "Severe Consequence",
