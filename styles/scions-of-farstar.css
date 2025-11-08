@@ -1158,7 +1158,8 @@
 
 /* Hide the default checkbox appearance */
 /* Unchecked = Available (bright green with white plus) */
-.free-invoke-checkbox input[type="checkbox"] {
+.free-invoke-checkbox input[type="checkbox"],
+.age-invoke-used {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1172,12 +1173,14 @@
   transition: all 0.2s ease;
 }
 
-.free-invoke-checkbox input[type="checkbox"]:hover {
+.free-invoke-checkbox input[type="checkbox"]:hover,
+.age-invoke-used:hover {
   box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
 }
 
 /* Plus symbol using pseudo-element */
-.free-invoke-checkbox input[type="checkbox"]::before {
+.free-invoke-checkbox input[type="checkbox"]::before,
+.age-invoke-used::before {
   content: '+';
   position: absolute;
   top: 50%;
@@ -1186,16 +1189,25 @@
   font-size: 16px;
   font-weight: bold;
   color: white;
+  line-height: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
   transition: all 0.2s ease;
 }
 
 /* Checked = Spent/Used (faded with gray plus) */
-.free-invoke-checkbox input[type="checkbox"]:checked {
+.free-invoke-checkbox input[type="checkbox"]:checked,
+.age-invoke-used:checked {
   background: white;
   border-color: var(--sof-border);
 }
 
-.free-invoke-checkbox input[type="checkbox"]:checked::before {
+.free-invoke-checkbox input[type="checkbox"]:checked::before,
+.age-invoke-used:checked::before {
   color: var(--sof-border);
 }
 
