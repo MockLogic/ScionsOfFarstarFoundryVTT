@@ -111,16 +111,25 @@ export class RegistrarSheet extends ActorSheet {
    * @override
    */
   async _onDropItemCreate(itemData) {
-    // Store the original item reference before creating the copy
-    const sourceItem = fromUuidSync(itemData.uuid);
+    // Handle array of items or single item
+    const items = itemData instanceof Array ? itemData : [itemData];
 
-    // Call parent to create the item on this actor
+    // Store source items before creating copies
+    const sourceItems = items.map(data => {
+      if (data.uuid) {
+        return fromUuidSync(data.uuid);
+      }
+      return null;
+    }).filter(item => item !== null);
+
+    // Call parent to create the item(s) on this actor
     const created = await super._onDropItemCreate(itemData);
 
-    // If the source item exists and has a parent (is embedded in another actor)
-    // delete it to complete the "move" operation
-    if (sourceItem?.parent && sourceItem.parent.id !== this.actor.id) {
-      await sourceItem.delete();
+    // Delete source items if they came from a different actor
+    for (const sourceItem of sourceItems) {
+      if (sourceItem?.parent && sourceItem.parent.id !== this.actor.id) {
+        await sourceItem.delete();
+      }
     }
 
     return created;
