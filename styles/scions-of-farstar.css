@@ -2417,15 +2417,16 @@
 /* When editing, expand the editor to fill available space */
 .registrar .registrar-notes:has(.editor-content:focus),
 .registrar .registrar-notes:has(.tox-edit-area) {
-  height: auto;
-  max-height: calc(100vh - 400px);
-  min-height: 200px;
+  height: auto !important;
+  max-height: calc(100vh - 400px) !important;
+  min-height: 150px !important;
 }
 
 .registrar .registrar-notes:has(.editor-content:focus) .editor,
 .registrar .registrar-notes:has(.tox-edit-area) .editor {
-  height: auto;
-  min-height: 180px;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 120px !important;
 }
 
 .registrar .npc-list {
@@ -2521,10 +2522,15 @@
 }
 
 .registrar .npc-skill-info .roll-button {
-  padding: 2px 6px;
+  width: 24px;
+  height: 24px;
+  padding: 4px;
   font-size: 12px;
-  min-width: auto;
+  min-width: 24px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .registrar .skill-label {
