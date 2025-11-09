@@ -2396,18 +2396,21 @@
   padding: 10px;
 }
 
+.registrar .registrar-notes-section {
+  margin-top: 10px;
+  padding: 0 10px 10px 10px;
+}
+
 .registrar .editor-container.registrar-notes {
-  height: 50px !important;
-  min-height: 50px !important;
-  max-height: 50px !important;
-  margin-bottom: 10px;
+  height: 80px !important;
+  min-height: 80px !important;
+  margin-bottom: 0;
   overflow: hidden;
 }
 
 .registrar .editor-container.registrar-notes .editor {
-  height: 40px !important;
-  min-height: 40px !important;
-  max-height: 40px !important;
+  height: 70px !important;
+  min-height: 70px !important;
 }
 
 .registrar .registrar-notes.prosemirror {
@@ -2419,14 +2422,14 @@
 .registrar .registrar-notes:has(.tox-edit-area) {
   height: auto !important;
   max-height: calc(100vh - 400px) !important;
-  min-height: 150px !important;
+  min-height: 200px !important;
 }
 
 .registrar .registrar-notes:has(.editor-content:focus) .editor,
 .registrar .registrar-notes:has(.tox-edit-area) .editor {
   height: auto !important;
   max-height: none !important;
-  min-height: 120px !important;
+  min-height: 180px !important;
 }
 
 .registrar .npc-list {

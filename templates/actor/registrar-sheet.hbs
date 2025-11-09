@@ -8,16 +8,18 @@
         <input type="text" name="name" value="{{actor.name}}" placeholder="NPC Registry"/>
       </div>
     </div>
+
+    {{!-- Notes Section in Header --}}
+    <div class="registrar-notes-section">
+      <div class="section-header">Notes</div>
+      <div class="editor-container registrar-notes">
+        {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
+      </div>
+    </div>
   </header>
 
   {{!-- Sheet Body --}}
   <section class="sheet-body registrar-body">
-
-    {{!-- Notes Section --}}
-    <div class="section-header">Notes</div>
-    <div class="editor-container registrar-notes">
-      {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
-    </div>
 
     <div class="section-header">Named NPCs</div>
 
