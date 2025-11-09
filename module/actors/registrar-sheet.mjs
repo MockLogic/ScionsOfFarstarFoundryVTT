@@ -107,47 +107,6 @@ export class RegistrarSheet extends ActorSheet {
   }
 
   /**
-   * Override to move NPCs instead of copying them when dragged between sheets
-   * @override
-   */
-  async _onDropItemCreate(itemData) {
-    // Handle array of items or single item
-    const items = itemData instanceof Array ? itemData : [itemData];
-
-    // Store source items and their parent actors before creating copies
-    const sourceInfo = [];
-    for (const data of items) {
-      let sourceItem = null;
-
-      // Try to get the source item from UUID
-      if (data.uuid) {
-        sourceItem = await fromUuid(data.uuid);
-      }
-
-      // If we have a source item and it has a parent actor
-      if (sourceItem?.parent) {
-        sourceInfo.push({
-          item: sourceItem,
-          parentId: sourceItem.parent.id
-        });
-      }
-    }
-
-    // Call parent to create the item(s) on this actor
-    const created = await super._onDropItemCreate(itemData);
-
-    // Delete source items if they came from a different actor
-    for (const info of sourceInfo) {
-      if (info.parentId !== this.actor.id) {
-        console.log(`Scions of FarStar | Moving NPC "${info.item.name}" from ${info.parentId} to ${this.actor.id}`);
-        await info.item.delete();
-      }
-    }
-
-    return created;
-  }
-
-  /**
    * Handle editing an item
    * @param {Event} event - The click event
    */

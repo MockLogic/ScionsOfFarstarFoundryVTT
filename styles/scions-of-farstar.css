@@ -2396,14 +2396,14 @@
   padding: 10px;
 }
 
-.registrar .registrar-notes {
-  height: 50px;
+.registrar .editor-container.registrar-notes {
+  height: 50px !important;
   margin-bottom: 10px;
   overflow: hidden;
 }
 
-.registrar .registrar-notes .editor {
-  height: 40px;
+.registrar .editor-container.registrar-notes .editor {
+  height: 40px !important;
 }
 
 .registrar .registrar-notes.prosemirror {
@@ -2529,7 +2529,8 @@
 .registrar .item-controls {
   display: flex;
   gap: 8px;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .registrar .item-control {
