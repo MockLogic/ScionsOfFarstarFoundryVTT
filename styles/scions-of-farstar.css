@@ -2398,12 +2398,16 @@
 
 .registrar .editor-container.registrar-notes {
   height: 50px !important;
+  min-height: 50px !important;
+  max-height: 50px !important;
   margin-bottom: 10px;
   overflow: hidden;
 }
 
 .registrar .editor-container.registrar-notes .editor {
   height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
 }
 
 .registrar .registrar-notes.prosemirror {
@@ -2513,17 +2517,20 @@
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .registrar .npc-skill-info .roll-button {
   padding: 2px 6px;
   font-size: 12px;
   min-width: auto;
+  flex-shrink: 0;
 }
 
 .registrar .skill-label {
   font-weight: bold;
   color: var(--sof-secondary);
+  white-space: nowrap;
 }
 
 .registrar .item-controls {
