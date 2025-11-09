@@ -38,28 +38,29 @@ export class NamedNpcSheet extends ItemSheet {
    */
   _calculateNpcData(systemData) {
     const currentGeneration = game.scionsOfFarstar.getGenerationNumber();
-    const birthGeneration = systemData.birthGeneration || 0;
+    const birthGeneration = systemData.birthGeneration ?? 0;
     const ageInGenerations = currentGeneration - birthGeneration;
 
-    // Age stages with generation thresholds
-    // Child: 0-15 years (0-0.75 generations, ~20 years per generation)
-    // Youthful: 16-29 years (0.8-1.45 gen)
-    // Seasoned: 30-49 years (1.5-2.45 gen)
-    // Older: 50-69 years (2.5-3.45 gen)
-    // Geriatric: 70-89 years (3.5-4.45 gen)
-    // Ancient: 90+ years (4.5+ gen)
+    // Age stages: each stage = 1 generation
+    // Child = 0, Youthful = 1, Seasoned = 2, Older = 3, Geriatric = 4, Ancient = 5, Dead = 6+
     const stages = ['child', 'youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
-    const ageThresholds = [0.75, 1.45, 2.45, 3.45, 4.45, Infinity];
 
-    // Determine current age stage based on generations
+    // Determine current age stage based on whole generations
     let currentAgeStage = null;
     let currentAgeIndex = -1;
-    for (let i = 0; i < stages.length; i++) {
-      if (ageInGenerations <= ageThresholds[i]) {
-        currentAgeStage = stages[i];
-        currentAgeIndex = i;
-        break;
-      }
+
+    if (ageInGenerations < 0) {
+      // Not yet born
+      currentAgeStage = null;
+      currentAgeIndex = -1;
+    } else if (ageInGenerations <= 5) {
+      // Within the age track
+      currentAgeIndex = ageInGenerations;
+      currentAgeStage = stages[currentAgeIndex];
+    } else {
+      // Beyond Ancient (dead from old age)
+      currentAgeIndex = stages.length; // 6 or higher
+      currentAgeStage = null;
     }
 
     // Count scars from the bottom up
@@ -82,10 +83,8 @@ export class NamedNpcSheet extends ItemSheet {
     // Calculate death generation (when they crossed beyond max age)
     let deathGeneration = null;
     if (isDeceased) {
-      // They died when they aged past maxAgeIndex
-      // Death occurred at the threshold of the stage after maxAgeIndex
-      const deathAgeInGenerations = ageThresholds[maxAgeIndex] + 0.01; // Just past the threshold
-      deathGeneration = Math.floor(birthGeneration + deathAgeInGenerations);
+      // They died when they aged one generation past maxAgeIndex
+      deathGeneration = birthGeneration + maxAgeIndex + 1;
     }
 
     // Build age track display data
@@ -131,8 +130,8 @@ export class NamedNpcSheet extends ItemSheet {
     // Age scar checkboxes
     html.find('.age-scar').click(this._onAgeScarToggle.bind(this));
 
-    // Make image clickable to change it
-    html.find('.profile-img').click(this._onEditImage.bind(this));
+    // Skill roll button
+    html.find('.roll-npc-skill').click(this._onRollSkill.bind(this));
   }
 
   /**
@@ -156,19 +155,22 @@ export class NamedNpcSheet extends ItemSheet {
   }
 
   /**
-   * Handle clicking the image to open file picker
+   * Handle rolling the NPC's notable skill
    * @param {Event} event - The click event
    */
-  async _onEditImage(event) {
+  async _onRollSkill(event) {
     event.preventDefault();
-    const current = this.item.img;
-    const fp = new FilePicker({
-      type: "image",
-      current: current,
-      callback: path => {
-        this.item.update({ img: path });
-      }
-    });
-    return fp.browse();
+
+    const skillName = this.item.system.skillName;
+    const skillValue = this.item.system.skillValue || 0;
+
+    if (!skillName) return;
+
+    // Import the createFateRoll function
+    const { createFateRoll } = await import("../scions-of-farstar.mjs");
+
+    // Create the label and roll
+    const label = `${this.item.name}: ${skillName}`;
+    await createFateRoll(label, skillValue, null, this.item.name);
   }
 }

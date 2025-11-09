@@ -265,6 +265,23 @@ Hooks.once('init', async function() {
 });
 
 /**
+ * Set default birth generation for new named NPCs
+ */
+Hooks.on('preCreateItem', async function(item, data, options, userId) {
+  if (item.type === 'named-npc') {
+    // Only set if birthGeneration is null (the template default)
+    // This way, any NPC with an actual birthGeneration value (including -2) will be preserved
+    if (data.system?.birthGeneration === null || data.system?.birthGeneration === undefined) {
+      const currentGeneration = game.scionsOfFarstar.getGenerationNumber();
+      const updates = {
+        'system.birthGeneration': currentGeneration - 2
+      };
+      item.updateSource(updates);
+    }
+  }
+});
+
+/**
  * System ready hook
  */
 Hooks.once('ready', async function() {

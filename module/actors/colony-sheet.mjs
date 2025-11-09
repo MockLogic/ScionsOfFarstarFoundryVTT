@@ -182,6 +182,17 @@ export class ColonySheet extends ActorSheet {
       return;
     }
 
+    // Confirm deletion
+    const confirmed = await Dialog.confirm({
+      title: `Delete ${attribute.name}?`,
+      content: `<p>Are you sure you want to delete the attribute <strong>${attribute.name}</strong>?</p>`,
+      defaultYes: false
+    });
+
+    if (!confirmed) {
+      return;
+    }
+
     const attributes = this.actor.system.attributes.filter((_, i) => i !== index);
     await this.actor.update({ "system.attributes": attributes });
   }

@@ -20,13 +20,12 @@
             {{#if npcData.isDeceased}}
               Deceased (Gen {{npcData.deathGeneration}})
             {{else}}
-              {{npcData.currentAgeLabel}} ({{npcData.ageInGenerations}} gen)
+              {{npcData.currentAgeLabel}}
             {{/if}}
           </div>
         </div>
       </div>
     </div>
-    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
   </header>
 
   {{!-- Sheet Body --}}
@@ -42,6 +41,11 @@
     <div class="skill-section {{#unless system.skillName}}hidden-skill{{/unless}}">
       <div class="subsection-header">Notable Skill</div>
       <div class="skill-row">
+        {{#if system.skillName}}
+          <button type="button" class="roll-button roll-npc-skill rollable" title="Roll {{system.skillName}}">
+            <i class="fas fa-dice-d6"></i>
+          </button>
+        {{/if}}
         <div class="skill-name-field">
           <label>Skill Name</label>
           <input type="text" name="system.skillName" value="{{system.skillName}}" placeholder="Leave empty to hide"/>

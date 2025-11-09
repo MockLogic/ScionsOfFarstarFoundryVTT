@@ -486,7 +486,7 @@
   "Item": {
     "types": ["named-npc"],
     "named-npc": {
-      "birthGeneration": 0,
+      "birthGeneration": null,
       "aspect": "",
       "skillName": "",
       "skillValue": 0,

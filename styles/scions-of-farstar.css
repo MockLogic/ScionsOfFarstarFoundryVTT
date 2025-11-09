@@ -2206,8 +2206,19 @@
   margin-bottom: 10px;
 }
 
-.named-npc .name-field,
-.named-npc .generation-field,
+.named-npc .name-field {
+  flex: 1;
+}
+
+.named-npc .generation-field {
+  flex: 0 0 auto;
+  width: 80px;
+}
+
+.named-npc .generation-field input[type="number"] {
+  width: 100%;
+}
+
 .named-npc .age-display {
   flex: 1;
 }
@@ -2232,17 +2243,6 @@
   background: #ffebee;
   border-color: var(--sof-danger);
   color: var(--sof-danger);
-}
-
-.named-npc .profile-img {
-  border: 2px solid var(--sof-border);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.named-npc .profile-img:hover {
-  border-color: var(--sof-accent);
 }
 
 .named-npc .aspect-box {
@@ -2271,10 +2271,11 @@
 .named-npc .subsection-header {
   font-weight: bold;
   font-size: 14px;
-  color: var(--sof-primary);
+  color: white;
+  background: var(--sof-primary);
+  padding: 6px 10px;
   margin-bottom: 8px;
-  padding-bottom: 3px;
-  border-bottom: 1px solid var(--sof-border);
+  border-radius: 3px;
 }
 
 .named-npc .skill-row {
@@ -2387,6 +2388,32 @@
   padding: 10px;
 }
 
+.registrar .registrar-notes {
+  height: 150px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.registrar .registrar-notes .editor {
+  height: 120px;
+}
+
+.registrar .registrar-notes.prosemirror {
+  height: 100%;
+}
+
+/* When editing, expand the editor to fill most of the sheet */
+.registrar .registrar-notes:has(.editor-content:focus),
+.registrar .registrar-notes:has(.tox-edit-area) {
+  height: calc(100vh - 400px);
+  min-height: 300px;
+}
+
+.registrar .registrar-notes:has(.editor-content:focus) .editor,
+.registrar .registrar-notes:has(.tox-edit-area) .editor {
+  height: calc(100% - 30px);
+}
+
 .registrar .npc-list {
   margin-bottom: 20px;
   min-height: 200px;
@@ -2415,19 +2442,20 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.registrar .item-image {
-  width: 48px;
-  height: 48px;
-  background-size: cover;
-  background-position: center;
-  border: 1px solid var(--sof-border);
-  border-radius: 4px;
-  margin-right: 12px;
-  flex-shrink: 0;
+.registrar .npc-item.deceased {
+  opacity: 0.6;
+  background: #f5f5f5;
 }
 
-.registrar .item-name {
+.registrar .npc-item.deceased:hover {
+  background: #ebebeb;
+}
+
+.registrar .item-details {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .registrar .item-name h4 {
@@ -2439,6 +2467,43 @@
 .registrar .item-aspect {
   font-size: 13px;
   font-style: italic;
+  color: var(--sof-secondary);
+}
+
+.registrar .item-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.registrar .npc-age-status {
+  padding: 2px 6px;
+  background: #e3f2fd;
+  border-radius: 3px;
+  font-weight: bold;
+  color: var(--sof-accent);
+}
+
+.registrar .npc-age-status.deceased {
+  background: #ffebee;
+  color: var(--sof-danger);
+}
+
+.registrar .npc-skill-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.registrar .npc-skill-info .roll-button {
+  padding: 2px 6px;
+  font-size: 12px;
+  min-width: auto;
+}
+
+.registrar .skill-label {
+  font-weight: bold;
   color: var(--sof-secondary);
 }
 

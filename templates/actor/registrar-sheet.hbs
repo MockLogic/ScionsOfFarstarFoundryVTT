@@ -13,6 +13,12 @@
   {{!-- Sheet Body --}}
   <section class="sheet-body registrar-body">
 
+    {{!-- Notes Section --}}
+    <div class="section-header">Notes</div>
+    <div class="editor-container registrar-notes">
+      {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
+    </div>
+
     <div class="section-header">Named NPCs</div>
 
     {{!-- NPC Items List --}}
@@ -20,13 +26,31 @@
       {{#if items}}
         <ol class="items-list">
           {{#each items as |item id|}}
-            <li class="item npc-item flexrow" data-item-id="{{item._id}}">
-              <div class="item-image" style="background-image: url('{{item.img}}')"></div>
-              <div class="item-name">
-                <h4>{{item.name}}</h4>
-                {{#if item.system.aspect}}
-                  <div class="item-aspect">{{item.system.aspect}}</div>
-                {{/if}}
+            <li class="item npc-item flexrow {{#if item.npcData.isDeceased}}deceased{{/if}}" data-item-id="{{item._id}}">
+              <div class="item-details">
+                <div class="item-name">
+                  <h4>{{item.name}}</h4>
+                  {{#if item.system.aspect}}
+                    <div class="item-aspect">{{item.system.aspect}}</div>
+                  {{/if}}
+                </div>
+                <div class="item-info">
+                  <div class="npc-age-status {{#if item.npcData.isDeceased}}deceased{{/if}}">
+                    {{#if item.npcData.isDeceased}}
+                      Deceased (Gen {{item.npcData.deathGeneration}})
+                    {{else}}
+                      {{item.npcData.currentAgeLabel}}
+                    {{/if}}
+                  </div>
+                  {{#if item.system.skillName}}
+                    <div class="npc-skill-info">
+                      <button type="button" class="roll-button roll-npc-skill rollable" title="Roll {{item.system.skillName}}">
+                        <i class="fas fa-dice-d6"></i>
+                      </button>
+                      <span class="skill-label">{{item.system.skillName}} {{signedNumber item.system.skillValue}}</span>
+                    </div>
+                  {{/if}}
+                </div>
               </div>
               <div class="item-controls">
                 <a class="item-control item-edit" title="Edit NPC"><i class="fas fa-edit"></i></a>
@@ -40,12 +64,6 @@
           <p>No NPCs in this registry. Create named NPCs from the Items directory and drag them here.</p>
         </div>
       {{/if}}
-    </div>
-
-    {{!-- Notes Section --}}
-    <div class="section-header">Notes</div>
-    <div class="editor-container">
-      {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
     </div>
 
   </section>

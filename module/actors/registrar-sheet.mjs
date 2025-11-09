@@ -26,10 +26,74 @@ export class RegistrarSheet extends ActorSheet {
     context.system = actorData.system;
     context.flags = actorData.flags;
 
-    // Get all items (should be named-npc items)
-    context.items = this.actor.items.contents;
+    // Get all items (should be named-npc items) and enrich with calculated data
+    context.items = this.actor.items.contents.map(item => {
+      const itemData = item.toObject(false);
+      return {
+        ...itemData,
+        npcData: this._calculateNpcData(itemData.system)
+      };
+    });
 
     return context;
+  }
+
+  /**
+   * Calculate NPC data (same logic as NamedNpcSheet)
+   * @param {Object} systemData - The item's system data
+   * @returns {Object} - Calculated NPC data
+   */
+  _calculateNpcData(systemData) {
+    const currentGeneration = game.scionsOfFarstar.getGenerationNumber();
+    const birthGeneration = systemData.birthGeneration ?? 0;
+    const ageInGenerations = currentGeneration - birthGeneration;
+
+    // Age stages: each stage = 1 generation
+    // Child = 0, Youthful = 1, Seasoned = 2, Older = 3, Geriatric = 4, Ancient = 5, Dead = 6+
+    const stages = ['child', 'youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
+
+    // Determine current age stage based on whole generations
+    let currentAgeStage = null;
+    let currentAgeIndex = -1;
+
+    if (ageInGenerations < 0) {
+      // Not yet born
+      currentAgeStage = null;
+      currentAgeIndex = -1;
+    } else if (ageInGenerations <= 5) {
+      // Within the age track
+      currentAgeIndex = ageInGenerations;
+      currentAgeStage = stages[currentAgeIndex];
+    } else {
+      // Beyond Ancient (dead from old age)
+      currentAgeIndex = stages.length; // 6 or higher
+      currentAgeStage = null;
+    }
+
+    const ageTrack = systemData.ageTrack;
+    let scarCount = 0;
+    for (let i = stages.length - 1; i >= 0; i--) {
+      if (ageTrack[stages[i]].scar) {
+        scarCount++;
+      } else {
+        break;
+      }
+    }
+
+    const maxAgeIndex = stages.length - 1 - scarCount;
+    const isDeceased = currentAgeIndex > maxAgeIndex;
+
+    let deathGeneration = null;
+    if (isDeceased) {
+      // They died when they aged one generation past maxAgeIndex
+      deathGeneration = birthGeneration + maxAgeIndex + 1;
+    }
+
+    return {
+      currentAgeLabel: currentAgeStage ? ageTrack[currentAgeStage].label : 'Unknown',
+      isDeceased: isDeceased,
+      deathGeneration: deathGeneration
+    };
   }
 
   /** @override */
@@ -39,6 +103,27 @@ export class RegistrarSheet extends ActorSheet {
     // Item controls
     html.find('.item-edit').click(this._onItemEdit.bind(this));
     html.find('.item-delete').click(this._onItemDelete.bind(this));
+    html.find('.roll-npc-skill').click(this._onRollNpcSkill.bind(this));
+  }
+
+  /**
+   * Override to move NPCs instead of copying them when dragged between sheets
+   * @override
+   */
+  async _onDropItemCreate(itemData) {
+    // Store the original item reference before creating the copy
+    const sourceItem = fromUuidSync(itemData.uuid);
+
+    // Call parent to create the item on this actor
+    const created = await super._onDropItemCreate(itemData);
+
+    // If the source item exists and has a parent (is embedded in another actor)
+    // delete it to complete the "move" operation
+    if (sourceItem?.parent && sourceItem.parent.id !== this.actor.id) {
+      await sourceItem.delete();
+    }
+
+    return created;
   }
 
   /**
@@ -72,5 +157,31 @@ export class RegistrarSheet extends ActorSheet {
         await item.delete();
       }
     }
+  }
+
+  /**
+   * Handle rolling an NPC's skill from the registrar
+   * @param {Event} event - The click event
+   */
+  async _onRollNpcSkill(event) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent item edit from triggering
+
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+
+    if (!item) return;
+
+    const skillName = item.system.skillName;
+    const skillValue = item.system.skillValue || 0;
+
+    if (!skillName) return;
+
+    // Import the createFateRoll function
+    const { createFateRoll } = await import("../scions-of-farstar.mjs");
+
+    // Create the label and roll
+    const label = `${item.name}: ${skillName}`;
+    await createFateRoll(label, skillValue, null, item.name);
   }
 }
