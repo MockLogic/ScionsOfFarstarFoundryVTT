@@ -12,6 +12,10 @@ import { ColonyActor } from "./actors/colony-actor.mjs";
 import { FactionScionSheet } from "./actors/faction-scion-sheet.mjs";
 import { ThreatSheet } from "./actors/threat-sheet.mjs";
 import { ColonySheet } from "./actors/colony-sheet.mjs";
+import { RegistrarSheet } from "./actors/registrar-sheet.mjs";
+
+// Import item sheet classes
+import { NamedNpcSheet } from "./items/named-npc-sheet.mjs";
 
 /**
  * Initialize the Scions of FarStar system
@@ -240,6 +244,21 @@ Hooks.once('init', async function() {
     types: ["colony"],
     makeDefault: true,
     label: "SCIONS.ActorTypes.colony"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", RegistrarSheet, {
+    types: ["registrar"],
+    makeDefault: true,
+    label: "SCIONS.ActorTypes.registrar"
+  });
+
+  // Register item sheets
+  foundry.applications.apps.DocumentSheetConfig.unregisterSheet(Item, "core", ItemSheet);
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", NamedNpcSheet, {
+    types: ["named-npc"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.named-npc"
   });
 
   console.log('Scions of FarStar | System initialized');

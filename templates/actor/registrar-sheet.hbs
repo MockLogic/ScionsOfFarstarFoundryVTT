@@ -1,0 +1,53 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="field-group registrar-name-field">
+        <label>Registry Name</label>
+        <input type="text" name="name" value="{{actor.name}}" placeholder="NPC Registry"/>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body registrar-body">
+
+    <div class="section-header">Named NPCs</div>
+
+    {{!-- NPC Items List --}}
+    <div class="npc-list">
+      {{#if items}}
+        <ol class="items-list">
+          {{#each items as |item id|}}
+            <li class="item npc-item flexrow" data-item-id="{{item._id}}">
+              <div class="item-image" style="background-image: url('{{item.img}}')"></div>
+              <div class="item-name">
+                <h4>{{item.name}}</h4>
+                {{#if item.system.aspect}}
+                  <div class="item-aspect">{{item.system.aspect}}</div>
+                {{/if}}
+              </div>
+              <div class="item-controls">
+                <a class="item-control item-edit" title="Edit NPC"><i class="fas fa-edit"></i></a>
+                <a class="item-control item-delete" title="Delete NPC"><i class="fas fa-trash"></i></a>
+              </div>
+            </li>
+          {{/each}}
+        </ol>
+      {{else}}
+        <div class="empty-message">
+          <p>No NPCs in this registry. Create named NPCs from the Items directory and drag them here.</p>
+        </div>
+      {{/if}}
+    </div>
+
+    {{!-- Notes Section --}}
+    <div class="section-header">Notes</div>
+    <div class="editor-container">
+      {{editor system.notes target="system.notes" button=true owner=owner editable=editable}}
+    </div>
+
+  </section>
+
+</form>

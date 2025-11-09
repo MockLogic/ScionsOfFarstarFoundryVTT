@@ -3,7 +3,11 @@
     "ActorTypes": {
       "faction-scion": "Faction-Scion",
       "threat": "Threat Front",
-      "colony": "Colony"
+      "colony": "Colony",
+      "registrar": "NPC Registry"
+    },
+    "ItemTypes": {
+      "named-npc": "Named NPC"
     },
     "Scion": {
       "Title": "Scion",

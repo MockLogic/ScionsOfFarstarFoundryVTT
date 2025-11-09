@@ -1,0 +1,88 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="name-row">
+        <div class="name-field">
+          <label class="field-label">NPC Name</label>
+          <input name="name" type="text" value="{{item.name}}" placeholder="NPC Name"/>
+        </div>
+      </div>
+      <div class="generation-row">
+        <div class="generation-field">
+          <label class="field-label" title="Negative values indicate born before colony founding">Birth Generation</label>
+          <input name="system.birthGeneration" type="number" value="{{system.birthGeneration}}" data-dtype="Number"/>
+        </div>
+        <div class="age-display">
+          <label class="field-label">Current Age</label>
+          <div class="age-value {{#if npcData.isDeceased}}deceased{{/if}}">
+            {{#if npcData.isDeceased}}
+              Deceased (Gen {{npcData.deathGeneration}})
+            {{else}}
+              {{npcData.currentAgeLabel}} ({{npcData.ageInGenerations}} gen)
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" height="100" width="100"/>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Aspect --}}
+    <div class="aspect-box">
+      <label>Aspect</label>
+      <input type="text" name="system.aspect" value="{{system.aspect}}" placeholder="Defining aspect for this NPC"/>
+    </div>
+
+    {{!-- Optional Skill --}}
+    <div class="skill-section {{#unless system.skillName}}hidden-skill{{/unless}}">
+      <div class="subsection-header">Notable Skill</div>
+      <div class="skill-row">
+        <div class="skill-name-field">
+          <label>Skill Name</label>
+          <input type="text" name="system.skillName" value="{{system.skillName}}" placeholder="Leave empty to hide"/>
+        </div>
+        <div class="skill-value-field">
+          <label>Rating</label>
+          <input type="number" name="system.skillValue" value="{{system.skillValue}}" data-dtype="Number" min="-1" max="10"/>
+        </div>
+      </div>
+    </div>
+
+    {{!-- Age Track --}}
+    <div class="subsection-header">Age & Scars</div>
+    <div class="age-track-table npc-age-track">
+      <div class="age-track-header">
+        <div class="age-track-cell age-header">Age Stage</div>
+        <div class="age-track-cell age-header" title="Mark scars from bottom (Ancient) up. Each scar reduces maximum lifespan by one stage.">Scar</div>
+      </div>
+      {{#each npcData.ageTrackDisplay as |stage|}}
+        <div class="age-track-row">
+          <div class="age-track-cell age-label {{#if stage.isCurrent}}current-age{{/if}} {{#if stage.isPast}}passed-age{{/if}}" title="{{stage.ageRange}}">
+            {{stage.label}}
+          </div>
+          <div class="age-track-cell age-checkbox">
+            <input type="checkbox"
+                   class="age-scar {{#unless stage.canCheckScar}}disabled-checkbox{{/unless}}"
+                   data-stage="{{stage.key}}"
+                   {{checked stage.scar}}
+                   {{#unless stage.canCheckScar}}disabled{{/unless}}
+                   title="{{#if stage.canCheckScar}}Mark as scarred{{else}}Cannot mark - must scar from Ancient upward{{/if}}"/>
+          </div>
+        </div>
+      {{/each}}
+    </div>
+
+    {{!-- Description --}}
+    <div class="subsection-header">Description</div>
+    <div class="description-field">
+      <textarea name="system.description" rows="8" placeholder="Background, personality, role in the colony...">{{system.description}}</textarea>
+    </div>
+
+  </section>
+
+</form>

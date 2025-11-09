@@ -2180,3 +2180,302 @@
 .threat .details-content .ProseMirror {
   min-height: 200px !important;
 }
+
+/* ===========================
+   Named NPC Item Sheet
+   =========================== */
+
+.named-npc .sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--sof-primary);
+}
+
+.named-npc .header-fields {
+  flex: 1;
+  margin-right: 15px;
+}
+
+.named-npc .name-row,
+.named-npc .generation-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.named-npc .name-field,
+.named-npc .generation-field,
+.named-npc .age-display {
+  flex: 1;
+}
+
+.named-npc .field-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 3px;
+  font-size: 12px;
+  color: var(--sof-secondary);
+}
+
+.named-npc .age-value {
+  padding: 6px 10px;
+  background: var(--sof-light);
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+.named-npc .age-value.deceased {
+  background: #ffebee;
+  border-color: var(--sof-danger);
+  color: var(--sof-danger);
+}
+
+.named-npc .profile-img {
+  border: 2px solid var(--sof-border);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.named-npc .profile-img:hover {
+  border-color: var(--sof-accent);
+}
+
+.named-npc .aspect-box {
+  margin-bottom: 15px;
+}
+
+.named-npc .aspect-box label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--sof-primary);
+}
+
+.named-npc .skill-section {
+  margin-bottom: 15px;
+  padding: 10px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+}
+
+.named-npc .skill-section.hidden-skill {
+  opacity: 0.6;
+}
+
+.named-npc .subsection-header {
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--sof-primary);
+  margin-bottom: 8px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--sof-border);
+}
+
+.named-npc .skill-row {
+  display: flex;
+  gap: 15px;
+}
+
+.named-npc .skill-name-field {
+  flex: 2;
+}
+
+.named-npc .skill-value-field {
+  flex: 1;
+}
+
+.named-npc .skill-name-field label,
+.named-npc .skill-value-field label {
+  display: block;
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 3px;
+  color: var(--sof-secondary);
+}
+
+/* NPC Age Track */
+.named-npc .npc-age-track {
+  margin-bottom: 15px;
+}
+
+.named-npc .age-track-table {
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.named-npc .age-track-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  background: var(--sof-primary);
+  color: white;
+  font-weight: bold;
+}
+
+.named-npc .age-track-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  border-top: 1px solid var(--sof-border);
+}
+
+.named-npc .age-track-cell {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.named-npc .age-track-cell.age-label {
+  justify-content: flex-start;
+  font-weight: bold;
+}
+
+.named-npc .age-track-cell.age-label.current-age {
+  background: #e3f2fd;
+  color: var(--sof-accent);
+  font-weight: bold;
+}
+
+.named-npc .age-track-cell.age-label.passed-age {
+  opacity: 0.6;
+  font-style: italic;
+}
+
+.named-npc .age-scar {
+  cursor: pointer;
+}
+
+.named-npc .age-scar.disabled-checkbox {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.named-npc .description-field {
+  margin-bottom: 15px;
+}
+
+.named-npc .description-field textarea {
+  font-family: 'Signika', 'Palatino Linotype', serif;
+  resize: vertical;
+}
+
+/* ===========================
+   Registrar Actor Sheet
+   =========================== */
+
+.registrar .sheet-header {
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--sof-primary);
+}
+
+.registrar .registrar-name-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: var(--sof-primary);
+}
+
+.registrar .registrar-body {
+  padding: 10px;
+}
+
+.registrar .npc-list {
+  margin-bottom: 20px;
+  min-height: 200px;
+}
+
+.registrar .items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.registrar .npc-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 8px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.registrar .npc-item:hover {
+  background: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.registrar .item-image {
+  width: 48px;
+  height: 48px;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.registrar .item-name {
+  flex: 1;
+}
+
+.registrar .item-name h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: var(--sof-primary);
+}
+
+.registrar .item-aspect {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--sof-secondary);
+}
+
+.registrar .item-controls {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.registrar .item-control {
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  color: var(--sof-secondary);
+}
+
+.registrar .item-control:hover {
+  background: var(--sof-accent);
+  border-color: var(--sof-accent);
+  color: white;
+}
+
+.registrar .item-control.item-delete:hover {
+  background: var(--sof-danger);
+  border-color: var(--sof-danger);
+}
+
+.registrar .empty-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--sof-secondary);
+  font-style: italic;
+}
+
+.registrar .empty-message p {
+  margin: 0;
+}
