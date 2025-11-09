@@ -2397,13 +2397,13 @@
 }
 
 .registrar .registrar-notes {
-  height: 80px;
-  margin-bottom: 15px;
+  height: 50px;
+  margin-bottom: 10px;
   overflow: hidden;
 }
 
 .registrar .registrar-notes .editor {
-  height: 60px;
+  height: 40px;
 }
 
 .registrar .registrar-notes.prosemirror {
@@ -2445,6 +2445,8 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .registrar .npc-item:hover {

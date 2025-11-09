@@ -114,21 +114,33 @@ export class RegistrarSheet extends ActorSheet {
     // Handle array of items or single item
     const items = itemData instanceof Array ? itemData : [itemData];
 
-    // Store source items before creating copies
-    const sourceItems = items.map(data => {
+    // Store source items and their parent actors before creating copies
+    const sourceInfo = [];
+    for (const data of items) {
+      let sourceItem = null;
+
+      // Try to get the source item from UUID
       if (data.uuid) {
-        return fromUuidSync(data.uuid);
+        sourceItem = await fromUuid(data.uuid);
       }
-      return null;
-    }).filter(item => item !== null);
+
+      // If we have a source item and it has a parent actor
+      if (sourceItem?.parent) {
+        sourceInfo.push({
+          item: sourceItem,
+          parentId: sourceItem.parent.id
+        });
+      }
+    }
 
     // Call parent to create the item(s) on this actor
     const created = await super._onDropItemCreate(itemData);
 
     // Delete source items if they came from a different actor
-    for (const sourceItem of sourceItems) {
-      if (sourceItem?.parent && sourceItem.parent.id !== this.actor.id) {
-        await sourceItem.delete();
+    for (const info of sourceInfo) {
+      if (info.parentId !== this.actor.id) {
+        console.log(`Scions of FarStar | Moving NPC "${info.item.name}" from ${info.parentId} to ${this.actor.id}`);
+        await info.item.delete();
       }
     }
 
