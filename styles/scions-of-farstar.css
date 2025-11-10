@@ -2853,7 +2853,7 @@
   margin-bottom: 10px;
   background: white;
   border: 1px solid var(--sof-border);
-  border-left: 5px solid var(--tint-color, var(--sof-border))
+  border-left: 5px solid var(--tint-color, var(--sof-border));
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s, box-shadow 0.2s;
@@ -2948,54 +2948,66 @@
   flex-wrap: wrap;
 }
 
+/* Override existing invoke-checkbox styles */
 .colony .invoke-checkbox,
 .faction-scion .invoke-checkbox,
 .threat .invoke-checkbox {
   appearance: none;
-  width: 18px;
-  height: 18px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
   border: 2px solid var(--sof-success);
-  border-radius: 3px;
-  cursor: pointer;
+  border-radius: 50%;
   position: relative;
-  background: white;
-  transition: all 0.2s;
+  cursor: pointer;
+  background: var(--sof-success);
+  transition: all 0.2s ease;
 }
 
-.colony .invoke-checkbox:not(:checked)::before,
-.faction-scion .invoke-checkbox:not(:checked)::before,
-.threat .invoke-checkbox:not(:checked)::before {
+/* Hover effect */
+.colony .invoke-checkbox:hover,
+.faction-scion .invoke-checkbox:hover,
+.threat .invoke-checkbox:hover {
+  box-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
+}
+
+/* Plus symbol */
+.colony .invoke-checkbox::before,
+.faction-scion .invoke-checkbox::before,
+.threat .invoke-checkbox::before {
   content: '+';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--sof-success);
+  font-size: 16px;
   font-weight: bold;
-  font-size: 14px;
+  color: white;
   line-height: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: all 0.2s ease;
 }
 
+/* Checked state */
 .colony .invoke-checkbox:checked,
 .faction-scion .invoke-checkbox:checked,
 .threat .invoke-checkbox:checked {
-  background: var(--sof-success);
-  border-color: var(--sof-success);
+  background: white;
+  border-color: var(--sof-border);
 }
 
-.colony .invoke-checkbox:checked::after,
-.faction-scion .invoke-checkbox:checked::after,
-.threat .invoke-checkbox:checked::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 1;
+.colony .invoke-checkbox:checked::before,
+.faction-scion .invoke-checkbox:checked::before,
+.threat .invoke-checkbox:checked::before {
+  color: var(--sof-border);
 }
+
 
 /* Extra Ladder Display - Vertical Layout */
 .colony .extra-ladder-display,
@@ -3286,6 +3298,6 @@
    Items Extras - Shared Styles
    =========================== */
 
-.item .extra .tox.tox-tinymce {
+.extra .tox.tox-tinymce {
   height: 100% !important;
 }
