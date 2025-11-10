@@ -2825,3 +2825,372 @@
 .threat .npcs-tab .empty-message p {
   margin: 0;
 }
+
+/* ===========================
+   Extra Items Tab - Shared Styles
+   (for Colony, Faction-Scion, Threat)
+   =========================== */
+
+.colony .extras-list,
+.faction-scion .extras-list,
+.threat .extras-list {
+  margin-bottom: 20px;
+  min-height: 200px;
+}
+
+.colony .extra-item,
+.faction-scion .extra-item,
+.threat .extra-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: white;
+  border: 2px solid var(--tint-color, var(--sof-border));
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.colony .extra-item::before,
+.faction-scion .extra-item::before,
+.threat .extra-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--tint-color, transparent);
+  opacity: 0.05;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.colony .extra-item:hover,
+.faction-scion .extra-item:hover,
+.threat .extra-item:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.colony .extra-icon,
+.faction-scion .extra-icon,
+.threat .extra-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.colony .extra-icon img,
+.faction-scion .extra-icon img,
+.threat .extra-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  background: white;
+}
+
+.colony .extra-content,
+.faction-scion .extra-content,
+.threat .extra-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.colony .extra-aspect-row,
+.faction-scion .extra-aspect-row,
+.threat .extra-aspect-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.colony .extra-aspect-label,
+.faction-scion .extra-aspect-label,
+.threat .extra-aspect-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+  text-transform: uppercase;
+}
+
+.colony .extra-aspect-value,
+.faction-scion .extra-aspect-value,
+.threat .extra-aspect-value {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--sof-primary);
+  font-weight: 500;
+}
+
+.colony .extra-invokes,
+.faction-scion .extra-invokes,
+.threat .extra-invokes {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.colony .invoke-checkbox,
+.faction-scion .invoke-checkbox,
+.threat .invoke-checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--sof-success);
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+  background: white;
+  transition: all 0.2s;
+}
+
+.colony .invoke-checkbox:not(:checked)::before,
+.faction-scion .invoke-checkbox:not(:checked)::before,
+.threat .invoke-checkbox:not(:checked)::before {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--sof-success);
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.colony .invoke-checkbox:checked,
+.faction-scion .invoke-checkbox:checked,
+.threat .invoke-checkbox:checked {
+  background: var(--sof-success);
+  border-color: var(--sof-success);
+}
+
+.colony .invoke-checkbox:checked::after,
+.faction-scion .invoke-checkbox:checked::after,
+.threat .invoke-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.colony .extra-ladder-display,
+.faction-scion .extra-ladder-display,
+.threat .extra-ladder-display {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.colony .ladder-rung-checkbox,
+.faction-scion .ladder-rung-checkbox,
+.threat .ladder-rung-checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--sof-border);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  background: white;
+  transition: all 0.2s;
+}
+
+.colony .ladder-rung-checkbox.highest-unchecked,
+.faction-scion .ladder-rung-checkbox.highest-unchecked,
+.threat .ladder-rung-checkbox.highest-unchecked {
+  border-color: var(--sof-accent);
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.5);
+}
+
+.colony .ladder-rung-checkbox:checked,
+.faction-scion .ladder-rung-checkbox:checked,
+.threat .ladder-rung-checkbox:checked {
+  background: var(--sof-secondary);
+  border-color: var(--sof-secondary);
+}
+
+.colony .ladder-rung-checkbox:checked::after,
+.faction-scion .ladder-rung-checkbox:checked::after,
+.threat .ladder-rung-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.colony .extra-skill-display,
+.faction-scion .extra-skill-display,
+.threat .extra-skill-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.colony .extra-skill-display .roll-button,
+.faction-scion .extra-skill-display .roll-button,
+.threat .extra-skill-display .roll-button {
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  font-size: 12px;
+  min-width: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.colony .extra-skill-display .roll-button:hover,
+.faction-scion .extra-skill-display .roll-button:hover,
+.threat .extra-skill-display .roll-button:hover {
+  background: var(--sof-primary);
+}
+
+.colony .extra-skill-info,
+.faction-scion .extra-skill-info,
+.threat .extra-skill-info {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.colony .extra-skill-name,
+.faction-scion .extra-skill-name,
+.threat .extra-skill-name {
+  font-weight: bold;
+  color: var(--sof-secondary);
+}
+
+.colony .extra-skill-value,
+.faction-scion .extra-skill-value,
+.threat .extra-skill-value {
+  color: var(--sof-accent);
+  font-weight: bold;
+}
+
+.colony .extra-track-display,
+.faction-scion .extra-track-display,
+.threat .extra-track-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.colony .extra-track-label,
+.faction-scion .extra-track-label,
+.threat .extra-track-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+  text-transform: uppercase;
+}
+
+.colony .extra-track-boxes,
+.faction-scion .extra-track-boxes,
+.threat .extra-track-boxes {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.colony .track-box-wrapper,
+.faction-scion .track-box-wrapper,
+.threat .track-box-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.colony .track-checkbox,
+.faction-scion .track-checkbox,
+.threat .track-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--sof-border);
+  border-radius: 2px;
+  cursor: pointer;
+  background: white;
+  transition: all 0.2s;
+}
+
+.colony .track-checkbox:checked,
+.faction-scion .track-checkbox:checked,
+.threat .track-checkbox:checked {
+  background: var(--sof-primary);
+  border-color: var(--sof-primary);
+}
+
+.colony .track-checkbox:checked::after,
+.faction-scion .track-checkbox:checked::after,
+.threat .track-checkbox:checked::after {
+  content: 'X';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.colony .track-box-label,
+.faction-scion .track-box-label,
+.threat .track-box-label {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  font-size: 9px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 2px;
+  padding: 0 2px;
+  line-height: 1.2;
+}
+
+.colony .extras-tab .empty-message,
+.faction-scion .extras-tab .empty-message,
+.threat .extras-tab .empty-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--sof-secondary);
+  font-style: italic;
+}
+
+.colony .extras-tab .empty-message p,
+.faction-scion .extras-tab .empty-message p,
+.threat .extras-tab .empty-message p {
+  margin: 0;
+}

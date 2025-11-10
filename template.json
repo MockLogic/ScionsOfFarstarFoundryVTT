@@ -484,7 +484,7 @@
     }
   },
   "Item": {
-    "types": ["named-npc"],
+    "types": ["named-npc", "extra-aspect", "extra-ladder", "extra-skill", "extra-track", "extra-growing-track"],
     "named-npc": {
       "birthGeneration": null,
       "aspect": "",
@@ -523,6 +523,82 @@
           "scar": false
         }
       }
+    },
+    "extra-aspect": {
+      "aspectLabel": "Aspect",
+      "aspect": "",
+      "description": "",
+      "tintColor": "#ffffff",
+      "maxInvokes": 1,
+      "invokes": [
+        {"spent": false}
+      ]
+    },
+    "extra-ladder": {
+      "aspectLabel": "Aspect",
+      "aspect": "",
+      "description": "",
+      "tintColor": "#ffffff",
+      "maxInvokes": 1,
+      "invokes": [
+        {"spent": false}
+      ],
+      "ladderLabel": "Progress",
+      "rungCount": 5,
+      "rungs": [
+        {"aspect": "", "checked": false},
+        {"aspect": "", "checked": false},
+        {"aspect": "", "checked": false},
+        {"aspect": "", "checked": false},
+        {"aspect": "", "checked": false}
+      ]
+    },
+    "extra-skill": {
+      "aspectLabel": "Aspect",
+      "aspect": "",
+      "description": "",
+      "tintColor": "#ffffff",
+      "maxInvokes": 1,
+      "invokes": [
+        {"spent": false}
+      ],
+      "skillName": "",
+      "skillValue": 0
+    },
+    "extra-track": {
+      "aspectLabel": "Aspect",
+      "aspect": "",
+      "description": "",
+      "tintColor": "#ffffff",
+      "maxInvokes": 1,
+      "invokes": [
+        {"spent": false}
+      ],
+      "trackLabel": "Track",
+      "trackLength": 3,
+      "trackValue": 0,
+      "boxes": [
+        {"checked": false},
+        {"checked": false},
+        {"checked": false}
+      ]
+    },
+    "extra-growing-track": {
+      "aspectLabel": "Aspect",
+      "aspect": "",
+      "description": "",
+      "tintColor": "#ffffff",
+      "maxInvokes": 1,
+      "invokes": [
+        {"spent": false}
+      ],
+      "trackLabel": "Track",
+      "trackLength": 3,
+      "boxes": [
+        {"checked": false},
+        {"checked": false},
+        {"checked": false}
+      ]
     }
   }
 }

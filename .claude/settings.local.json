@@ -4,7 +4,10 @@
       "Bash(node -e:*)",
       "Bash(\"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\templates\\actor\\threat-sheet.hbs\")",
       "Bash(\"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\styles\\scions-of-farstar.css\")",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(dir \"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\module\")",
+      "Bash(dir \"C:\\Users\\brian\\ScionsOfFarstarFoundryVTT\\module\\items\")",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []

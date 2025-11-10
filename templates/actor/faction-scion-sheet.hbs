@@ -379,27 +379,124 @@
 
     {{!-- Extras Tab --}}
     <div class="tab extras-tab" data-group="primary" data-tab="extras">
-      <div class="section-header">{{localize "SCIONS.Faction.Extras"}}</div>
+      <div class="section-header">Extras</div>
 
-      {{#if (hasItems system.faction.extras)}}
-        {{#each system.faction.extras as |extra index|}}
-          <div class="extra-item">
-            <div class="extra-header">
-              <input type="text" class="extra-name" name="system.faction.extras.{{index}}.name" value="{{extra.name}}" placeholder="{{localize 'SCIONS.Extras.NamePlaceholder'}}"/>
-              <button type="button" class="extra-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
-            </div>
-            <div class="extra-description">
-              {{editor extra.description target=(concat "system.faction.extras." index ".description") button=true owner=owner editable=editable}}
-            </div>
+      {{!-- Extra Items List --}}
+      <div class="extras-list">
+        {{#if extraItems}}
+          <ol class="items-list">
+            {{#each extraItems as |item id|}}
+              <li class="item extra-item" data-item-id="{{item._id}}" style="--tint-color: {{item.system.tintColor}};">
+                <div class="extra-icon">
+                  <img src="{{item.img}}" alt="{{item.name}}" title="{{item.name}}"/>
+                </div>
+                <div class="extra-content">
+                  {{#if item.system.aspect}}
+                    <div class="extra-aspect-display">
+                      <span class="aspect-label">{{item.system.aspectLabel}}:</span>
+                      <span class="aspect-value">{{item.system.aspect}}</span>
+                    </div>
+                  {{/if}}
+
+                  {{!-- Free Invokes --}}
+                  {{#if item.system.invokes}}
+                    <div class="extra-invokes">
+                      {{#each item.system.invokes as |invoke index|}}
+                        <input type="checkbox"
+                               class="invoke-checkbox"
+                               data-item-id="{{../item._id}}"
+                               data-index="{{index}}"
+                               {{checked invoke.spent}}
+                               title="{{#if invoke.spent}}Spent{{else}}Available{{/if}}"/>
+                      {{/each}}
+                    </div>
+                  {{/if}}
+
+                  {{!-- Ladder (Extra-Ladder only) --}}
+                  {{#if (eq item.type "extra-ladder")}}
+                    <div class="extra-ladder-display">
+                      <div class="ladder-label">{{item.system.ladderLabel}}</div>
+                      <div class="ladder-rungs-compact">
+                        {{#each item.system.rungs as |rung index|}}
+                          <input type="checkbox"
+                                 class="ladder-rung-checkbox"
+                                 data-item-id="{{../item._id}}"
+                                 data-index="{{index}}"
+                                 {{checked rung.checked}}
+                                 title="{{rung.aspect}}"/>
+                        {{/each}}
+                      </div>
+                    </div>
+                  {{/if}}
+
+                  {{!-- Skill (Extra-Skill only) --}}
+                  {{#if (eq item.type "extra-skill")}}
+                    {{#if item.system.skillName}}
+                      <div class="extra-skill-display">
+                        <button type="button" class="roll-button roll-extra-skill" data-item-id="{{item._id}}" title="Roll {{item.system.skillName}}">
+                          <i class="fas fa-dice-d6"></i>
+                        </button>
+                        <span class="skill-label">{{item.system.skillName}} {{signedNumber item.system.skillValue}}</span>
+                      </div>
+                    {{/if}}
+                  {{/if}}
+
+                  {{!-- Track (Extra-Track only) --}}
+                  {{#if (eq item.type "extra-track")}}
+                    <div class="extra-track-display">
+                      <div class="track-label">{{item.system.trackLabel}}</div>
+                      <div class="track-boxes-compact">
+                        {{#each item.system.boxes as |box index|}}
+                          <div class="track-box-wrapper">
+                            <input type="checkbox"
+                                   class="track-checkbox"
+                                   data-item-id="{{../item._id}}"
+                                   data-index="{{index}}"
+                                   {{checked box.checked}}
+                                   title="Box {{add index 1}}"/>
+                            {{#if (gt ../item.system.trackValue 0)}}
+                              <span class="track-value">{{../item.system.trackValue}}</span>
+                            {{/if}}
+                          </div>
+                        {{/each}}
+                      </div>
+                    </div>
+                  {{/if}}
+
+                  {{!-- Growing Track (Extra-Growing-Track only) --}}
+                  {{#if (eq item.type "extra-growing-track")}}
+                    <div class="extra-track-display">
+                      <div class="track-label">{{item.system.trackLabel}}</div>
+                      <div class="track-boxes-compact">
+                        {{#each item.system.boxes as |box index|}}
+                          <div class="track-box-wrapper">
+                            <input type="checkbox"
+                                   class="track-checkbox"
+                                   data-item-id="{{../item._id}}"
+                                   data-index="{{index}}"
+                                   {{checked box.checked}}
+                                   title="Box {{add index 1}}"/>
+                            <span class="track-value">{{add index 1}}</span>
+                          </div>
+                        {{/each}}
+                      </div>
+                    </div>
+                  {{/if}}
+                </div>
+
+                <div class="item-controls">
+                  <a class="item-control item-edit" title="Edit Extra"><i class="fas fa-edit"></i></a>
+                  <a class="item-control item-delete" title="Delete Extra"><i class="fas fa-trash"></i></a>
+                </div>
+              </li>
+            {{/each}}
+          </ol>
+        {{else}}
+          <div class="empty-message">
+            <p>No extras yet. Create Extras from the Items directory and drag them here.</p>
           </div>
-        {{/each}}
-      {{else}}
-        <div class="empty-message">No extras yet. Click the button below to add an extra.</div>
-      {{/if}}
-
-      <button type="button" class="add-item-button extra-add">
-        <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddExtra"}}
-      </button>
+        {{/if}}
+      </div>
     </div>
 
     {{!-- Named NPCs Tab --}}

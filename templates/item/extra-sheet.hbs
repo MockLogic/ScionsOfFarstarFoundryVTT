@@ -1,0 +1,188 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="name-row">
+        <div class="name-field">
+          <label class="field-label">Extra Name</label>
+          <input name="name" type="text" value="{{item.name}}" placeholder="Extra Name"/>
+        </div>
+      </div>
+
+      <div class="icon-tint-row">
+        <div class="icon-field">
+          <label class="field-label">Icon</label>
+          <div class="file-picker-wrapper">
+            <input name="img" type="text" value="{{item.img}}" placeholder="icons/svg/regen.svg" data-edit="img"/>
+            <button type="button" class="file-picker" data-type="imagevideo" data-target="img" title="Browse Files" tabindex="-1">
+              <i class="fas fa-file-import fa-fw"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="tint-field">
+          <label class="field-label">Tint Color</label>
+          <input name="system.tintColor" type="color" value="{{system.tintColor}}"/>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Aspect Section (Common to all Extra types) --}}
+    <div class="aspect-section">
+      <div class="aspect-label-row">
+        <label>Aspect Label</label>
+        <input type="text" name="system.aspectLabel" value="{{system.aspectLabel}}" placeholder="Aspect"/>
+      </div>
+      <div class="aspect-value-row">
+        <input type="text" name="system.aspect" value="{{system.aspect}}" placeholder="Enter aspect..."/>
+      </div>
+    </div>
+
+    {{!-- Free Invokes Section (Common to all Extra types) --}}
+    <div class="invoke-section">
+      <div class="subsection-header">
+        Free Invokes
+        <div class="invoke-controls">
+          <button type="button" class="invoke-decrement" title="Decrease invoke count"><i class="fas fa-minus"></i></button>
+          <span class="invoke-count">{{system.maxInvokes}}</span>
+          <button type="button" class="invoke-increment" title="Increase invoke count"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      <div class="invoke-boxes">
+        {{#each system.invokes as |invoke index|}}
+          <input type="checkbox"
+                 class="invoke-box {{#if invoke.spent}}spent{{else}}available{{/if}}"
+                 data-index="{{index}}"
+                 {{checked invoke.spent}}
+                 title="{{#if invoke.spent}}Invoke spent{{else}}Invoke available{{/if}}"/>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Ladder Section (Extra-Ladder only) --}}
+    {{#if (eq itemType "extra-ladder")}}
+      <div class="ladder-section">
+        <div class="subsection-header">
+          <input type="text" name="system.ladderLabel" value="{{system.ladderLabel}}" placeholder="Ladder Label"/>
+          <div class="rung-controls">
+            <button type="button" class="rung-decrement" title="Decrease rung count"><i class="fas fa-minus"></i></button>
+            <span class="rung-count">{{system.rungCount}} rungs</span>
+            <button type="button" class="rung-increment" title="Increase rung count"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+
+        <div class="ladder-rungs">
+          {{#each ladderData.rungs as |rung|}}
+            <div class="ladder-rung {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">
+              <input type="checkbox"
+                     class="ladder-rung-check"
+                     data-index="{{rung.index}}"
+                     {{checked rung.checked}}
+                     title="{{#if rung.checked}}Checked{{else}}Unchecked{{/if}}"/>
+              <input type="text"
+                     name="system.rungs.{{rung.index}}.aspect"
+                     value="{{rung.aspect}}"
+                     placeholder="Rung {{add rung.index 1}} aspect..."/>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Skill Section (Extra-Skill only) --}}
+    {{#if (eq itemType "extra-skill")}}
+      <div class="skill-section">
+        <div class="subsection-header">Skill</div>
+        <div class="skill-row">
+          {{#if system.skillName}}
+            <button type="button" class="roll-button roll-extra-skill rollable" title="Roll {{system.skillName}}">
+              <i class="fas fa-dice-d6"></i>
+            </button>
+          {{/if}}
+          <div class="skill-name-field">
+            <label>Skill Name</label>
+            <input type="text" name="system.skillName" value="{{system.skillName}}" placeholder="Skill name"/>
+          </div>
+          <div class="skill-value-field">
+            <label>Rating</label>
+            <input type="number" name="system.skillValue" value="{{system.skillValue}}" data-dtype="Number" min="-1" max="10"/>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Track Section (Extra-Track only) --}}
+    {{#if (eq itemType "extra-track")}}
+      <div class="track-section">
+        <div class="subsection-header">
+          <input type="text" name="system.trackLabel" value="{{system.trackLabel}}" placeholder="Track Label"/>
+          <div class="track-controls">
+            <button type="button" class="track-decrement" title="Decrease track length"><i class="fas fa-minus"></i></button>
+            <span class="track-length">{{system.trackLength}} boxes</span>
+            <button type="button" class="track-increment" title="Increase track length"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+
+        <div class="track-value-field">
+          <label>Box Value (0 = no value displayed)</label>
+          <input type="number" name="system.trackValue" value="{{system.trackValue}}" data-dtype="Number" min="0" max="10"/>
+        </div>
+
+        <div class="track-boxes">
+          {{#each system.boxes as |box index|}}
+            <div class="track-box-container">
+              <input type="checkbox"
+                     class="track-box"
+                     data-index="{{index}}"
+                     {{checked box.checked}}
+                     title="Box {{add index 1}}"/>
+              {{#if (gt ../system.trackValue 0)}}
+                <span class="track-box-value">{{../system.trackValue}}</span>
+              {{/if}}
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Growing Track Section (Extra-Growing-Track only) --}}
+    {{#if (eq itemType "extra-growing-track")}}
+      <div class="track-section growing-track">
+        <div class="subsection-header">
+          <input type="text" name="system.trackLabel" value="{{system.trackLabel}}" placeholder="Track Label"/>
+          <div class="track-controls">
+            <button type="button" class="track-decrement" title="Decrease track length"><i class="fas fa-minus"></i></button>
+            <span class="track-length">{{system.trackLength}} boxes</span>
+            <button type="button" class="track-increment" title="Increase track length"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+
+        <div class="track-boxes">
+          {{#each system.boxes as |box index|}}
+            <div class="track-box-container">
+              <input type="checkbox"
+                     class="track-box"
+                     data-index="{{index}}"
+                     {{checked box.checked}}
+                     title="Box {{add index 1}}"/>
+              <span class="track-box-value">{{add index 1}}</span>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+
+    {{!-- Description Section (Common to all Extra types) --}}
+    <div class="subsection-header">Description</div>
+    <div class="editor-container">
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+  </section>
+
+</form>

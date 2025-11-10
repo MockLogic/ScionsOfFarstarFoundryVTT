@@ -16,6 +16,7 @@ import { RegistrarSheet } from "./actors/registrar-sheet.mjs";
 
 // Import item sheet classes
 import { NamedNpcSheet } from "./items/named-npc-sheet.mjs";
+import { ExtraSheet } from "./items/extra-sheet.mjs";
 
 /**
  * Initialize the Scions of FarStar system
@@ -235,7 +236,12 @@ Hooks.once('init', async function() {
 
   // Set default item icons
   CONFIG.Item.typeIcons = {
-    "named-npc": "icons/svg/walk.svg"  // Generic person/walk icon for named-npc
+    "named-npc": "icons/svg/walk.svg",  // Generic person/walk icon for named-npc
+    "extra-aspect": "icons/svg/regen.svg",  // Regen icon for all Extra types
+    "extra-ladder": "icons/svg/regen.svg",
+    "extra-skill": "icons/svg/regen.svg",
+    "extra-track": "icons/svg/regen.svg",
+    "extra-growing-track": "icons/svg/regen.svg"
   };
 
   // Register sheet application classes
@@ -272,6 +278,12 @@ Hooks.once('init', async function() {
     types: ["named-npc"],
     makeDefault: true,
     label: "SCIONS.ItemTypes.named-npc"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", ExtraSheet, {
+    types: ["extra-aspect", "extra-ladder", "extra-skill", "extra-track", "extra-growing-track"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.extra"
   });
 
   console.log('Scions of FarStar | System initialized');
@@ -329,14 +341,19 @@ Hooks.on('preCreateItem', (document, data, options, userId) => {
     }
   }
 
-  // Only check for named-npc items being created in the Items directory (not embedded in actors)
-  if (document.type === 'named-npc' && !document.parent) {
+  // Restrict named-npc and extra item creation to GM and Trusted roles
+  // Only check for items being created in the Items directory (not embedded in actors)
+  const isExtraType = ['extra-aspect', 'extra-ladder', 'extra-skill', 'extra-track', 'extra-growing-track'].includes(document.type);
+  const isRestrictedType = document.type === 'named-npc' || isExtraType;
+
+  if (isRestrictedType && !document.parent) {
     const user = game.users.get(userId);
 
     // Check if user is a player (role 1)
     // GAMEMASTER = 4, ASSISTANT = 3 or 2, TRUSTED = 2, PLAYER = 1
     if (user && user.role < CONST.USER_ROLES.TRUSTED) {
-      ui.notifications.warn("Only the GM can create Named NPC items. NPCs must be created by the GM and then shared with players.");
+      const itemTypeName = isExtraType ? 'Extra' : 'Named NPC';
+      ui.notifications.warn(`Only the GM can create ${itemTypeName} items. ${itemTypeName}s must be created by the GM and then shared with players.`);
       return false; // Prevent creation
     }
   }
