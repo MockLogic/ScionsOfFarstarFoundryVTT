@@ -119,7 +119,7 @@ export class ExtraSheet extends ItemSheet {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
 
-    const invokes = [...this.item.system.invokes];
+    const invokes = Array.isArray(this.item.system.invokes) ? [...this.item.system.invokes] : [];
     if (invokes[index]) {
       invokes[index].spent = !invokes[index].spent;
       await this.item.update({ 'system.invokes': invokes });
@@ -140,7 +140,15 @@ export class ExtraSheet extends ItemSheet {
     if (newMax === currentMax) return;
 
     // Adjust the invokes array to match new size
-    const invokes = [...this.item.system.invokes];
+    let invokes = this.item.system.invokes;
+    if (!Array.isArray(invokes)) {
+      invokes = [];
+      for (let i = 0; i < currentMax; i++) {
+        invokes.push({ spent: false });
+      }
+    } else {
+      invokes = [...invokes];
+    }
 
     if (newMax > currentMax) {
       // Add new invoke boxes
@@ -166,7 +174,7 @@ export class ExtraSheet extends ItemSheet {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
 
-    const rungs = [...this.item.system.rungs];
+    const rungs = Array.isArray(this.item.system.rungs) ? [...this.item.system.rungs] : [];
     if (rungs[index]) {
       rungs[index].checked = !rungs[index].checked;
       await this.item.update({ 'system.rungs': rungs });
@@ -187,7 +195,16 @@ export class ExtraSheet extends ItemSheet {
     if (newCount === currentCount) return;
 
     // Adjust the rungs array to match new size
-    const rungs = [...this.item.system.rungs];
+    // Ensure rungs is an array
+    let rungs = this.item.system.rungs;
+    if (!Array.isArray(rungs)) {
+      rungs = [];
+      for (let i = 0; i < currentCount; i++) {
+        rungs.push({ aspect: "", checked: false });
+      }
+    } else {
+      rungs = [...rungs];
+    }
 
     if (newCount > currentCount) {
       // Add new rungs
@@ -213,7 +230,7 @@ export class ExtraSheet extends ItemSheet {
     event.preventDefault();
     const index = parseInt(event.currentTarget.dataset.index);
 
-    const boxes = [...this.item.system.boxes];
+    const boxes = Array.isArray(this.item.system.boxes) ? [...this.item.system.boxes] : [];
     if (boxes[index]) {
       boxes[index].checked = !boxes[index].checked;
       await this.item.update({ 'system.boxes': boxes });
@@ -234,7 +251,15 @@ export class ExtraSheet extends ItemSheet {
     if (newLength === currentLength) return;
 
     // Adjust the boxes array to match new size
-    const boxes = [...this.item.system.boxes];
+    let boxes = this.item.system.boxes;
+    if (!Array.isArray(boxes)) {
+      boxes = [];
+      for (let i = 0; i < currentLength; i++) {
+        boxes.push({ checked: false });
+      }
+    } else {
+      boxes = [...boxes];
+    }
 
     if (newLength > currentLength) {
       // Add new boxes
