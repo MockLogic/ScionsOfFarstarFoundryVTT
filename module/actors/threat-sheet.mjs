@@ -362,6 +362,12 @@ export class ThreatSheet extends ActorSheet {
     html.find('.item-delete').click(this._onItemDelete.bind(this));
     html.find('.roll-npc-skill').click(this._onRollNpcSkill.bind(this));
 
+    // Make NPC items draggable
+    html.find('.npc-item').each((i, li) => {
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    });
+
     // Drag events for macro creation
     html.find('.rollable').each((i, li) => {
       li.setAttribute("draggable", true);

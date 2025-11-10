@@ -303,10 +303,32 @@ Hooks.once('ready', async function() {
 });
 
 /**
- * Restrict named-npc item creation to GM and Assistant roles only
+ * Set default icons for actors based on type
+ */
+Hooks.on('preCreateActor', (document, data, options, userId) => {
+  // Only set icon if one isn't already specified
+  if (!data.img || data.img === "icons/svg/mystery-man.svg") {
+    const defaultIcon = CONFIG.Actor.typeIcons?.[document.type];
+    if (defaultIcon) {
+      document.updateSource({ img: defaultIcon });
+    }
+  }
+});
+
+/**
+ * Set default icons for items based on type
+ * Also restrict named-npc item creation to GM and Assistant roles only
  * Players can still modify NPCs embedded in actors they own
  */
 Hooks.on('preCreateItem', (document, data, options, userId) => {
+  // Set default icon for items if not specified
+  if (!data.img || data.img === "icons/svg/item-bag.svg") {
+    const defaultIcon = CONFIG.Item.typeIcons?.[document.type];
+    if (defaultIcon) {
+      document.updateSource({ img: defaultIcon });
+    }
+  }
+
   // Only check for named-npc items being created in the Items directory (not embedded in actors)
   if (document.type === 'named-npc' && !document.parent) {
     const user = game.users.get(userId);

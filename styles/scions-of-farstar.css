@@ -2627,3 +2627,201 @@
 .registrar .empty-message p {
   margin: 0;
 }
+
+/* ===========================
+   Named NPCs Tab - Shared Styles
+   (for Colony, Faction-Scion, Threat)
+   =========================== */
+
+.colony .npc-list,
+.faction-scion .npc-list,
+.threat .npc-list {
+  margin-bottom: 20px;
+  min-height: 200px;
+}
+
+.colony .items-list,
+.faction-scion .items-list,
+.threat .items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.colony .npc-item,
+.faction-scion .npc-item,
+.threat .npc-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 8px;
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.colony .npc-item:hover,
+.faction-scion .npc-item:hover,
+.threat .npc-item:hover {
+  background: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.colony .npc-item.deceased,
+.faction-scion .npc-item.deceased,
+.threat .npc-item.deceased {
+  opacity: 0.6;
+  background: #f5f5f5;
+}
+
+.colony .npc-item.deceased:hover,
+.faction-scion .npc-item.deceased:hover,
+.threat .npc-item.deceased:hover {
+  background: #ebebeb;
+}
+
+.colony .item-details,
+.faction-scion .item-details,
+.threat .item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.colony .item-name,
+.faction-scion .item-name,
+.threat .item-name {
+  display: flex;
+  flex-direction: column;
+}
+
+.colony .item-name h4,
+.faction-scion .item-name h4,
+.threat .item-name h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: var(--sof-primary);
+}
+
+.colony .item-aspect,
+.faction-scion .item-aspect,
+.threat .item-aspect {
+  font-size: 13px;
+  font-style: italic;
+  color: var(--sof-secondary);
+}
+
+.colony .item-info,
+.faction-scion .item-info,
+.threat .item-info {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.colony .npc-age-status,
+.faction-scion .npc-age-status,
+.threat .npc-age-status {
+  padding: 2px 6px;
+  background: #e3f2fd;
+  border-radius: 3px;
+  font-weight: bold;
+  color: var(--sof-accent);
+}
+
+.colony .npc-age-status.deceased,
+.faction-scion .npc-age-status.deceased,
+.threat .npc-age-status.deceased {
+  background: #ffebee;
+  color: var(--sof-danger);
+}
+
+.colony .npc-skill-info,
+.faction-scion .npc-skill-info,
+.threat .npc-skill-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.colony .npc-skill-info .roll-button,
+.faction-scion .npc-skill-info .roll-button,
+.threat .npc-skill-info .roll-button {
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  font-size: 12px;
+  min-width: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.colony .skill-label,
+.faction-scion .skill-label,
+.threat .skill-label {
+  font-weight: bold;
+  color: var(--sof-secondary);
+  white-space: nowrap;
+}
+
+.colony .item-controls,
+.faction-scion .item-controls,
+.threat .item-controls {
+  display: flex;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.colony .item-control,
+.faction-scion .item-control,
+.threat .item-control {
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+  color: var(--sof-secondary);
+}
+
+.colony .item-control:hover,
+.faction-scion .item-control:hover,
+.threat .item-control:hover {
+  background: var(--sof-accent);
+  border-color: var(--sof-accent);
+  color: white;
+}
+
+.colony .item-control.item-delete:hover,
+.faction-scion .item-control.item-delete:hover,
+.threat .item-control.item-delete:hover {
+  background: var(--sof-danger);
+  border-color: var(--sof-danger);
+}
+
+.colony .npcs-tab .empty-message,
+.faction-scion .npcs-tab .empty-message,
+.threat .npcs-tab .empty-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--sof-secondary);
+  font-style: italic;
+}
+
+.colony .npcs-tab .empty-message p,
+.faction-scion .npcs-tab .empty-message p,
+.threat .npcs-tab .empty-message p {
+  margin: 0;
+}

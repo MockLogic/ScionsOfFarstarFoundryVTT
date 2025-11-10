@@ -12,7 +12,10 @@ export class ColonySheet extends ActorSheet {
       width: 720,
       height: 800,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main" }],
-      dragDrop: [{ dragSelector: ".attribute-item", dropSelector: ".attribute-rank" }]
+      dragDrop: [
+        { dragSelector: ".attribute-item", dropSelector: ".attribute-rank" },
+        { dragSelector: ".item-list .item", dropSelector: null }
+      ]
     });
   }
 
@@ -206,6 +209,12 @@ export class ColonySheet extends ActorSheet {
     html.find('.item-edit').click(this._onItemEdit.bind(this));
     html.find('.item-delete').click(this._onItemDelete.bind(this));
     html.find('.roll-npc-skill').click(this._onRollNpcSkill.bind(this));
+
+    // Make NPC items draggable
+    html.find('.npc-item').each((i, li) => {
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    });
   }
 
   /**
