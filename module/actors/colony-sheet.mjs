@@ -33,6 +33,15 @@ export class ColonySheet extends ActorSheet {
       context.rankCounts[rank] = context.attributesByRank[rank].length;
     }
 
+    // Get all named-npc items and enrich with calculated data
+    context.npcItems = this.actor.items.filter(item => item.type === 'named-npc').map(item => {
+      const itemData = item.toObject(false);
+      return {
+        ...itemData,
+        npcData: this._calculateNpcData(itemData.system)
+      };
+    });
+
     return context;
   }
 
@@ -112,6 +121,64 @@ export class ColonySheet extends ActorSheet {
     return byRank;
   }
 
+  /**
+   * Calculate NPC data (same logic as RegistrarSheet)
+   * @param {Object} systemData - The item's system data
+   * @returns {Object} - Calculated NPC data
+   */
+  _calculateNpcData(systemData) {
+    const currentGeneration = game.scionsOfFarstar.getGenerationNumber();
+    const birthGeneration = systemData.birthGeneration ?? 0;
+    const ageInGenerations = currentGeneration - birthGeneration;
+
+    // Age stages: each stage = 1 generation
+    // Child = 0, Youthful = 1, Seasoned = 2, Older = 3, Geriatric = 4, Ancient = 5, Dead = 6+
+    const stages = ['child', 'youthful', 'seasoned', 'older', 'geriatric', 'ancient'];
+
+    // Determine current age stage based on whole generations
+    let currentAgeStage = null;
+    let currentAgeIndex = -1;
+
+    if (ageInGenerations < 0) {
+      // Not yet born
+      currentAgeStage = null;
+      currentAgeIndex = -1;
+    } else if (ageInGenerations <= 5) {
+      // Within the age track
+      currentAgeIndex = ageInGenerations;
+      currentAgeStage = stages[currentAgeIndex];
+    } else {
+      // Beyond Ancient (dead from old age)
+      currentAgeIndex = stages.length; // 6 or higher
+      currentAgeStage = null;
+    }
+
+    const ageTrack = systemData.ageTrack;
+    let scarCount = 0;
+    for (let i = stages.length - 1; i >= 0; i--) {
+      if (ageTrack[stages[i]].scar) {
+        scarCount++;
+      } else {
+        break;
+      }
+    }
+
+    const maxAgeIndex = stages.length - 1 - scarCount;
+    const isDeceased = currentAgeIndex > maxAgeIndex;
+
+    let deathGeneration = null;
+    if (isDeceased) {
+      // They died when they aged one generation past maxAgeIndex
+      deathGeneration = birthGeneration + maxAgeIndex + 1;
+    }
+
+    return {
+      currentAgeLabel: currentAgeStage ? ageTrack[currentAgeStage].label : 'Unknown',
+      isDeceased: isDeceased,
+      deathGeneration: deathGeneration
+    };
+  }
+
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
@@ -134,6 +201,11 @@ export class ColonySheet extends ActorSheet {
     // Extras management
     html.find('.extra-add').click(this._onAddExtra.bind(this));
     html.find('.extra-delete').click(this._onDeleteExtra.bind(this));
+
+    // NPC item controls
+    html.find('.item-edit').click(this._onItemEdit.bind(this));
+    html.find('.item-delete').click(this._onItemDelete.bind(this));
+    html.find('.roll-npc-skill').click(this._onRollNpcSkill.bind(this));
   }
 
   /**
@@ -309,5 +381,64 @@ export class ColonySheet extends ActorSheet {
     const extras = [...(this.actor.system.extras || [])];
     extras.splice(index, 1);
     await this.actor.update({ 'system.extras': extras });
+  }
+
+  /**
+   * Handle editing an NPC item
+   * @param {Event} event - The click event
+   */
+  _onItemEdit(event) {
+    event.preventDefault();
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+    if (item) {
+      item.sheet.render(true);
+    }
+  }
+
+  /**
+   * Handle deleting an NPC item
+   * @param {Event} event - The click event
+   */
+  async _onItemDelete(event) {
+    event.preventDefault();
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+    if (item) {
+      const confirmed = await Dialog.confirm({
+        title: `Delete ${item.name}?`,
+        content: `<p>Are you sure you want to delete <strong>${item.name}</strong>?</p>`,
+        defaultYes: false
+      });
+      if (confirmed) {
+        await item.delete();
+      }
+    }
+  }
+
+  /**
+   * Handle rolling an NPC's skill
+   * @param {Event} event - The click event
+   */
+  async _onRollNpcSkill(event) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent item edit from triggering
+
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+
+    if (!item) return;
+
+    const skillName = item.system.skillName;
+    const skillValue = item.system.skillValue || 0;
+
+    if (!skillName) return;
+
+    // Import the createFateRoll function
+    const { createFateRoll } = await import("../scions-of-farstar.mjs");
+
+    // Create the label and roll
+    const label = `${item.name}: ${skillName}`;
+    await createFateRoll(label, skillValue, null, item.name);
   }
 }

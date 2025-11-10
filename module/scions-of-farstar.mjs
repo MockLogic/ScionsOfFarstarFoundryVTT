@@ -225,6 +225,19 @@ Hooks.once('init', async function() {
   // Register the unified Actor class
   CONFIG.Actor.documentClass = ScionsActor;
 
+  // Set default actor icons
+  CONFIG.Actor.typeIcons = {
+    "faction-scion": "icons/svg/mystery-man.svg",  // Keep default for faction-scion
+    "colony": "icons/svg/village.svg",  // Place/settlement icon for colony
+    "registrar": "icons/svg/book.svg",  // Book icon for registrar
+    "threat": "icons/svg/skull.svg"  // Make threat look more menacing with skull icon
+  };
+
+  // Set default item icons
+  CONFIG.Item.typeIcons = {
+    "named-npc": "icons/svg/walk.svg"  // Generic person/walk icon for named-npc
+  };
+
   // Register sheet application classes
   foundry.applications.apps.DocumentSheetConfig.unregisterSheet(Actor, "core", ActorSheet);
 
@@ -286,6 +299,26 @@ Hooks.on('preCreateItem', async function(item, data, options, userId) {
  */
 Hooks.once('ready', async function() {
   console.log('Scions of FarStar | System ready');
+  console.log('Scions of FarStar | Named NPC creation restricted to GM and Assistant roles');
+});
+
+/**
+ * Restrict named-npc item creation to GM and Assistant roles only
+ * Players can still modify NPCs embedded in actors they own
+ */
+Hooks.on('preCreateItem', (document, data, options, userId) => {
+  // Only check for named-npc items being created in the Items directory (not embedded in actors)
+  if (document.type === 'named-npc' && !document.parent) {
+    const user = game.users.get(userId);
+
+    // Check if user is a player (role 1)
+    // GAMEMASTER = 4, ASSISTANT = 3 or 2, TRUSTED = 2, PLAYER = 1
+    if (user && user.role < CONST.USER_ROLES.TRUSTED) {
+      ui.notifications.warn("Only the GM can create Named NPC items. NPCs must be created by the GM and then shared with players.");
+      return false; // Prevent creation
+    }
+  }
+  return true; // Allow creation
 });
 
 /**

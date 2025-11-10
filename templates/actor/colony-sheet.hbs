@@ -27,6 +27,7 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="main">{{localize "SCIONS.Tabs.Main"}}</a>
     <a class="item" data-tab="extras">{{localize "SCIONS.Tabs.Extras"}}</a>
+    <a class="item" data-tab="npcs">Named NPCs</a>
     <a class="item" data-tab="notes">{{localize "SCIONS.Tabs.Notes"}}</a>
   </nav>
 
@@ -162,6 +163,57 @@
       <button type="button" class="add-item-button extra-add">
         <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddExtra"}}
       </button>
+    </div>
+
+    {{!-- Named NPCs Tab --}}
+    <div class="tab npcs-tab" data-group="primary" data-tab="npcs">
+      <div class="section-header">Named NPCs</div>
+
+      {{!-- NPC Items List --}}
+      <div class="npc-list">
+        {{#if npcItems}}
+          <ol class="items-list">
+            {{#each npcItems as |item id|}}
+              <li class="item npc-item flexrow {{#if item.npcData.isDeceased}}deceased{{/if}}" data-item-id="{{item._id}}">
+                <div class="item-details">
+                  <div class="item-name">
+                    <h4>{{item.name}}</h4>
+                    {{#if item.system.aspect}}
+                      <div class="item-aspect">{{item.system.aspect}}</div>
+                    {{/if}}
+                  </div>
+                  <div class="item-info">
+                    <div class="npc-age-status {{#if item.npcData.isDeceased}}deceased{{/if}}">
+                      {{#if item.npcData.isDeceased}}
+                        Deceased (Gen {{item.npcData.deathGeneration}})
+                      {{else}}
+                        {{item.npcData.currentAgeLabel}}
+                      {{/if}}
+                    </div>
+                    {{#if item.system.skillName}}
+                      <div class="npc-skill-info">
+                        <button type="button" class="roll-button roll-npc-skill rollable" title="Roll {{item.system.skillName}}">
+                          <i class="fas fa-dice-d6"></i>
+                        </button>
+                        <span class="skill-label">{{item.system.skillName}} {{signedNumber item.system.skillValue}}</span>
+                      </div>
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="item-controls">
+                  <a class="item-control item-edit" title="Edit NPC"><i class="fas fa-edit"></i></a>
+                  <a class="item-control item-delete" title="Delete NPC"><i class="fas fa-trash"></i></a>
+                </div>
+              </li>
+            {{/each}}
+          </ol>
+        {{else}}
+          <div class="empty-message">
+            <p>No NPCs in this colony. Create named NPCs from the Items directory and drag them here.</p>
+          </div>
+        {{/if}}
+      </div>
+
     </div>
 
     {{!-- Notes Tab --}}
