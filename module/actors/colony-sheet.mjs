@@ -338,35 +338,38 @@ export class ColonySheet extends ActorSheet {
   }
 
   /**
-   * Handle dropping an attribute onto a rank
+   * Handle dropping an attribute onto a rank or items onto the sheet
    * @override
    */
   async _onDrop(event) {
-    event.preventDefault();
-
     let data;
     try {
       data = JSON.parse(event.dataTransfer.getData("text/plain"));
     } catch (err) {
+      return super._onDrop(event);
+    }
+
+    // Handle attribute drops (custom behavior)
+    if (data.type === "Attribute" && data.actorId === this.actor.id) {
+      event.preventDefault();
+
+      // Get the target rank from the drop zone
+      const dropZone = event.target.closest('.attribute-rank');
+      if (!dropZone) return;
+
+      const newRank = parseInt(dropZone.dataset.rank);
+      const attributeIndex = data.index;
+
+      // Update the attribute's rank
+      const attributes = [...this.actor.system.attributes];
+      attributes[attributeIndex].rank = newRank;
+
+      await this.actor.update({ "system.attributes": attributes });
       return;
     }
 
-    if (data.type !== "Attribute" || data.actorId !== this.actor.id) {
-      return;
-    }
-
-    // Get the target rank from the drop zone
-    const dropZone = event.target.closest('.attribute-rank');
-    if (!dropZone) return;
-
-    const newRank = parseInt(dropZone.dataset.rank);
-    const attributeIndex = data.index;
-
-    // Update the attribute's rank
-    const attributes = [...this.actor.system.attributes];
-    attributes[attributeIndex].rank = newRank;
-
-    await this.actor.update({ "system.attributes": attributes });
+    // For all other drops (like items), use the parent class handler
+    return super._onDrop(event);
   }
 
   /**
