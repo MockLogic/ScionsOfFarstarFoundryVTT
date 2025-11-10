@@ -3281,3 +3281,11 @@
 .threat .extras-tab .empty-message p {
   margin: 0;
 }
+
+/* ===========================
+   Items Extras - Shared Styles
+   =========================== */
+
+.item .extra .tox.tox-tinymce {
+  height: 100% !important;
+}
