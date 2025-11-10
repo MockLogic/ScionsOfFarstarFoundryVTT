@@ -2419,14 +2419,31 @@
   overflow: visible;
 }
 
-.registrar .editor-container.registrar-notes .editor {
-  height: 90px !important;
-  min-height: 90px !important;
+.registrar .editor-container.registrar-notes .editor.tinymce {
+  height: 180px !important;
+  min-height: 180px !important;
 }
 
 .registrar .editor-container.registrar-notes .editor-content {
   height: 100% !important;
   min-height: 90px !important;
+}
+
+/* Target TinyMCE editor specifically - let it fill the parent */
+.registrar .editor-container.registrar-notes .tox.tox-tinymce {
+  height: 100% !important;
+}
+
+.registrar .editor-container.registrar-notes .tox-sidebar-wrap {
+  height: 100% !important;
+}
+
+.registrar .editor-container.registrar-notes .tox-edit-area {
+  height: 100% !important;
+}
+
+.registrar .editor-container.registrar-notes .tox-edit-area__iframe {
+  height: 100% !important;
 }
 
 .registrar .registrar-notes.prosemirror {
