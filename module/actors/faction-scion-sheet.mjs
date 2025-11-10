@@ -208,8 +208,17 @@ export class FactionScionSheet extends ActorSheet {
    * @returns {Object} - Ladder display data
    */
   _calculateLadderData(systemData) {
-    const rungs = systemData.rungs || [];
+    // Ensure rungs is an array, rebuild from rungCount if necessary
+    let rungs = systemData.rungs;
     const rungCount = systemData.rungCount || 5;
+
+    if (!Array.isArray(rungs)) {
+      // Initialize rungs array if it's not an array
+      rungs = [];
+      for (let i = 0; i < rungCount; i++) {
+        rungs.push({ aspect: '', checked: false });
+      }
+    }
 
     // Find the highest unchecked rung by iterating backwards
     let highestUncheckedIndex = -1;

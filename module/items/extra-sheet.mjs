@@ -47,7 +47,17 @@ export class ExtraSheet extends ItemSheet {
    * @returns {Object} - Calculated ladder data
    */
   _calculateLadderData(systemData) {
-    const rungs = systemData.rungs || [];
+    // Ensure rungs is an array, rebuild from rungCount if necessary
+    let rungs = systemData.rungs;
+    const rungCount = systemData.rungCount || 5;
+
+    if (!Array.isArray(rungs)) {
+      // Initialize rungs array if it's not an array
+      rungs = [];
+      for (let i = 0; i < rungCount; i++) {
+        rungs.push({ aspect: '', checked: false });
+      }
+    }
 
     // Find the highest unchecked rung index
     let highestUncheckedIndex = -1;
@@ -61,8 +71,8 @@ export class ExtraSheet extends ItemSheet {
     // Build display data for each rung
     const rungsDisplay = rungs.map((rung, index) => ({
       index: index,
-      aspect: rung.aspect,
-      checked: rung.checked,
+      aspect: rung.aspect || '',
+      checked: rung.checked || false,
       isHighestUnchecked: index === highestUncheckedIndex
     }));
 
