@@ -172,12 +172,22 @@ export class ExtraSheet extends ItemSheet {
    */
   async _onLadderRungToggle(event) {
     event.preventDefault();
-    const index = parseInt(event.currentTarget.dataset.index);
+    const checkbox = event.currentTarget;
+    const index = parseInt(checkbox.dataset.index);
 
-    const rungs = Array.isArray(this.item.system.rungs) ? [...this.item.system.rungs] : [];
-    if (rungs[index]) {
-      rungs[index].checked = !rungs[index].checked;
-      await this.item.update({ 'system.rungs': rungs });
+    // Find the hidden input for this rung's checked state
+    const hiddenInput = this.element.find(`input[name="system.rungs.${index}.checked"]`);
+
+    if (hiddenInput.length) {
+      // Toggle the hidden input value (this will be saved by Foundry's form system)
+      const currentValue = hiddenInput.val() === 'true';
+      hiddenInput.val(!currentValue);
+
+      // Also toggle the checkbox visual state
+      checkbox.checked = !currentValue;
+
+      // Submit the form to save changes
+      this._onSubmit(event);
     }
   }
 
