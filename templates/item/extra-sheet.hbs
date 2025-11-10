@@ -79,7 +79,6 @@
         <div class="ladder-rungs">
           {{#each ladderData.rungs as |rung|}}
             <div class="ladder-rung {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">
-              <input type="hidden" name="system.rungs.{{rung.index}}.checked" value="{{rung.checked}}" data-dtype="Boolean"/>
               <input type="checkbox"
                      class="ladder-rung-check"
                      data-index="{{rung.index}}"

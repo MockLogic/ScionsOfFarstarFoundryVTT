@@ -111,6 +111,39 @@ export class ExtraSheet extends ItemSheet {
     html.find('.roll-extra-skill').click(this._onRollSkill.bind(this));
   }
 
+  /** @override */
+  async _updateObject(event, formData) {
+    // Expand the formData to handle arrays properly
+    const expandedData = foundry.utils.expandObject(formData);
+
+    // Convert ladder rungs object back to array if needed
+    if (expandedData.system?.rungs) {
+      const rungsObj = expandedData.system.rungs;
+      if (typeof rungsObj === 'object' && !Array.isArray(rungsObj)) {
+        expandedData.system.rungs = Object.values(rungsObj);
+      }
+    }
+
+    // Convert invokes object back to array if needed
+    if (expandedData.system?.invokes) {
+      const invokesObj = expandedData.system.invokes;
+      if (typeof invokesObj === 'object' && !Array.isArray(invokesObj)) {
+        expandedData.system.invokes = Object.values(invokesObj);
+      }
+    }
+
+    // Convert boxes object back to array if needed
+    if (expandedData.system?.boxes) {
+      const boxesObj = expandedData.system.boxes;
+      if (typeof boxesObj === 'object' && !Array.isArray(boxesObj)) {
+        expandedData.system.boxes = Object.values(boxesObj);
+      }
+    }
+
+    // Update the item with the expanded data
+    return this.item.update(expandedData);
+  }
+
   /**
    * Handle toggling invoke boxes
    * @param {Event} event - The click event
@@ -172,22 +205,12 @@ export class ExtraSheet extends ItemSheet {
    */
   async _onLadderRungToggle(event) {
     event.preventDefault();
-    const checkbox = event.currentTarget;
-    const index = parseInt(checkbox.dataset.index);
+    const index = parseInt(event.currentTarget.dataset.index);
 
-    // Find the hidden input for this rung's checked state
-    const hiddenInput = this.element.find(`input[name="system.rungs.${index}.checked"]`);
-
-    if (hiddenInput.length) {
-      // Toggle the hidden input value (this will be saved by Foundry's form system)
-      const currentValue = hiddenInput.val() === 'true';
-      hiddenInput.val(!currentValue);
-
-      // Also toggle the checkbox visual state
-      checkbox.checked = !currentValue;
-
-      // Submit the form to save changes
-      this._onSubmit(event);
+    const rungs = Array.isArray(this.item.system.rungs) ? [...this.item.system.rungs] : [];
+    if (rungs[index]) {
+      rungs[index].checked = !rungs[index].checked;
+      await this.item.update({ 'system.rungs': rungs });
     }
   }
 
