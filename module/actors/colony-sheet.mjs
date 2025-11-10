@@ -321,13 +321,21 @@ export class ColonySheet extends ActorSheet {
   }
 
   /**
-   * Handle beginning of drag operation
+   * Handle beginning of drag operation for attributes and items
    * @override
    */
   _onDragStart(event) {
-    const item = event.currentTarget;
-    const index = item.dataset.index;
+    const element = event.currentTarget;
 
+    // Check if this is an NPC item drag (has data-item-id)
+    const itemId = element.dataset.itemId;
+    if (itemId) {
+      // This is an item drag - use the parent class handler
+      return super._onDragStart(event);
+    }
+
+    // This is an attribute drag - use custom handler
+    const index = element.dataset.index;
     if (!index) return;
 
     event.dataTransfer.setData("text/plain", JSON.stringify({
