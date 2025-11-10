@@ -420,7 +420,7 @@
                         {{#each item.ladderData.rungs as |rung index|}}
                           <div class="ladder-rung-embedded {{#if rung.checked}}checked{{/if}} {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">
                             <div class="ladder-rung-value-box ladder-rung-clickable" data-item-id="{{../item._id}}" data-index="{{index}}">
-                              {{#if (gt ../item.system.traumaValue 0)}}
+                              {{#if (and ../item.system.traumaValue (gt ../item.system.traumaValue 0))}}
                                 <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../item.system.traumaValue}}{{/if}}</span>
                               {{else}}
                                 <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>

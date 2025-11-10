@@ -59,9 +59,9 @@ export class ExtraSheet extends ItemSheet {
       }
     }
 
-    // Find the highest unchecked rung index
+    // Find the first (topmost) unchecked rung index
     let highestUncheckedIndex = -1;
-    for (let i = rungs.length - 1; i >= 0; i--) {
+    for (let i = 0; i < rungs.length; i++) {
       if (!rungs[i].checked) {
         highestUncheckedIndex = i;
         break;
@@ -93,8 +93,7 @@ export class ExtraSheet extends ItemSheet {
     html.find('.invoke-increment').click(this._onInvokeAdjust.bind(this, 1));
     html.find('.invoke-decrement').click(this._onInvokeAdjust.bind(this, -1));
 
-    // Ladder rung checkboxes
-    html.find('.ladder-rung-check').click(this._onLadderRungToggle.bind(this));
+    // Ladder rung checkboxes - handled by Foundry's auto-save via name attribute
 
     // Ladder rung count adjusters
     html.find('.rung-increment').click(this._onRungCountAdjust.bind(this, 1));
@@ -197,21 +196,6 @@ export class ExtraSheet extends ItemSheet {
       'system.maxInvokes': newMax,
       'system.invokes': invokes
     });
-  }
-
-  /**
-   * Handle toggling ladder rung checkboxes
-   * @param {Event} event - The click event
-   */
-  async _onLadderRungToggle(event) {
-    event.preventDefault();
-    const index = parseInt(event.currentTarget.dataset.index);
-
-    const rungs = Array.isArray(this.item.system.rungs) ? [...this.item.system.rungs] : [];
-    if (rungs[index]) {
-      rungs[index].checked = !rungs[index].checked;
-      await this.item.update({ 'system.rungs': rungs });
-    }
   }
 
   /**

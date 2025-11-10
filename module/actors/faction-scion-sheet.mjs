@@ -220,9 +220,9 @@ export class FactionScionSheet extends ActorSheet {
       }
     }
 
-    // Find the highest unchecked rung by iterating backwards
+    // Find the first (topmost) unchecked rung
     let highestUncheckedIndex = -1;
-    for (let i = rungCount - 1; i >= 0; i--) {
+    for (let i = 0; i < rungCount; i++) {
       if (!rungs[i]?.checked) {
         highestUncheckedIndex = i;
         break;
@@ -667,7 +667,19 @@ export class FactionScionSheet extends ActorSheet {
 
     if (!item) return;
 
-    const rungs = Array.isArray(item.system.rungs) ? [...item.system.rungs] : [];
+    // Ensure rungs is a proper array
+    let rungs = item.system.rungs;
+    if (!Array.isArray(rungs)) {
+      const rungCount = item.system.rungCount || 5;
+      rungs = [];
+      for (let i = 0; i < rungCount; i++) {
+        rungs.push({ aspect: '', checked: false });
+      }
+    } else {
+      rungs = [...rungs];
+    }
+
+    // Toggle the rung if it exists
     if (rungs[index]) {
       rungs[index].checked = !rungs[index].checked;
       await item.update({ 'system.rungs': rungs });

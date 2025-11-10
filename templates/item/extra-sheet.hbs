@@ -86,8 +86,10 @@
             <div class="ladder-rung {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">
               <input type="checkbox"
                      class="ladder-rung-check"
+                     name="system.rungs.{{rung.index}}.checked"
                      data-index="{{rung.index}}"
                      {{checked rung.checked}}
+                     data-dtype="Boolean"
                      title="{{#if rung.checked}}Checked{{else}}Unchecked{{/if}}"/>
               <input type="text"
                      name="system.rungs.{{rung.index}}.aspect"
