@@ -416,14 +416,18 @@
                   {{#if (eq item.type "extra-ladder")}}
                     <div class="extra-ladder-display">
                       <div class="ladder-label">{{item.system.ladderLabel}}</div>
-                      <div class="ladder-rungs-compact">
-                        {{#each item.system.rungs as |rung index|}}
-                          <input type="checkbox"
-                                 class="ladder-rung-checkbox"
-                                 data-item-id="{{../item._id}}"
-                                 data-index="{{index}}"
-                                 {{checked rung.checked}}
-                                 title="{{rung.aspect}}"/>
+                      <div class="ladder-rungs-vertical">
+                        {{#each item.ladderData.rungs as |rung index|}}
+                          <div class="ladder-rung-embedded {{#if rung.checked}}checked{{/if}} {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">
+                            <div class="ladder-rung-value-box ladder-rung-clickable" data-item-id="{{../item._id}}" data-index="{{index}}">
+                              {{#if (gt ../item.system.traumaValue 0)}}
+                                <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../item.system.traumaValue}}{{/if}}</span>
+                              {{else}}
+                                <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>
+                              {{/if}}
+                            </div>
+                            <span class="ladder-rung-aspect-embedded {{#if rung.checked}}checked-aspect{{/if}}">{{rung.aspect}}</span>
+                          </div>
                         {{/each}}
                       </div>
                     </div>

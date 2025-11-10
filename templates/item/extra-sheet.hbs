@@ -76,6 +76,11 @@
           </div>
         </div>
 
+        <div class="trauma-value-field">
+          <label>Rung Value (0 = no value displayed)</label>
+          <input type="number" name="system.traumaValue" value="{{system.traumaValue}}" data-dtype="Number" min="0" max="10"/>
+        </div>
+
         <div class="ladder-rungs">
           {{#each ladderData.rungs as |rung|}}
             <div class="ladder-rung {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">

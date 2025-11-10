@@ -545,6 +545,7 @@
       ],
       "ladderLabel": "Progress",
       "rungCount": 5,
+      "traumaValue": 0,
       "rungs": [
         {"aspect": "", "checked": false},
         {"aspect": "", "checked": false},

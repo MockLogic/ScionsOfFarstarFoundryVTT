@@ -2990,55 +2990,135 @@
   line-height: 1;
 }
 
+/* Extra Ladder Display - Vertical Layout */
 .colony .extra-ladder-display,
 .faction-scion .extra-ladder-display,
 .threat .extra-ladder-display {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-  flex-wrap: wrap;
+  margin-top: 8px;
 }
 
-.colony .ladder-rung-checkbox,
-.faction-scion .ladder-rung-checkbox,
-.threat .ladder-rung-checkbox {
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--sof-border);
-  border-radius: 2px;
-  cursor: pointer;
-  position: relative;
+.colony .ladder-label,
+.faction-scion .ladder-label,
+.threat .ladder-label {
+  font-weight: bold;
+  color: var(--sof-primary);
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.colony .ladder-rungs-vertical,
+.faction-scion .ladder-rungs-vertical,
+.threat .ladder-rungs-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Embedded Ladder Rungs */
+.colony .ladder-rung-embedded,
+.faction-scion .ladder-rung-embedded,
+.threat .ladder-rung-embedded {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
   background: white;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
   transition: all 0.2s;
 }
 
-.colony .ladder-rung-checkbox.highest-unchecked,
-.faction-scion .ladder-rung-checkbox.highest-unchecked,
-.threat .ladder-rung-checkbox.highest-unchecked {
+.colony .ladder-rung-embedded.checked,
+.faction-scion .ladder-rung-embedded.checked,
+.threat .ladder-rung-embedded.checked {
+  background: #f8f9fa;
+  opacity: 0.7;
+}
+
+.colony .ladder-rung-embedded.highest-unchecked,
+.faction-scion .ladder-rung-embedded.highest-unchecked,
+.threat .ladder-rung-embedded.highest-unchecked {
   border-color: var(--sof-accent);
-  box-shadow: 0 0 4px rgba(52, 152, 219, 0.5);
+  border-width: 2px;
+  background: #e3f2fd;
 }
 
-.colony .ladder-rung-checkbox:checked,
-.faction-scion .ladder-rung-checkbox:checked,
-.threat .ladder-rung-checkbox:checked {
-  background: var(--sof-secondary);
-  border-color: var(--sof-secondary);
+/* Embedded Ladder Rung Value Box (clickable checkbox replacement) */
+.colony .ladder-rung-embedded .ladder-rung-value-box,
+.faction-scion .ladder-rung-embedded .ladder-rung-value-box,
+.threat .ladder-rung-embedded .ladder-rung-value-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  background: white;
+  flex-shrink: 0;
 }
 
-.colony .ladder-rung-checkbox:checked::after,
-.faction-scion .ladder-rung-checkbox:checked::after,
-.threat .ladder-rung-checkbox:checked::after {
-  content: '✓';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
+.colony .ladder-rung-embedded .ladder-rung-clickable,
+.faction-scion .ladder-rung-embedded .ladder-rung-clickable,
+.threat .ladder-rung-embedded .ladder-rung-clickable {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.colony .ladder-rung-embedded .ladder-rung-clickable:hover,
+.faction-scion .ladder-rung-embedded .ladder-rung-clickable:hover,
+.threat .ladder-rung-embedded .ladder-rung-clickable:hover {
+  border-color: var(--sof-accent);
+  background: #f0f8ff;
+}
+
+.colony .ladder-rung-embedded.checked .ladder-rung-value-box,
+.faction-scion .ladder-rung-embedded.checked .ladder-rung-value-box,
+.threat .ladder-rung-embedded.checked .ladder-rung-value-box {
+  background: #ffebee;
+  border-color: var(--sof-danger);
+}
+
+.colony .ladder-rung-embedded.checked .ladder-rung-clickable:hover,
+.faction-scion .ladder-rung-embedded.checked .ladder-rung-clickable:hover,
+.threat .ladder-rung-embedded.checked .ladder-rung-clickable:hover {
+  background: #ffcdd2;
+}
+
+.colony .ladder-rung-embedded .rung-value,
+.faction-scion .ladder-rung-embedded .rung-value,
+.threat .ladder-rung-embedded .rung-value {
+  font-size: 13px;
+  font-weight: normal;
+  color: var(--sof-secondary);
+}
+
+.colony .ladder-rung-embedded.checked .rung-value,
+.faction-scion .ladder-rung-embedded.checked .rung-value,
+.threat .ladder-rung-embedded.checked .rung-value {
+  color: var(--sof-danger);
   font-weight: bold;
-  font-size: 10px;
-  line-height: 1;
+  font-size: 16px;
+}
+
+/* Embedded Ladder Rung Aspect Text */
+.colony .ladder-rung-aspect-embedded,
+.faction-scion .ladder-rung-aspect-embedded,
+.threat .ladder-rung-aspect-embedded {
+  flex: 1;
+  font-size: 13px;
+  color: var(--sof-text);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.colony .ladder-rung-aspect-embedded.checked-aspect,
+.faction-scion .ladder-rung-aspect-embedded.checked-aspect,
+.threat .ladder-rung-aspect-embedded.checked-aspect {
+  text-decoration: line-through;
+  color: #999;
 }
 
 .colony .extra-skill-display,
