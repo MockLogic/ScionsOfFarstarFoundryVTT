@@ -102,6 +102,22 @@ Hooks.once('init', async function() {
 
   CONFIG.specialStatusEffects.DEFEATED = "dead";
 
+  // Configure token movement types
+  CONFIG.Token.movementTypes = {
+    walk: {
+      label: "SCIONS.MovementType.walk",
+      icon: "icons/svg/walk.svg"
+    },
+    vehicle: {
+      label: "SCIONS.MovementType.vehicle",
+      icon: "systems/scions-of-farstar/assets/icons/vehicle.svg"
+    },
+    aircraft: {
+      label: "SCIONS.MovementType.aircraft",
+      icon: "systems/scions-of-farstar/assets/icons/aircraft.svg"
+    }
+  };
+
   // Store system configuration
   game.scionsOfFarstar = {
     config: {},

@@ -131,7 +131,12 @@
     },
     "Extras": {
       "NamePlaceholder": "Extra Name",
-      "DescriptionPlaceholder": "Extra description..."
+      "DescriptionPlaceholder": "Extra description...",
+      "NoExtras": "No extras yet. Create Extras from the Items directory and drag them here.",
+      "EditExtra": "Edit Extra",
+      "DeleteExtra": "Delete Extra",
+      "InvokeSpent": "Spent",
+      "InvokeAvailable": "Available"
     },
     "Tabs": {
       "Main": "Main",
@@ -210,6 +215,11 @@
       "caution": "Caution",
       "biohazard": "Biohazard",
       "flames": "Fire"
+    },
+    "MovementType": {
+      "walk": "Walking",
+      "vehicle": "Vehicle",
+      "aircraft": "Aircraft"
     }
   }
 }
