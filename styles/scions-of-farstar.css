@@ -75,6 +75,19 @@
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
 }
 
+/* Button Styling */
+.scions-of-farstar button {
+  width: auto;
+}
+
+/* Extra Item Sheet - Constrain number input widths */
+.scions-of-farstar.item.extra .trauma-value-field input[type="number"],
+.scions-of-farstar.item.extra .track-value-field input[type="number"],
+.scions-of-farstar.item.extra .skill-value-field input[type="number"] {
+  width: 60px;
+  max-width: 60px;
+}
+
 /* Fate Dice Display */
 .fate-die {
   font-family: 'FateCore', monospace;
@@ -3252,14 +3265,16 @@
 .colony .track-box-wrapper.checked,
 .faction-scion .track-box-wrapper.checked,
 .threat .track-box-wrapper.checked {
-  background: var(--sof-primary);
-  border-color: var(--sof-primary);
+  background: #ffebee;
+  border-color: var(--sof-danger);
 }
 
 .colony .track-box-wrapper .track-value,
 .faction-scion .track-box-wrapper .track-value,
 .threat .track-box-wrapper .track-value {
   display: block;
+  min-height: 1em;
+  line-height: 1em;
   font-weight: normal;
   color: var(--sof-secondary);
   pointer-events: none;
@@ -3268,7 +3283,7 @@
 .colony .track-box-wrapper.checked .track-value,
 .faction-scion .track-box-wrapper.checked .track-value,
 .threat .track-box-wrapper.checked .track-value {
-  color: white;
+  color: var(--sof-danger);
   font-weight: bold;
 }
 
@@ -3336,12 +3351,4 @@
 .faction-scion .extras-tab .empty-message p,
 .threat .extras-tab .empty-message p {
   margin: 0;
-}
-
-/* ===========================
-   Items Extras - Shared Styles 
-   =========================== */
-
-.extra .tox.tox-tinymce {
-  height: 350px;
 }
