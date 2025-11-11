@@ -36,3 +36,4 @@ packs/*.db
 # System specific (if needed)
 .env
 nul
+.claude/
