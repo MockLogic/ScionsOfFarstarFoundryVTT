@@ -42,7 +42,8 @@
       "Extras": "Colony Extras",
       "Validation": {
         "TotalTooLow": "Total attribute points ({total}) is below expected ({expected}). You have {difference} unspent point(s).",
-        "TotalTooHigh": "Total attribute points ({total}) exceeds expected ({expected}). You are {difference} point(s) over budget."
+        "TotalTooHigh": "Total attribute points ({total}) exceeds expected ({expected}). You are {difference} point(s) over budget.",
+        "PopulationTooHigh": "Population rank ({populationRank}) exceeds maximum for Generation {generation} (max: {maxRank})."
       }
     },
     "PopulationTrack": {

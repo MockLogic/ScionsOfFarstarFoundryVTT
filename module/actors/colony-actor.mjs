@@ -148,6 +148,25 @@ export class ColonyActor extends Actor {
       });
     }
 
+    // Check Population rank vs Generation
+    // Max Population rank = (Generation / 2, rounded down) + 1
+    const populationAttr = systemData.attributes.find(attr => attr.name === "Population");
+    if (populationAttr) {
+      const populationRank = populationAttr.rank || 0;
+      const maxPopulationRank = Math.floor(generationNumber / 2) + 1;
+
+      if (populationRank > maxPopulationRank) {
+        systemData.attributeValidation.warnings.push({
+          type: 'high',
+          message: game.i18n.format("SCIONS.Colony.Validation.PopulationTooHigh", {
+            populationRank: populationRank,
+            maxRank: maxPopulationRank,
+            generation: generationNumber
+          })
+        });
+      }
+    }
+
     // Store counts for display
     systemData.attributeRankCounts = rankCounts;
   }
