@@ -73,6 +73,15 @@ export class FactionScionSheet extends ActorSheet {
         _id: item.id  // Explicitly ensure _id is present
       };
 
+      // Debug logging
+      console.log('Processing Extra Item:', {
+        name: item.name,
+        type: item.type,
+        id: item.id,
+        itemData_id: itemData._id,
+        traumaValue: itemData.system?.traumaValue
+      });
+
       // For extra-ladder, calculate ladder display data
       if (item.type === 'extra-ladder') {
         itemData.ladderData = this._calculateLadderData(itemData.system);
