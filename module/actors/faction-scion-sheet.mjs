@@ -18,7 +18,6 @@ export class FactionScionSheet extends ActorSheet {
 
   /** @override */
   async getData(options) {
-    console.log('FactionScionSheet getData() called - VERSION 2.0');
     const context = super.getData(options);
 
     // Use a safe clone of actor data for manipulation
@@ -72,15 +71,6 @@ export class FactionScionSheet extends ActorSheet {
         ...item.toObject(false),
         _id: item.id  // Explicitly ensure _id is present
       };
-
-      // Debug logging
-      console.log('Processing Extra Item:', {
-        name: item.name,
-        type: item.type,
-        id: item.id,
-        itemData_id: itemData._id,
-        traumaValue: itemData.system?.traumaValue
-      });
 
       // For extra-ladder, calculate ladder display data
       if (item.type === 'extra-ladder') {

@@ -404,7 +404,7 @@
                       {{#each item.system.invokes as |invoke index|}}
                         <input type="checkbox"
                                class="invoke-checkbox"
-                               data-item-id="{{../item._id}}"
+                               data-item-id="{{item._id}}"
                                data-index="{{index}}"
                                {{checked invoke.spent}}
                                title="{{#if invoke.spent}}Spent{{else}}Available{{/if}}"/>
@@ -412,16 +412,16 @@
                     </div>
                   {{/if}}
 
-                  {{!-- Ladder (Extra-Ladder only)  --}}
+                  {{!-- Ladder (Extra-Ladder only) --}}
                   {{#if (eq item.type "extra-ladder")}}
                     <div class="extra-ladder-display">
                       <div class="ladder-label">{{item.system.ladderLabel}}</div>
                       <div class="ladder-rungs-vertical">
                         {{#each item.ladderData.rungs as |rung index|}}
                           <div class="ladder-rung-embedded {{#if rung.checked}}checked{{/if}} {{#if rung.isHighestUnchecked}}highest-unchecked{{/if}}">
-                            <div class="ladder-rung-value-box ladder-rung-clickable" data-item-id="{{../item._id}}" data-index="{{index}}">
-                              {{#if (gt ../item.system.traumaValue 0)}}
-                                <span class="rung-value">{{#if rung.checked}}✗{{else}}{{../item.system.traumaValue}}{{/if}}</span>
+                            <div class="ladder-rung-value-box ladder-rung-clickable" data-item-id="{{item._id}}" data-index="{{index}}">
+                              {{#if (gt item.system.traumaValue 0)}}
+                                <span class="rung-value">{{#if rung.checked}}✗{{else}}{{item.system.traumaValue}}{{/if}}</span>
                               {{else}}
                                 <span class="rung-value">{{#if rung.checked}}✗{{/if}}</span>
                               {{/if}}
@@ -452,11 +452,11 @@
                       <div class="track-boxes-compact">
                         {{#each item.system.boxes as |box index|}}
                           <div class="track-box-wrapper {{#if box.checked}}checked{{/if}}"
-                               data-item-id="{{../item._id}}"
+                               data-item-id="{{item._id}}"
                                data-index="{{index}}"
                                title="Box {{add index 1}}">
-                            {{#if (gt ../item.system.trackValue 0)}}
-                              <span class="track-value">{{#if box.checked}}✗{{else}}{{../item.system.trackValue}}{{/if}}</span>
+                            {{#if (gt item.system.trackValue 0)}}
+                              <span class="track-value">{{#if box.checked}}✗{{else}}{{item.system.trackValue}}{{/if}}</span>
                             {{else}}
                               <span class="track-value">{{#if box.checked}}✗{{/if}}</span>
                             {{/if}}
@@ -473,7 +473,7 @@
                       <div class="track-boxes-compact">
                         {{#each item.system.boxes as |box index|}}
                           <div class="track-box-wrapper {{#if box.checked}}checked{{/if}}"
-                               data-item-id="{{../item._id}}"
+                               data-item-id="{{item._id}}"
                                data-index="{{index}}"
                                title="Box {{add index 1}}">
                             <span class="track-value">{{#if box.checked}}✗{{else}}{{add index 1}}{{/if}}</span>
