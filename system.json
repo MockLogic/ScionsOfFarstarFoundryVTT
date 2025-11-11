@@ -3,7 +3,7 @@
   "title": "Scions of FarStar",
   "description": "A custom Foundry VTT system for Scions of FarStar, a multigenerational sci-fi colony-building RPG using heavily modified Fate mechanics. Uses Application V1 API - not compatible with Foundry V16+.",
   "background": "systems/scions-of-farstar/assets/images/background.webp",
-  "version": "1.4.10",
+  "version": "1.4.11",
   "compatibility": {
     "minimum": "13",
     "verified": "13.350",
@@ -21,15 +21,7 @@
   "styles": [
     "styles/scions-of-farstar.css"
   ],
-  "packs": [
-    {
-      "name": "test-macros",
-      "label": "Test Macros",
-      "path": "packs/test-macros",
-      "type": "Macro",
-      "system": "scions-of-farstar"
-    }
-  ],
+  "packs": [],
   "languages": [
     {
       "lang": "en",
