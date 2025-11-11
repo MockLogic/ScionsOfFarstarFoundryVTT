@@ -29,7 +29,7 @@ Hooks.once('init', async function() {
     {
       id: "dead",
       label: "SCIONS.StatusEffect.dead",
-      icon: "systems/scions-of-farstar/assets/icons/busted_red.svg",
+      icon: "systems/scions-of-farstar/assets/icons/x_red.svg",
       overlay: true
     },
     {
@@ -394,30 +394,30 @@ Hooks.once('ready', async function() {
   // Log existing movement actions to understand what Foundry provides by default
   console.log('Scions of FarStar | Default movement actions:', CONFIG.Token.movement.actions);
 
-  // Clear all default fantasy movement actions
-  // Foundry v13 includes: walk, fly, burrow, climb, swim, teleport, crawl
-  for (const key in CONFIG.Token.movement.actions) {
-    delete CONFIG.Token.movement.actions[key];
-  }
-
-  // Add our sci-fi movement actions
-  CONFIG.Token.movement.actions.walk = {
-    label: "SCIONS.MovementType.walk",
-    icon: "icons/svg/walk.svg",
-    order: 1
-  };
-
-  CONFIG.Token.movement.actions.vehicle = {
-    label: "SCIONS.MovementType.vehicle",
-    icon: "systems/scions-of-farstar/assets/icons/vehicle.svg",
-    order: 2
-  };
-
-  CONFIG.Token.movement.actions.aircraft = {
-    label: "SCIONS.MovementType.aircraft",
-    icon: "systems/scions-of-farstar/assets/icons/aircraft.svg",
-    order: 3
-  };
+  // Replace the entire movement.actions object with our custom sci-fi movement types
+  // We can't delete individual properties because they're non-configurable,
+  // but we can replace the entire object reference
+  Object.defineProperty(CONFIG.Token.movement, 'actions', {
+    value: {
+      walk: {
+        label: "SCIONS.MovementType.walk",
+        icon: "icons/svg/walk.svg",
+        order: 1
+      },
+      vehicle: {
+        label: "SCIONS.MovementType.vehicle",
+        icon: "systems/scions-of-farstar/assets/icons/vehicle.svg",
+        order: 2
+      },
+      aircraft: {
+        label: "SCIONS.MovementType.aircraft",
+        icon: "systems/scions-of-farstar/assets/icons/aircraft.svg",
+        order: 3
+      }
+    },
+    writable: true,
+    configurable: true
+  });
 
   // Set default movement action to walk
   CONFIG.Token.movement.defaultAction = "walk";
