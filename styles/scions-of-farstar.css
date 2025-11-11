@@ -3381,26 +3381,3 @@
 .threat .extras-tab .empty-message p {
   margin: 0;
 }
-
-/* ======================================== */
-/* Token Resource Bar Values               */
-/* ======================================== */
-
-/* Always show resource bar values on tokens (e.g., "3/3" for Fate Points) */
-.token .attribute.bar .attribute-value {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  font-size: 20px;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black;
-  color: white;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Ensure the bar container is positioned to show values */
-.token .attribute.bar {
-  position: relative;
-}
-
