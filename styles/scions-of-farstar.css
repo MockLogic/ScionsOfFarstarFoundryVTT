@@ -3110,6 +3110,7 @@
   font-size: 13px;
   font-weight: normal;
   color: var(--sof-secondary);
+  pointer-events: none;
 }
 
 .colony .ladder-rung-embedded.checked .rung-value,
@@ -3261,6 +3262,7 @@
   display: block;
   font-weight: normal;
   color: var(--sof-secondary);
+  pointer-events: none;
 }
 
 .colony .track-box-wrapper.checked .track-value,
