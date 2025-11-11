@@ -339,7 +339,7 @@ export class FactionScionSheet extends ActorSheet {
     // Extra item handlers
     html.find('.invoke-checkbox').click(this._onToggleExtraInvoke.bind(this));
     html.find('.ladder-rung-clickable').click(this._onToggleLadderRung.bind(this));
-    html.find('.track-checkbox').click(this._onToggleTrackBox.bind(this));
+    html.find('.track-box-wrapper').click(this._onToggleTrackBox.bind(this));
     html.find('.roll-extra-skill').click(this._onRollExtraSkill.bind(this));
 
     // Item controls (NPC and Extra items)
@@ -694,8 +694,8 @@ export class FactionScionSheet extends ActorSheet {
     event.preventDefault();
     event.stopPropagation();
 
-    const li = $(event.currentTarget).parents(".item");
-    const item = this.actor.items.get(li.data("itemId"));
+    const itemId = event.currentTarget.dataset.itemId;
+    const item = this.actor.items.get(itemId);
     const index = parseInt(event.currentTarget.dataset.index);
 
     if (!item) return;

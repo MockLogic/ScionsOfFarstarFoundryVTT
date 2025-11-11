@@ -3227,8 +3227,50 @@
 .threat .track-box-wrapper {
   position: relative;
   display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  margin: 0 2px;
+  cursor: pointer;
+  background: white;
+  font-size: 14px;
+  color: var(--sof-secondary);
+  transition: all 0.2s;
 }
 
+.colony .track-box-wrapper:hover,
+.faction-scion .track-box-wrapper:hover,
+.threat .track-box-wrapper:hover {
+  border-color: var(--sof-primary);
+  background: rgba(var(--sof-primary-rgb), 0.05);
+}
+
+.colony .track-box-wrapper.checked,
+.faction-scion .track-box-wrapper.checked,
+.threat .track-box-wrapper.checked {
+  background: var(--sof-primary);
+  border-color: var(--sof-primary);
+}
+
+.colony .track-box-wrapper .track-value,
+.faction-scion .track-box-wrapper .track-value,
+.threat .track-box-wrapper .track-value {
+  display: block;
+  font-weight: normal;
+  color: var(--sof-secondary);
+}
+
+.colony .track-box-wrapper.checked .track-value,
+.faction-scion .track-box-wrapper.checked .track-value,
+.threat .track-box-wrapper.checked .track-value {
+  color: white;
+  font-weight: bold;
+}
+
+/* Legacy checkbox styling (for item sheets if needed) */
 .colony .track-checkbox,
 .faction-scion .track-checkbox,
 .threat .track-checkbox {

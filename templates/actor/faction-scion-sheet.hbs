@@ -451,15 +451,14 @@
                       <div class="track-label">{{item.system.trackLabel}}</div>
                       <div class="track-boxes-compact">
                         {{#each item.system.boxes as |box index|}}
-                          <div class="track-box-wrapper">
-                            <input type="checkbox"
-                                   class="track-checkbox"
-                                   data-item-id="{{../item._id}}"
-                                   data-index="{{index}}"
-                                   {{checked box.checked}}
-                                   title="Box {{add index 1}}"/>
+                          <div class="track-box-wrapper {{#if box.checked}}checked{{/if}}"
+                               data-item-id="{{../item._id}}"
+                               data-index="{{index}}"
+                               title="Box {{add index 1}}">
                             {{#if (gt ../item.system.trackValue 0)}}
-                              <span class="track-value">{{../item.system.trackValue}}</span>
+                              <span class="track-value">{{#if box.checked}}✗{{else}}{{../item.system.trackValue}}{{/if}}</span>
+                            {{else}}
+                              <span class="track-value">{{#if box.checked}}✗{{/if}}</span>
                             {{/if}}
                           </div>
                         {{/each}}
@@ -473,14 +472,11 @@
                       <div class="track-label">{{item.system.trackLabel}}</div>
                       <div class="track-boxes-compact">
                         {{#each item.system.boxes as |box index|}}
-                          <div class="track-box-wrapper">
-                            <input type="checkbox"
-                                   class="track-checkbox"
-                                   data-item-id="{{../item._id}}"
-                                   data-index="{{index}}"
-                                   {{checked box.checked}}
-                                   title="Box {{add index 1}}"/>
-                            <span class="track-value">{{add index 1}}</span>
+                          <div class="track-box-wrapper {{#if box.checked}}checked{{/if}}"
+                               data-item-id="{{../item._id}}"
+                               data-index="{{index}}"
+                               title="Box {{add index 1}}">
+                            <span class="track-value">{{#if box.checked}}✗{{else}}{{add index 1}}{{/if}}</span>
                           </div>
                         {{/each}}
                       </div>
