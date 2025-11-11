@@ -73,6 +73,9 @@ export class FactionScionSheet extends ActorSheet {
         itemData.ladderData = this._calculateLadderData(itemData.system);
       }
 
+      // Ensure _id is available for template data attributes
+      itemData._id = item.id;
+
       return itemData;
     });
 
