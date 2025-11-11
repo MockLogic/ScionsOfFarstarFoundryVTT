@@ -26,6 +26,12 @@
   --fate-plus: "\002B";
   --fate-minus: "\002D";
   --fate-blank: "\0030";
+
+  /* Fate Four Actions Icons (using FateCore font characters) */
+  --fate-attack: "A";
+  --fate-defend: "D";
+  --fate-overcome: "O";
+  --fate-create: "C";
 }
 
 /* General Sheet Styling */
@@ -141,6 +147,51 @@
 
 .fate-die.blank {
   color: var(--sof-border);
+}
+
+/* Fate Action Icons */
+.fate-action-icon {
+  font-family: 'FateCore', sans-serif;
+  font-size: 28px;
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.fate-action-icon.attack {
+  color: var(--sof-danger);
+}
+
+.fate-action-icon.attack::before {
+  content: var(--fate-attack);
+}
+
+.fate-action-icon.defend {
+  color: var(--sof-accent);
+}
+
+.fate-action-icon.defend::before {
+  content: var(--fate-defend);
+}
+
+.fate-action-icon.overcome {
+  color: var(--sof-success);
+}
+
+.fate-action-icon.overcome::before {
+  content: var(--fate-overcome);
+}
+
+.fate-action-icon.create {
+  color: var(--sof-warning);
+}
+
+.fate-action-icon.create::before {
+  content: var(--fate-create);
 }
 
 /* Roll Buttons */
@@ -1351,6 +1402,29 @@
   font-size: 16px;
   font-weight: bold;
   color: var(--sof-primary);
+  display: flex;
+  align-items: center;
+}
+
+.fate-roll .roll-description {
+  margin: 8px 0;
+  padding: 6px;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--sof-secondary);
+  line-height: 1.5;
+}
+
+.fate-roll .roll-description .skill-name {
+  font-weight: bold;
+  color: var(--sof-primary);
+}
+
+.fate-roll .roll-description .stunt-info {
+  margin-top: 4px;
+  font-style: italic;
+  color: var(--sof-accent);
 }
 
 .fate-roll .dice-results {

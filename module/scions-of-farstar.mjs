@@ -440,34 +440,48 @@ Hooks.on('preCreateItem', (document, data, options, userId) => {
 
 /**
  * Chat command handler for Fate dice rolls
- * Supports /fate and /4df commands with optional modifiers
+ * Supports /fate and /4df commands with various syntaxes:
+ * - /fate                                    (basic roll)
+ * - /fate +2                                 (roll with modifier)
+ * - /fate +2 custom note                     (roll with modifier and note)
+ * - /fate Combat                             (skill roll)
+ * - /fate Combat Attack                      (skill roll with action type)
+ * - /fate Combat Attack Stunt+2 Name         (skill roll with stunt bonus)
+ * - /fate Combat Attack Stunt-Swap Technology Name  (skill swap)
+ * - /fate Combat Attack Stunt-Swap+2 Technology Name (skill swap + bonus)
  */
 Hooks.on('chatMessage', (log, message, chatData) => {
-  // Match /fate or /4df with optional modifier (e.g., /fate +2, /4df -1)
-  const match = message.match(/^\/(fate|4df)(\s+([+-]?\d+))?$/i);
+  // Check if this is a /fate or /4df command
+  if (!/^\/(fate|4df)\b/i.test(message)) {
+    return true; // Not a fate command, continue normal processing
+  }
 
-  if (match) {
-    // Extract modifier if provided, default to 0
-    const modifier = match[3] ? parseInt(match[3]) : 0;
+  // Get the speaker's actor if they have a character assigned
+  const speaker = ChatMessage.getSpeaker();
+  const actor = game.actors.get(speaker.actor);
 
-    // Create label with modifier if present
-    const label = modifier !== 0
-      ? `Roll 4dF ${modifier >= 0 ? '+' : ''}${modifier}`
-      : 'Roll 4dF';
+  // Parse the command
+  const rollData = parseFateCommand(message, actor);
 
-    // Get the speaker's actor if they have a character assigned
-    const speaker = ChatMessage.getSpeaker();
-    const actor = game.actors.get(speaker.actor);
-
-    // Get speaker name (use player name if no actor assigned)
-    const speakerName = actor ? null : game.user.name;
-
-    // Create the fate roll
-    createFateRoll(label, modifier, actor, speakerName);
-
-    // Return false to prevent the message from being processed as a normal chat message
+  if (!rollData) {
+    ui.notifications.error('Invalid /fate command syntax');
     return false;
   }
+
+  // Check if player is not GM and doesn't have an assigned actor
+  if (!actor && !game.user.isGM) {
+    ui.notifications.warn('You must have an assigned character to use skill-based /fate commands. Use /fate +N for simple rolls.');
+    // Allow simple rolls without skills
+    if (rollData.skillName) {
+      return false;
+    }
+  }
+
+  // Create the fate roll
+  createFateRoll(rollData, 0, actor, null);
+
+  // Return false to prevent the message from being processed as a normal chat message
+  return false;
 });
 
 /**
@@ -721,6 +735,218 @@ function registerHandlebarsHelpers() {
 }
 
 /**
+ * Parse a /fate command into its components
+ * Supports various syntaxes from simple rolls to complex skill+action+stunt combinations
+ *
+ * @param {string} message - The chat message (e.g., "/fate Combat Attack Stunt+2 Superior Training")
+ * @param {Actor} actor - The actor making the roll (to look up skills/capabilities)
+ * @returns {Object|null} Parsed command data or null if not a valid /fate command
+ */
+export function parseFateCommand(message, actor) {
+  // Match /fate or /4df command at start
+  if (!/^\/(fate|4df)\b/i.test(message)) {
+    return null;
+  }
+
+  // Remove the command prefix
+  let rest = message.replace(/^\/(fate|4df)\s*/i, '').trim();
+
+  // Initialize result object
+  const result = {
+    modifier: 0,
+    skillName: null,
+    skillValue: 0,
+    skillSource: null, // 'scion' or 'faction'
+    actionType: null, // 'attack', 'defend', 'overcome', 'create'
+    stuntBonus: 0,
+    stuntSwap: null, // { from: 'Combat', to: 'Technology', value: 3 }
+    stuntName: null,
+    note: null
+  };
+
+  // If empty after command, just a basic roll
+  if (!rest) {
+    return result;
+  }
+
+  // Check for simple numeric modifier: /fate +2 or /fate -1
+  const simpleNumMatch = rest.match(/^([+-]?\d+)$/);
+  if (simpleNumMatch) {
+    result.modifier = parseInt(simpleNumMatch[1]);
+    return result;
+  }
+
+  // Check for simple numeric with note: /fate +2 some note
+  const simpleNumNoteMatch = rest.match(/^([+-]?\d+)\s+(.+)$/);
+  if (simpleNumNoteMatch) {
+    result.modifier = parseInt(simpleNumNoteMatch[1]);
+    result.note = simpleNumNoteMatch[2];
+    return result;
+  }
+
+  // Complex parsing: skill/capability, action, stunt modifiers
+
+  // Extract first token as potential skill/capability name
+  const tokens = rest.split(/\s+/);
+  if (tokens.length === 0) return result;
+
+  // Try to find skill or capability
+  const potentialSkill = tokens[0].toLowerCase();
+  let skillFound = false;
+  let tokenIndex = 1;
+
+  if (actor && actor.type === 'faction-scion') {
+    // Check scion skills
+    const scionSkills = {
+      'academics': 'Academics',
+      'combat': 'Combat',
+      'deception': 'Deception',
+      'engineering': 'Engineering',
+      'exploration': 'Exploration',
+      'influence': 'Influence'
+    };
+
+    // Check faction capabilities
+    const factionCapabilities = {
+      'culture': 'Culture',
+      'industrial': 'Industrial',
+      'military': 'Military',
+      'mobility': 'Mobility',
+      'technology': 'Technology',
+      'people': 'People'
+    };
+
+    if (scionSkills[potentialSkill]) {
+      result.skillName = scionSkills[potentialSkill];
+      result.skillValue = actor.system.scion.skills[potentialSkill].value;
+      result.skillSource = 'scion';
+      result.modifier = result.skillValue;
+      skillFound = true;
+    } else if (factionCapabilities[potentialSkill]) {
+      result.skillName = factionCapabilities[potentialSkill];
+      result.skillValue = actor.system.faction.capabilities[potentialSkill].value;
+      result.skillSource = 'faction';
+      result.modifier = result.skillValue;
+      skillFound = true;
+    }
+  }
+
+  if (!skillFound) {
+    // Not a valid skill/capability, treat whole thing as a note
+    result.note = rest;
+    return result;
+  }
+
+  // Parse remaining tokens for action type, stunt info
+  if (tokenIndex >= tokens.length) {
+    return result; // Just skill, no action
+  }
+
+  // Check for action type
+  const actionToken = tokens[tokenIndex].toLowerCase();
+  const actionTypes = {
+    'attack': 'attack',
+    'defend': 'defend',
+    'overcome': 'overcome',
+    'create': 'create'
+  };
+
+  if (actionTypes[actionToken]) {
+    result.actionType = actionTypes[actionToken];
+    tokenIndex++;
+  }
+
+  // Parse stunt modifiers
+  if (tokenIndex < tokens.length) {
+    const stuntToken = tokens[tokenIndex].toLowerCase();
+
+    // Check for Stunt+2
+    if (stuntToken === 'stunt+2') {
+      result.stuntBonus = 2;
+      result.modifier += 2;
+      tokenIndex++;
+
+      // Remaining tokens are stunt name
+      if (tokenIndex < tokens.length) {
+        result.stuntName = tokens.slice(tokenIndex).join(' ');
+      }
+    }
+    // Check for Stunt-Swap or Stunt-Swap+2
+    else if (stuntToken === 'stunt-swap' || stuntToken === 'stunt-swap+2') {
+      const needsBonus = stuntToken === 'stunt-swap+2';
+      tokenIndex++;
+
+      // Next token should be the replacement skill/capability
+      if (tokenIndex < tokens.length) {
+        const swapSkill = tokens[tokenIndex].toLowerCase();
+
+        // Try to find the swap skill value
+        let swapFound = false;
+
+        if (actor && actor.type === 'faction-scion') {
+          const allSkills = {
+            'academics': { name: 'Academics', source: 'scion' },
+            'combat': { name: 'Combat', source: 'scion' },
+            'deception': { name: 'Deception', source: 'scion' },
+            'engineering': { name: 'Engineering', source: 'scion' },
+            'exploration': { name: 'Exploration', source: 'scion' },
+            'influence': { name: 'Influence', source: 'scion' },
+            'culture': { name: 'Culture', source: 'faction' },
+            'industrial': { name: 'Industrial', source: 'faction' },
+            'military': { name: 'Military', source: 'faction' },
+            'mobility': { name: 'Mobility', source: 'faction' },
+            'technology': { name: 'Technology', source: 'faction' },
+            'people': { name: 'People', source: 'faction' }
+          };
+
+          if (allSkills[swapSkill]) {
+            const swapData = allSkills[swapSkill];
+            const swapValue = swapData.source === 'scion'
+              ? actor.system.scion.skills[swapSkill].value
+              : actor.system.faction.capabilities[swapSkill].value;
+
+            result.stuntSwap = {
+              from: result.skillName,
+              fromValue: result.skillValue,
+              to: swapData.name,
+              toValue: swapValue,
+              source: swapData.source
+            };
+
+            // Update the modifier to use the swapped skill value
+            result.modifier = result.modifier - result.skillValue + swapValue;
+
+            if (needsBonus) {
+              result.stuntBonus = 2;
+              result.modifier += 2;
+            }
+
+            swapFound = true;
+            tokenIndex++;
+
+            // Remaining tokens are stunt name
+            if (tokenIndex < tokens.length) {
+              result.stuntName = tokens.slice(tokenIndex).join(' ');
+            }
+          }
+        }
+
+        if (!swapFound) {
+          // Couldn't find swap skill, treat remaining as note
+          result.note = tokens.slice(tokenIndex - 1).join(' ');
+        }
+      }
+    }
+    else {
+      // Not a recognized stunt pattern, treat remaining as note
+      result.note = tokens.slice(tokenIndex).join(' ');
+    }
+  }
+
+  return result;
+}
+
+/**
  * Utility function to roll Fate dice (4dF)
  * Returns individual die results and total
  */
@@ -742,14 +968,36 @@ export function rollFateDice() {
 
 /**
  * Create a Fate dice roll message in chat
- * @param {string} label - The label for the roll (e.g., "Combat +2")
- * @param {number} modifier - The modifier to add to the roll
- * @param {Actor} actor - The actor making the roll
- * @param {string} speakerName - Optional custom speaker name (e.g., Scion name instead of Faction name)
+ * @param {string|Object} labelOrData - The label for the roll OR parsed command data object
+ * @param {number} modifier - The modifier to add to the roll (legacy parameter)
+ * @param {Actor} actor - The actor making the roll (legacy parameter)
+ * @param {string} speakerName - Optional custom speaker name (legacy parameter)
  */
-export async function createFateRoll(label, modifier = 0, actor = null, speakerName = null) {
+export async function createFateRoll(labelOrData, modifier = 0, actor = null, speakerName = null) {
+  // Support both legacy string label and new parsed data object
+  let rollData;
+
+  if (typeof labelOrData === 'string') {
+    // Legacy mode: simple label and modifier
+    rollData = {
+      modifier: modifier,
+      skillName: null,
+      skillValue: 0,
+      skillSource: null,
+      actionType: null,
+      stuntBonus: 0,
+      stuntSwap: null,
+      stuntName: null,
+      note: null,
+      label: labelOrData
+    };
+  } else {
+    // New mode: parsed command data
+    rollData = labelOrData;
+  }
+
   // Create the roll formula with modifier
-  const formula = modifier !== 0 ? `4dF + ${modifier}` : '4dF';
+  const formula = rollData.modifier !== 0 ? `4dF + ${rollData.modifier}` : '4dF';
   const roll = new Roll(formula);
 
   // Evaluate the roll
@@ -768,37 +1016,101 @@ export async function createFateRoll(label, modifier = 0, actor = null, speakerN
   }).join(' ');
 
   // Determine color based on final result compared to modifier
-  // Priority: red for < 1, then orange/blue/green based on distance from modifier
   let colorClass = 'result-blue'; // Default (within ±1 of modifier)
 
   if (finalResult < 1) {
-    // Red for any result under 1 (highest priority)
     colorClass = 'result-red';
   } else {
-    // Calculate distance from modifier
-    const distance = finalResult - modifier;
-
+    const distance = finalResult - rollData.modifier;
     if (distance > 1) {
-      // Green for results more than 1 above modifier
       colorClass = 'result-green';
     } else if (distance < -1) {
-      // Orange for results more than 1 below modifier
       colorClass = 'result-orange';
     }
-    // else stays blue (within ±1 of modifier: distance is -1, 0, or 1)
+  }
+
+  // Build the roll title with action icon if present
+  let rollTitle = '';
+  if (rollData.actionType) {
+    rollTitle = `<span class="fate-action-icon ${rollData.actionType}"></span>`;
+    const actionName = rollData.actionType.charAt(0).toUpperCase() + rollData.actionType.slice(1);
+    if (rollData.skillName) {
+      rollTitle += `${actionName} with ${rollData.skillName}`;
+    } else {
+      rollTitle += actionName;
+    }
+  } else if (rollData.skillName) {
+    rollTitle = rollData.skillName;
+  } else if (rollData.label) {
+    rollTitle = rollData.label;
+  } else {
+    rollTitle = rollData.modifier !== 0
+      ? `Roll 4dF ${rollData.modifier >= 0 ? '+' : ''}${rollData.modifier}`
+      : 'Roll 4dF';
+  }
+
+  // Build roll description (explains the roll components)
+  let rollDescription = '';
+
+  if (rollData.skillName || rollData.stuntSwap || rollData.note) {
+    rollDescription = '<div class="roll-description">';
+
+    if (rollData.stuntSwap) {
+      // Skill swap case
+      const swapText = `Using <span class="skill-name">${rollData.stuntSwap.from} (${rollData.stuntSwap.fromValue >= 0 ? '+' : ''}${rollData.stuntSwap.fromValue})</span> to roll <span class="skill-name">${rollData.stuntSwap.to} (${rollData.stuntSwap.toValue >= 0 ? '+' : ''}${rollData.stuntSwap.toValue})</span> instead`;
+      rollDescription += swapText;
+
+      if (rollData.stuntBonus > 0) {
+        rollDescription += ` with ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} stunt bonus`;
+      }
+
+      if (rollData.stuntName) {
+        rollDescription += `<div class="stunt-info">Stunt: ${rollData.stuntName}</div>`;
+      }
+    } else if (rollData.skillName) {
+      // Simple skill roll
+      const sourceLabel = rollData.skillSource === 'scion' ? 'Scion' : 'Faction';
+      rollDescription += `${sourceLabel} <span class="skill-name">${rollData.skillName} (${rollData.skillValue >= 0 ? '+' : ''}${rollData.skillValue})</span>`;
+
+      if (rollData.stuntBonus > 0) {
+        rollDescription += ` with ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} stunt bonus`;
+      }
+
+      if (rollData.stuntName) {
+        rollDescription += `<div class="stunt-info">Stunt: ${rollData.stuntName}</div>`;
+      }
+    }
+
+    if (rollData.note) {
+      rollDescription += `<div style="margin-top: 4px; font-style: italic;">${rollData.note}</div>`;
+    }
+
+    rollDescription += '</div>';
   }
 
   // Create speaker data
   let speaker;
   if (actor) {
     speaker = ChatMessage.getSpeaker({ actor: actor });
-    // Override alias if custom speaker name provided
+    // Override alias if custom speaker name provided (for Scion name)
     if (speakerName) {
       speaker.alias = speakerName;
+    } else if (rollData.skillSource === 'scion' && actor.system?.scion?.name) {
+      // Use Scion name for Scion skill rolls
+      speaker.alias = actor.system.scion.name;
     }
   } else {
     speaker = ChatMessage.getSpeaker();
   }
+
+  // Build calculation display
+  let calculationDisplay = `<strong>Total:</strong> ${diceTotal}`;
+
+  if (rollData.modifier !== 0) {
+    calculationDisplay += ` ${rollData.modifier >= 0 ? '+' : ''}${rollData.modifier}`;
+  }
+
+  calculationDisplay += ` = <strong class="${colorClass}">${finalResult}</strong>`;
 
   // Create chat message with roll data for Dice So Nice compatibility
   const chatData = {
@@ -807,12 +1119,13 @@ export async function createFateRoll(label, modifier = 0, actor = null, speakerN
     roll: roll,
     content: `
       <div class="fate-roll">
-        <h3>${label}</h3>
+        <h3>${rollTitle}</h3>
+        ${rollDescription}
         <div class="dice-results">
           ${diceSymbols}
         </div>
         <div class="roll-total">
-          <strong>Total:</strong> ${diceTotal} ${modifier !== 0 ? `+ ${modifier}` : ''} = <strong class="${colorClass}">${finalResult}</strong>
+          ${calculationDisplay}
         </div>
       </div>
     `,
