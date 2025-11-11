@@ -390,39 +390,6 @@ Hooks.on('preCreateItem', async function(item, data, options, userId) {
 Hooks.once('ready', async function() {
   console.log('Scions of FarStar | System ready');
   console.log('Scions of FarStar | Named NPC creation restricted to GM and Assistant roles');
-
-  // Log existing movement actions to understand what Foundry provides by default
-  console.log('Scions of FarStar | Default movement actions:', CONFIG.Token.movement.actions);
-
-  // Replace the entire movement.actions object with our custom sci-fi movement types
-  // We can't delete individual properties because they're non-configurable,
-  // but we can replace the entire object reference
-  Object.defineProperty(CONFIG.Token.movement, 'actions', {
-    value: {
-      walk: {
-        label: "SCIONS.MovementType.walk",
-        icon: "icons/svg/walk.svg",
-        order: 1
-      },
-      vehicle: {
-        label: "SCIONS.MovementType.vehicle",
-        icon: "systems/scions-of-farstar/assets/icons/vehicle.svg",
-        order: 2
-      },
-      aircraft: {
-        label: "SCIONS.MovementType.aircraft",
-        icon: "systems/scions-of-farstar/assets/icons/aircraft.svg",
-        order: 3
-      }
-    },
-    writable: true,
-    configurable: true
-  });
-
-  // Set default movement action to walk
-  CONFIG.Token.movement.defaultAction = "walk";
-
-  console.log('Scions of FarStar | Movement actions configured:', CONFIG.Token.movement.actions);
 });
 
 /**
