@@ -102,22 +102,6 @@ Hooks.once('init', async function() {
 
   CONFIG.specialStatusEffects.DEFEATED = "dead";
 
-  // Configure token movement types
-  CONFIG.Token.movementTypes = {
-    walk: {
-      label: "SCIONS.MovementType.walk",
-      icon: "icons/svg/walk.svg"
-    },
-    vehicle: {
-      label: "SCIONS.MovementType.vehicle",
-      icon: "systems/scions-of-farstar/assets/icons/vehicle.svg"
-    },
-    aircraft: {
-      label: "SCIONS.MovementType.aircraft",
-      icon: "systems/scions-of-farstar/assets/icons/aircraft.svg"
-    }
-  };
-
   // Store system configuration
   game.scionsOfFarstar = {
     config: {},
@@ -406,6 +390,31 @@ Hooks.on('preCreateItem', async function(item, data, options, userId) {
 Hooks.once('ready', async function() {
   console.log('Scions of FarStar | System ready');
   console.log('Scions of FarStar | Named NPC creation restricted to GM and Assistant roles');
+
+  // Replace default fantasy movement actions with sci-fi ones
+  // In Foundry v13, movement is configured via CONFIG.Token.movement.actions
+  CONFIG.Token.movement.actions = {
+    walk: {
+      label: "SCIONS.MovementType.walk",
+      icon: "icons/svg/walk.svg",
+      order: 1
+    },
+    vehicle: {
+      label: "SCIONS.MovementType.vehicle",
+      icon: "systems/scions-of-farstar/assets/icons/vehicle.svg",
+      order: 2
+    },
+    aircraft: {
+      label: "SCIONS.MovementType.aircraft",
+      icon: "systems/scions-of-farstar/assets/icons/aircraft.svg",
+      order: 3
+    }
+  };
+
+  // Set default movement action to walk
+  CONFIG.Token.movement.defaultAction = "walk";
+
+  console.log('Scions of FarStar | Movement actions configured:', CONFIG.Token.movement.actions);
 });
 
 /**
@@ -452,6 +461,33 @@ Hooks.on('preCreateItem', (document, data, options, userId) => {
     }
   }
   return true; // Allow creation
+});
+
+/**
+ * Ensure the "dead" status effect is always applied as an overlay
+ * This hook intercepts status effect changes and forces "dead" to be an overlay
+ */
+Hooks.on('preUpdateToken', (_document, changes, _options, _userId) => {
+  // Check if effects are being updated
+  if (changes.effects !== undefined) {
+    const effects = changes.effects || [];
+
+    // Find if the "dead" status is being added
+    const deadEffect = effects.find(e =>
+      typeof e === 'string'
+        ? e.includes('busted.svg') || e.includes('dead')
+        : e?.icon?.includes('busted.svg')
+    );
+
+    if (deadEffect) {
+      // Ensure it's applied as an overlay by setting overlayEffect
+      if (!changes.overlayEffect || !changes.overlayEffect.includes('busted.svg')) {
+        changes.overlayEffect = typeof deadEffect === 'string'
+          ? deadEffect
+          : deadEffect.icon || 'systems/scions-of-farstar/assets/icons/busted.svg';
+      }
+    }
+  }
 });
 
 /**

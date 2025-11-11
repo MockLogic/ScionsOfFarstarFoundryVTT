@@ -3413,14 +3413,16 @@
   height: 22px !important;
 }
 
-/* Make the defeated status effect overlay cover the entire token */
-.token .effect-overlay[src*="dead"] {
+/* Make the defeated status effect overlay cover the entire token and tint it red */
+.token .effect-overlay[src*="dead"],
+.token .effect-overlay[src*="busted"] {
   width: 100% !important;
   height: 100% !important;
   top: 0 !important;
   left: 0 !important;
   border: none !important;
   border-radius: 0 !important;
+  filter: brightness(0) saturate(100%) invert(21%) sepia(98%) saturate(7468%) hue-rotate(358deg) brightness(89%) contrast(118%) !important;
 }
 
 /* Alternative selectors in case the above doesn't work */
