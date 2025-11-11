@@ -1,0 +1,17 @@
+{
+  "name": "Fate Roll Test",
+  "type": "script",
+  "scope": "global",
+  "command": "// Simple Fate roll (4dF)\nconst roll = await new Roll(\"4dF\").evaluate();\nawait roll.toMessage({\n  speaker: ChatMessage.getSpeaker(),\n  flavor: \"Fate Roll\"\n});",
+  "img": "icons/sundries/gaming/dice-runed-brown.webp",
+  "folder": null,
+  "sort": 0,
+  "ownership": {
+    "default": 0
+  },
+  "flags": {},
+  "_stats": {
+    "systemId": "scions-of-farstar",
+    "systemVersion": "1.4.9"
+  }
+}
