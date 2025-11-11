@@ -24,6 +24,84 @@ import { ExtraSheet } from "./items/extra-sheet.mjs";
 Hooks.once('init', async function() {
   console.log('Scions of FarStar | Initializing system');
 
+  // Custom token status effects
+  CONFIG.statusEffects = [
+    {
+      id: "dead",
+      label: "SCIONS.StatusEffect.dead",
+      icon: "systems/scions-of-farstar/assets/icons/busted.svg",
+      overlay: true
+    },
+    {
+      id: "scale1",
+      label: "SCIONS.StatusEffect.scale1",
+      icon: "systems/scions-of-farstar/assets/icons/scale1.svg"
+    },
+    {
+      id: "scale2",
+      label: "SCIONS.StatusEffect.scale2",
+      icon: "systems/scions-of-farstar/assets/icons/scale2.svg"
+    },
+    {
+      id: "scale3",
+      label: "SCIONS.StatusEffect.scale3",
+      icon: "systems/scions-of-farstar/assets/icons/scale3.svg"
+    },
+    {
+      id: "scale4",
+      label: "SCIONS.StatusEffect.scale4",
+      icon: "systems/scions-of-farstar/assets/icons/scale4.svg"
+    },
+    {
+      id: "scale5",
+      label: "SCIONS.StatusEffect.scale5",
+      icon: "systems/scions-of-farstar/assets/icons/scale5.svg"
+    },
+    {
+      id: "scale6",
+      label: "SCIONS.StatusEffect.scale6",
+      icon: "systems/scions-of-farstar/assets/icons/scale6.svg"
+    },
+    {
+      id: "scale7",
+      label: "SCIONS.StatusEffect.scale7",
+      icon: "systems/scions-of-farstar/assets/icons/scale7.svg"
+    },
+    {
+      id: "scale8",
+      label: "SCIONS.StatusEffect.scale8",
+      icon: "systems/scions-of-farstar/assets/icons/scale8.svg"
+    },
+    {
+      id: "uparrow",
+      label: "SCIONS.StatusEffect.uparrow",
+      icon: "icons/svg/upgrade.svg"
+    },
+    {
+      id: "downarrow",
+      label: "SCIONS.StatusEffect.downarrow",
+      icon: "icons/svg/downgrade.svg"
+    },
+    {
+      id: "caution",
+      label: "SCIONS.StatusEffect.caution",
+      icon: "icons/svg/hazard.svg"
+    },
+    {
+      id: "biohazard",
+      label: "SCIONS.StatusEffect.biohazard",
+      icon: "icons/svg/biohazard.svg"
+    },
+    {
+      id: "flames",
+      label: "SCIONS.StatusEffect.flames",
+      icon: "icons/svg/fire.svg"
+    }
+    // Add more as needed
+  ];
+
+  CONFIG.specialStatusEffects.DEFEATED = "dead";
+
   // Store system configuration
   game.scionsOfFarstar = {
     config: {},

@@ -97,10 +97,12 @@
 
 .scions-of-farstar.item.extra .aspect-label-field {
   flex: 0 0 22%;
+  min-width: 0;
 }
 
 .scions-of-farstar.item.extra .aspect-value-field {
   flex: 0 0 72%;
+  min-width: 0;
 }
 
 .scions-of-farstar.item.extra .aspect-label-field label,
@@ -110,6 +112,11 @@
   font-size: 11px;
   margin-bottom: 3px;
   color: var(--sof-secondary);
+}
+
+.scions-of-farstar.item.extra .aspect-label-field input,
+.scions-of-farstar.item.extra .aspect-value-field input {
+  width: 100%;
 }
 
 /* Fate Dice Display */

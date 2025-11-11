@@ -51,6 +51,23 @@ export class ThreatSheet extends ActorSheet {
       };
     });
 
+    // Get all Extra items (all types)
+    const extraTypes = ['extra-aspect', 'extra-ladder', 'extra-skill', 'extra-track', 'extra-growing-track'];
+    context.extraItems = this.actor.items.filter(item => extraTypes.includes(item.type)).map(item => {
+      // Use spread operator to preserve all properties including _id
+      const itemData = {
+        ...item.toObject(false),
+        _id: item.id  // Explicitly ensure _id is present
+      };
+
+      // For extra-ladder, calculate ladder display data
+      if (item.type === 'extra-ladder') {
+        itemData.ladderData = this._calculateLadderData(itemData.system);
+      }
+
+      return itemData;
+    });
+
     return context;
   }
 
@@ -169,6 +186,47 @@ export class ThreatSheet extends ActorSheet {
     };
   }
 
+  /**
+   * Calculate ladder display data for Extra-Ladder items
+   * @param {Object} systemData - The item's system data
+   * @returns {Object} - Ladder display data
+   */
+  _calculateLadderData(systemData) {
+    // Ensure rungs is an array, rebuild from rungCount if necessary
+    let rungs = systemData.rungs;
+    const rungCount = systemData.rungCount || 5;
+
+    if (!Array.isArray(rungs)) {
+      // Initialize rungs array if it's not an array
+      rungs = [];
+      for (let i = 0; i < rungCount; i++) {
+        rungs.push({ aspect: '', checked: false });
+      }
+    }
+
+    // Find the first (topmost) unchecked rung
+    let highestUncheckedIndex = -1;
+    for (let i = 0; i < rungCount; i++) {
+      if (!rungs[i]?.checked) {
+        highestUncheckedIndex = i;
+        break;
+      }
+    }
+
+    // Build display data for each rung
+    const displayRungs = [];
+    for (let i = 0; i < rungCount; i++) {
+      displayRungs.push({
+        index: i,
+        aspect: rungs[i]?.aspect || '',
+        checked: rungs[i]?.checked || false,
+        isHighestUnchecked: i === highestUncheckedIndex
+      });
+    }
+
+    return { rungs: displayRungs };
+  }
+
   /** @override */
   async _updateObject(event, formData) {
     // Save all ProseMirror editor content first
@@ -177,7 +235,7 @@ export class ThreatSheet extends ActorSheet {
     // Expand the formData to handle arrays properly
     const expandedData = foundry.utils.expandObject(formData);
 
-    // Ensure stunts and extras arrays are properly handled
+    // Ensure stunts array is properly handled
     if (expandedData.system?.stunts) {
       const stuntsObj = expandedData.system.stunts;
       const stuntsArray = Object.values(stuntsObj);
@@ -191,21 +249,6 @@ export class ThreatSheet extends ActorSheet {
       });
 
       expandedData.system.stunts = stuntsArray;
-    }
-
-    if (expandedData.system?.extras) {
-      const extrasObj = expandedData.system.extras;
-      const extrasArray = Object.values(extrasObj);
-
-      // Merge with existing extra data to preserve rich text descriptions
-      const currentExtras = this.actor.system.extras || [];
-      extrasArray.forEach((extra, index) => {
-        if (currentExtras[index] && !extra.description) {
-          extra.description = currentExtras[index].description;
-        }
-      });
-
-      expandedData.system.extras = extrasArray;
     }
 
     // Handle ladder rungs arrays in modular sections
@@ -351,19 +394,28 @@ export class ThreatSheet extends ActorSheet {
     html.find('.age-invoke-used').click(this._onToggleAgeInvokeUsed.bind(this));
     html.find('.age-scar').click(this._onToggleAgeScar.bind(this));
 
-    // Stunt/Extra handlers
+    // Stunt handlers
     html.find('.stunt-add').click(this._onAddStunt.bind(this));
     html.find('.stunt-delete').click(this._onDeleteStunt.bind(this));
-    html.find('.extra-add').click(this._onAddExtra.bind(this));
-    html.find('.extra-delete').click(this._onDeleteExtra.bind(this));
 
-    // NPC item controls
+    // Extra item handlers
+    html.find('.invoke-checkbox').click(this._onToggleExtraInvoke.bind(this));
+    html.find('.roll-extra-skill').click(this._onRollExtraSkill.bind(this));
+    html.find('.track-box-wrapper').click(this._onToggleTrackBox.bind(this));
+
+    // Item controls (NPC and Extra items)
     html.find('.item-edit').click(this._onItemEdit.bind(this));
     html.find('.item-delete').click(this._onItemDelete.bind(this));
     html.find('.roll-npc-skill').click(this._onRollNpcSkill.bind(this));
 
     // Make NPC items draggable
     html.find('.npc-item').each((i, li) => {
+      li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    });
+
+    // Make Extra items draggable
+    html.find('.extra-item').each((i, li) => {
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
@@ -517,17 +569,46 @@ export class ThreatSheet extends ActorSheet {
   }
 
   /**
-   * Toggle a ladder rung checkbox
+   * Toggle a ladder rung checkbox (for both modular sections and Extra items)
    */
   async _onToggleLadderRung(event) {
     event.preventDefault();
+    event.stopPropagation();
+
+    const itemId = event.currentTarget.dataset.itemId;
     const ladder = event.currentTarget.dataset.ladder;
     const index = parseInt(event.currentTarget.dataset.index);
-    const rungs = [...this.actor.system.modularSections[ladder].rungs];
 
-    if (rungs[index]) {
-      rungs[index].checked = !rungs[index].checked;
-      await this.actor.update({ [`system.modularSections.${ladder}.rungs`]: rungs });
+    // Check if this is an Extra item ladder (has itemId)
+    if (itemId) {
+      const item = this.actor.items.get(itemId);
+      if (!item) return;
+
+      // Ensure rungs is a proper array
+      let rungs = item.system.rungs;
+      if (!Array.isArray(rungs)) {
+        const rungCount = item.system.rungCount || 5;
+        rungs = [];
+        for (let i = 0; i < rungCount; i++) {
+          rungs.push({ aspect: '', checked: false });
+        }
+      } else {
+        rungs = [...rungs];
+      }
+
+      // Toggle the rung if it exists
+      if (rungs[index]) {
+        rungs[index].checked = !rungs[index].checked;
+        await item.update({ 'system.rungs': rungs });
+      }
+    } else if (ladder) {
+      // This is a modular section ladder
+      const rungs = [...this.actor.system.modularSections[ladder].rungs];
+
+      if (rungs[index]) {
+        rungs[index].checked = !rungs[index].checked;
+        await this.actor.update({ [`system.modularSections.${ladder}.rungs`]: rungs });
+      }
     }
   }
 
@@ -654,28 +735,75 @@ export class ThreatSheet extends ActorSheet {
   }
 
   /**
-   * Add a new extra
+   * Toggle an Extra item's invoke checkbox
+   * @param {Event} event - The click event
    */
-  async _onAddExtra(event) {
+  async _onToggleExtraInvoke(event) {
     event.preventDefault();
-    const extras = [...this.actor.system.extras];
-    extras.push({ name: "", description: "" });
-    await this.actor.update({ 'system.extras': extras });
-  }
+    event.stopPropagation();
 
-  /**
-   * Delete an extra
-   */
-  async _onDeleteExtra(event) {
-    event.preventDefault();
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
     const index = parseInt(event.currentTarget.dataset.index);
-    const extras = [...this.actor.system.extras];
-    extras.splice(index, 1);
-    await this.actor.update({ 'system.extras': extras });
+
+    if (!item) return;
+
+    const invokes = [...item.system.invokes];
+    if (invokes[index]) {
+      invokes[index].spent = !invokes[index].spent;
+      await item.update({ 'system.invokes': invokes });
+    }
   }
 
   /**
-   * Handle editing an NPC item
+   * Toggle an Extra-Track's checkbox
+   * @param {Event} event - The click event
+   */
+  async _onToggleTrackBox(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const itemId = event.currentTarget.dataset.itemId;
+    const item = this.actor.items.get(itemId);
+    const index = parseInt(event.currentTarget.dataset.index);
+
+    if (!item) return;
+
+    const boxes = [...item.system.boxes];
+    if (boxes[index]) {
+      boxes[index].checked = !boxes[index].checked;
+      await item.update({ 'system.boxes': boxes });
+    }
+  }
+
+  /**
+   * Handle rolling an Extra-Skill's skill
+   * @param {Event} event - The click event
+   */
+  async _onRollExtraSkill(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const li = $(event.currentTarget).parents(".item");
+    const item = this.actor.items.get(li.data("itemId"));
+
+    if (!item) return;
+
+    const skillName = item.system.skillName;
+    const skillValue = item.system.skillValue || 0;
+
+    if (!skillName) return;
+
+    // Import the createFateRoll function
+    const { createFateRoll } = await import("../scions-of-farstar.mjs");
+
+    // Create the label and roll
+    const label = `${item.name}: ${skillName}`;
+    await createFateRoll(label, skillValue, null, item.name);
+  }
+
+  /**
+   * Handle editing an item (NPC or Extra)
    * @param {Event} event - The click event
    */
   _onItemEdit(event) {

@@ -194,6 +194,22 @@
       "Value": "Value",
       "Rating": "Rating",
       "Visible": "Visible"
+    },
+    "StatusEffect": {
+      "dead": "Defeated",
+      "scale1": "Scale 1",
+      "scale2": "Scale 2",
+      "scale3": "Scale 3",
+      "scale4": "Scale 4",
+      "scale5": "Scale 5",
+      "scale6": "Scale 6",
+      "scale7": "Scale 7",
+      "scale8": "Scale 8",
+      "uparrow": "Advantage",
+      "downarrow": "Disadvantage",
+      "caution": "Caution",
+      "biohazard": "Biohazard",
+      "flames": "Fire"
     }
   }
 }
