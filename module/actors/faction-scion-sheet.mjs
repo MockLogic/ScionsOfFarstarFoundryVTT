@@ -18,6 +18,7 @@ export class FactionScionSheet extends ActorSheet {
 
   /** @override */
   async getData(options) {
+    console.log('FactionScionSheet getData() called - VERSION 2.0');
     const context = super.getData(options);
 
     // Use a safe clone of actor data for manipulation
@@ -66,15 +67,16 @@ export class FactionScionSheet extends ActorSheet {
     // Get all Extra items (all types)
     const extraTypes = ['extra-aspect', 'extra-ladder', 'extra-skill', 'extra-track', 'extra-growing-track'];
     context.extraItems = this.actor.items.filter(item => extraTypes.includes(item.type)).map(item => {
-      const itemData = item.toObject(false);
+      // Use spread operator to preserve all properties including _id
+      const itemData = {
+        ...item.toObject(false),
+        _id: item.id  // Explicitly ensure _id is present
+      };
 
       // For extra-ladder, calculate ladder display data
       if (item.type === 'extra-ladder') {
         itemData.ladderData = this._calculateLadderData(itemData.system);
       }
-
-      // Ensure _id is available for template data attributes
-      itemData._id = item.id;
 
       return itemData;
     });
