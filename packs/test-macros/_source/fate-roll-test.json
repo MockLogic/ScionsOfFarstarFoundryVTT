@@ -1,4 +1,5 @@
 {
+  "_id": "faterolltest0001",
   "name": "Fate Roll Test",
   "type": "script",
   "scope": "global",
@@ -12,6 +13,6 @@
   "flags": {},
   "_stats": {
     "systemId": "scions-of-farstar",
-    "systemVersion": "1.4.9"
+    "systemVersion": "1.4.10"
   }
 }
