@@ -371,6 +371,54 @@ export class FactionScionSheet extends ActorSheet {
   }
 
   /**
+   * Handle beginning of drag operation for skills, capabilities, and items
+   * @override
+   */
+  _onDragStart(event) {
+    const element = event.currentTarget;
+
+    // Check if this is an item drag (NPC or Extra items)
+    const itemId = element.dataset.itemId;
+    if (itemId) {
+      // This is an item drag - use the parent class handler
+      return super._onDragStart(event);
+    }
+
+    // Check if this is a skill drag
+    const skillKey = element.dataset.skill;
+    if (skillKey) {
+      const skill = this.actor.system.scion.skills[skillKey];
+      if (skill) {
+        event.dataTransfer.setData("text/plain", JSON.stringify({
+          type: "FactionScionSkill",
+          actorId: this.actor.id,
+          skillKey: skillKey,
+          skillLabel: skill.label
+        }));
+      }
+      return;
+    }
+
+    // Check if this is a capability drag
+    const capabilityKey = element.dataset.capability;
+    if (capabilityKey) {
+      const capability = this.actor.system.faction.capabilities[capabilityKey];
+      if (capability) {
+        event.dataTransfer.setData("text/plain", JSON.stringify({
+          type: "FactionScionCapability",
+          actorId: this.actor.id,
+          capabilityKey: capabilityKey,
+          capabilityLabel: capability.label
+        }));
+      }
+      return;
+    }
+
+    // Fall back to parent class handler for other drags
+    return super._onDragStart(event);
+  }
+
+  /**
    * Handle rolling a skill
    */
   async _onRollSkill(event) {

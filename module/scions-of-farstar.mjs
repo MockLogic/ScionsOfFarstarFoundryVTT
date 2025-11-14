@@ -393,6 +393,74 @@ Hooks.once('ready', async function() {
 });
 
 /**
+ * Handle dropping skills/capabilities onto the hotbar to create macros
+ */
+Hooks.on('hotbarDrop', async (bar, data, slot) => {
+  // Only handle our custom drag types
+  if (data.type !== "FactionScionSkill" && data.type !== "FactionScionCapability") {
+    return true; // Allow other drops to be handled normally
+  }
+
+  // Get the actor
+  const actor = game.actors.get(data.actorId);
+  if (!actor) {
+    ui.notifications.error("Actor not found for macro creation");
+    return false;
+  }
+
+  // Determine the skill/capability details
+  let macroName, macroCommand, macroImg;
+
+  if (data.type === "FactionScionSkill") {
+    // Skill macro
+    const skillKey = data.skillKey;
+    const skillLabel = data.skillLabel;
+    const scionName = actor.system.scion.name || actor.name;
+
+    macroName = `${scionName}: ${skillLabel}`;
+    macroCommand = `/fate ${skillLabel}`;
+    macroImg = "icons/svg/dice-target.svg"; // Default Foundry dice icon
+  } else if (data.type === "FactionScionCapability") {
+    // Capability macro
+    const capabilityKey = data.capabilityKey;
+    const capabilityLabel = data.capabilityLabel;
+    const factionName = actor.name;
+
+    macroName = `${factionName}: ${capabilityLabel}`;
+    macroCommand = `/fate ${capabilityLabel}`;
+    macroImg = "icons/svg/dice-target.svg"; // Default Foundry dice icon
+  }
+
+  // Create the macro
+  let macro = game.macros.find(m =>
+    m.name === macroName &&
+    m.command === macroCommand &&
+    m.author.id === game.user.id
+  );
+
+  if (!macro) {
+    macro = await Macro.create({
+      name: macroName,
+      type: "chat",
+      command: macroCommand,
+      img: macroImg,
+      flags: {
+        "scions-of-farstar": {
+          actorId: actor.id,
+          skillKey: data.skillKey || null,
+          capabilityKey: data.capabilityKey || null
+        }
+      }
+    });
+  }
+
+  // Assign the macro to the hotbar slot
+  await game.user.assignHotbarMacro(macro, slot);
+
+  return false; // Prevent default handling
+});
+
+/**
  * Set default icons for actors based on type
  */
 Hooks.on('preCreateActor', (document, data, options, userId) => {
