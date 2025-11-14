@@ -836,6 +836,12 @@ function registerHandlebarsHelpers() {
     return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
   });
 
+  // Helper to capitalize first letter
+  Handlebars.registerHelper('capitalize', function(str) {
+    if (!str || typeof str !== 'string') return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  });
+
   // Helper for logical AND
   Handlebars.registerHelper('and', function() {
     return Array.prototype.slice.call(arguments, 0, -1).every(Boolean);

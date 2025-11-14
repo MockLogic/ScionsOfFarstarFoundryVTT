@@ -262,13 +262,13 @@ export class FactionScionActor extends Actor {
 
     // Check for consequence expansion stunt (enables minor2)
     const hasConsequenceStunt = this.items.some(item => item.type === "stunt-consequence");
+    const consequences = systemData.consequences;
     if (consequences?.minor2) {
       consequences.minor2.enabled = hasConsequenceStunt;
     }
 
     // Calculate available consequences capacity (only enabled consequences)
     let consequencesCapacity = 0;
-    const consequences = systemData.consequences;
     if (consequences) {
       // Minor consequence: always available, worth 2
       consequencesCapacity += 2;
