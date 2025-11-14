@@ -396,14 +396,20 @@ Hooks.once('ready', async function() {
  * Handle dropping skills/capabilities onto the hotbar to create macros
  */
 Hooks.on('hotbarDrop', async (bar, data, slot) => {
+  console.log("Scions of FarStar | hotbarDrop triggered with data:", data);
+
   // Only handle our custom drag types
   if (data.type !== "FactionScionSkill" && data.type !== "FactionScionCapability") {
+    console.log("Scions of FarStar | Not our drag type, allowing default handling");
     return true; // Allow other drops to be handled normally
   }
+
+  console.log("Scions of FarStar | Processing custom drag type:", data.type);
 
   // Get the actor
   const actor = game.actors.get(data.actorId);
   if (!actor) {
+    console.error("Scions of FarStar | Actor not found:", data.actorId);
     ui.notifications.error("Actor not found for macro creation");
     return false;
   }

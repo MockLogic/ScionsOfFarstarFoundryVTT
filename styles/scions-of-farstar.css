@@ -204,6 +204,7 @@
   cursor: pointer;
   font-size: 12px;
   transition: background 0.2s;
+  -webkit-user-drag: element;
 }
 
 .scions-of-farstar .roll-button:hover {
@@ -212,6 +213,15 @@
 
 .scions-of-farstar .roll-button:active {
   background: #21618c;
+}
+
+/* Make roll buttons draggable with visual feedback */
+.scions-of-farstar .roll-button.rollable {
+  cursor: grab;
+}
+
+.scions-of-farstar .roll-button.rollable:active {
+  cursor: grabbing;
 }
 
 /* Checkboxes */

@@ -365,11 +365,15 @@ export class FactionScionSheet extends ActorSheet {
 
     // Drag events for skill/capability macro creation
     // Note: draggable="true" is set in the template, we just need to add the event listener
-    html.find('.roll-skill').each((i, button) => {
+    const skillButtons = html.find('.roll-skill');
+    console.log(`Scions of FarStar | Found ${skillButtons.length} skill buttons for drag setup`);
+    skillButtons.each((i, button) => {
       button.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
 
-    html.find('.roll-capability').each((i, button) => {
+    const capabilityButtons = html.find('.roll-capability');
+    console.log(`Scions of FarStar | Found ${capabilityButtons.length} capability buttons for drag setup`);
+    capabilityButtons.each((i, button) => {
       button.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
   }
@@ -380,10 +384,12 @@ export class FactionScionSheet extends ActorSheet {
    */
   _onDragStart(event) {
     const element = event.currentTarget;
+    console.log("Scions of FarStar | _onDragStart called", element);
 
     // Check if this is an item drag (NPC or Extra items)
     const itemId = element.dataset.itemId;
     if (itemId) {
+      console.log("Scions of FarStar | Item drag detected:", itemId);
       // This is an item drag - use the parent class handler
       return super._onDragStart(event);
     }
@@ -393,6 +399,7 @@ export class FactionScionSheet extends ActorSheet {
     if (skillKey) {
       const skill = this.actor.system.scion.skills[skillKey];
       if (skill) {
+        console.log("Scions of FarStar | Skill drag detected:", skillKey, skill.label);
         event.dataTransfer.setData("text/plain", JSON.stringify({
           type: "FactionScionSkill",
           actorId: this.actor.id,
@@ -408,6 +415,7 @@ export class FactionScionSheet extends ActorSheet {
     if (capabilityKey) {
       const capability = this.actor.system.faction.capabilities[capabilityKey];
       if (capability) {
+        console.log("Scions of FarStar | Capability drag detected:", capabilityKey, capability.label);
         event.dataTransfer.setData("text/plain", JSON.stringify({
           type: "FactionScionCapability",
           actorId: this.actor.id,
@@ -418,6 +426,7 @@ export class FactionScionSheet extends ActorSheet {
       return;
     }
 
+    console.log("Scions of FarStar | No matching drag type, falling back to parent");
     // Fall back to parent class handler for other drags
     return super._onDragStart(event);
   }
