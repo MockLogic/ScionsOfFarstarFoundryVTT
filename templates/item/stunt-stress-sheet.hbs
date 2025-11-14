@@ -5,9 +5,9 @@
     <div class="icon-section">
       <img class="stunt-profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="80" height="80" style="{{#if system.iconBackground}}background-color: {{system.iconBackground}};{{/if}}"/>
       <div class="icon-bg-picker">
-        <label class="field-label">Icon Background</label>
-        <input type="color" name="system.iconBackground" value="{{#if system.iconBackground}}{{system.iconBackground}}{{else}}#000000{{/if}}" title="Icon Background Color"/>
-        <button type="button" class="clear-bg-button" title="Clear Background">
+        <label class="field-label">{{localize "SCIONS.Stunts.IconBackground"}}</label>
+        <input type="color" name="system.iconBackground" value="{{#if system.iconBackground}}{{system.iconBackground}}{{else}}#000000{{/if}}" title="{{localize "SCIONS.Stunts.IconBackground"}}"/>
+        <button type="button" class="clear-bg-button" title="{{localize "SCIONS.Stunts.ClearBackground"}}">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -15,8 +15,8 @@
 
     <div class="header-fields">
       <div class="name-field">
-        <label class="field-label">Stunt Name</label>
-        <input name="name" type="text" value="{{item.name}}" placeholder="Stunt Name"/>
+        <label class="field-label">{{localize "SCIONS.Stunts.StuntName"}}</label>
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize "SCIONS.Stunts.NamePlaceholder"}}"/>
       </div>
     </div>
   </header>
@@ -26,15 +26,15 @@
 
     {{!-- Stunt Effect Info --}}
     <div class="stunt-effect-section">
-      <div class="subsection-header">Stunt Effect</div>
+      <div class="subsection-header">{{localize "SCIONS.Stunts.StuntEffectInfo"}}</div>
       <div class="effect-description">
         <i class="fas fa-info-circle"></i>
-        This stunt expands the Scion Stress Track from 3 boxes to 5 boxes. This effect does not stack with multiple stress stunts.
+        {{localize "SCIONS.Stunts.ExtraStressEffect"}}
       </div>
     </div>
 
     {{!-- Description Section --}}
-    <div class="subsection-header">Description</div>
+    <div class="subsection-header">{{localize "SCIONS.Labels.Description"}}</div>
     <div class="editor-container">
       {{editor system.description target="system.description" button=true owner=owner editable=editable}}
     </div>

@@ -1286,8 +1286,8 @@ export async function createFateRoll(labelOrData, modifier = 0, actor = null, sp
     rollTitle = rollData.label;
   } else {
     rollTitle = rollData.modifier !== 0
-      ? `Roll 4dF ${rollData.modifier >= 0 ? '+' : ''}${rollData.modifier}`
-      : 'Roll 4dF';
+      ? `${game.i18n.localize("SCIONS.Roll.RollFate")} ${rollData.modifier >= 0 ? '+' : ''}${rollData.modifier}`
+      : game.i18n.localize("SCIONS.Roll.RollFate");
   }
 
   // Build roll description (explains the roll components)
@@ -1298,20 +1298,20 @@ export async function createFateRoll(labelOrData, modifier = 0, actor = null, sp
 
     if (rollData.stuntSwap) {
       // Skill swap case
-      const swapText = `Using <span class="skill-name">${rollData.stuntSwap.from} (${rollData.stuntSwap.fromValue >= 0 ? '+' : ''}${rollData.stuntSwap.fromValue})</span> ${rollData.stuntName ? `<strong>${rollData.stuntName}</strong>` : ''} to roll <span class="skill-name">${rollData.stuntSwap.to} (${rollData.stuntSwap.toValue >= 0 ? '+' : ''}${rollData.stuntSwap.toValue})</span> instead`;
+      const swapText = `${game.i18n.localize("SCIONS.Roll.Using")} <span class="skill-name">${rollData.stuntSwap.from} (${rollData.stuntSwap.fromValue >= 0 ? '+' : ''}${rollData.stuntSwap.fromValue})</span> ${rollData.stuntName ? `<strong>${rollData.stuntName}</strong>` : ''} ${game.i18n.localize("SCIONS.Roll.ToRoll")} <span class="skill-name">${rollData.stuntSwap.to} (${rollData.stuntSwap.toValue >= 0 ? '+' : ''}${rollData.stuntSwap.toValue})</span> ${game.i18n.localize("SCIONS.Roll.Instead")}`;
       rollDescription += swapText;
 
       if (rollData.stuntBonus > 0) {
-        rollDescription += ` with ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} stunt bonus`;
+        rollDescription += ` ${game.i18n.localize("SCIONS.Roll.With")} ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} ${game.i18n.localize("SCIONS.Roll.StuntBonus")}`;
       }
       rollDescription += '.';
     } else if (rollData.skillName) {
       // Simple skill roll
-      const sourceLabel = rollData.skillSource === 'scion' ? 'Scion' : 'Faction';
+      const sourceLabel = rollData.skillSource === 'scion' ? game.i18n.localize("SCIONS.Roll.Scion") : game.i18n.localize("SCIONS.Roll.Faction");
       rollDescription += `${sourceLabel} <span class="skill-name">${rollData.skillName} (${rollData.skillValue >= 0 ? '+' : ''}${rollData.skillValue})</span>`;
 
       if (rollData.stuntBonus > 0) {
-        rollDescription += ` with ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} stunt bonus`;
+        rollDescription += ` ${game.i18n.localize("SCIONS.Roll.With")} ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} ${game.i18n.localize("SCIONS.Roll.StuntBonus")}`;
         if (rollData.stuntName) {
           rollDescription += ` <strong>${rollData.stuntName}</strong>`;
         }
@@ -1342,7 +1342,7 @@ export async function createFateRoll(labelOrData, modifier = 0, actor = null, sp
   }
 
   // Build calculation display
-  let calculationDisplay = `<strong>Total:</strong> ${diceTotal}`;
+  let calculationDisplay = `<strong>${game.i18n.localize("SCIONS.Roll.Total")}:</strong> ${diceTotal}`;
 
   if (rollData.modifier !== 0) {
     calculationDisplay += ` ${rollData.modifier >= 0 ? '+' : ''}${rollData.modifier}`;

@@ -7,7 +7,12 @@
       "registrar": "NPC Registry"
     },
     "ItemTypes": {
-      "named-npc": "Named NPC"
+      "named-npc": "Named NPC",
+      "stunt-basic": "Stunt: +2 Bonus",
+      "stunt-swap": "Stunt: Skill Swap",
+      "stunt-consequence": "Stunt: Extra Consequence",
+      "stunt-stress": "Stunt: Extra Stress",
+      "stunt-other": "Stunt: Other"
     },
     "Scion": {
       "Title": "Scion",
@@ -40,6 +45,9 @@
       "LockedAttribute": "This attribute is locked and cannot be renamed or moved",
       "PopulationTrack": "Population Track",
       "Extras": "Colony Extras",
+      "Damaged": "Damaged",
+      "InRepair": "In-Repair",
+      "PopulationCannotBeDamaged": "Population cannot be damaged.",
       "Validation": {
         "TotalTooLow": "Total attribute points ({total}) is below expected ({expected}). You have {difference} unspent point(s).",
         "TotalTooHigh": "Total attribute points ({total}) exceeds expected ({expected}). You are {difference} point(s) over budget.",
@@ -128,7 +136,51 @@
     },
     "Stunts": {
       "NamePlaceholder": "Stunt Name",
-      "DescriptionPlaceholder": "Stunt description..."
+      "DescriptionPlaceholder": "Stunt description...",
+      "NoStunts": "No stunts yet. Add stunts using the buttons below.",
+      "MultipleConsequenceStunts": "Multiple Consequence stunts detected - only one will take effect.",
+      "MultipleStressStunts": "Multiple Stress stunts detected - only one will take effect.",
+      "StuntName": "Stunt Name",
+      "IconBackground": "Icon Background",
+      "ClearBackground": "Clear Background",
+      "Scope": "Scope",
+      "ScopeAutoDetected": "Auto-detected from skill/capability selection",
+      "ScopeAutoDetectedTarget": "Auto-detected from target skill/capability",
+      "SkillOrCapability": "Skill/Capability",
+      "ActionType": "Action Type",
+      "TargetSkill": "Target Skill/Capability",
+      "ReplacementSkill": "Replacement Skill/Capability",
+      "Circumstances": "Circumstances",
+      "CircumstancesPlaceholder": "Describe situation this applies here",
+      "StuntConfiguration": "Stunt Configuration",
+      "SelectSkillCapability": "-- Select --",
+      "SelectAction": "-- Select --",
+      "ScionSkills": "Scion Skills",
+      "FactionCapabilities": "Faction Capabilities",
+      "ConfigureStunt": "Configure skill/capability and action in item sheet.",
+      "ConfigureStuntSwap": "Configure skills/capabilities and action in item sheet.",
+      "AddStuntDescription": "Add stunt description in item sheet.",
+      "StuntEffectInfo": "Stunt Effect",
+      "ExtraConsequenceEffect": "Enables an additional Minor Consequence (2) slot for the Faction.",
+      "ExtraStressEffect": "Extends Scion Stress track from 3 boxes to 5 boxes.",
+      "Roll": "Roll",
+      "Edit": "Edit",
+      "Delete": "Delete",
+      "BecauseIHave": "Because I have",
+      "IGetPlus2When": "I get a +2 when I",
+      "With": "with",
+      "WhenIRoll": "when I roll",
+      "ICanUse": "I can use",
+      "Instead": "instead",
+      "IGetAdditionalMinor": "I get an additional Minor Consequence slot (2-point).",
+      "IGetTwoAdditionalStress": "I get Two additional Stress Boxes."
+    },
+    "StuntTypes": {
+      "Basic": "+2 Bonus",
+      "Swap": "Skill Swap",
+      "Consequence": "Extra Consequence",
+      "Stress": "Extra Stress",
+      "Other": "Other"
     },
     "Extras": {
       "NamePlaceholder": "Extra Name",
@@ -181,9 +233,21 @@
     "Roll": {
       "Roll": "Roll",
       "RollFate": "Roll 4dF",
-      "Result": "Result"
+      "Result": "Result",
+      "Total": "Total",
+      "Using": "Using",
+      "ToRoll": "to roll",
+      "Instead": "instead",
+      "With": "with",
+      "StuntBonus": "stunt bonus",
+      "Scion": "Scion",
+      "Faction": "Faction"
     },
     "Actions": {
+      "Attack": "Attack",
+      "Defend": "Defend",
+      "Overcome": "Overcome",
+      "Create": "Create Advantage",
       "Add": "Add",
       "Delete": "Delete",
       "Edit": "Edit",

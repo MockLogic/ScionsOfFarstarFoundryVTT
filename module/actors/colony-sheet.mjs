@@ -284,9 +284,9 @@ export class ColonySheet extends ActorSheet {
       const status = attribute.status || "normal";
 
       if (status === "damaged") {
-        label = `${attribute.name} (Damaged)`;
+        label = `${attribute.name} (${game.i18n.localize("SCIONS.Colony.Damaged")})`;
       } else if (status === "in-repair") {
-        label = `${attribute.name} (In-Repair)`;
+        label = `${attribute.name} (${game.i18n.localize("SCIONS.Colony.InRepair")})`;
       }
 
       await this.actor.rollFateDice(label, attribute.rank);
@@ -375,7 +375,7 @@ export class ColonySheet extends ActorSheet {
 
     // Population cannot be damaged
     if (attribute.name === "Population") {
-      ui.notifications.info("Population cannot be damaged.");
+      ui.notifications.info(game.i18n.localize("SCIONS.Colony.PopulationCannotBeDamaged"));
       return;
     }
 

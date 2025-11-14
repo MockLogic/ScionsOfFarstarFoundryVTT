@@ -5,9 +5,9 @@
     <div class="icon-section">
       <img class="stunt-profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="80" height="80" style="{{#if system.iconBackground}}background-color: {{system.iconBackground}};{{/if}}"/>
       <div class="icon-bg-picker">
-        <label class="field-label">Icon Background</label>
-        <input type="color" name="system.iconBackground" value="{{#if system.iconBackground}}{{system.iconBackground}}{{else}}#000000{{/if}}" title="Icon Background Color"/>
-        <button type="button" class="clear-bg-button" title="Clear Background">
+        <label class="field-label">{{localize "SCIONS.Stunts.IconBackground"}}</label>
+        <input type="color" name="system.iconBackground" value="{{#if system.iconBackground}}{{system.iconBackground}}{{else}}#000000{{/if}}" title="{{localize "SCIONS.Stunts.IconBackground"}}"/>
+        <button type="button" class="clear-bg-button" title="{{localize "SCIONS.Stunts.ClearBackground"}}">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -15,8 +15,8 @@
 
     <div class="header-fields">
       <div class="name-field">
-        <label class="field-label">Stunt Name</label>
-        <input name="name" type="text" value="{{item.name}}" placeholder="Stunt Name"/>
+        <label class="field-label">{{localize "SCIONS.Stunts.StuntName"}}</label>
+        <input name="name" type="text" value="{{item.name}}" placeholder="{{localize "SCIONS.Stunts.NamePlaceholder"}}"/>
       </div>
     </div>
   </header>
@@ -26,14 +26,14 @@
 
     {{!-- Stunt Configuration --}}
     <div class="stunt-config-section">
-      <div class="subsection-header">Stunt Configuration</div>
+      <div class="subsection-header">{{localize "SCIONS.Stunts.StuntConfiguration"}}</div>
 
       <div class="config-row">
         <div class="config-field">
-          <label>Skill/Capability</label>
+          <label>{{localize "SCIONS.Stunts.SkillOrCapability"}}</label>
           <select name="system.skillOrCapability" data-dtype="String">
-            <option value="">-- Select --</option>
-            <optgroup label="Scion Skills">
+            <option value="">{{localize "SCIONS.Stunts.SelectSkillCapability"}}</option>
+            <optgroup label="{{localize "SCIONS.Stunts.ScionSkills"}}">
               <option value="Academics" {{#if (eq system.skillOrCapability "Academics")}}selected{{/if}}>Academics</option>
               <option value="Combat" {{#if (eq system.skillOrCapability "Combat")}}selected{{/if}}>Combat</option>
               <option value="Deception" {{#if (eq system.skillOrCapability "Deception")}}selected{{/if}}>Deception</option>
@@ -41,7 +41,7 @@
               <option value="Exploration" {{#if (eq system.skillOrCapability "Exploration")}}selected{{/if}}>Exploration</option>
               <option value="Influence" {{#if (eq system.skillOrCapability "Influence")}}selected{{/if}}>Influence</option>
             </optgroup>
-            <optgroup label="Faction Capabilities">
+            <optgroup label="{{localize "SCIONS.Stunts.FactionCapabilities"}}">
               <option value="Culture" {{#if (eq system.skillOrCapability "Culture")}}selected{{/if}}>Culture</option>
               <option value="Industrial" {{#if (eq system.skillOrCapability "Industrial")}}selected{{/if}}>Industrial</option>
               <option value="Military" {{#if (eq system.skillOrCapability "Military")}}selected{{/if}}>Military</option>
@@ -53,26 +53,26 @@
         </div>
 
         <div class="config-field">
-          <label>Action Type</label>
+          <label>{{localize "SCIONS.Stunts.ActionType"}}</label>
           <select name="system.actionType" data-dtype="String">
-            <option value="">-- Select --</option>
-            <option value="attack" {{#if (eq system.actionType "attack")}}selected{{/if}}>Attack</option>
-            <option value="defend" {{#if (eq system.actionType "defend")}}selected{{/if}}>Defend</option>
-            <option value="overcome" {{#if (eq system.actionType "overcome")}}selected{{/if}}>Overcome</option>
-            <option value="create" {{#if (eq system.actionType "create")}}selected{{/if}}>Create Advantage</option>
+            <option value="">{{localize "SCIONS.Stunts.SelectAction"}}</option>
+            <option value="attack" {{#if (eq system.actionType "attack")}}selected{{/if}}>{{localize "SCIONS.Actions.Attack"}}</option>
+            <option value="defend" {{#if (eq system.actionType "defend")}}selected{{/if}}>{{localize "SCIONS.Actions.Defend"}}</option>
+            <option value="overcome" {{#if (eq system.actionType "overcome")}}selected{{/if}}>{{localize "SCIONS.Actions.Overcome"}}</option>
+            <option value="create" {{#if (eq system.actionType "create")}}selected{{/if}}>{{localize "SCIONS.Actions.Create"}}</option>
           </select>
         </div>
       </div>
 
       <div class="scope-display">
-        <label>Scope:</label>
+        <label>{{localize "SCIONS.Stunts.Scope"}}:</label>
         <span class="scope-value scope-{{system.scope}}">{{capitalize system.scope}}</span>
-        <span class="scope-hint">(Auto-detected from skill/capability selection)</span>
+        <span class="scope-hint">({{localize "SCIONS.Stunts.ScopeAutoDetected"}})</span>
       </div>
     </div>
 
     {{!-- Circumstances Section --}}
-    <div class="subsection-header">Circumstances</div>
+    <div class="subsection-header">{{localize "SCIONS.Stunts.Circumstances"}}</div>
     <div class="editor-container">
       {{editor system.description target="system.description" button=true owner=owner editable=editable}}
     </div>

@@ -348,10 +348,10 @@
         <div class="validation-warning">⚠ {{localize "SCIONS.Validation.TooManyStunts"}}</div>
       {{/unless}}
       {{#if system.faction.multipleConsequenceStunts}}
-        <div class="validation-warning">⚠ Multiple Consequence stunts detected - only one will take effect.</div>
+        <div class="validation-warning">⚠ {{localize "SCIONS.Stunts.MultipleConsequenceStunts"}}</div>
       {{/if}}
       {{#if system.faction.multipleStressStunts}}
-        <div class="validation-warning">⚠ Multiple Stress stunts detected - only one will take effect.</div>
+        <div class="validation-warning">⚠ {{localize "SCIONS.Stunts.MultipleStressStunts"}}</div>
       {{/if}}
 
       {{!-- Stunt Items List --}}
@@ -366,22 +366,22 @@
                 {{!-- Roll button for Basic and Swap stunts --}}
                 {{#if (eq stunt.type "stunt-basic")}}
                   {{#if (and stunt.system.skillOrCapability stunt.system.actionType)}}
-                    <button type="button" class="roll-button roll-stunt" data-item-id="{{stunt._id}}" title="Roll {{stunt.name}}" style="width: 32px; height: 32px;">
+                    <button type="button" class="roll-button roll-stunt" data-item-id="{{stunt._id}}" title="{{localize "SCIONS.Stunts.Roll"}} {{stunt.name}}" style="width: 32px; height: 32px;">
                       <i class="fas fa-dice-d6"></i>
                     </button>
                   {{/if}}
                 {{/if}}
                 {{#if (eq stunt.type "stunt-swap")}}
                   {{#if (and stunt.system.targetSkillOrCapability stunt.system.replacementSkillOrCapability stunt.system.actionType)}}
-                    <button type="button" class="roll-button roll-stunt" data-item-id="{{stunt._id}}" title="Roll {{stunt.name}}" style="width: 32px; height: 32px;">
+                    <button type="button" class="roll-button roll-stunt" data-item-id="{{stunt._id}}" title="{{localize "SCIONS.Stunts.Roll"}} {{stunt.name}}" style="width: 32px; height: 32px;">
                       <i class="fas fa-dice-d6"></i>
                     </button>
                   {{/if}}
                 {{/if}}
 
                 <div class="item-controls">
-                  <button type="button" class="item-control item-edit" data-item-id="{{stunt._id}}" title="Edit"><i class="fas fa-edit"></i></button>
-                  <button type="button" class="item-control item-delete" data-item-id="{{stunt._id}}" title="Delete"><i class="fas fa-trash"></i></button>
+                  <button type="button" class="item-control item-edit" data-item-id="{{stunt._id}}" title="{{localize "SCIONS.Stunts.Edit"}}"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="item-control item-delete" data-item-id="{{stunt._id}}" title="{{localize "SCIONS.Stunts.Delete"}}"><i class="fas fa-trash"></i></button>
                 </div>
               </div>
 
@@ -389,29 +389,29 @@
                 {{!-- Basic Stunt Display --}}
                 {{#if (eq stunt.type "stunt-basic")}}
                   {{#if (and stunt.system.skillOrCapability stunt.system.actionType)}}
-                    <p>Because I have <strong>{{stunt.name}}</strong> I get a +2 when I {{capitalize stunt.system.actionType}} with {{stunt.system.skillOrCapability}}.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                    <p>{{localize "SCIONS.Stunts.BecauseIHave"}} <strong>{{stunt.name}}</strong> {{localize "SCIONS.Stunts.IGetPlus2When"}} {{capitalize stunt.system.actionType}} {{localize "SCIONS.Stunts.With"}} {{stunt.system.skillOrCapability}}.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
                   {{else}}
-                    <p><em>Configure skill/capability and action in item sheet.</em></p>
+                    <p><em>{{localize "SCIONS.Stunts.ConfigureStunt"}}</em></p>
                   {{/if}}
                 {{/if}}
 
                 {{!-- Swap Stunt Display --}}
                 {{#if (eq stunt.type "stunt-swap")}}
                   {{#if (and stunt.system.targetSkillOrCapability stunt.system.replacementSkillOrCapability stunt.system.actionType)}}
-                    <p>Because I have <strong>{{stunt.name}}</strong> when I roll {{capitalize stunt.system.actionType}} with {{stunt.system.targetSkillOrCapability}} I can use {{stunt.system.replacementSkillOrCapability}} instead.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                    <p>{{localize "SCIONS.Stunts.BecauseIHave"}} <strong>{{stunt.name}}</strong> {{localize "SCIONS.Stunts.WhenIRoll"}} {{capitalize stunt.system.actionType}} {{localize "SCIONS.Stunts.With"}} {{stunt.system.targetSkillOrCapability}} {{localize "SCIONS.Stunts.ICanUse"}} {{stunt.system.replacementSkillOrCapability}} {{localize "SCIONS.Stunts.Instead"}}.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
                   {{else}}
-                    <p><em>Configure skills/capabilities and action in item sheet.</em></p>
+                    <p><em>{{localize "SCIONS.Stunts.ConfigureStuntSwap"}}</em></p>
                   {{/if}}
                 {{/if}}
 
                 {{!-- Consequence Stunt Display --}}
                 {{#if (eq stunt.type "stunt-consequence")}}
-                  <p>Because I have <strong>{{stunt.name}}</strong> I get an additional Minor Consequence slot (2-point).{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                  <p>{{localize "SCIONS.Stunts.BecauseIHave"}} <strong>{{stunt.name}}</strong> {{localize "SCIONS.Stunts.IGetAdditionalMinor"}}{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
                 {{/if}}
 
                 {{!-- Stress Stunt Display --}}
                 {{#if (eq stunt.type "stunt-stress")}}
-                  <p>Because I have <strong>{{stunt.name}}</strong> I get Two additional Stress Boxes.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                  <p>{{localize "SCIONS.Stunts.BecauseIHave"}} <strong>{{stunt.name}}</strong> {{localize "SCIONS.Stunts.IGetTwoAdditionalStress"}}{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
                 {{/if}}
 
                 {{!-- Other Stunt Display --}}
@@ -419,14 +419,14 @@
                   {{#if stunt.system.description}}
                     {{{stunt.system.description}}}
                   {{else}}
-                    <p><em>Add stunt description in item sheet.</em></p>
+                    <p><em>{{localize "SCIONS.Stunts.AddStuntDescription"}}</em></p>
                   {{/if}}
                 {{/if}}
               </div>
             </div>
           {{/each}}
         {{else}}
-          <div class="empty-message">No stunts yet. Add stunts using the buttons below.</div>
+          <div class="empty-message">{{localize "SCIONS.Stunts.NoStunts"}}</div>
         {{/if}}
       </div>
 

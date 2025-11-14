@@ -22,12 +22,18 @@ The `/fate` command (or `/4df`) supports multiple syntax patterns:
 ### Skill/Capability Rolls
 
 ```
-/fate SkillName                            # Roll using a skill/capability
-/fate SkillName ActionType                 # Roll with an action type icon
-/fate SkillName ActionType Stunt+2 Name    # Roll with +2 stunt bonus
-/fate SkillName ActionType Stunt-Swap OtherSkill Name    # Swap skills
-/fate SkillName ActionType Stunt-Swap+2 OtherSkill Name  # Swap + bonus
+/fate SkillName                                                                   # Roll using a skill/capability
+/fate SkillName ActionType                                                        # Roll with an action type icon
+/fate SkillName ActionType Stunt+2 [Name] <Description>                           # Roll with +2 stunt bonus
+/fate SkillName ActionType Stunt-Swap OtherSkill [Name] <Description>             # Swap skills
+/fate SkillName ActionType Stunt-Swap+2 OtherSkill [Name] <Description>           # Swap + bonus
 ```
+
+**IMPORTANT:** When using `Stunt+2`, `Stunt-Swap`, or `Stunt-Swap+2`, you **MUST** include both:
+- `[Stunt Name]` in square brackets
+- `<Description>` in angle brackets
+
+If either is missing, the command will be treated as a regular roll without stunt effects.
 
 **Valid Skill Names** (Scion Skills):
 - `Academics`
@@ -110,70 +116,69 @@ Add action types to show the appropriate Fate icon:
 
 If you have a stunt that provides a +2 bonus under certain circumstances:
 
-**Example Stunt:** "Superior Training" gives +2 to Combat when Attacking
+**Example Stunt:** "Superior Training" gives +2 to Combat when Attacking with melee weapons
 
 ```
-/fate Combat Attack Stunt+2 Superior Training
+/fate Combat Attack Stunt+2 [Superior Training] <Applies when attacking with melee weapons>
 ```
 
-**Example Stunt:** "Master Diplomat" gives +2 to Influence when Creating Advantages
+**Example Stunt:** "Master Diplomat" gives +2 to Influence when Creating Advantages in formal settings
 
 ```
-/fate Influence Create Stunt+2 Master Diplomat
+/fate Influence Create Stunt+2 [Master Diplomat] <Applies in formal diplomatic settings>
 ```
 
 **What this displays:**
 - The action icon (Attack/Defend/etc.)
 - Your skill name and value
 - "+2 stunt bonus" in the description
-- The stunt name in italics
+- The stunt name **[Superior Training]**
+- A yellow-highlighted box showing when the stunt applies: **<Applies when attacking with melee weapons>**
 - Total calculation: dice + skill + stunt bonus
+
+**Note:** The description is displayed prominently to ensure everyone knows when the stunt should apply. If you omit the `[Name]` or `<Description>`, the stunt bonus will be removed and it will roll as a regular skill check.
 
 ### 4. Skill Swap Macros (Stunt-Swap)
 
 If you have a stunt that lets you use one skill instead of another:
 
-**Example Stunt:** "Smartgun Implant" lets you use Technology instead of Combat for Attacks
+**Example Stunt:** "Smartgun Implant" lets you use Technology instead of Combat for Attacks with guns
 
 ```
-/fate Combat Attack Stunt-Swap Technology Smartgun Implant
+/fate Combat Attack Stunt-Swap Technology [Smartgun Implant] <Applies when attacking with smartgun weapons>
 ```
 
-**Example Stunt:** "Silver Tongue" lets you use Deception instead of Influence when Creating Advantages
+**Example Stunt:** "Silver Tongue" lets you use Deception instead of Influence when Creating Advantages through lies
 
 ```
-/fate Influence Create Stunt-Swap Deception Silver Tongue
+/fate Influence Create Stunt-Swap Deception [Silver Tongue] <Applies when creating advantages through deception>
 ```
 
 **What this displays:**
 - The action icon
-- "Using Combat (+1) to roll Technology (+3) instead"
-- The stunt name
+- "Using Combat (+1) **[Smartgun Implant]** to roll Technology (+3) instead"
+- A yellow-highlighted box with the circumstances: **<Applies when attacking with smartgun weapons>**
 - Total calculation uses the swapped skill value
+
+**Note:** Both `[Name]` and `<Description>` are required, or the swap won't work and you'll roll the original skill instead.
 
 ### 5. Combined Stunt Macros (Swap + Bonus)
 
-If you have multiple stunts that work together (one swaps skill, another adds +2):
+If you have a two stunts that both swaps skills AND provides a +2 bonus in the same circimstance:
 
-**Example:** "Smartgun Implant" (swap Combat for Technology) + "Targeting Software" (+2 bonus)
-
-```
-/fate Combat Attack Stunt-Swap+2 Technology Smartgun Implant and Targeting Software
-```
-
-**Example:** "Tactical Mind" swaps Academics for Military and adds +2
+**Example:** "Smartgun Implant and Targeting Software" (swap Combat for Technology AND add +2)
 
 ```
-/fate Military Attack Stunt-Swap+2 Academics Tactical Mind
+/fate Combat Attack Stunt-Swap+2 Technology [Smartgun Implant and Targeting Software] <Applies when using my smartgun implant and targeting software with guns>
 ```
 
 **What this displays:**
 - The action icon
-- "Using Combat (+1) to roll Technology (+3) instead with +2 stunt bonus"
-- The stunt names
+- "Using Combat (+1) **[Smartgun Implant and Targeting Software]** to roll Technology (+3) instead with +2 stunt bonus"
+- A yellow-highlighted box showing: **<Applies when using my smartgun implant and targeting software with guns>**
 - Total calculation: dice + swapped skill + 2
 
-**Note:** The game limits stunt bonuses to +2 maximum per roll, even if multiple stunts apply.
+**Note:** Both `[Name]` and `<Description>` are required for the swap and bonus to work. The game limits stunt bonuses to +2 maximum per roll, even if multiple stunts apply.
 
 ## Creating Macros in Foundry VTT
 
@@ -197,28 +202,18 @@ If you have multiple stunts that work together (one swaps skill, another adds +2
 
 ### Complex Scenario Macro
 
-If you want to track a specific situation:
+A complete stunt roll with all elements:
 
 ```
-/fate Combat Attack Stunt-Swap+2 Technology Using Smartgun with targeting active
+/fate Combat Attack Stunt-Swap+2 Technology [Smartgun Implant and Targeting Software] <Applies when using my smartgun implant and targeting software with guns>
 ```
 
 This would show:
 - Attack icon (red A)
 - Using Combat to roll Technology instead
 - +2 stunt bonus
-- Stunt name: "Using Smartgun with targeting active"
-
-### Faction-Scale Conflict
-
-```
-/fate Military Attack Stunt+2 Experienced Commander
-```
-
-### Scion Personal Conflict
-
-```
-/fate Combat Defend
+- Stunt name: **[Smartgun Implant and Targeting Software]**
+- Yellow-highlighted circumstances box: **<Applies when using my smartgun implant and targeting software with guns>**
 ```
 
 ## Troubleshooting
@@ -232,8 +227,10 @@ This would show:
 - Scion skills: Academics, Combat, Deception, Engineering, Exploration, Influence
 - Faction capabilities: Culture, Industrial, Military, Mobility, Technology, People
 
-**Stunt swap not working**:
-- Make sure the replacement skill name is spelled correctly
+**Stunt bonus or swap not working**:
+- **REQUIRED:** You must include both `[Stunt Name]` in square brackets AND `<Description>` in angle brackets
+- If either is missing, the command treats it as a regular roll without stunt effects
+- Make sure the replacement skill name (for swaps) is spelled correctly
 - Both skills must exist on your character
 
 ## Speaker Names
