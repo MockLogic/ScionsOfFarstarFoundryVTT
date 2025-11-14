@@ -39,29 +39,29 @@ export class SimpleAspectSheet extends ActorSheet {
   }
 
   /**
-   * Handle incrementing free invokes current value
+   * Handle incrementing free invokes value
    * @param {Event} event - The click event
    */
   async _onInvokeIncrement(event) {
     event.preventDefault();
-    const current = this.actor.system.freeInvokes.current;
+    const value = this.actor.system.freeInvokes.value;
     const max = this.actor.system.freeInvokes.max;
 
     await this.actor.update({
-      "system.freeInvokes.current": Math.min(current + 1, max)
+      "system.freeInvokes.value": Math.min(value + 1, max)
     });
   }
 
   /**
-   * Handle decrementing free invokes current value
+   * Handle decrementing free invokes value
    * @param {Event} event - The click event
    */
   async _onInvokeDecrement(event) {
     event.preventDefault();
-    const current = this.actor.system.freeInvokes.current;
+    const value = this.actor.system.freeInvokes.value;
 
     await this.actor.update({
-      "system.freeInvokes.current": Math.max(current - 1, 0)
+      "system.freeInvokes.value": Math.max(value - 1, 0)
     });
   }
 }
