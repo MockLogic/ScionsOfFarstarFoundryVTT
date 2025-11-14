@@ -429,77 +429,82 @@ Hooks.once('ready', async function() {
 Hooks.on('hotbarDrop', async (bar, data, slot) => {
   console.log("Scions of FarStar | hotbarDrop triggered with data:", data);
 
-  // Handle stunt item drops
-  if (data.type === "Item") {
-    const item = await fromUuid(data.uuid);
-    if (item && item.type && item.type.startsWith("stunt-")) {
-      // Check if stunt can create a macro (only basic and swap with complete config)
-      if (item.type === "stunt-basic") {
-        if (!item.system.skillOrCapability || !item.system.actionType) {
-          ui.notifications.warn(`${item.name} cannot create a macro - skill/capability and action type must be configured.`);
-          return false;
-        }
+  // Handle stunt item drops from our custom drag data
+  if (data.type === "StuntItem") {
+    const actor = game.actors.get(data.actorId);
+    const item = actor?.items.get(data.itemId);
 
-        const macroName = item.name;
-        const macroCommand = `/fate ${item.system.skillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt+2 ${item.name}`;
-        const macroImg = item.img;
+    if (!item) {
+      ui.notifications.error("Stunt not found for macro creation");
+      return false;
+    }
 
-        let macro = game.macros.find(m =>
-          m.name === macroName &&
-          m.command === macroCommand &&
-          m.author.id === game.user.id
-        );
-
-        if (!macro) {
-          macro = await Macro.create({
-            name: macroName,
-            type: "chat",
-            command: macroCommand,
-            img: macroImg
-          });
-        }
-
-        await game.user.assignHotbarMacro(macro, slot);
-        return false;
-
-      } else if (item.type === "stunt-swap") {
-        if (!item.system.targetSkillOrCapability || !item.system.replacementSkillOrCapability || !item.system.actionType) {
-          ui.notifications.warn(`${item.name} cannot create a macro - all skills/capabilities and action type must be configured.`);
-          return false;
-        }
-
-        const macroName = item.name;
-        const macroCommand = `/fate ${item.system.targetSkillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt-Swap ${item.system.replacementSkillOrCapability} ${item.name}`;
-        const macroImg = item.img;
-
-        let macro = game.macros.find(m =>
-          m.name === macroName &&
-          m.command === macroCommand &&
-          m.author.id === game.user.id
-        );
-
-        if (!macro) {
-          macro = await Macro.create({
-            name: macroName,
-            type: "chat",
-            command: macroCommand,
-            img: macroImg
-          });
-        }
-
-        await game.user.assignHotbarMacro(macro, slot);
-        return false;
-
-      } else {
-        // Consequence, Stress, or Other stunts cannot create macros
-        ui.notifications.info(`${item.name} does not have a roll button and cannot create a macro.`);
+    // Check if stunt can create a macro (only basic and swap with complete config)
+    if (item.type === "stunt-basic") {
+      if (!item.system.skillOrCapability || !item.system.actionType) {
+        ui.notifications.warn(`${item.name} cannot create a macro - skill/capability and action type must be configured.`);
         return false;
       }
+
+      const macroName = item.name;
+      const macroCommand = `/fate ${item.system.skillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt+2 ${item.name}`;
+      const macroImg = item.img;
+
+      let macro = game.macros.find(m =>
+        m.name === macroName &&
+        m.command === macroCommand &&
+        m.author.id === game.user.id
+      );
+
+      if (!macro) {
+        macro = await Macro.create({
+          name: macroName,
+          type: "chat",
+          command: macroCommand,
+          img: macroImg
+        });
+      }
+
+      await game.user.assignHotbarMacro(macro, slot);
+      return false;
+
+    } else if (item.type === "stunt-swap") {
+      if (!item.system.targetSkillOrCapability || !item.system.replacementSkillOrCapability || !item.system.actionType) {
+        ui.notifications.warn(`${item.name} cannot create a macro - all skills/capabilities and action type must be configured.`);
+        return false;
+      }
+
+      const macroName = item.name;
+      const macroCommand = `/fate ${item.system.targetSkillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt-Swap ${item.system.replacementSkillOrCapability} ${item.name}`;
+      const macroImg = item.img;
+
+      let macro = game.macros.find(m =>
+        m.name === macroName &&
+        m.command === macroCommand &&
+        m.author.id === game.user.id
+      );
+
+      if (!macro) {
+        macro = await Macro.create({
+          name: macroName,
+          type: "chat",
+          command: macroCommand,
+          img: macroImg
+        });
+      }
+
+      await game.user.assignHotbarMacro(macro, slot);
+      return false;
+
+    } else {
+      // Consequence, Stress, or Other stunts cannot create macros
+      ui.notifications.info(`${item.name} does not have a roll button and cannot create a macro.`);
+      return false;
     }
   }
 
   // Only handle our custom drag types
-  if (data.type !== "FactionScionSkill" && data.type !== "FactionScionCapability") {
+  if (data.type !== "FactionScionSkill" && data.type !== "FactionScionCapability" && data.type !== "StuntItem") {
     console.log("Scions of FarStar | Not our drag type, allowing default handling");
     return true; // Allow other drops to be handled normally
   }

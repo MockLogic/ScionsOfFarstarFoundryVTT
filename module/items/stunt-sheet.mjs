@@ -68,9 +68,20 @@ class StuntSheet extends ItemSheet {
     // Auto-update scope based on skill/capability selection
     if (this.item.type === "stunt-basic" && formData["system.skillOrCapability"]) {
       formData["system.scope"] = this._detectScope(formData["system.skillOrCapability"]);
-    } else if (this.item.type === "stunt-swap" && formData["system.targetSkillOrCapability"]) {
-      // For swap stunts, scope is based on the TARGET skill (being replaced)
-      formData["system.scope"] = this._detectScope(formData["system.targetSkillOrCapability"]);
+    } else if (this.item.type === "stunt-swap") {
+      if (formData["system.targetSkillOrCapability"]) {
+        // For swap stunts, scope is based on the TARGET skill (being replaced)
+        formData["system.scope"] = this._detectScope(formData["system.targetSkillOrCapability"]);
+      }
+
+      // Validate that target and replacement are different
+      const target = formData["system.targetSkillOrCapability"] || this.item.system.targetSkillOrCapability;
+      const replacement = formData["system.replacementSkillOrCapability"] || this.item.system.replacementSkillOrCapability;
+
+      if (target && replacement && target === replacement) {
+        ui.notifications.warn(`Target skill "${target}" cannot be the same as replacement skill. Please select different skills.`);
+        // Don't prevent the save, but warn the user
+      }
     }
 
     return super._updateObject(event, formData);

@@ -605,14 +605,14 @@
       "scope": "faction",
       "skillOrCapability": "",
       "actionType": "",
-      "description": ""
+      "description": "<p><em>Describe situation this applies here</em></p>"
     },
     "stunt-swap": {
       "scope": "faction",
       "targetSkillOrCapability": "",
       "replacementSkillOrCapability": "",
       "actionType": "",
-      "description": ""
+      "description": "<p><em>Describe situation this applies here</em></p>"
     },
     "stunt-consequence": {
       "scope": "other",

@@ -885,6 +885,7 @@
   height: 32px;
   border-radius: 3px;
   border: 1px solid var(--sof-border);
+  background: black;
 }
 
 .stunt-item .stunt-name {
@@ -3689,4 +3690,69 @@
 .faction-scion .extras-tab .empty-message p,
 .threat .extras-tab .empty-message p {
   margin: 0;
+}
+
+/* ========================================
+   STUNT CHAT CARDS
+   ======================================== */
+
+.stunt-chat-card {
+  border-radius: 4px;
+  padding: 12px;
+  margin: 8px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stunt-chat-card.scope-faction {
+  background: #f8f9fa;
+  border-left: 4px solid var(--sof-primary);
+}
+
+.stunt-chat-card.scope-scion {
+  background: #e3f2fd;
+  border-left: 4px solid var(--sof-accent);
+}
+
+.stunt-chat-card.scope-other {
+  background: #f8f9fa;
+  border-left: 4px solid #6c757d;
+}
+
+.stunt-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.stunt-chat-header .stunt-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+.stunt-chat-header .stunt-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sof-primary);
+  flex: 1;
+}
+
+.stunt-chat-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.stunt-chat-content p {
+  margin: 0;
+}
+
+.stunt-chat-content em {
+  color: var(--sof-secondary);
 }

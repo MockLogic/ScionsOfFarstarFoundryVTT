@@ -374,6 +374,9 @@ export class FactionScionSheet extends ActorSheet {
       li.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
 
+    // Context menu for stunt items (right-click to send to chat)
+    html.find('.stunt-item').on('contextmenu', this._onStuntContextMenu.bind(this));
+
     // Drag events for skill/capability macro creation
     // Note: draggable="true" is set in the template on the divs, we just need to add the event listener
     const skillDivs = html.find('.skill-item[draggable="true"]');
@@ -396,6 +399,23 @@ export class FactionScionSheet extends ActorSheet {
   _onDragStart(event) {
     const element = event.currentTarget;
     console.log("Scions of FarStar | _onDragStart called", element);
+
+    // Check if this is a stunt item drag (special handling for macro creation)
+    if (element.classList.contains('stunt-item')) {
+      const itemId = element.dataset.itemId;
+      const item = this.actor.items.get(itemId);
+      if (item && item.type.startsWith('stunt-')) {
+        console.log("Scions of FarStar | Stunt item drag detected:", item.name, item.type);
+        // For stunt items, use custom data for our hotbarDrop handler
+        event.dataTransfer.setData("text/plain", JSON.stringify({
+          type: "StuntItem",
+          itemId: itemId,
+          itemType: item.type,
+          actorId: this.actor.id
+        }));
+        return;
+      }
+    }
 
     // Check if this is an item drag (NPC or Extra items)
     const itemId = element.dataset.itemId;
@@ -804,6 +824,104 @@ export class FactionScionSheet extends ActorSheet {
   }
 
   /**
+   * Handle right-click context menu for stunt items
+   * @param {Event} event - The contextmenu event
+   */
+  async _onStuntContextMenu(event) {
+    event.preventDefault();
+
+    const itemId = event.currentTarget.dataset.itemId;
+    const stunt = this.actor.items.get(itemId);
+
+    if (!stunt) return;
+
+    // Create context menu with "Send to Chat" option
+    new ContextMenu($(event.currentTarget), ".stunt-item", [
+      {
+        name: "Send to Chat",
+        icon: '<i class="fas fa-comment"></i>',
+        callback: async (li) => {
+          const stuntId = li.data("itemId");
+          const stuntItem = this.actor.items.get(stuntId);
+          if (stuntItem) {
+            await this._sendStuntToChat(stuntItem);
+          }
+        }
+      }
+    ]);
+  }
+
+  /**
+   * Send a stunt to chat
+   * @param {Item} stunt - The stunt item to send
+   */
+  async _sendStuntToChat(stunt) {
+    // Build the stunt description based on type
+    let content = `<div class="stunt-chat-card scope-${stunt.system.scope}">`;
+    content += `<div class="stunt-chat-header">`;
+    content += `<img src="${stunt.img}" alt="${stunt.name}" class="stunt-icon" />`;
+    content += `<h3 class="stunt-name">${stunt.name}</h3>`;
+    content += `</div>`;
+    content += `<div class="stunt-chat-content">`;
+
+    // Generate content based on stunt type
+    if (stunt.type === "stunt-basic") {
+      if (stunt.system.skillOrCapability && stunt.system.actionType) {
+        const action = stunt.system.actionType.charAt(0).toUpperCase() + stunt.system.actionType.slice(1);
+        content += `<p>Because I have <strong>${stunt.name}</strong> I get a +2 when I ${action} with ${stunt.system.skillOrCapability}.`;
+        if (stunt.system.description) {
+          content += ` ${stunt.system.description}`;
+        }
+        content += `</p>`;
+      } else {
+        content += `<p><em>Configure skill/capability and action in item sheet.</em></p>`;
+      }
+    } else if (stunt.type === "stunt-swap") {
+      if (stunt.system.targetSkillOrCapability && stunt.system.replacementSkillOrCapability && stunt.system.actionType) {
+        const action = stunt.system.actionType.charAt(0).toUpperCase() + stunt.system.actionType.slice(1);
+        content += `<p>Because I have <strong>${stunt.name}</strong> when I roll ${action} with ${stunt.system.targetSkillOrCapability} I can use ${stunt.system.replacementSkillOrCapability} instead.`;
+        if (stunt.system.description) {
+          content += ` ${stunt.system.description}`;
+        }
+        content += `</p>`;
+      } else {
+        content += `<p><em>Configure skills/capabilities and action in item sheet.</em></p>`;
+      }
+    } else if (stunt.type === "stunt-consequence") {
+      content += `<p>Because I have <strong>${stunt.name}</strong> I get an additional Minor Consequence slot (2-point).`;
+      if (stunt.system.description) {
+        content += ` ${stunt.system.description}`;
+      }
+      content += `</p>`;
+    } else if (stunt.type === "stunt-stress") {
+      content += `<p>Because I have <strong>${stunt.name}</strong> I get Two additional Stress Boxes.`;
+      if (stunt.system.description) {
+        content += ` ${stunt.system.description}`;
+      }
+      content += `</p>`;
+    } else if (stunt.type === "stunt-other") {
+      if (stunt.system.description) {
+        content += stunt.system.description;
+      } else {
+        content += `<p><em>Add stunt description in item sheet.</em></p>`;
+      }
+    }
+
+    content += `</div>`;
+    content += `</div>`;
+
+    // Create chat message
+    const chatData = {
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      content: content,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    };
+
+    await ChatMessage.create(chatData);
+  }
+
+  /**
    * Toggle an Extra item's invoke checkbox
    * @param {Event} event - The click event
    */
@@ -905,26 +1023,32 @@ export class FactionScionSheet extends ActorSheet {
   }
 
   /**
-   * Handle editing an item (NPC or Extra)
+   * Handle editing an item (NPC, Extra, or Stunt)
    * @param {Event} event - The click event
    */
   _onItemEdit(event) {
     event.preventDefault();
-    const li = $(event.currentTarget).parents(".item");
-    const item = this.actor.items.get(li.data("itemId"));
+
+    // Get item ID from the button's data attribute
+    const itemId = event.currentTarget.dataset.itemId;
+    const item = this.actor.items.get(itemId);
+
     if (item) {
       item.sheet.render(true);
     }
   }
 
   /**
-   * Handle deleting an NPC item
+   * Handle deleting an item (NPC, Extra, or Stunt)
    * @param {Event} event - The click event
    */
   async _onItemDelete(event) {
     event.preventDefault();
-    const li = $(event.currentTarget).parents(".item");
-    const item = this.actor.items.get(li.data("itemId"));
+
+    // Get item ID from the button's data attribute
+    const itemId = event.currentTarget.dataset.itemId;
+    const item = this.actor.items.get(itemId);
+
     if (item) {
       const confirmed = await Dialog.confirm({
         title: `Delete ${item.name}?`,
