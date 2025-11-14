@@ -446,8 +446,13 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
         return false;
       }
 
+      // Extract plain text description (strip HTML tags)
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = item.system.description || '';
+      const description = tempDiv.textContent || tempDiv.innerText || '';
+
       const macroName = item.name;
-      const macroCommand = `/fate ${item.system.skillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt+2 ${item.name}`;
+      const macroCommand = `/fate ${item.system.skillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt+2 [${item.name}] <${description}>`;
       const macroImg = item.img;
 
       let macro = game.macros.find(m =>
@@ -474,8 +479,15 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
         return false;
       }
 
+      // Extract plain text description (strip HTML tags)
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = item.system.description || '';
+      const description = tempDiv.textContent || tempDiv.innerText || '';
+
+      // Determine if this is a Stunt-Swap or Stunt-Swap+2 based on whether skill values differ
+      // For now, default to Stunt-Swap (no bonus) - user can manually add +2 to macro if needed
       const macroName = item.name;
-      const macroCommand = `/fate ${item.system.targetSkillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt-Swap ${item.system.replacementSkillOrCapability} ${item.name}`;
+      const macroCommand = `/fate ${item.system.targetSkillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt-Swap ${item.system.replacementSkillOrCapability} [${item.name}] <${description}>`;
       const macroImg = item.img;
 
       let macro = game.macros.find(m =>
@@ -920,6 +932,30 @@ function registerHandlebarsHelpers() {
 }
 
 /**
+ * Parse stunt name in brackets and description in angle brackets
+ * Format: [Stunt Name] <Description text>
+ * @param {string} text - The text to parse
+ * @returns {Object} Object with stuntName and description properties
+ */
+function parseStuntNameAndDescription(text) {
+  const result = { stuntName: null, description: null };
+
+  // Match [Stunt Name] and <Description>
+  const nameMatch = text.match(/\[([^\]]+)\]/);
+  const descMatch = text.match(/<(.+)>/);
+
+  if (nameMatch) {
+    result.stuntName = nameMatch[1].trim();
+  }
+
+  if (descMatch) {
+    result.description = descMatch[1].trim();
+  }
+
+  return result;
+}
+
+/**
  * Parse a /fate command into its components
  * Supports various syntaxes from simple rolls to complex skill+action+stunt combinations
  *
@@ -1044,6 +1080,7 @@ export function parseFateCommand(message, actor) {
   // Parse stunt modifiers
   if (tokenIndex < tokens.length) {
     const stuntToken = tokens[tokenIndex].toLowerCase();
+    const remainingText = tokens.slice(tokenIndex).join(' ');
 
     // Check for Stunt+2
     if (stuntToken === 'stunt+2') {
@@ -1051,9 +1088,18 @@ export function parseFateCommand(message, actor) {
       result.modifier += 2;
       tokenIndex++;
 
-      // Remaining tokens are stunt name
-      if (tokenIndex < tokens.length) {
-        result.stuntName = tokens.slice(tokenIndex).join(' ');
+      // Parse [Stunt Name] and <Description> from remaining text
+      const restText = tokens.slice(tokenIndex).join(' ');
+      const parsed = parseStuntNameAndDescription(restText);
+
+      if (!parsed.stuntName || !parsed.description) {
+        // Missing required parts, treat as regular roll without stunt
+        result.stuntBonus = 0;
+        result.modifier -= 2;
+        result.note = tokens.slice(tokenIndex - 1).join(' ');
+      } else {
+        result.stuntName = parsed.stuntName;
+        result.note = parsed.description;
       }
     }
     // Check for Stunt-Swap or Stunt-Swap+2
@@ -1109,9 +1155,19 @@ export function parseFateCommand(message, actor) {
             swapFound = true;
             tokenIndex++;
 
-            // Remaining tokens are stunt name
-            if (tokenIndex < tokens.length) {
-              result.stuntName = tokens.slice(tokenIndex).join(' ');
+            // Parse [Stunt Name] and <Description> from remaining text
+            const restText = tokens.slice(tokenIndex).join(' ');
+            const parsed = parseStuntNameAndDescription(restText);
+
+            if (!parsed.stuntName || !parsed.description) {
+              // Missing required parts, revert stunt effects
+              result.stuntSwap = null;
+              result.stuntBonus = 0;
+              result.modifier = result.skillValue; // Reset to original skill
+              result.note = tokens.slice(tokenIndex - 2).join(' ');
+            } else {
+              result.stuntName = parsed.stuntName;
+              result.note = parsed.description;
             }
           }
         }
@@ -1242,16 +1298,13 @@ export async function createFateRoll(labelOrData, modifier = 0, actor = null, sp
 
     if (rollData.stuntSwap) {
       // Skill swap case
-      const swapText = `Using <span class="skill-name">${rollData.stuntSwap.from} (${rollData.stuntSwap.fromValue >= 0 ? '+' : ''}${rollData.stuntSwap.fromValue})</span> to roll <span class="skill-name">${rollData.stuntSwap.to} (${rollData.stuntSwap.toValue >= 0 ? '+' : ''}${rollData.stuntSwap.toValue})</span> instead`;
+      const swapText = `Using <span class="skill-name">${rollData.stuntSwap.from} (${rollData.stuntSwap.fromValue >= 0 ? '+' : ''}${rollData.stuntSwap.fromValue})</span> ${rollData.stuntName ? `<strong>${rollData.stuntName}</strong>` : ''} to roll <span class="skill-name">${rollData.stuntSwap.to} (${rollData.stuntSwap.toValue >= 0 ? '+' : ''}${rollData.stuntSwap.toValue})</span> instead`;
       rollDescription += swapText;
 
       if (rollData.stuntBonus > 0) {
         rollDescription += ` with ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} stunt bonus`;
       }
-
-      if (rollData.stuntName) {
-        rollDescription += `<div class="stunt-info">Stunt: ${rollData.stuntName}</div>`;
-      }
+      rollDescription += '.';
     } else if (rollData.skillName) {
       // Simple skill roll
       const sourceLabel = rollData.skillSource === 'scion' ? 'Scion' : 'Faction';
@@ -1259,15 +1312,15 @@ export async function createFateRoll(labelOrData, modifier = 0, actor = null, sp
 
       if (rollData.stuntBonus > 0) {
         rollDescription += ` with ${rollData.stuntBonus >= 0 ? '+' : ''}${rollData.stuntBonus} stunt bonus`;
+        if (rollData.stuntName) {
+          rollDescription += ` <strong>${rollData.stuntName}</strong>`;
+        }
       }
-
-      if (rollData.stuntName) {
-        rollDescription += `<div class="stunt-info">Stunt: ${rollData.stuntName}</div>`;
-      }
+      rollDescription += '.';
     }
 
     if (rollData.note) {
-      rollDescription += `<div style="margin-top: 4px; font-style: italic;">${rollData.note}</div>`;
+      rollDescription += `<div class="stunt-description">${rollData.note}</div>`;
     }
 
     rollDescription += '</div>';

@@ -1755,6 +1755,18 @@
   color: var(--sof-accent);
 }
 
+.fate-roll .roll-description .stunt-description {
+  margin-top: 8px;
+  padding: 8px;
+  background: #fff3cd;
+  border-left: 3px solid #ffc107;
+  border-radius: 3px;
+  font-style: italic;
+  color: #856404;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .fate-roll .dice-results {
   margin: 10px 0;
   text-align: center;
