@@ -45,10 +45,9 @@ export class SimpleAspectSheet extends ActorSheet {
   async _onInvokeIncrement(event) {
     event.preventDefault();
     const value = this.actor.system.freeInvokes.value;
-    const max = this.actor.system.freeInvokes.max;
 
     await this.actor.update({
-      "system.freeInvokes.value": Math.min(value + 1, max)
+      "system.freeInvokes.value": value + 1
     });
   }
 
