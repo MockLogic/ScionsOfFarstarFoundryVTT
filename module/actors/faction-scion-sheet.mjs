@@ -364,17 +364,17 @@ export class FactionScionSheet extends ActorSheet {
     });
 
     // Drag events for skill/capability macro creation
-    // Note: draggable="true" is set in the template, we just need to add the event listener
-    const skillButtons = html.find('.roll-skill');
-    console.log(`Scions of FarStar | Found ${skillButtons.length} skill buttons for drag setup`);
-    skillButtons.each((i, button) => {
-      button.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    // Note: draggable="true" is set in the template on the divs, we just need to add the event listener
+    const skillDivs = html.find('.skill-item[draggable="true"]');
+    console.log(`Scions of FarStar | Found ${skillDivs.length} skill divs for drag setup`);
+    skillDivs.each((i, div) => {
+      div.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
 
-    const capabilityButtons = html.find('.roll-capability');
-    console.log(`Scions of FarStar | Found ${capabilityButtons.length} capability buttons for drag setup`);
-    capabilityButtons.each((i, button) => {
-      button.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    const capabilityDivs = html.find('.capability-item[draggable="true"]');
+    console.log(`Scions of FarStar | Found ${capabilityDivs.length} capability divs for drag setup`);
+    capabilityDivs.each((i, div) => {
+      div.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
   }
 

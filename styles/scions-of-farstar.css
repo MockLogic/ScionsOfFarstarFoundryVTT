@@ -215,12 +215,20 @@
   background: #21618c;
 }
 
-/* Make roll buttons draggable with visual feedback */
-.scions-of-farstar .roll-button.rollable {
+/* Make skill and capability items draggable with visual feedback */
+.scions-of-farstar .skill-item[draggable="true"],
+.scions-of-farstar .capability-item[draggable="true"] {
   cursor: grab;
+  transition: background-color 0.2s;
 }
 
-.scions-of-farstar .roll-button.rollable:active {
+.scions-of-farstar .skill-item[draggable="true"]:hover,
+.scions-of-farstar .capability-item[draggable="true"]:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.scions-of-farstar .skill-item[draggable="true"]:active,
+.scions-of-farstar .capability-item[draggable="true"]:active {
   cursor: grabbing;
 }
 

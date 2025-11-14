@@ -85,8 +85,8 @@
 
           <div class="capabilities-list">
             {{#each system.faction.capabilities as |capability key|}}
-              <div class="capability-item">
-                <button type="button" class="roll-button roll-capability rollable" data-capability="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{capability.label}}" draggable="true">
+              <div class="capability-item" data-capability="{{key}}" draggable="true" title="Drag to hotbar to create macro">
+                <button type="button" class="roll-button roll-capability" data-capability="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{capability.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
                 <input type="number" class="capability-value {{#if (lookup ../system.faction.capabilityValidation.invalidCapabilities key)}}invalid{{/if}}" name="system.faction.capabilities.{{key}}.value" value="{{capability.value}}" data-dtype="Number" min="{{#if (eq key 'people')}}0{{else}}-1{{/if}}" max="10"/>
@@ -275,8 +275,8 @@
 
           <div class="skills-list">
             {{#each system.scion.skills as |skill key|}}
-              <div class="skill-item">
-                <button type="button" class="roll-button roll-skill rollable" data-skill="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{skill.label}}" draggable="true">
+              <div class="skill-item" data-skill="{{key}}" draggable="true" title="Drag to hotbar to create macro">
+                <button type="button" class="roll-button roll-skill" data-skill="{{key}}" title="{{localize 'SCIONS.Roll.Roll'}} {{skill.label}}">
                   <i class="fas fa-dice-d6"></i>
                 </button>
                 <input type="number" class="skill-value {{#if (lookup ../system.scion.skillValidation.invalidSkills key)}}invalid{{/if}}" name="system.scion.skills.{{key}}.value" value="{{skill.value}}" data-dtype="Number" min="-1" max="10"/>
