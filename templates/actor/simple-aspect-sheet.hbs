@@ -6,13 +6,13 @@
 
       {{!-- Aspect Name --}}
       <div class="field-group aspect-name-field">
-        <label>Aspect Name</label>
-        <input type="text" name="name" value="{{actor.name}}" placeholder="New Aspect"/>
+        <label>{{localize "SCIONS.SimpleAspect.AspectName"}}</label>
+        <input type="text" name="name" value="{{actor.name}}" placeholder="{{localize "SCIONS.SimpleAspect.AspectNamePlaceholder"}}"/>
       </div>
 
       {{!-- Actor Image/Icon --}}
       <div class="field-group aspect-icon-field">
-        <label>Icon</label>
+        <label>{{localize "SCIONS.SimpleAspect.Icon"}}</label>
         <div class="profile-img">
           <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
         </div>
@@ -26,10 +26,10 @@
 
     {{!-- Free Invokes Section --}}
     <div class="free-invokes-section">
-      <div class="section-header">Free Invokes</div>
+      <div class="section-header">{{localize "SCIONS.SimpleAspect.FreeInvokes"}}</div>
 
       <div class="invoke-controls">
-        <button type="button" class="invoke-decrement" title="Decrease Free Invokes">
+        <button type="button" class="invoke-decrement" title="{{localize "SCIONS.SimpleAspect.DecreaseFreeInvokes"}}">
           <i class="fas fa-minus"></i>
         </button>
 
@@ -39,7 +39,7 @@
           <input type="number" name="system.freeInvokes.max" value="{{system.freeInvokes.max}}" min="0" />
         </div>
 
-        <button type="button" class="invoke-increment" title="Increase Free Invokes">
+        <button type="button" class="invoke-increment" title="{{localize "SCIONS.SimpleAspect.IncreaseFreeInvokes"}}">
           <i class="fas fa-plus"></i>
         </button>
       </div>

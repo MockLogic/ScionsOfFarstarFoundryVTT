@@ -88,6 +88,14 @@
       "Trouble": "Trouble",
       "TroublePlaceholder": "Enter trouble"
     },
+    "SimpleAspect": {
+      "AspectName": "Aspect Name",
+      "AspectNamePlaceholder": "New Aspect",
+      "Icon": "Icon",
+      "FreeInvokes": "Free Invokes",
+      "IncreaseFreeInvokes": "Increase Free Invokes",
+      "DecreaseFreeInvokes": "Decrease Free Invokes"
+    },
     "AgeTrack": {
       "Youthful": "Youthful (16-29)",
       "Seasoned": "Seasoned (30-49)",
