@@ -885,7 +885,7 @@
   height: 32px;
   border-radius: 3px;
   border: 1px solid var(--sof-border);
-  background: black;
+  object-fit: cover;
 }
 
 .stunt-item .stunt-name {
@@ -1048,6 +1048,13 @@
   background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
 }
 
+.scions-of-farstar.sheet.item.stunt .icon-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .scions-of-farstar.sheet.item.stunt .stunt-profile-img {
   flex-shrink: 0;
   border: 2px solid var(--sof-border);
@@ -1055,11 +1062,42 @@
   cursor: pointer;
   object-fit: cover;
   transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 2px;
 }
 
 .scions-of-farstar.sheet.item.stunt .stunt-profile-img:hover {
   border-color: var(--sof-primary);
   box-shadow: 0 0 8px rgba(26, 53, 80, 0.3);
+}
+
+.scions-of-farstar.sheet.item.stunt .icon-bg-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scions-of-farstar.sheet.item.stunt .icon-bg-picker input[type="color"] {
+  width: 80px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.scions-of-farstar.sheet.item.stunt .clear-bg-button {
+  padding: 4px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 11px;
+}
+
+.scions-of-farstar.sheet.item.stunt .clear-bg-button:hover {
+  background: #c82333;
 }
 
 .scions-of-farstar.sheet.item.stunt .header-fields {
@@ -1069,6 +1107,12 @@
   gap: 12px;
 }
 
+.scions-of-farstar.sheet.item.stunt .name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .scions-of-farstar.sheet.item.stunt .name-field input {
   width: 100%;
   font-size: 16px;
@@ -1076,39 +1120,6 @@
   padding: 6px;
   border: 1px solid var(--sof-border);
   border-radius: 3px;
-}
-
-.scions-of-farstar.sheet.item.stunt .icon-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.scions-of-farstar.sheet.item.stunt .file-picker-wrapper {
-  display: flex;
-  gap: 4px;
-}
-
-.scions-of-farstar.sheet.item.stunt .file-picker-wrapper input {
-  flex: 1;
-  font-size: 12px;
-  padding: 4px 6px;
-  border: 1px solid var(--sof-border);
-  border-radius: 3px;
-}
-
-.scions-of-farstar.sheet.item.stunt .file-picker {
-  padding: 4px 8px;
-  background: var(--sof-primary);
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.scions-of-farstar.sheet.item.stunt .file-picker:hover {
-  background: var(--sof-primary-dark);
 }
 
 .scions-of-farstar.sheet.item.stunt .field-label {

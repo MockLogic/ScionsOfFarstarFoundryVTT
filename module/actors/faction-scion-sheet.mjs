@@ -859,7 +859,8 @@ export class FactionScionSheet extends ActorSheet {
     // Build the stunt description based on type
     let content = `<div class="stunt-chat-card scope-${stunt.system.scope}">`;
     content += `<div class="stunt-chat-header">`;
-    content += `<img src="${stunt.img}" alt="${stunt.name}" class="stunt-icon" />`;
+    const bgStyle = stunt.system.iconBackground ? `style="background-color: ${stunt.system.iconBackground};"` : '';
+    content += `<img src="${stunt.img}" alt="${stunt.name}" class="stunt-icon" ${bgStyle}/>`;
     content += `<h3 class="stunt-name">${stunt.name}</h3>`;
     content += `</div>`;
     content += `<div class="stunt-chat-content">`;

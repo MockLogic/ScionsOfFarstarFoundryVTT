@@ -360,7 +360,7 @@
           {{#each stuntItems as |stunt id|}}
             <div class="stunt-item scope-{{stunt.system.scope}}" data-item-id="{{stunt._id}}" draggable="true">
               <div class="stunt-header">
-                <img src="{{stunt.img}}" alt="{{stunt.name}}" class="stunt-icon" />
+                <img src="{{stunt.img}}" alt="{{stunt.name}}" class="stunt-icon" style="{{#if stunt.system.iconBackground}}background-color: {{stunt.system.iconBackground}};{{/if}}"/>
                 <h4 class="stunt-name">{{stunt.name}}</h4>
 
                 {{!-- Roll button for Basic and Swap stunts --}}

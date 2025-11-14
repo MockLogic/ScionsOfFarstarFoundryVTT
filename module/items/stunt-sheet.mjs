@@ -40,6 +40,18 @@ class StuntSheet extends ItemSheet {
 
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
+
+    // Clear background button handler
+    html.find('.clear-bg-button').click(this._onClearBackground.bind(this));
+  }
+
+  /**
+   * Handle clearing the icon background color
+   * @param {Event} event - The click event
+   */
+  async _onClearBackground(event) {
+    event.preventDefault();
+    await this.item.update({ 'system.iconBackground': '' });
   }
 
   /**

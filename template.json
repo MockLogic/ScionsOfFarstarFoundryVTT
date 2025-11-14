@@ -605,26 +605,31 @@
       "scope": "faction",
       "skillOrCapability": "",
       "actionType": "",
-      "description": "<p><em>Describe situation this applies here</em></p>"
+      "description": "<p><em>Describe situation this applies here</em></p>",
+      "iconBackground": "#000000"
     },
     "stunt-swap": {
       "scope": "faction",
       "targetSkillOrCapability": "",
       "replacementSkillOrCapability": "",
       "actionType": "",
-      "description": "<p><em>Describe situation this applies here</em></p>"
+      "description": "<p><em>Describe situation this applies here</em></p>",
+      "iconBackground": "#000000"
     },
     "stunt-consequence": {
       "scope": "other",
-      "description": ""
+      "description": "",
+      "iconBackground": "#000000"
     },
     "stunt-stress": {
       "scope": "other",
-      "description": ""
+      "description": "",
+      "iconBackground": "#000000"
     },
     "stunt-other": {
       "scope": "other",
-      "description": ""
+      "description": "",
+      "iconBackground": "#000000"
     }
   }
 }
