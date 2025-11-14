@@ -4,7 +4,8 @@
       "faction-scion": "Faction-Scion",
       "threat": "Threat Front",
       "colony": "Colony",
-      "registrar": "NPC Registry"
+      "registrar": "NPC Registry",
+      "simple-aspect": "Simple Aspect"
     },
     "ItemTypes": {
       "named-npc": "Named NPC",

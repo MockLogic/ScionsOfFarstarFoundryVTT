@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["faction-scion", "threat", "colony", "registrar"],
+    "types": ["faction-scion", "threat", "colony", "registrar", "simple-aspect"],
     "templates": {
       "commonAspects": {
         "aspects": {
@@ -487,6 +487,12 @@
     },
     "registrar": {
       "notes": ""
+    },
+    "simple-aspect": {
+      "freeInvokes": {
+        "current": 1,
+        "max": 1
+      }
     }
   },
   "Item": {

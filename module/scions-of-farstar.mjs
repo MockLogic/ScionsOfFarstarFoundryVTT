@@ -13,6 +13,7 @@ import { FactionScionSheet } from "./actors/faction-scion-sheet.mjs";
 import { ThreatSheet } from "./actors/threat-sheet.mjs";
 import { ColonySheet } from "./actors/colony-sheet.mjs";
 import { RegistrarSheet } from "./actors/registrar-sheet.mjs";
+import { SimpleAspectSheet } from "./actors/simple-aspect-sheet.mjs";
 
 // Import item sheet classes
 import { NamedNpcSheet } from "./items/named-npc-sheet.mjs";
@@ -257,6 +258,15 @@ Hooks.once('init', async function() {
         return ThreatActor.prototype._preCreate.call(this, data, options, user);
       } else if (this.type === "colony") {
         return ColonyActor.prototype._preCreate.call(this, data, options, user);
+      } else if (this.type === "simple-aspect") {
+        // Set default token configuration for simple-aspect
+        const prototypeToken = {
+          displayName: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show name
+          displayBars: CONST.TOKEN_DISPLAY_MODES.ALWAYS,  // Always show bars
+          bar1: { attribute: "freeInvokes" },              // Primary bar: Free Invokes
+          disposition: CONST.TOKEN_DISPOSITIONS.NEUTRAL   // Aspects are neutral
+        };
+        this.updateSource({ prototypeToken });
       }
     }
 
@@ -310,7 +320,8 @@ Hooks.once('init', async function() {
     "faction-scion": "icons/svg/mystery-man.svg",  // Keep default for faction-scion
     "colony": "icons/svg/village.svg",  // Place/settlement icon for colony
     "registrar": "icons/svg/book.svg",  // Book icon for registrar
-    "threat": "icons/svg/skull.svg"  // Make threat look more menacing with skull icon
+    "threat": "icons/svg/skull.svg",  // Make threat look more menacing with skull icon
+    "simple-aspect": "systems/scions-of-farstar/assets/icons/aspect-note.svg"  // Aspect note icon for scene aspects
   };
 
   // Set default item icons
@@ -348,6 +359,12 @@ Hooks.once('init', async function() {
     types: ["registrar"],
     makeDefault: true,
     label: "SCIONS.ActorTypes.registrar"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Actor, "scions-of-farstar", SimpleAspectSheet, {
+    types: ["simple-aspect"],
+    makeDefault: true,
+    label: "SCIONS.ActorTypes.simple-aspect"
   });
 
   // Register item sheets

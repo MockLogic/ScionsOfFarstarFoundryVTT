@@ -1,0 +1,50 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+
+      {{!-- Aspect Name --}}
+      <div class="field-group aspect-name-field">
+        <label>Aspect Name</label>
+        <input type="text" name="name" value="{{actor.name}}" placeholder="New Aspect"/>
+      </div>
+
+      {{!-- Actor Image/Icon --}}
+      <div class="field-group aspect-icon-field">
+        <label>Icon</label>
+        <div class="profile-img">
+          <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body simple-aspect-body">
+
+    {{!-- Free Invokes Section --}}
+    <div class="free-invokes-section">
+      <div class="section-header">Free Invokes</div>
+
+      <div class="invoke-controls">
+        <button type="button" class="invoke-decrement" title="Decrease Free Invokes">
+          <i class="fas fa-minus"></i>
+        </button>
+
+        <div class="invoke-display">
+          <input type="number" name="system.freeInvokes.current" value="{{system.freeInvokes.current}}" min="0" max="{{system.freeInvokes.max}}" />
+          <span class="invoke-separator">/</span>
+          <input type="number" name="system.freeInvokes.max" value="{{system.freeInvokes.max}}" min="0" />
+        </div>
+
+        <button type="button" class="invoke-increment" title="Increase Free Invokes">
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+</form>
