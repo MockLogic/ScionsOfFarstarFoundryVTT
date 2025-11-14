@@ -746,6 +746,11 @@ export class FactionScionSheet extends ActorSheet {
         return;
       }
 
+      // Extract plain text description (strip HTML tags)
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = stunt.system.description || '';
+      const description = tempDiv.textContent || tempDiv.innerText || '';
+
       // Build roll data for basic stunt
       const rollData = {
         modifier: 0,
@@ -756,7 +761,7 @@ export class FactionScionSheet extends ActorSheet {
         stuntBonus: 2,
         stuntSwap: null,
         stuntName: stuntName,
-        note: null
+        note: description
       };
 
       // Get skill value from actor
@@ -784,6 +789,11 @@ export class FactionScionSheet extends ActorSheet {
         ui.notifications.warn("Stunt is not fully configured. Edit the stunt to set skills/capabilities and action type.");
         return;
       }
+
+      // Extract plain text description (strip HTML tags)
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = stunt.system.description || '';
+      const description = tempDiv.textContent || tempDiv.innerText || '';
 
       // Get skill values
       const scionSkills = ["Academics", "Combat", "Deception", "Engineering", "Exploration", "Influence"];
@@ -816,7 +826,7 @@ export class FactionScionSheet extends ActorSheet {
           toValue: replacementValue
         },
         stuntName: stuntName,
-        note: null
+        note: description
       };
 
       await createFateRoll(rollData, 0, this.actor, null);
