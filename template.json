@@ -445,32 +445,38 @@
         {
           "name": "Population",
           "rank": 1,
-          "locked": true
+          "locked": true,
+          "status": "normal"
         },
         {
           "name": "Food",
           "rank": 1,
-          "locked": false
+          "locked": false,
+          "status": "normal"
         },
         {
           "name": "Water",
           "rank": 1,
-          "locked": false
+          "locked": false,
+          "status": "normal"
         },
         {
           "name": "Power",
           "rank": 2,
-          "locked": false
+          "locked": false,
+          "status": "normal"
         },
         {
           "name": "Defense",
           "rank": 1,
-          "locked": false
+          "locked": false,
+          "status": "normal"
         },
         {
           "name": "Housing",
           "rank": 1,
-          "locked": false
+          "locked": false,
+          "status": "normal"
         }
       ],
       "populationTrack": {

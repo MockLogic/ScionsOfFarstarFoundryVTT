@@ -2055,6 +2055,26 @@
   overflow: hidden;
 }
 
+/* Damaged attribute status - red tinted background with dark red text */
+.attribute-item.damaged {
+  background: rgba(220, 53, 69, 0.15);
+  border-color: rgba(220, 53, 69, 0.3);
+}
+
+.attribute-item.damaged .attribute-name {
+  color: #a71d2a;
+}
+
+/* In-repair attribute status - orange tinted background */
+.attribute-item.in-repair {
+  background: rgba(255, 152, 0, 0.15);
+  border-color: rgba(255, 152, 0, 0.3);
+}
+
+.attribute-item.in-repair .attribute-name {
+  color: #cc7a00;
+}
+
 .attribute-item::before {
   content: '';
   display: block;

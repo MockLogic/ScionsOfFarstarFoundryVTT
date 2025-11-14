@@ -242,6 +242,9 @@ export class ColonySheet extends ActorSheet {
     // Attribute name editing
     html.find('.attribute-name').change(this._onAttributeNameChange.bind(this));
 
+    // Attribute right-click context menu for damage status
+    html.find('.attribute-item').on('contextmenu', this._onAttributeContextMenu.bind(this));
+
     // Extra item handlers
     html.find('.invoke-checkbox').click(this._onToggleExtraInvoke.bind(this));
     html.find('.ladder-rung-clickable').click(this._onToggleLadderRung.bind(this));
@@ -276,7 +279,17 @@ export class ColonySheet extends ActorSheet {
     const attribute = this.actor.system.attributes[index];
 
     if (attribute) {
-      await this.actor.rollFateDice(attribute.name, attribute.rank);
+      // Build label with status if not normal
+      let label = attribute.name;
+      const status = attribute.status || "normal";
+
+      if (status === "damaged") {
+        label = `${attribute.name} (Damaged)`;
+      } else if (status === "in-repair") {
+        label = `${attribute.name} (In-Repair)`;
+      }
+
+      await this.actor.rollFateDice(label, attribute.rank);
     }
   }
 
@@ -291,7 +304,8 @@ export class ColonySheet extends ActorSheet {
     attributes.push({
       name: "New Attribute",
       rank: 0,
-      locked: false
+      locked: false,
+      status: "normal"
     });
 
     await this.actor.update({ "system.attributes": attributes });
@@ -346,6 +360,36 @@ export class ColonySheet extends ActorSheet {
 
     const attributes = [...this.actor.system.attributes];
     attributes[index].name = input.value;
+
+    await this.actor.update({ "system.attributes": attributes });
+  }
+
+  /**
+   * Handle right-click context menu on attributes to cycle damage status
+   * @param {Event} event
+   */
+  async _onAttributeContextMenu(event) {
+    event.preventDefault();
+    const index = parseInt(event.currentTarget.dataset.index);
+    const attribute = this.actor.system.attributes[index];
+
+    // Population cannot be damaged
+    if (attribute.name === "Population") {
+      ui.notifications.info("Population cannot be damaged.");
+      return;
+    }
+
+    const attributes = [...this.actor.system.attributes];
+    const currentStatus = attributes[index].status || "normal";
+
+    // Cycle through: normal -> damaged -> in-repair -> normal
+    const statusCycle = {
+      "normal": "damaged",
+      "damaged": "in-repair",
+      "in-repair": "normal"
+    };
+
+    attributes[index].status = statusCycle[currentStatus];
 
     await this.actor.update({ "system.attributes": attributes });
   }

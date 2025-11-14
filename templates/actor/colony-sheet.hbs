@@ -76,7 +76,7 @@
             <div class="rank-label">+{{rank}}</div>
             <div class="rank-attributes">
               {{#each (lookup ../attributesByRank rank) as |attr|}}
-                <div class="attribute-item" data-index="{{attr.index}}" draggable="true">
+                <div class="attribute-item {{attr.status}}" data-index="{{attr.index}}" draggable="true">
                   <button type="button" class="roll-button roll-attribute" title="{{localize 'SCIONS.Actions.Roll'}}">
                     <i class="fas fa-dice-d6"></i>
                   </button>
