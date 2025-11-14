@@ -363,10 +363,14 @@ export class FactionScionSheet extends ActorSheet {
       li.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
 
-    // Drag events for macro creation
-    html.find('.rollable').each((i, li) => {
-      li.setAttribute("draggable", true);
-      li.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    // Drag events for skill/capability macro creation
+    // Note: draggable="true" is set in the template, we just need to add the event listener
+    html.find('.roll-skill').each((i, button) => {
+      button.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    });
+
+    html.find('.roll-capability').each((i, button) => {
+      button.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
   }
 
