@@ -1,0 +1,83 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="name-row">
+        <div class="name-field">
+          <label class="field-label">Stunt Name</label>
+          <input name="name" type="text" value="{{item.name}}" placeholder="Stunt Name"/>
+        </div>
+      </div>
+
+      <div class="icon-field">
+        <label class="field-label">Icon</label>
+        <div class="file-picker-wrapper">
+          <input name="img" type="text" value="{{item.img}}" placeholder="icons/svg/upgrade.svg" data-edit="img"/>
+          <button type="button" class="file-picker" data-type="imagevideo" data-target="img" title="Browse Files" tabindex="-1">
+            <i class="fas fa-file-import fa-fw"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Stunt Configuration --}}
+    <div class="stunt-config-section">
+      <div class="subsection-header">Stunt Configuration</div>
+
+      <div class="config-row">
+        <div class="config-field">
+          <label>Skill/Capability</label>
+          <select name="system.skillOrCapability" data-dtype="String">
+            <option value="">-- Select --</option>
+            <optgroup label="Scion Skills">
+              <option value="Academics" {{#if (eq system.skillOrCapability "Academics")}}selected{{/if}}>Academics</option>
+              <option value="Combat" {{#if (eq system.skillOrCapability "Combat")}}selected{{/if}}>Combat</option>
+              <option value="Deception" {{#if (eq system.skillOrCapability "Deception")}}selected{{/if}}>Deception</option>
+              <option value="Engineering" {{#if (eq system.skillOrCapability "Engineering")}}selected{{/if}}>Engineering</option>
+              <option value="Exploration" {{#if (eq system.skillOrCapability "Exploration")}}selected{{/if}}>Exploration</option>
+              <option value="Influence" {{#if (eq system.skillOrCapability "Influence")}}selected{{/if}}>Influence</option>
+            </optgroup>
+            <optgroup label="Faction Capabilities">
+              <option value="Culture" {{#if (eq system.skillOrCapability "Culture")}}selected{{/if}}>Culture</option>
+              <option value="Industrial" {{#if (eq system.skillOrCapability "Industrial")}}selected{{/if}}>Industrial</option>
+              <option value="Military" {{#if (eq system.skillOrCapability "Military")}}selected{{/if}}>Military</option>
+              <option value="Mobility" {{#if (eq system.skillOrCapability "Mobility")}}selected{{/if}}>Mobility</option>
+              <option value="Technology" {{#if (eq system.skillOrCapability "Technology")}}selected{{/if}}>Technology</option>
+              <option value="People" {{#if (eq system.skillOrCapability "People")}}selected{{/if}}>People</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="config-field">
+          <label>Action Type</label>
+          <select name="system.actionType" data-dtype="String">
+            <option value="">-- Select --</option>
+            <option value="attack" {{#if (eq system.actionType "attack")}}selected{{/if}}>Attack</option>
+            <option value="defend" {{#if (eq system.actionType "defend")}}selected{{/if}}>Defend</option>
+            <option value="overcome" {{#if (eq system.actionType "overcome")}}selected{{/if}}>Overcome</option>
+            <option value="create" {{#if (eq system.actionType "create")}}selected{{/if}}>Create Advantage</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="scope-display">
+        <label>Scope:</label>
+        <span class="scope-value scope-{{system.scope}}">{{capitalize system.scope}}</span>
+        <span class="scope-hint">(Auto-detected from skill/capability selection)</span>
+      </div>
+    </div>
+
+    {{!-- Description Section --}}
+    <div class="subsection-header">Description</div>
+    <div class="editor-container">
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+  </section>
+
+</form>

@@ -80,6 +80,16 @@ export class FactionScionSheet extends ActorSheet {
       return itemData;
     });
 
+    // Get all Stunt items (all types)
+    const stuntTypes = ['stunt-basic', 'stunt-swap', 'stunt-consequence', 'stunt-stress', 'stunt-other'];
+    context.stuntItems = this.actor.items.filter(item => stuntTypes.includes(item.type)).map(item => {
+      const itemData = {
+        ...item.toObject(false),
+        _id: item.id
+      };
+      return itemData;
+    });
+
     return context;
   }
 
@@ -320,11 +330,7 @@ export class FactionScionSheet extends ActorSheet {
 
     // Stress box handlers
     html.find('.stress-box').click(this._onToggleStress.bind(this));
-    html.find('.stress-size-toggle').click(this._onToggleStressSize.bind(this));
     html.find('.people-box').click(this._onTogglePeople.bind(this));
-
-    // Consequence toggle handler
-    html.find('.consequence-toggle').click(this._onToggleConsequenceSlot.bind(this));
 
     // Age track handlers
     html.find('.age-passed').click(this._onToggleAgePassed.bind(this));
@@ -336,9 +342,9 @@ export class FactionScionSheet extends ActorSheet {
     html.find('.fate-points-increment').click(this._onAdjustFatePoints.bind(this, 1));
     html.find('.fate-points-decrement').click(this._onAdjustFatePoints.bind(this, -1));
 
-    // Stunt handlers
-    html.find('.stunt-add').click(this._onAddStunt.bind(this));
-    html.find('.stunt-delete').click(this._onDeleteStunt.bind(this));
+    // Stunt handlers (now use item system)
+    html.find('.add-item-button[data-type^="stunt-"]').click(this._onCreateStunt.bind(this));
+    html.find('.roll-stunt').click(this._onRollStunt.bind(this));
 
     // Extra item handlers
     html.find('.invoke-checkbox').click(this._onToggleExtraInvoke.bind(this));
@@ -360,6 +366,11 @@ export class FactionScionSheet extends ActorSheet {
     // Make Extra items draggable
     html.find('.extra-item').each((i, li) => {
       li.setAttribute("draggable", true);
+      li.addEventListener("dragstart", this._onDragStart.bind(this), false);
+    });
+
+    // Make Stunt items draggable
+    html.find('.stunt-item').each((i, li) => {
       li.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
 
@@ -676,25 +687,120 @@ export class FactionScionSheet extends ActorSheet {
   /**
    * Add a new stunt
    */
-  async _onAddStunt(event) {
+  /**
+   * Create a new stunt item
+   */
+  async _onCreateStunt(event) {
     event.preventDefault();
-    const stunts = [...this.actor.system.faction.stunts];
-    console.log("Current stunts before add:", stunts);
-    stunts.push({ name: "", description: "" });
-    console.log("Stunts after push:", stunts);
-    await this.actor.update({ 'system.faction.stunts': stunts });
-    console.log("Stunts after update:", this.actor.system.faction.stunts);
+    const button = event.currentTarget;
+    const stuntType = button.dataset.type;
+
+    await Item.create({
+      name: `New ${stuntType.replace('stunt-', '').charAt(0).toUpperCase() + stuntType.replace('stunt-', '').slice(1)} Stunt`,
+      type: stuntType,
+      system: {}
+    }, { parent: this.actor });
   }
 
   /**
-   * Delete a stunt
+   * Roll a stunt (basic or swap)
    */
-  async _onDeleteStunt(event) {
+  async _onRollStunt(event) {
     event.preventDefault();
-    const index = parseInt(event.currentTarget.dataset.index);
-    const stunts = [...this.actor.system.faction.stunts];
-    stunts.splice(index, 1);
-    await this.actor.update({ 'system.faction.stunts': stunts });
+    const itemId = event.currentTarget.dataset.itemId;
+    const stunt = this.actor.items.get(itemId);
+
+    if (!stunt) return;
+
+    // Import the createFateRoll function
+    const { createFateRoll } = await import('../scions-of-farstar.mjs');
+
+    if (stunt.type === "stunt-basic") {
+      // Basic stunt: /fate SkillName ActionType Stunt+2 StuntName
+      const skill = stunt.system.skillOrCapability;
+      const action = stunt.system.actionType;
+      const stuntName = stunt.name;
+
+      if (!skill || !action) {
+        ui.notifications.warn("Stunt is not fully configured. Edit the stunt to set skill/capability and action type.");
+        return;
+      }
+
+      // Build roll data for basic stunt
+      const rollData = {
+        modifier: 0,
+        skillName: skill,
+        skillValue: 0, // Will be filled by parseFateCommand
+        skillSource: null, // Will be detected
+        actionType: action,
+        stuntBonus: 2,
+        stuntSwap: null,
+        stuntName: stuntName,
+        note: null
+      };
+
+      // Get skill value from actor
+      const scionSkills = ["Academics", "Combat", "Deception", "Engineering", "Exploration", "Influence"];
+      if (scionSkills.includes(skill)) {
+        rollData.skillValue = this.actor.system.scion.skills[skill.toLowerCase()].value;
+        rollData.skillSource = 'scion';
+      } else {
+        rollData.skillValue = this.actor.system.faction.capabilities[skill.toLowerCase()].value;
+        rollData.skillSource = 'faction';
+      }
+
+      rollData.modifier = rollData.skillValue + rollData.stuntBonus;
+
+      await createFateRoll(rollData, 0, this.actor, null);
+
+    } else if (stunt.type === "stunt-swap") {
+      // Swap stunt: /fate TargetSkill ActionType Stunt-Swap ReplacementSkill StuntName
+      const targetSkill = stunt.system.targetSkillOrCapability;
+      const replacementSkill = stunt.system.replacementSkillOrCapability;
+      const action = stunt.system.actionType;
+      const stuntName = stunt.name;
+
+      if (!targetSkill || !replacementSkill || !action) {
+        ui.notifications.warn("Stunt is not fully configured. Edit the stunt to set skills/capabilities and action type.");
+        return;
+      }
+
+      // Get skill values
+      const scionSkills = ["Academics", "Combat", "Deception", "Engineering", "Exploration", "Influence"];
+
+      let targetValue, replacementValue;
+      if (scionSkills.includes(targetSkill)) {
+        targetValue = this.actor.system.scion.skills[targetSkill.toLowerCase()].value;
+      } else {
+        targetValue = this.actor.system.faction.capabilities[targetSkill.toLowerCase()].value;
+      }
+
+      if (scionSkills.includes(replacementSkill)) {
+        replacementValue = this.actor.system.scion.skills[replacementSkill.toLowerCase()].value;
+      } else {
+        replacementValue = this.actor.system.faction.capabilities[replacementSkill.toLowerCase()].value;
+      }
+
+      // Build roll data for swap stunt
+      const rollData = {
+        modifier: replacementValue,
+        skillName: targetSkill,
+        skillValue: targetValue,
+        skillSource: scionSkills.includes(targetSkill) ? 'scion' : 'faction',
+        actionType: action,
+        stuntBonus: 0,
+        stuntSwap: {
+          from: targetSkill,
+          fromValue: targetValue,
+          to: replacementSkill,
+          toValue: replacementValue
+        },
+        stuntName: stuntName,
+        note: null
+      };
+
+      await createFateRoll(rollData, 0, this.actor, null);
+    }
   }
 
   /**

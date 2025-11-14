@@ -133,10 +133,6 @@
           {{!-- Consequences --}}
           <div class="subsection-header">
             {{localize "SCIONS.Faction.Consequences"}}
-            <span class="consequence-toggle" title="{{localize 'SCIONS.Consequences.ExtraMinorToggle'}}">
-              <i class="fas fa-cog consequence-toggle-icon {{#if system.consequences.minor2.enabled}}extended{{/if}}"></i>
-              <span class="consequence-toggle-label">{{localize "SCIONS.Consequences.ExtraMinor"}}</span>
-            </span>
           </div>
           {{#if system.consequences.minor2.enabled}}
             <div class="consequence-reminder">{{localize "SCIONS.Consequences.ExtraMinorReminder"}}</div>
@@ -297,10 +293,6 @@
           {{!-- Stress Track --}}
           <div class="subsection-header">
             {{localize "SCIONS.Scion.Stress"}}
-            <span class="stress-size-toggle" title="{{localize 'SCIONS.Stress.SizeHint'}}">
-              <i class="fas fa-cog stress-size-icon {{#if (eq system.scion.stress.max 5)}}extended{{/if}}"></i>
-              <span class="stress-size-label">{{localize "SCIONS.Stress.Extended"}}</span>
-            </span>
           </div>
           <div class="stress-track">
             {{#each system.scion.stress.boxes as |box index|}}
@@ -355,26 +347,107 @@
       {{#unless system.faction.refreshValid}}
         <div class="validation-warning">⚠ {{localize "SCIONS.Validation.TooManyStunts"}}</div>
       {{/unless}}
-
-      {{#if (hasItems system.faction.stunts)}}
-        {{#each system.faction.stunts as |stunt index|}}
-          <div class="stunt-item">
-            <div class="stunt-header">
-              <input type="text" class="stunt-name" name="system.faction.stunts.{{index}}.name" value="{{stunt.name}}" placeholder="{{localize 'SCIONS.Stunts.NamePlaceholder'}}"/>
-              <button type="button" class="stunt-delete" data-index="{{index}}" title="{{localize 'SCIONS.Actions.Delete'}}"><i class="fas fa-trash"></i></button>
-            </div>
-            <div class="stunt-description">
-              {{editor stunt.description target=(concat "system.faction.stunts." index ".description") button=true owner=owner editable=editable}}
-            </div>
-          </div>
-        {{/each}}
-      {{else}}
-        <div class="empty-message">No stunts yet. Click the button below to add your first stunt.</div>
+      {{#if system.faction.multipleConsequenceStunts}}
+        <div class="validation-warning">⚠ Multiple Consequence stunts detected - only one will take effect.</div>
+      {{/if}}
+      {{#if system.faction.multipleStressStunts}}
+        <div class="validation-warning">⚠ Multiple Stress stunts detected - only one will take effect.</div>
       {{/if}}
 
-      <button type="button" class="add-item-button stunt-add">
-        <i class="fas fa-plus"></i> {{localize "SCIONS.Actions.AddStunt"}}
-      </button>
+      {{!-- Stunt Items List --}}
+      <div class="stunts-list">
+        {{#if stuntItems}}
+          {{#each stuntItems as |stunt id|}}
+            <div class="stunt-item scope-{{stunt.system.scope}}" data-item-id="{{stunt._id}}" draggable="true">
+              <div class="stunt-header">
+                <img src="{{stunt.img}}" alt="{{stunt.name}}" class="stunt-icon" />
+                <h4 class="stunt-name">{{stunt.name}}</h4>
+
+                {{!-- Roll button for Basic and Swap stunts --}}
+                {{#if (eq stunt.type "stunt-basic")}}
+                  {{#if (and stunt.system.skillOrCapability stunt.system.actionType)}}
+                    <button type="button" class="roll-button roll-stunt" data-item-id="{{stunt._id}}" title="Roll {{stunt.name}}" style="width: 32px; height: 32px;">
+                      <i class="fas fa-dice-d6"></i>
+                    </button>
+                  {{/if}}
+                {{/if}}
+                {{#if (eq stunt.type "stunt-swap")}}
+                  {{#if (and stunt.system.targetSkillOrCapability stunt.system.replacementSkillOrCapability stunt.system.actionType)}}
+                    <button type="button" class="roll-button roll-stunt" data-item-id="{{stunt._id}}" title="Roll {{stunt.name}}" style="width: 32px; height: 32px;">
+                      <i class="fas fa-dice-d6"></i>
+                    </button>
+                  {{/if}}
+                {{/if}}
+
+                <div class="item-controls">
+                  <button type="button" class="item-control item-edit" data-item-id="{{stunt._id}}" title="Edit"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="item-control item-delete" data-item-id="{{stunt._id}}" title="Delete"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+
+              <div class="stunt-content">
+                {{!-- Basic Stunt Display --}}
+                {{#if (eq stunt.type "stunt-basic")}}
+                  {{#if (and stunt.system.skillOrCapability stunt.system.actionType)}}
+                    <p>Because I have <strong>{{stunt.name}}</strong> I get a +2 when I {{capitalize stunt.system.actionType}} with {{stunt.system.skillOrCapability}}.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                  {{else}}
+                    <p><em>Configure skill/capability and action in item sheet.</em></p>
+                  {{/if}}
+                {{/if}}
+
+                {{!-- Swap Stunt Display --}}
+                {{#if (eq stunt.type "stunt-swap")}}
+                  {{#if (and stunt.system.targetSkillOrCapability stunt.system.replacementSkillOrCapability stunt.system.actionType)}}
+                    <p>Because I have <strong>{{stunt.name}}</strong> when I roll {{capitalize stunt.system.actionType}} with {{stunt.system.targetSkillOrCapability}} I can use {{stunt.system.replacementSkillOrCapability}} instead.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                  {{else}}
+                    <p><em>Configure skills/capabilities and action in item sheet.</em></p>
+                  {{/if}}
+                {{/if}}
+
+                {{!-- Consequence Stunt Display --}}
+                {{#if (eq stunt.type "stunt-consequence")}}
+                  <p>Because I have <strong>{{stunt.name}}</strong> I get an additional Minor Consequence slot (2-point).{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                {{/if}}
+
+                {{!-- Stress Stunt Display --}}
+                {{#if (eq stunt.type "stunt-stress")}}
+                  <p>Because I have <strong>{{stunt.name}}</strong> I get Two additional Stress Boxes.{{#if stunt.system.description}} {{{stunt.system.description}}}{{/if}}</p>
+                {{/if}}
+
+                {{!-- Other Stunt Display --}}
+                {{#if (eq stunt.type "stunt-other")}}
+                  {{#if stunt.system.description}}
+                    {{{stunt.system.description}}}
+                  {{else}}
+                    <p><em>Add stunt description in item sheet.</em></p>
+                  {{/if}}
+                {{/if}}
+              </div>
+            </div>
+          {{/each}}
+        {{else}}
+          <div class="empty-message">No stunts yet. Add stunts using the buttons below.</div>
+        {{/if}}
+      </div>
+
+      {{!-- Add Stunt Buttons --}}
+      <div class="add-stunt-buttons">
+        <button type="button" class="add-item-button" data-type="stunt-basic">
+          <i class="fas fa-plus"></i> Basic Stunt (+2)
+        </button>
+        <button type="button" class="add-item-button" data-type="stunt-swap">
+          <i class="fas fa-plus"></i> Swap Stunt
+        </button>
+        <button type="button" class="add-item-button" data-type="stunt-consequence">
+          <i class="fas fa-plus"></i> Consequence Stunt
+        </button>
+        <button type="button" class="add-item-button" data-type="stunt-stress">
+          <i class="fas fa-plus"></i> Stress Stunt
+        </button>
+        <button type="button" class="add-item-button" data-type="stunt-other">
+          <i class="fas fa-plus"></i> Other Stunt
+        </button>
+      </div>
     </div>
 
     {{!-- Extras Tab --}}

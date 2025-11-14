@@ -837,6 +837,223 @@
   background: #c0392b;
 }
 
+/* New Stunt Item Styling */
+.stunts-list {
+  margin: 10px 0;
+}
+
+.stunt-item[draggable="true"] {
+  cursor: grab;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.stunt-item[draggable="true"]:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.stunt-item[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+/* Scope-based background colors */
+.stunt-item.scope-faction {
+  background: #f8f9fa;
+  border-left: 4px solid var(--sof-primary);
+}
+
+.stunt-item.scope-scion {
+  background: #e3f2fd;
+  border-left: 4px solid var(--sof-accent);
+}
+
+.stunt-item.scope-other {
+  background: #f8f9fa;
+  border-left: 4px solid #6c757d;
+}
+
+.stunt-item .stunt-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--sof-border);
+}
+
+.stunt-item .stunt-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 3px;
+  border: 1px solid var(--sof-border);
+}
+
+.stunt-item .stunt-name {
+  flex: 1;
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--sof-primary);
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+}
+
+.stunt-item .item-controls {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.stunt-item .item-control {
+  background: none;
+  border: none;
+  color: var(--sof-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.stunt-item .item-control:hover {
+  background: var(--sof-border);
+  color: var(--sof-primary);
+}
+
+.stunt-item .item-delete:hover {
+  background: var(--sof-danger);
+  color: white;
+}
+
+.stunt-item .stunt-content {
+  color: var(--sof-text);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.stunt-item .stunt-content p {
+  margin: 4px 0;
+}
+
+.stunt-item .stunt-content em {
+  color: var(--sof-secondary);
+}
+
+/* Add stunt buttons */
+.add-stunt-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px solid var(--sof-border);
+}
+
+.add-stunt-buttons .add-item-button {
+  flex: 1 1 calc(33.333% - 8px);
+  min-width: 150px;
+  padding: 8px 12px;
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.add-stunt-buttons .add-item-button:hover {
+  background: #2980b9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Stunt item sheet styles */
+.stunt-config-section {
+  margin-bottom: 12px;
+}
+
+.stunt-config-section .config-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stunt-config-section .config-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.stunt-config-section .config-field label {
+  font-weight: bold;
+  font-size: 12px;
+  color: var(--sof-secondary);
+  margin-bottom: 4px;
+}
+
+.stunt-config-section .config-field select {
+  padding: 6px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.stunt-config-section .scope-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #f8f9fa;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.stunt-config-section .scope-value {
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.stunt-config-section .scope-value.scope-faction {
+  background: var(--sof-primary);
+  color: white;
+}
+
+.stunt-config-section .scope-value.scope-scion {
+  background: var(--sof-accent);
+  color: white;
+}
+
+.stunt-config-section .scope-value.scope-other {
+  background: #6c757d;
+  color: white;
+}
+
+.stunt-config-section .scope-hint {
+  color: var(--sof-secondary);
+  font-style: italic;
+}
+
+.stunt-effect-section .effect-description {
+  padding: 12px;
+  background: #e3f2fd;
+  border-left: 4px solid var(--sof-accent);
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.stunt-effect-section .effect-description i {
+  color: var(--sof-accent);
+  margin-top: 2px;
+}
+
 /* People Track States */
 .people-box {
   position: relative;

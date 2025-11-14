@@ -94,6 +94,10 @@ export class FactionScionActor extends Actor {
     // Store expected total for display
     scion.expectedSkillTotal = expectedTotal;
 
+    // Check for stress expansion stunt (expands from 3 to 5)
+    const hasStressStunt = this.items.some(item => item.type === "stunt-stress");
+    scion.stress.max = hasStressStunt ? 5 : 3;
+
     // Initialize stress boxes if needed
     if (!Array.isArray(scion.stress.boxes) || scion.stress.boxes.length !== scion.stress.max) {
       scion.stress.boxes = [];
@@ -208,11 +212,15 @@ export class FactionScionActor extends Actor {
       });
     }
 
-    // Count stunts (ensure stunts is an array)
-    if (!Array.isArray(faction.stunts)) {
-      faction.stunts = [];
-    }
-    faction.stuntCount = faction.stunts.filter(s => s.name || s.description).length;
+    // Count stunt items (all 5 types)
+    const stuntTypes = ["stunt-basic", "stunt-swap", "stunt-consequence", "stunt-stress", "stunt-other"];
+    faction.stuntCount = this.items.filter(item => stuntTypes.includes(item.type)).length;
+
+    // Check for multiple consequence/stress stunts (doesn't stack, show warning)
+    const consequenceStuntCount = this.items.filter(item => item.type === "stunt-consequence").length;
+    const stressStuntCount = this.items.filter(item => item.type === "stunt-stress").length;
+    faction.multipleConsequenceStunts = consequenceStuntCount > 1;
+    faction.multipleStressStunts = stressStuntCount > 1;
 
     // Calculate Refresh
     // Formula: 3 + Major Milestones - Extra Stunts (beyond 3)
@@ -252,6 +260,12 @@ export class FactionScionActor extends Actor {
       }
     }
 
+    // Check for consequence expansion stunt (enables minor2)
+    const hasConsequenceStunt = this.items.some(item => item.type === "stunt-consequence");
+    if (consequences?.minor2) {
+      consequences.minor2.enabled = hasConsequenceStunt;
+    }
+
     // Calculate available consequences capacity (only enabled consequences)
     let consequencesCapacity = 0;
     const consequences = systemData.consequences;
@@ -259,7 +273,7 @@ export class FactionScionActor extends Actor {
       // Minor consequence: always available, worth 2
       consequencesCapacity += 2;
 
-      // Minor2 consequence: only if enabled, worth 2
+      // Minor2 consequence: only if enabled by stunt, worth 2
       if (consequences.minor2?.enabled) {
         consequencesCapacity += 2;
       }

@@ -17,6 +17,7 @@ import { RegistrarSheet } from "./actors/registrar-sheet.mjs";
 // Import item sheet classes
 import { NamedNpcSheet } from "./items/named-npc-sheet.mjs";
 import { ExtraSheet } from "./items/extra-sheet.mjs";
+import { StuntBasicSheet, StuntSwapSheet, StuntConsequenceSheet, StuntStressSheet, StuntOtherSheet } from "./items/stunt-sheet.mjs";
 
 /**
  * Initialize the Scions of FarStar system
@@ -364,6 +365,36 @@ Hooks.once('init', async function() {
     label: "SCIONS.ItemTypes.extra"
   });
 
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", StuntBasicSheet, {
+    types: ["stunt-basic"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.stunt-basic"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", StuntSwapSheet, {
+    types: ["stunt-swap"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.stunt-swap"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", StuntConsequenceSheet, {
+    types: ["stunt-consequence"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.stunt-consequence"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", StuntStressSheet, {
+    types: ["stunt-stress"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.stunt-stress"
+  });
+
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(Item, "scions-of-farstar", StuntOtherSheet, {
+    types: ["stunt-other"],
+    makeDefault: true,
+    label: "SCIONS.ItemTypes.stunt-other"
+  });
+
   console.log('Scions of FarStar | System initialized');
 });
 
@@ -397,6 +428,75 @@ Hooks.once('ready', async function() {
  */
 Hooks.on('hotbarDrop', async (bar, data, slot) => {
   console.log("Scions of FarStar | hotbarDrop triggered with data:", data);
+
+  // Handle stunt item drops
+  if (data.type === "Item") {
+    const item = await fromUuid(data.uuid);
+    if (item && item.type && item.type.startsWith("stunt-")) {
+      // Check if stunt can create a macro (only basic and swap with complete config)
+      if (item.type === "stunt-basic") {
+        if (!item.system.skillOrCapability || !item.system.actionType) {
+          ui.notifications.warn(`${item.name} cannot create a macro - skill/capability and action type must be configured.`);
+          return false;
+        }
+
+        const macroName = item.name;
+        const macroCommand = `/fate ${item.system.skillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt+2 ${item.name}`;
+        const macroImg = item.img;
+
+        let macro = game.macros.find(m =>
+          m.name === macroName &&
+          m.command === macroCommand &&
+          m.author.id === game.user.id
+        );
+
+        if (!macro) {
+          macro = await Macro.create({
+            name: macroName,
+            type: "chat",
+            command: macroCommand,
+            img: macroImg
+          });
+        }
+
+        await game.user.assignHotbarMacro(macro, slot);
+        return false;
+
+      } else if (item.type === "stunt-swap") {
+        if (!item.system.targetSkillOrCapability || !item.system.replacementSkillOrCapability || !item.system.actionType) {
+          ui.notifications.warn(`${item.name} cannot create a macro - all skills/capabilities and action type must be configured.`);
+          return false;
+        }
+
+        const macroName = item.name;
+        const macroCommand = `/fate ${item.system.targetSkillOrCapability} ${item.system.actionType.charAt(0).toUpperCase() + item.system.actionType.slice(1)} Stunt-Swap ${item.system.replacementSkillOrCapability} ${item.name}`;
+        const macroImg = item.img;
+
+        let macro = game.macros.find(m =>
+          m.name === macroName &&
+          m.command === macroCommand &&
+          m.author.id === game.user.id
+        );
+
+        if (!macro) {
+          macro = await Macro.create({
+            name: macroName,
+            type: "chat",
+            command: macroCommand,
+            img: macroImg
+          });
+        }
+
+        await game.user.assignHotbarMacro(macro, slot);
+        return false;
+
+      } else {
+        // Consequence, Stress, or Other stunts cannot create macros
+        ui.notifications.info(`${item.name} does not have a roll button and cannot create a macro.`);
+        return false;
+      }
+    }
+  }
 
   // Only handle our custom drag types
   if (data.type !== "FactionScionSkill" && data.type !== "FactionScionCapability") {

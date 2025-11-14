@@ -1,0 +1,45 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="header-fields">
+      <div class="name-row">
+        <div class="name-field">
+          <label class="field-label">Stunt Name</label>
+          <input name="name" type="text" value="{{item.name}}" placeholder="Stunt Name"/>
+        </div>
+      </div>
+
+      <div class="icon-field">
+        <label class="field-label">Icon</label>
+        <div class="file-picker-wrapper">
+          <input name="img" type="text" value="{{item.img}}" placeholder="icons/svg/upgrade.svg" data-edit="img"/>
+          <button type="button" class="file-picker" data-type="imagevideo" data-target="img" title="Browse Files" tabindex="-1">
+            <i class="fas fa-file-import fa-fw"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Stunt Effect Info --}}
+    <div class="stunt-effect-section">
+      <div class="subsection-header">Stunt Effect</div>
+      <div class="effect-description">
+        <i class="fas fa-info-circle"></i>
+        This stunt enables the second Minor Consequence slot (2-point). This effect does not stack with multiple consequence stunts.
+      </div>
+    </div>
+
+    {{!-- Description Section --}}
+    <div class="subsection-header">Description</div>
+    <div class="editor-container">
+      {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+    </div>
+
+  </section>
+
+</form>
