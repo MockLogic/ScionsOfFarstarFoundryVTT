@@ -870,13 +870,17 @@ export class FactionScionSheet extends ActorSheet {
    */
   async _onAspectContextMenu(event) {
     event.preventDefault();
+    console.log("Aspect context menu triggered");
 
     const input = event.currentTarget;
     const fieldName = input.getAttribute('name');
     const aspectValue = input.value;
 
+    console.log("Field name:", fieldName, "Value:", aspectValue);
+
     // Don't show menu if aspect is empty
     if (!aspectValue || aspectValue.trim() === '') {
+      console.log("Aspect is empty, not showing menu");
       return;
     }
 
@@ -893,6 +897,8 @@ export class FactionScionSheet extends ActorSheet {
       aspectLabel = game.i18n.localize("SCIONS.Faction.Inheritance");
     }
 
+    console.log("Aspect label:", aspectLabel);
+
     if (!aspectLabel) return;
 
     // Store values in variables for closure
@@ -902,16 +908,21 @@ export class FactionScionSheet extends ActorSheet {
     // Get the parent aspect-box as the context menu container
     const aspectBox = $(input).closest('.aspect-box');
 
+    console.log("Creating context menu on:", aspectBox);
+
     // Create context menu with "Send to Chat" option
-    new ContextMenu(aspectBox, ".aspect-box input[type='text']", [
+    const menu = new ContextMenu(aspectBox, ".aspect-box input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
         callback: async () => {
+          console.log("Context menu callback triggered");
           await this._sendAspectToChat(label, value);
         }
       }
     ]);
+
+    console.log("Context menu created:", menu);
   }
 
   /**
