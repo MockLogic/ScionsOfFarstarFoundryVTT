@@ -21,9 +21,9 @@
       {{!-- Aspects (visible on all tabs) --}}
       <div class="aspect-section">
         {{#each system.aspects as |aspect key|}}
-          {{#if (or aspect.visible editMode)}}
+          {{#if (or aspect.visible ../editMode)}}
             <div class="aspect-box {{#unless aspect.visible}}hidden-in-play{{/unless}}">
-              {{#if editMode}}
+              {{#if ../editMode}}
                 <div class="aspect-edit-controls">
                   <input type="text" name="system.aspects.{{key}}.label" value="{{aspect.label}}" placeholder="Aspect Label" class="aspect-label-edit"/>
                   <label class="aspect-visibility-label">
