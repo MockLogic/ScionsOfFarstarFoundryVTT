@@ -425,9 +425,6 @@ export class ThreatSheet extends ActorSheet {
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", this._onDragStart.bind(this), false);
     });
-
-    // Context menu for aspects (right-click to send to chat)
-    html.find('.aspect-field input[type="text"]').on('contextmenu', this._onAspectContextMenu.bind(this));
   }
 
   /**
@@ -864,76 +861,4 @@ export class ThreatSheet extends ActorSheet {
     await createFateRoll(label, skillValue, null, item.name);
   }
 
-  /**
-   * Handle right-click context menu for aspect fields
-   * @param {Event} event - The contextmenu event
-   */
-  async _onAspectContextMenu(event) {
-    event.preventDefault();
-
-    const input = event.currentTarget;
-    const fieldName = input.getAttribute('name');
-    const aspectValue = input.value;
-
-    // Don't show menu if aspect is empty
-    if (!aspectValue || aspectValue.trim() === '') {
-      return;
-    }
-
-    // Extract aspect key from field name (e.g., "system.aspects.aspect1.value" -> "aspect1")
-    const match = fieldName.match(/system\.aspects\.(\w+)\.value/);
-    if (!match) return;
-
-    const aspectKey = match[1];
-    const aspect = this.actor.system.aspects[aspectKey];
-
-    // Don't show menu if aspect is not visible
-    if (!aspect || !aspect.visible) return;
-
-    // Store values in variables for closure
-    const label = aspect.label;
-    const value = aspectValue;
-
-    // Get the parent aspect-field as the context menu container (use [0] to get HTMLElement)
-    const aspectField = $(input).closest('.aspect-field')[0];
-
-    // Create context menu with "Send to Chat" option using Foundry V13 API
-    new foundry.applications.ux.ContextMenu(aspectField, ".aspect-field input[type='text']", [
-      {
-        name: "Send to Chat",
-        icon: '<i class="fas fa-comment"></i>',
-        callback: async () => {
-          await this._sendAspectToChat(label, value);
-        }
-      }
-    ], { jQuery: false });
-  }
-
-  /**
-   * Send an aspect to chat
-   * @param {string} label - The aspect label
-   * @param {string} value - The aspect value
-   */
-  async _sendAspectToChat(label, value) {
-    const content = `
-      <div class="aspect-chat-card">
-        <div class="aspect-chat-header">
-          <h3>${label}</h3>
-        </div>
-        <div class="aspect-chat-content">
-          <p><strong>${value}</strong></p>
-          <p class="aspect-source">From: ${this.actor.name}</p>
-        </div>
-      </div>
-    `;
-
-    const chatData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      content: content,
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER
-    };
-
-    await ChatMessage.create(chatData);
-  }
 }

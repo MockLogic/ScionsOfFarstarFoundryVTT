@@ -377,9 +377,6 @@ export class FactionScionSheet extends ActorSheet {
     // Context menu for stunt items (right-click to send to chat)
     html.find('.stunt-item').on('contextmenu', this._onStuntContextMenu.bind(this));
 
-    // Context menu for aspects (right-click to send to chat)
-    html.find('.aspect-box input[type="text"]').on('contextmenu', this._onAspectContextMenu.bind(this));
-
     // Drag events for skill/capability macro creation
     // Note: draggable="true" is set in the template on the divs, we just need to add the event listener
     const skillDivs = html.find('.skill-item[draggable="true"]');
@@ -862,95 +859,6 @@ export class FactionScionSheet extends ActorSheet {
         }
       }
     ]);
-  }
-
-  /**
-   * Handle right-click context menu for aspect fields
-   * @param {Event} event - The contextmenu event
-   */
-  async _onAspectContextMenu(event) {
-    event.preventDefault();
-    console.log("Aspect context menu triggered");
-
-    const input = event.currentTarget;
-    const fieldName = input.getAttribute('name');
-    const aspectValue = input.value;
-
-    console.log("Field name:", fieldName, "Value:", aspectValue);
-
-    // Don't show menu if aspect is empty
-    if (!aspectValue || aspectValue.trim() === '') {
-      console.log("Aspect is empty, not showing menu");
-      return;
-    }
-
-    // Determine which aspect was right-clicked based on the field name
-    let aspectLabel = '';
-
-    if (fieldName === 'system.aspects.highConcept.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Faction.HighConcept");
-    } else if (fieldName === 'system.aspects.trouble.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Faction.Trouble");
-    } else if (fieldName === 'system.scion.aspects.scionAspect.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Scion.Aspect");
-    } else if (fieldName === 'system.faction.aspects.inheritance.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Faction.Inheritance");
-    }
-
-    console.log("Aspect label:", aspectLabel);
-
-    if (!aspectLabel) return;
-
-    // Store values in variables for closure
-    const label = aspectLabel;
-    const value = aspectValue;
-
-    // Get the parent aspect-box as the context menu container (use [0] to get HTMLElement)
-    const aspectBox = $(input).closest('.aspect-box')[0];
-
-    console.log("Creating context menu on:", aspectBox);
-
-    // Create context menu with "Send to Chat" option using Foundry V13 API
-    const menu = new foundry.applications.ux.ContextMenu(aspectBox, ".aspect-box input[type='text']", [
-      {
-        name: "Send to Chat",
-        icon: '<i class="fas fa-comment"></i>',
-        callback: async () => {
-          console.log("Context menu callback triggered");
-          await this._sendAspectToChat(label, value);
-        }
-      }
-    ], { jQuery: false });
-
-    console.log("Context menu created:", menu);
-  }
-
-  /**
-   * Send an aspect to chat
-   * @param {string} label - The aspect label
-   * @param {string} value - The aspect value
-   */
-  async _sendAspectToChat(label, value) {
-    const content = `
-      <div class="aspect-chat-card">
-        <div class="aspect-chat-header">
-          <h3>${label}</h3>
-        </div>
-        <div class="aspect-chat-content">
-          <p><strong>${value}</strong></p>
-          <p class="aspect-source">From: ${this.actor.name}</p>
-        </div>
-      </div>
-    `;
-
-    const chatData = {
-      user: game.user.id,
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      content: content,
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER
-    };
-
-    await ChatMessage.create(chatData);
   }
 
   /**
