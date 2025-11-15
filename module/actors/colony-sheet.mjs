@@ -667,11 +667,11 @@ export class ColonySheet extends ActorSheet {
     const label = aspectLabel;
     const value = aspectValue;
 
-    // Get the parent aspect-box as the context menu container
-    const aspectBox = $(input).closest('.aspect-box');
+    // Get the parent aspect-box as the context menu container (use [0] to get HTMLElement)
+    const aspectBox = $(input).closest('.aspect-box')[0];
 
-    // Create context menu with "Send to Chat" option
-    new ContextMenu(aspectBox, ".aspect-box input[type='text']", [
+    // Create context menu with "Send to Chat" option using Foundry V13 API
+    new foundry.applications.ux.ContextMenu(aspectBox, ".aspect-box input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
@@ -679,7 +679,7 @@ export class ColonySheet extends ActorSheet {
           await this._sendAspectToChat(label, value);
         }
       }
-    ]);
+    ], { jQuery: false });
   }
 
   /**

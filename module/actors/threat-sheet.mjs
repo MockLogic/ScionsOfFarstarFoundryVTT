@@ -894,11 +894,11 @@ export class ThreatSheet extends ActorSheet {
     const label = aspect.label;
     const value = aspectValue;
 
-    // Get the parent aspect-field as the context menu container
-    const aspectField = $(input).closest('.aspect-field');
+    // Get the parent aspect-field as the context menu container (use [0] to get HTMLElement)
+    const aspectField = $(input).closest('.aspect-field')[0];
 
-    // Create context menu with "Send to Chat" option
-    new ContextMenu(aspectField, ".aspect-field input[type='text']", [
+    // Create context menu with "Send to Chat" option using Foundry V13 API
+    new foundry.applications.ux.ContextMenu(aspectField, ".aspect-field input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
@@ -906,7 +906,7 @@ export class ThreatSheet extends ActorSheet {
           await this._sendAspectToChat(label, value);
         }
       }
-    ]);
+    ], { jQuery: false });
   }
 
   /**

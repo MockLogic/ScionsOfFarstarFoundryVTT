@@ -892,7 +892,7 @@ export class FactionScionSheet extends ActorSheet {
     } else if (fieldName === 'system.aspects.trouble.value') {
       aspectLabel = game.i18n.localize("SCIONS.Faction.Trouble");
     } else if (fieldName === 'system.scion.aspects.scionAspect.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Scion.ScionAspect");
+      aspectLabel = game.i18n.localize("SCIONS.Scion.Aspect");
     } else if (fieldName === 'system.faction.aspects.inheritance.value') {
       aspectLabel = game.i18n.localize("SCIONS.Faction.Inheritance");
     }
@@ -905,13 +905,13 @@ export class FactionScionSheet extends ActorSheet {
     const label = aspectLabel;
     const value = aspectValue;
 
-    // Get the parent aspect-box as the context menu container
-    const aspectBox = $(input).closest('.aspect-box');
+    // Get the parent aspect-box as the context menu container (use [0] to get HTMLElement)
+    const aspectBox = $(input).closest('.aspect-box')[0];
 
     console.log("Creating context menu on:", aspectBox);
 
-    // Create context menu with "Send to Chat" option
-    const menu = new ContextMenu(aspectBox, ".aspect-box input[type='text']", [
+    // Create context menu with "Send to Chat" option using Foundry V13 API
+    const menu = new foundry.applications.ux.ContextMenu(aspectBox, ".aspect-box input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
@@ -920,7 +920,7 @@ export class FactionScionSheet extends ActorSheet {
           await this._sendAspectToChat(label, value);
         }
       }
-    ]);
+    ], { jQuery: false });
 
     console.log("Context menu created:", menu);
   }
