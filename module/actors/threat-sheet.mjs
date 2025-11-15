@@ -522,9 +522,11 @@ export class ThreatSheet extends ActorSheet {
     }
 
     // Build the chat card HTML
+    const portrait = this.actor.img || 'icons/svg/mystery-man.svg';
     let cardHTML = `
       <div class="threat-share-card">
         <div class="threat-header">
+          <img src="${portrait}" alt="${threatName}" class="threat-portrait"/>
           <h3>${threatName}</h3>
         </div>
     `;

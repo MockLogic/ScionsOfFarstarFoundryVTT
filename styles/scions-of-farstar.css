@@ -4069,14 +4069,26 @@
   margin: -15px -15px 15px -15px;
   border-radius: 6px 6px 0 0;
   border-bottom: 2px solid var(--sof-accent);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.threat-share-card .threat-portrait {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--sof-accent);
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .threat-share-card .threat-header h3 {
   margin: 0;
   font-size: 18px;
   font-weight: bold;
-  text-align: center;
   color: white;
+  flex-grow: 1;
 }
 
 .threat-share-card .threat-section {
