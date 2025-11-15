@@ -894,8 +894,11 @@ export class ThreatSheet extends ActorSheet {
     const label = aspect.label;
     const value = aspectValue;
 
+    // Get the parent aspect-field as the context menu container
+    const aspectField = $(input).closest('.aspect-field');
+
     // Create context menu with "Send to Chat" option
-    new ContextMenu($(input), ".aspect-field input[type='text']", [
+    new ContextMenu(aspectField, ".aspect-field input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',

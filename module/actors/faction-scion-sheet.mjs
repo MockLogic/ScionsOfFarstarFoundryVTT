@@ -899,8 +899,11 @@ export class FactionScionSheet extends ActorSheet {
     const label = aspectLabel;
     const value = aspectValue;
 
+    // Get the parent aspect-box as the context menu container
+    const aspectBox = $(input).closest('.aspect-box');
+
     // Create context menu with "Send to Chat" option
-    new ContextMenu($(input), ".aspect-box input[type='text']", [
+    new ContextMenu(aspectBox, ".aspect-box input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
