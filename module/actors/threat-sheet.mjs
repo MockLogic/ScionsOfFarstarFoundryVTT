@@ -865,7 +865,7 @@ export class ThreatSheet extends ActorSheet {
   }
 
   /**
-   * Handle right-click on aspect fields to send to chat
+   * Handle right-click context menu for aspect fields
    * @param {Event} event - The contextmenu event
    */
   async _onAspectContextMenu(event) {
@@ -875,7 +875,7 @@ export class ThreatSheet extends ActorSheet {
     const fieldName = input.getAttribute('name');
     const aspectValue = input.value;
 
-    // Don't send if aspect is empty
+    // Don't show menu if aspect is empty
     if (!aspectValue || aspectValue.trim() === '') {
       return;
     }
@@ -887,11 +887,23 @@ export class ThreatSheet extends ActorSheet {
     const aspectKey = match[1];
     const aspect = this.actor.system.aspects[aspectKey];
 
-    // Don't send if aspect is not visible
+    // Don't show menu if aspect is not visible
     if (!aspect || !aspect.visible) return;
 
-    // Send aspect to chat
-    await this._sendAspectToChat(aspect.label, aspectValue);
+    // Store values in variables for closure
+    const label = aspect.label;
+    const value = aspectValue;
+
+    // Create context menu with "Send to Chat" option
+    new ContextMenu($(input), ".aspect-field input[type='text']", [
+      {
+        name: "Send to Chat",
+        icon: '<i class="fas fa-comment"></i>',
+        callback: async () => {
+          await this._sendAspectToChat(label, value);
+        }
+      }
+    ]);
   }
 
   /**

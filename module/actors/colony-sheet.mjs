@@ -637,7 +637,7 @@ export class ColonySheet extends ActorSheet {
   }
 
   /**
-   * Handle right-click on aspect fields to send to chat
+   * Handle right-click context menu for aspect fields
    * @param {Event} event - The contextmenu event
    */
   async _onAspectContextMenu(event) {
@@ -647,7 +647,7 @@ export class ColonySheet extends ActorSheet {
     const fieldName = input.getAttribute('name');
     const aspectValue = input.value;
 
-    // Don't send if aspect is empty
+    // Don't show menu if aspect is empty
     if (!aspectValue || aspectValue.trim() === '') {
       return;
     }
@@ -663,8 +663,20 @@ export class ColonySheet extends ActorSheet {
 
     if (!aspectLabel) return;
 
-    // Send aspect to chat
-    await this._sendAspectToChat(aspectLabel, aspectValue);
+    // Store values in variables for closure
+    const label = aspectLabel;
+    const value = aspectValue;
+
+    // Create context menu with "Send to Chat" option
+    new ContextMenu($(input), ".aspect-box input[type='text']", [
+      {
+        name: "Send to Chat",
+        icon: '<i class="fas fa-comment"></i>',
+        callback: async () => {
+          await this._sendAspectToChat(label, value);
+        }
+      }
+    ]);
   }
 
   /**
