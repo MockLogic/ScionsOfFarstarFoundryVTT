@@ -7,7 +7,12 @@
         <div class="name-field">
           <input name="name" type="text" value="{{actor.name}}" placeholder="Threat Name"/>
         </div>
-        <div class="mode-toggle">
+        <div class="header-buttons">
+          {{#unless editMode}}
+            <button type="button" class="share-to-chat" title="Share to Chat">
+              <i class="fas fa-share-alt"></i> Share to Chat
+            </button>
+          {{/unless}}
           <button type="button" class="toggle-edit-mode" title="Toggle Edit/Play Mode">
             {{#if editMode}}
               <i class="fas fa-eye"></i> Switch to Play Mode

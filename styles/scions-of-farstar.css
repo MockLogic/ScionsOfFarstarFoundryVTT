@@ -4020,3 +4020,114 @@
   font-size: 24px;
   font-weight: bold;
 }
+
+/* ===== THREAT SHARE TO CHAT ===== */
+
+/* Header buttons container */
+.threat .header-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Share to Chat button */
+.threat .share-to-chat {
+  background-color: var(--sof-accent);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.threat .share-to-chat:hover {
+  background-color: #cc8800;
+}
+
+.threat .share-to-chat i {
+  margin-right: 5px;
+}
+
+/* Threat Share Chat Card */
+.threat-share-card {
+  background: linear-gradient(to bottom, #2a2a2a 0%, #1a1a1a 100%);
+  border: 2px solid var(--sof-primary);
+  border-radius: 8px;
+  padding: 15px;
+  color: #e0e0e0;
+  font-family: var(--font-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.threat-share-card .threat-header {
+  background-color: var(--sof-primary);
+  color: white;
+  padding: 10px;
+  margin: -15px -15px 15px -15px;
+  border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid var(--sof-accent);
+}
+
+.threat-share-card .threat-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.threat-share-card .threat-section {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #444;
+}
+
+.threat-share-card .threat-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.threat-share-card .section-title {
+  font-weight: bold;
+  color: var(--sof-accent);
+  font-size: 14px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.threat-share-card .aspect-entry,
+.threat-share-card .consequence-entry,
+.threat-share-card .ladder-entry,
+.threat-share-card .age-entry {
+  margin-bottom: 6px;
+  padding-left: 10px;
+  line-height: 1.4;
+}
+
+.threat-share-card .aspect-entry:last-child,
+.threat-share-card .consequence-entry:last-child,
+.threat-share-card .ladder-entry:last-child,
+.threat-share-card .age-entry:last-child {
+  margin-bottom: 0;
+}
+
+.threat-share-card .free-invoke-badge {
+  background-color: var(--sof-accent);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-left: 5px;
+  text-transform: uppercase;
+}
+
+.threat-share-card .rung-info {
+  color: #999;
+  font-size: 12px;
+  font-style: italic;
+}

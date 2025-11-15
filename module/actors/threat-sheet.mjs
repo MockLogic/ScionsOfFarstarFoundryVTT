@@ -354,6 +354,9 @@ export class ThreatSheet extends ActorSheet {
     // Edit/Play mode toggle
     html.find('.toggle-edit-mode').click(this._onToggleEditMode.bind(this));
 
+    // Share to Chat button
+    html.find('.share-to-chat').click(this._onShareToChat.bind(this));
+
     // Aspect visibility toggles (edit mode only)
     html.find('.aspect-visibility-toggle').click(this._onToggleAspectVisibility.bind(this));
 
@@ -434,6 +437,152 @@ export class ThreatSheet extends ActorSheet {
     event.preventDefault();
     const currentMode = this.actor.system.editMode;
     await this.actor.update({ 'system.editMode': !currentMode });
+  }
+
+  /**
+   * Share threat details to chat
+   */
+  async _onShareToChat(event) {
+    event.preventDefault();
+
+    const system = this.actor.system;
+    const threatName = this.actor.name;
+
+    // Collect active aspects (visible ones with values)
+    const activeAspects = [];
+    for (const [key, aspect] of Object.entries(system.aspects)) {
+      if (aspect.visible && aspect.value) {
+        activeAspects.push({
+          label: aspect.label,
+          value: aspect.value
+        });
+      }
+    }
+
+    // Collect active consequences (with free invokes)
+    const activeConsequences = [];
+    const conseqSection = system.modularSections.consequences;
+    if (conseqSection.visible) {
+      const conseqKeys = ['minor', 'minor2', 'moderate', 'severe'];
+      const conseqLabels = {
+        'minor': 'Minor (2)',
+        'minor2': 'Minor (2)',
+        'moderate': 'Moderate (4)',
+        'severe': 'Severe (6)'
+      };
+
+      for (const key of conseqKeys) {
+        const conseq = conseqSection[key];
+        if (conseq.visible && conseq.value) {
+          activeConsequences.push({
+            label: conseqLabels[key],
+            value: conseq.value,
+            freeInvoke: conseq.freeInvoke && !conseq.treated
+          });
+        }
+      }
+    }
+
+    // Collect active ladders
+    const activeLadders = [];
+    for (const ladderKey of ['ladder1', 'ladder2']) {
+      const ladder = system.modularSections[ladderKey];
+      if (ladder.visible) {
+        // Find the highest unchecked rung
+        let highestUnchecked = -1;
+        for (let i = 0; i < ladder.rungCount; i++) {
+          if (!ladder.rungs[i]?.checked) {
+            highestUnchecked = i;
+            break;
+          }
+        }
+
+        if (highestUnchecked !== -1 && ladder.rungs[highestUnchecked].aspect) {
+          activeLadders.push({
+            heading: ladder.heading,
+            currentRung: ladder.rungs[highestUnchecked].aspect,
+            rungNumber: highestUnchecked + 1,
+            totalRungs: ladder.rungCount
+          });
+        }
+      }
+    }
+
+    // Check age track
+    let currentAge = null;
+    const ageTrack = system.modularSections.ageTrack;
+    if (ageTrack.visible && system.currentAgeStage) {
+      const stage = ageTrack.stages[system.currentAgeStage];
+      if (stage) {
+        currentAge = {
+          label: stage.label,
+          ageRange: stage.ageRange
+        };
+      }
+    }
+
+    // Build the chat card HTML
+    let cardHTML = `
+      <div class="threat-share-card">
+        <div class="threat-header">
+          <h3>${threatName}</h3>
+        </div>
+    `;
+
+    // Add aspects
+    if (activeAspects.length > 0) {
+      cardHTML += `<div class="threat-section">`;
+      cardHTML += `<div class="section-title">Aspects</div>`;
+      for (const aspect of activeAspects) {
+        cardHTML += `<div class="aspect-entry"><strong>${aspect.label}:</strong> ${aspect.value}</div>`;
+      }
+      cardHTML += `</div>`;
+    }
+
+    // Add consequences
+    if (activeConsequences.length > 0) {
+      cardHTML += `<div class="threat-section">`;
+      cardHTML += `<div class="section-title">Consequences</div>`;
+      for (const conseq of activeConsequences) {
+        cardHTML += `<div class="consequence-entry">`;
+        cardHTML += `<strong>${conseq.label}:</strong> ${conseq.value}`;
+        if (conseq.freeInvoke) {
+          cardHTML += ` <span class="free-invoke-badge">Free Invoke</span>`;
+        }
+        cardHTML += `</div>`;
+      }
+      cardHTML += `</div>`;
+    }
+
+    // Add ladders
+    if (activeLadders.length > 0) {
+      cardHTML += `<div class="threat-section">`;
+      for (const ladder of activeLadders) {
+        cardHTML += `<div class="ladder-entry">`;
+        cardHTML += `<strong>${ladder.heading}:</strong> ${ladder.currentRung}`;
+        cardHTML += ` <span class="rung-info">(Rung ${ladder.rungNumber}/${ladder.totalRungs})</span>`;
+        cardHTML += `</div>`;
+      }
+      cardHTML += `</div>`;
+    }
+
+    // Add current age
+    if (currentAge) {
+      cardHTML += `<div class="threat-section">`;
+      cardHTML += `<div class="age-entry">`;
+      cardHTML += `<strong>Age:</strong> ${currentAge.label} (${currentAge.ageRange})`;
+      cardHTML += `</div>`;
+      cardHTML += `</div>`;
+    }
+
+    cardHTML += `</div>`;
+
+    // Create the chat message
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      content: cardHTML,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    });
   }
 
   /**
