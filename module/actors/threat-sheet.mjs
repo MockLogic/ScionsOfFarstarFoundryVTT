@@ -477,7 +477,7 @@ export class ThreatSheet extends ActorSheet {
           activeConsequences.push({
             label: conseqLabels[key],
             value: conseq.value,
-            freeInvoke: conseq.freeInvoke && !conseq.treated
+            freeInvoke: !conseq.freeInvoke && !conseq.treated
           });
         }
       }
