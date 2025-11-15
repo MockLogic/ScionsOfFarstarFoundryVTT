@@ -3881,6 +3881,53 @@
   color: var(--sof-secondary);
 }
 
+/* ========================================
+   ASPECT CHAT CARDS
+   ======================================== */
+
+.aspect-chat-card {
+  border-radius: 4px;
+  padding: 12px;
+  margin: 8px 0;
+  background: #fff3cd;
+  border-left: 4px solid #f39c12;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.aspect-chat-header {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.aspect-chat-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--sof-primary);
+}
+
+.aspect-chat-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.aspect-chat-content p {
+  margin: 0 0 8px 0;
+}
+
+.aspect-chat-content p:last-child {
+  margin-bottom: 0;
+}
+
+.aspect-chat-content .aspect-source {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--sof-secondary);
+  margin-top: 8px;
+}
+
 /* ===========================
    Simple Aspect Actor Sheet
    =========================== */
