@@ -427,7 +427,7 @@ export class ThreatSheet extends ActorSheet {
     });
 
     // Context menu for aspects (right-click to send to chat)
-    html.find('.aspect-field input[type="text"]').on('contextmenu', this._onAspectContextMenu.bind(this));
+    this._createAspectContextMenu(html);
   }
 
   /**
@@ -865,43 +865,44 @@ export class ThreatSheet extends ActorSheet {
   }
 
   /**
-   * Handle right-click context menu for aspect fields
-   * @param {Event} event - The contextmenu event
+   * Create context menu for aspect fields
+   * @param {jQuery} html - The sheet's HTML
    */
-  async _onAspectContextMenu(event) {
-    event.preventDefault();
-
-    const input = event.currentTarget;
-    const fieldName = input.getAttribute('name');
-
-    // Determine which aspect was right-clicked based on the field name
-    let aspectLabel = '';
-    let aspectValue = '';
-
-    // Extract aspect key from field name (e.g., "system.aspects.aspect1.value" -> "aspect1")
-    const match = fieldName.match(/system\.aspects\.(\w+)\.value/);
-    if (match) {
-      const aspectKey = match[1];
-      const aspect = this.actor.system.aspects[aspectKey];
-
-      if (aspect && aspect.visible) {
-        aspectLabel = aspect.label;
-        aspectValue = aspect.value;
-      }
-    }
-
-    // Don't show menu if aspect is empty
-    if (!aspectValue || aspectValue.trim() === '') {
-      return;
-    }
-
-    // Create context menu with "Send to Chat" option
-    new ContextMenu($(input), ".aspect-field input", [
+  _createAspectContextMenu(html) {
+    new ContextMenu(html, ".aspect-field input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
-        callback: async () => {
-          await this._sendAspectToChat(aspectLabel, aspectValue);
+        condition: (li) => {
+          const input = li[0];
+          const fieldName = input.getAttribute('name');
+          const value = input.value;
+
+          // Extract aspect key from field name
+          const match = fieldName.match(/system\.aspects\.(\w+)\.value/);
+          if (!match) return false;
+
+          const aspectKey = match[1];
+          const aspect = this.actor.system.aspects[aspectKey];
+
+          // Only show menu if aspect is visible and has a value
+          return aspect && aspect.visible && value && value.trim() !== '';
+        },
+        callback: async (li) => {
+          const input = li[0];
+          const fieldName = input.getAttribute('name');
+          const aspectValue = input.value;
+
+          // Extract aspect key from field name
+          const match = fieldName.match(/system\.aspects\.(\w+)\.value/);
+          if (match) {
+            const aspectKey = match[1];
+            const aspect = this.actor.system.aspects[aspectKey];
+
+            if (aspect && aspect.visible && aspectValue) {
+              await this._sendAspectToChat(aspect.label, aspectValue);
+            }
+          }
         }
       }
     ]);

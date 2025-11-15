@@ -269,7 +269,7 @@ export class ColonySheet extends ActorSheet {
     });
 
     // Context menu for aspects (right-click to send to chat)
-    html.find('.aspect-box input[type="text"]').on('contextmenu', this._onAspectContextMenu.bind(this));
+    this._createAspectContextMenu(html);
   }
 
   /**
@@ -637,39 +637,37 @@ export class ColonySheet extends ActorSheet {
   }
 
   /**
-   * Handle right-click context menu for aspect fields
-   * @param {Event} event - The contextmenu event
+   * Create context menu for aspect fields
+   * @param {jQuery} html - The sheet's HTML
    */
-  async _onAspectContextMenu(event) {
-    event.preventDefault();
-
-    const input = event.currentTarget;
-    const fieldName = input.getAttribute('name');
-
-    // Determine which aspect was right-clicked based on the field name
-    let aspectLabel = '';
-    let aspectValue = '';
-
-    if (fieldName === 'system.aspects.highConcept.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Colony.HighConcept") || "High Concept";
-      aspectValue = this.actor.system.aspects.highConcept.value;
-    } else if (fieldName === 'system.aspects.trouble.value') {
-      aspectLabel = game.i18n.localize("SCIONS.Colony.Trouble") || "Trouble";
-      aspectValue = this.actor.system.aspects.trouble.value;
-    }
-
-    // Don't show menu if aspect is empty
-    if (!aspectValue || aspectValue.trim() === '') {
-      return;
-    }
-
-    // Create context menu with "Send to Chat" option
-    new ContextMenu($(input), ".aspect-box input", [
+  _createAspectContextMenu(html) {
+    new ContextMenu(html, ".aspect-box input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
-        callback: async () => {
-          await this._sendAspectToChat(aspectLabel, aspectValue);
+        condition: (li) => {
+          const input = li[0];
+          const value = input.value;
+          // Only show menu if aspect has a value
+          return value && value.trim() !== '';
+        },
+        callback: async (li) => {
+          const input = li[0];
+          const fieldName = input.getAttribute('name');
+          const aspectValue = input.value;
+
+          // Determine which aspect was right-clicked based on the field name
+          let aspectLabel = '';
+
+          if (fieldName === 'system.aspects.highConcept.value') {
+            aspectLabel = game.i18n.localize("SCIONS.Colony.HighConcept") || "High Concept";
+          } else if (fieldName === 'system.aspects.trouble.value') {
+            aspectLabel = game.i18n.localize("SCIONS.Colony.Trouble") || "Trouble";
+          }
+
+          if (aspectLabel && aspectValue) {
+            await this._sendAspectToChat(aspectLabel, aspectValue);
+          }
         }
       }
     ]);
