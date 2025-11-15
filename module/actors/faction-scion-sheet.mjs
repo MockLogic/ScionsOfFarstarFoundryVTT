@@ -378,7 +378,7 @@ export class FactionScionSheet extends ActorSheet {
     html.find('.stunt-item').on('contextmenu', this._onStuntContextMenu.bind(this));
 
     // Context menu for aspects (right-click to send to chat)
-    this._createAspectContextMenu(html);
+    html.find('.aspect-box input[type="text"]').on('contextmenu', this._onAspectContextMenu.bind(this));
 
     // Drag events for skill/capability macro creation
     // Note: draggable="true" is set in the template on the divs, we just need to add the event listener
@@ -865,42 +865,43 @@ export class FactionScionSheet extends ActorSheet {
   }
 
   /**
-   * Create context menu for aspect fields
-   * @param {jQuery} html - The sheet's HTML
+   * Handle right-click context menu for aspect fields
+   * @param {Event} event - The contextmenu event
    */
-  _createAspectContextMenu(html) {
-    new ContextMenu(html, ".aspect-box input[type='text']", [
+  async _onAspectContextMenu(event) {
+    event.preventDefault();
+
+    const input = event.currentTarget;
+    const fieldName = input.getAttribute('name');
+    const aspectValue = input.value;
+
+    // Don't show menu if aspect is empty
+    if (!aspectValue || aspectValue.trim() === '') {
+      return;
+    }
+
+    // Determine which aspect was right-clicked based on the field name
+    let aspectLabel = '';
+
+    if (fieldName === 'system.aspects.highConcept.value') {
+      aspectLabel = game.i18n.localize("SCIONS.Faction.HighConcept");
+    } else if (fieldName === 'system.aspects.trouble.value') {
+      aspectLabel = game.i18n.localize("SCIONS.Faction.Trouble");
+    } else if (fieldName === 'system.scion.aspects.scionAspect.value') {
+      aspectLabel = game.i18n.localize("SCIONS.Scion.ScionAspect");
+    } else if (fieldName === 'system.faction.aspects.inheritance.value') {
+      aspectLabel = game.i18n.localize("SCIONS.Faction.Inheritance");
+    }
+
+    if (!aspectLabel) return;
+
+    // Create context menu with "Send to Chat" option
+    new ContextMenu($(input), ".aspect-box input[type='text']", [
       {
         name: "Send to Chat",
         icon: '<i class="fas fa-comment"></i>',
-        condition: (li) => {
-          const input = li[0];
-          const fieldName = input.getAttribute('name');
-          const value = input.value;
-          // Only show menu if aspect has a value
-          return value && value.trim() !== '';
-        },
-        callback: async (li) => {
-          const input = li[0];
-          const fieldName = input.getAttribute('name');
-
-          // Determine which aspect was right-clicked based on the field name
-          let aspectLabel = '';
-          let aspectValue = input.value;
-
-          if (fieldName === 'system.aspects.highConcept.value') {
-            aspectLabel = game.i18n.localize("SCIONS.Faction.HighConcept");
-          } else if (fieldName === 'system.aspects.trouble.value') {
-            aspectLabel = game.i18n.localize("SCIONS.Faction.Trouble");
-          } else if (fieldName === 'system.scion.aspects.scionAspect.value') {
-            aspectLabel = game.i18n.localize("SCIONS.Scion.ScionAspect");
-          } else if (fieldName === 'system.faction.aspects.inheritance.value') {
-            aspectLabel = game.i18n.localize("SCIONS.Faction.Inheritance");
-          }
-
-          if (aspectLabel && aspectValue) {
-            await this._sendAspectToChat(aspectLabel, aspectValue);
-          }
+        callback: async () => {
+          await this._sendAspectToChat(aspectLabel, aspectValue);
         }
       }
     ]);
