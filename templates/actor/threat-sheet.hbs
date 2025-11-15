@@ -26,7 +26,7 @@
               {{#if editMode}}
                 <div class="aspect-edit-controls">
                   <input type="text" name="system.aspects.{{key}}.label" value="{{aspect.label}}" placeholder="Aspect Label" class="aspect-label-edit"/>
-                  <label class="aspect-visibility-toggle">
+                  <label class="aspect-visibility-label">
                     <input type="checkbox" class="aspect-visibility-toggle" data-aspect="{{key}}" {{checked aspect.visible}}/>
                     {{localize "SCIONS.Labels.Visible"}}
                   </label>

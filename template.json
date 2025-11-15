@@ -199,17 +199,17 @@
           "visible": true
         },
         "aspect3": {
-          "label": "Aspect",
+          "label": "Inheritance",
           "value": "",
           "visible": false
         },
         "aspect4": {
-          "label": "Aspect",
+          "label": "Connection",
           "value": "",
           "visible": false
         },
         "aspect5": {
-          "label": "Aspect",
+          "label": "Scion",
           "value": "",
           "visible": false
         }
