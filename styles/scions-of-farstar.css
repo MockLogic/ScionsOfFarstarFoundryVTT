@@ -98,12 +98,15 @@
 .scions-of-farstar.item.extra .aspect-section {
   width: 100%;
   display: block;
+  padding: 10px 15px;
+  box-sizing: border-box;
 }
 
 .scions-of-farstar.item.extra .aspect-row {
   display: flex;
   gap: 10px;
   align-items: flex-end;
+  width: 100%;
 }
 
 .scions-of-farstar.item.extra .aspect-label-field {
