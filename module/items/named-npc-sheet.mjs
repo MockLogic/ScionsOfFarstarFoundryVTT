@@ -127,11 +127,75 @@ export class NamedNpcSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // Share to Chat button
+    html.find('.share-to-chat').click(this._onShareToChat.bind(this));
+
     // Age scar checkboxes
     html.find('.age-scar').click(this._onAgeScarToggle.bind(this));
 
     // Skill roll button
     html.find('.roll-npc-skill').click(this._onRollSkill.bind(this));
+  }
+
+  /**
+   * Share NPC details to chat
+   */
+  async _onShareToChat(event) {
+    event.preventDefault();
+
+    const system = this.item.system;
+    const npcName = this.item.name;
+    const npcData = this._calculateNpcData(system);
+
+    // Build the chat card HTML
+    let cardHTML = `
+      <div class="npc-share-card">
+        <div class="npc-header">
+          <h3>${npcName}</h3>
+        </div>
+    `;
+
+    // Add current age
+    cardHTML += `<div class="npc-section">`;
+    if (npcData.isDeceased) {
+      cardHTML += `<div class="age-entry deceased"><strong>Status:</strong> Deceased (Gen ${npcData.deathGeneration})</div>`;
+    } else {
+      cardHTML += `<div class="age-entry"><strong>Age:</strong> ${npcData.currentAgeLabel}</div>`;
+    }
+    cardHTML += `</div>`;
+
+    // Add aspect if present
+    if (system.aspect) {
+      cardHTML += `<div class="npc-section">`;
+      cardHTML += `<div class="section-title">Aspect</div>`;
+      cardHTML += `<div class="aspect-entry">${system.aspect}</div>`;
+      cardHTML += `</div>`;
+    }
+
+    // Add skill if present
+    if (system.skillName) {
+      cardHTML += `<div class="npc-section">`;
+      cardHTML += `<div class="section-title">Notable Skill</div>`;
+      cardHTML += `<div class="skill-entry"><strong>${system.skillName}</strong> ${this._formatSkillValue(system.skillValue)}</div>`;
+      cardHTML += `</div>`;
+    }
+
+    cardHTML += `</div>`;
+
+    // Create the chat message
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker(),
+      content: cardHTML,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    });
+  }
+
+  /**
+   * Format skill value with + or - sign
+   */
+  _formatSkillValue(value) {
+    const num = value || 0;
+    return num >= 0 ? `+${num}` : `${num}`;
   }
 
   /**
