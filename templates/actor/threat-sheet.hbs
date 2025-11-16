@@ -537,7 +537,7 @@
 
     {{!-- Minor (2) --}}
     {{#if (or section.minor.visible editMode)}}
-      <div class="consequence-box minor {{#if section.minor.value}}active{{/if}} {{#if section.minor.treated}}treated{{/if}}" data-consequence-type="minor">
+      <div class="consequence-box minor {{#if section.minor.value}}active{{/if}} {{#if section.minor.treated}}treated{{/if}}">
         <div class="consequence-header">
           <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
           {{#if editMode}}
@@ -572,7 +572,7 @@
 
     {{!-- Minor2 (2) --}}
     {{#if (or section.minor2.visible editMode)}}
-      <div class="consequence-box minor {{#if section.minor2.value}}active{{/if}} {{#if section.minor2.treated}}treated{{/if}}" data-consequence-type="minor2">
+      <div class="consequence-box minor {{#if section.minor2.value}}active{{/if}} {{#if section.minor2.treated}}treated{{/if}}">
         <div class="consequence-header">
           <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
           {{#if editMode}}
@@ -607,7 +607,7 @@
 
     {{!-- Moderate (4) --}}
     {{#if (or section.moderate.visible editMode)}}
-      <div class="consequence-box {{#if section.moderate.value}}active{{/if}} {{#if section.moderate.treated}}treated{{/if}}" data-consequence-type="moderate">
+      <div class="consequence-box {{#if section.moderate.value}}active{{/if}} {{#if section.moderate.treated}}treated{{/if}}">
         <div class="consequence-header">
           <label class="consequence-label">{{localize "SCIONS.Consequences.Moderate"}}</label>
           {{#if editMode}}
@@ -642,7 +642,7 @@
 
     {{!-- Severe (6) --}}
     {{#if (or section.severe.visible editMode)}}
-      <div class="consequence-box severe {{#if section.severe.value}}active{{/if}} {{#if section.severe.treated}}treated{{/if}}" data-consequence-type="severe">
+      <div class="consequence-box severe {{#if section.severe.value}}active{{/if}} {{#if section.severe.treated}}treated{{/if}}">
         <div class="consequence-header">
           <label class="consequence-label">{{localize "SCIONS.Consequences.Severe"}}</label>
           {{#if editMode}}

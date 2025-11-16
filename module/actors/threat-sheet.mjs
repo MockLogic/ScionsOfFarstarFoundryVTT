@@ -377,9 +377,6 @@ export class ThreatSheet extends ActorSheet {
     // Consequence visibility toggles (edit mode only)
     html.find('.consequence-visibility-toggle').click(this._onToggleConsequenceVisibility.bind(this));
 
-    // Context menu for consequence boxes (right-click to send to chat)
-    html.find('.consequence-box').on('contextmenu', this._onConsequenceContextMenu.bind(this));
-
     // Ladder rung count adjusters (edit mode only)
     html.find('.ladder-rung-increment').click(this._onAdjustLadderRungCount.bind(this, 1));
     html.find('.ladder-rung-decrement').click(this._onAdjustLadderRungCount.bind(this, -1));
@@ -1013,115 +1010,6 @@ export class ThreatSheet extends ActorSheet {
     // Create the label and roll
     const label = `${item.name}: ${skillName}`;
     await createFateRoll(label, skillValue, null, item.name);
-  }
-
-  /**
-   * Handle right-click context menu for consequence boxes
-   * @param {Event} event - The contextmenu event
-   */
-  async _onConsequenceContextMenu(event) {
-    event.preventDefault();
-
-    const consequenceType = event.currentTarget.dataset.consequenceType;
-    const consequence = this.actor.system.modularSections.consequences[consequenceType];
-
-    if (!consequence) return;
-
-    // Only show context menu if consequence is active or treated
-    if (!consequence.value) return;
-
-    // Create context menu with "Send to Chat" option
-    new ContextMenu($(event.currentTarget), ".consequence-box", [
-      {
-        name: game.i18n.localize('SCIONS.Chat.SendToChat'),
-        icon: '<i class="fas fa-comment"></i>',
-        callback: async (li) => {
-          const cType = li.data("consequenceType");
-          await this._sendConsequenceToChat(cType);
-        }
-      }
-    ]);
-  }
-
-  /**
-   * Send a consequence to chat
-   * @param {string} consequenceType - The type of consequence (minor, minor2, moderate, severe)
-   */
-  async _sendConsequenceToChat(consequenceType) {
-    const consequence = this.actor.system.modularSections.consequences[consequenceType];
-
-    if (!consequence || !consequence.value) return;
-
-    // Determine consequence details
-    const consequenceLabels = {
-      minor: game.i18n.localize('SCIONS.Consequences.MinorLabel'),
-      minor2: game.i18n.localize('SCIONS.Consequences.MinorLabel'),
-      moderate: game.i18n.localize('SCIONS.Consequences.ModerateLabel'),
-      severe: game.i18n.localize('SCIONS.Consequences.SevereLabel')
-    };
-
-    const consequenceClears = {
-      minor: game.i18n.localize('SCIONS.Consequences.MinorHint'),
-      minor2: game.i18n.localize('SCIONS.Consequences.MinorHint'),
-      moderate: game.i18n.localize('SCIONS.Consequences.ModerateHint'),
-      severe: game.i18n.localize('SCIONS.Consequences.SevereHint')
-    };
-
-    const consequenceColors = {
-      minor: '#3498db', // blue (--sof-accent)
-      minor2: '#3498db',
-      moderate: '#f39c12', // orange (--sof-warning)
-      severe: '#e74c3c' // red (--sof-danger)
-    };
-
-    const label = consequenceLabels[consequenceType];
-    const clears = consequenceClears[consequenceType];
-    const borderColor = consequenceColors[consequenceType];
-
-    // Determine status (Active or Treated)
-    const isActive = consequence.value && !consequence.treated;
-    const isTreated = consequence.treated;
-
-    // Build the chat card HTML
-    let cardHTML = `
-      <div class="consequence-chat-card" style="border-left-color: ${borderColor};">
-        <div class="consequence-chat-header">
-          <h3 class="consequence-chat-title">${label}</h3>
-    `;
-
-    // Add status badge
-    if (isTreated) {
-      cardHTML += `<span class="status-badge treated">${game.i18n.localize('SCIONS.Consequences.Treated')}</span>`;
-    } else if (isActive) {
-      cardHTML += `<span class="status-badge active">${game.i18n.localize('SCIONS.Consequences.Active')}</span>`;
-    }
-
-    cardHTML += `
-        </div>
-        <div class="consequence-chat-body">
-          <div class="consequence-chat-aspect">${consequence.value}</div>
-    `;
-
-    // Add free invoke badge if applicable
-    // freeInvoke is true when the checkbox is checked (invoke has been used)
-    // We want to show the badge when it's AVAILABLE (unchecked/false)
-    if (!consequence.freeInvoke && isActive) {
-      cardHTML += `<div class="consequence-chat-invoke"><span class="free-invoke-badge">${game.i18n.localize('SCIONS.Consequences.FreeInvoke')}</span></div>`;
-    }
-
-    // Add clears reminder
-    cardHTML += `
-          <div class="consequence-chat-clears">${clears}</div>
-        </div>
-      </div>
-    `;
-
-    // Create the chat message with the actor as speaker
-    await ChatMessage.create({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      content: cardHTML,
-      type: CONST.CHAT_MESSAGE_TYPES.OTHER
-    });
   }
 
 }
