@@ -4034,49 +4034,73 @@
   margin-bottom: 0;
 }
 
-.extra-chat-body .ladder-display {
-  margin-top: 6px;
-  margin-left: 12px;
+.extra-chat-body .ladder-display-chat {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.extra-chat-body .ladder-rung-display {
-  padding: 4px 8px;
-  margin: 2px 0;
-  border-radius: 3px;
-  font-size: 13px;
+.extra-chat-body .ladder-rung-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.extra-chat-body .ladder-rung-display.checked {
+.extra-chat-body .ladder-rung-row.active .rung-aspect {
+  font-weight: 700;
+}
+
+.extra-chat-body .rung-aspect {
+  font-size: 14px;
+  color: #333;
+}
+
+.extra-chat-body .rung-aspect.checked {
   color: #999;
   text-decoration: line-through;
 }
 
-.extra-chat-body .ladder-rung-display.unchecked {
-  color: #333;
-}
-
-.extra-chat-body .ladder-rung-display.active {
-  font-weight: 700;
-}
-
-.extra-chat-body .track-display {
-  margin-top: 6px;
+.extra-chat-body .track-display-chat {
+  margin-top: 8px;
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
 }
 
-.extra-chat-body .track-box-display {
-  font-size: 13px;
-  white-space: nowrap;
+.extra-chat-body .chat-box {
+  position: relative;
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  border: 2px solid var(--sof-border);
+  border-radius: 3px;
+  background: white;
+  font-size: 14px;
+  color: var(--sof-secondary);
 }
 
-.extra-chat-body .track-box-display.checked {
-  color: #999;
+.extra-chat-body .chat-box.checked {
+  background: #ffebee;
+  border-color: var(--sof-danger);
 }
 
-.extra-chat-body .track-box-display.unchecked {
-  color: #333;
+.extra-chat-body .chat-box .box-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: normal;
+  color: var(--sof-secondary);
+  pointer-events: none;
+}
+
+.extra-chat-body .chat-box.checked .box-value {
+  color: var(--sof-danger);
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .extra-chat-body .description {
@@ -4097,6 +4121,12 @@
   margin-left: 5px;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.extra-chat-card .free-invoke-badge .invoke-count {
+  font-size: 14px;
+  font-weight: 900;
+  margin-left: 2px;
 }
 
 /* ===========================

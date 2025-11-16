@@ -161,9 +161,13 @@ export class ExtraSheet extends ItemSheet {
         <div class="extra-section">
           <strong>${aspectLabel}:</strong> ${system.aspect}`;
 
-      // Add free invoke badges
-      for (let i = 0; i < availableInvokes; i++) {
-        cardHTML += ` <span class="free-invoke-badge">Free Invoke</span>`;
+      // Add free invoke badge with count if multiple
+      if (availableInvokes > 0) {
+        if (availableInvokes === 1) {
+          cardHTML += ` <span class="free-invoke-badge">Free Invoke</span>`;
+        } else {
+          cardHTML += ` <span class="free-invoke-badge">Free Invoke <span class="invoke-count">x${availableInvokes}</span></span>`;
+        }
       }
 
       cardHTML += `
@@ -174,6 +178,7 @@ export class ExtraSheet extends ItemSheet {
     // Add ladder information if this is an extra-ladder
     if (extraType === 'extra-ladder' && system.rungs) {
       const ladderLabel = system.ladderLabel || 'Ladder';
+      const traumaValue = system.traumaValue || 0;
 
       // Find the highest unchecked rung (currently active)
       let highestUncheckedIndex = -1;
@@ -187,19 +192,22 @@ export class ExtraSheet extends ItemSheet {
       cardHTML += `
         <div class="extra-section ladder-section">
           <strong>${ladderLabel}:</strong>
-          <div class="ladder-display">
+          <div class="ladder-display-chat">
       `;
 
       // Show all rungs (not just the active one)
       system.rungs.forEach((rung, index) => {
         if (rung.aspect) {
-          const checkedClass = rung.checked ? 'checked' : 'unchecked';
+          const checkedClass = rung.checked ? 'checked' : '';
           const activeClass = index === highestUncheckedIndex ? 'active' : '';
-          const checkmark = rung.checked ? '☑' : '☐';
-          const traumaDisplay = system.traumaValue > 0 ? ` [${system.traumaValue}]` : '';
+
+          // Show box with value (if trauma value set) or empty
           cardHTML += `
-            <div class="ladder-rung-display ${checkedClass} ${activeClass}">
-              ${checkmark} ${rung.aspect}${traumaDisplay}
+            <div class="ladder-rung-row ${activeClass}">
+              <div class="chat-box ${checkedClass}">
+                ${traumaValue > 0 ? `<span class="box-value">${traumaValue}</span>` : ''}
+              </div>
+              <span class="rung-aspect ${checkedClass}">${rung.aspect}</span>
             </div>
           `;
         }
@@ -229,16 +237,19 @@ export class ExtraSheet extends ItemSheet {
       cardHTML += `
         <div class="extra-section">
           <strong>${trackLabel}:</strong>
-          <div class="track-display">
+          <div class="track-display-chat">
       `;
 
       // Display each box visually
       system.boxes.forEach((box, index) => {
-        const checkmark = box.checked ? '☑' : '☐';
         const boxValue = isGrowing ? index + 1 : trackValue;
-        const valueDisplay = boxValue > 0 ? ` [${boxValue}]` : '';
+        const checkedClass = box.checked ? 'checked' : '';
 
-        cardHTML += `<span class="track-box-display ${box.checked ? 'checked' : 'unchecked'}">${checkmark}${valueDisplay}</span> `;
+        cardHTML += `
+          <div class="chat-box ${checkedClass}">
+            ${boxValue > 0 ? `<span class="box-value">${boxValue}</span>` : ''}
+          </div>
+        `;
       });
 
       cardHTML += `
