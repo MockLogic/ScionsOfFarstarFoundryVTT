@@ -138,7 +138,7 @@
             <div class="consequence-reminder">{{localize "SCIONS.Consequences.ExtraMinorReminder"}}</div>
           {{/if}}
 
-          <div class="consequence-box minor {{#if system.consequences.minor.value}}active{{/if}} {{#if system.consequences.minor.treated}}treated{{/if}}">
+          <div class="consequence-box minor {{#if system.consequences.minor.value}}active{{/if}} {{#if system.consequences.minor.treated}}treated{{/if}}" data-consequence-type="minor">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
               <div class="consequence-status">
@@ -167,7 +167,7 @@
 
           {{!-- Minor2 (2) - Optional second minor consequence --}}
           {{#if system.consequences.minor2.enabled}}
-            <div class="consequence-box minor {{#if system.consequences.minor2.value}}active{{/if}} {{#if system.consequences.minor2.treated}}treated{{/if}}">
+            <div class="consequence-box minor {{#if system.consequences.minor2.value}}active{{/if}} {{#if system.consequences.minor2.treated}}treated{{/if}}" data-consequence-type="minor2">
               <div class="consequence-header">
                 <label class="consequence-label">{{localize "SCIONS.Consequences.Minor"}}</label>
                 <div class="consequence-status">
@@ -195,7 +195,7 @@
             </div>
           {{/if}}
 
-          <div class="consequence-box {{#if system.consequences.moderate.value}}active{{/if}} {{#if system.consequences.moderate.treated}}treated{{/if}}">
+          <div class="consequence-box {{#if system.consequences.moderate.value}}active{{/if}} {{#if system.consequences.moderate.treated}}treated{{/if}}" data-consequence-type="moderate">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Moderate"}}</label>
               <div class="consequence-status">
@@ -222,7 +222,7 @@
             <div class="consequence-hint">{{localize "SCIONS.Consequences.ModerateHint"}}</div>
           </div>
 
-          <div class="consequence-box severe {{#if system.consequences.severe.value}}active{{/if}} {{#if system.consequences.severe.treated}}treated{{/if}}">
+          <div class="consequence-box severe {{#if system.consequences.severe.value}}active{{/if}} {{#if system.consequences.severe.treated}}treated{{/if}}" data-consequence-type="severe">
             <div class="consequence-header">
               <label class="consequence-label">{{localize "SCIONS.Consequences.Severe"}}</label>
               <div class="consequence-status">

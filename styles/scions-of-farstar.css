@@ -4135,6 +4135,71 @@
 }
 
 /* ===========================
+   Consequence Chat Cards
+   =========================== */
+
+.consequence-chat-card {
+  background: white;
+  border: 1px solid var(--sof-border);
+  border-left: 4px solid var(--sof-warning);
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.consequence-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.consequence-chat-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  color: var(--sof-primary);
+}
+
+.consequence-chat-body {
+  padding: 8px 0;
+}
+
+.consequence-chat-aspect {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--sof-secondary);
+}
+
+.consequence-chat-invoke {
+  margin: 6px 0;
+}
+
+.consequence-chat-card .free-invoke-badge {
+  background-color: var(--sof-accent);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.consequence-chat-clears {
+  font-size: 12px;
+  font-style: italic;
+  color: #7f8c8d;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* ===========================
    Simple Aspect Actor Sheet
    =========================== */
 

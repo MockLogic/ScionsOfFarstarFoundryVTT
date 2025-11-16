@@ -377,6 +377,9 @@ export class FactionScionSheet extends ActorSheet {
     // Context menu for stunt items (right-click to send to chat)
     html.find('.stunt-item').on('contextmenu', this._onStuntContextMenu.bind(this));
 
+    // Context menu for consequence boxes (right-click to send to chat)
+    html.find('.consequence-box').on('contextmenu', this._onConsequenceContextMenu.bind(this));
+
     // Drag events for skill/capability macro creation
     // Note: draggable="true" is set in the template on the divs, we just need to add the event listener
     const skillDivs = html.find('.skill-item[draggable="true"]');
@@ -859,6 +862,113 @@ export class FactionScionSheet extends ActorSheet {
         }
       }
     ]);
+  }
+
+  /**
+   * Handle right-click context menu for consequence boxes
+   * @param {Event} event - The contextmenu event
+   */
+  async _onConsequenceContextMenu(event) {
+    event.preventDefault();
+
+    const consequenceType = event.currentTarget.dataset.consequenceType;
+    const consequence = this.actor.system.consequences[consequenceType];
+
+    if (!consequence) return;
+
+    // Only show context menu if consequence is active or treated
+    if (!consequence.value) return;
+
+    // Create context menu with "Send to Chat" option
+    new ContextMenu($(event.currentTarget), ".consequence-box", [
+      {
+        name: "Send to Chat",
+        icon: '<i class="fas fa-comment"></i>',
+        callback: async (li) => {
+          const cType = li.data("consequenceType");
+          await this._sendConsequenceToChat(cType);
+        }
+      }
+    ]);
+  }
+
+  /**
+   * Send a consequence to chat
+   * @param {string} consequenceType - The type of consequence (minor, minor2, moderate, severe)
+   */
+  async _sendConsequenceToChat(consequenceType) {
+    const consequence = this.actor.system.consequences[consequenceType];
+
+    if (!consequence || !consequence.value) return;
+
+    // Determine consequence details
+    const consequenceLabels = {
+      minor: 'Minor (2-Point)',
+      minor2: 'Minor (2-Point)',
+      moderate: 'Moderate (4-Point)',
+      severe: 'Severe (6-Point)'
+    };
+
+    const consequenceClears = {
+      minor: 'Clears: 1 Session',
+      minor2: 'Clears: 1 Session',
+      moderate: 'Clears: 1 Scenario',
+      severe: 'Clears: 1 Milestone'
+    };
+
+    const consequenceColors = {
+      minor: '#3498db', // blue (--sof-accent)
+      minor2: '#3498db',
+      moderate: '#f39c12', // orange (--sof-warning)
+      severe: '#e74c3c' // red (--sof-danger)
+    };
+
+    const label = consequenceLabels[consequenceType];
+    const clears = consequenceClears[consequenceType];
+    const borderColor = consequenceColors[consequenceType];
+
+    // Determine status (Active or Treated)
+    const isActive = consequence.value && !consequence.treated;
+    const isTreated = consequence.treated;
+
+    // Build the chat card HTML
+    let cardHTML = `
+      <div class="consequence-chat-card" style="border-left-color: ${borderColor};">
+        <div class="consequence-chat-header">
+          <h3 class="consequence-chat-title">${label}</h3>
+    `;
+
+    // Add status badge
+    if (isTreated) {
+      cardHTML += `<span class="status-badge treated">Treated</span>`;
+    } else if (isActive) {
+      cardHTML += `<span class="status-badge active">Active</span>`;
+    }
+
+    cardHTML += `
+        </div>
+        <div class="consequence-chat-body">
+          <div class="consequence-chat-aspect">${consequence.value}</div>
+    `;
+
+    // Add free invoke badge if applicable
+    if (consequence.freeInvoke) {
+      cardHTML += `<div class="consequence-chat-invoke"><span class="free-invoke-badge">Free Invoke</span></div>`;
+    }
+
+    // Add clears reminder
+    cardHTML += `
+          <div class="consequence-chat-clears">${clears}</div>
+        </div>
+      </div>
+    `;
+
+    // Create the chat message with the actor as speaker
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      content: cardHTML,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    });
   }
 
   /**
