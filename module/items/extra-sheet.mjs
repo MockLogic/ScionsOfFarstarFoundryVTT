@@ -201,11 +201,18 @@ export class ExtraSheet extends ItemSheet {
           const checkedClass = rung.checked ? 'checked' : '';
           const activeClass = index === highestUncheckedIndex ? 'active' : '';
 
-          // Show box with value (if trauma value set) or empty
+          // Show box with value when unchecked, checkmark when checked
+          let boxContent = '';
+          if (rung.checked) {
+            boxContent = '<span class="box-checkmark">✓</span>';
+          } else if (traumaValue > 0) {
+            boxContent = `<span class="box-value">${traumaValue}</span>`;
+          }
+
           cardHTML += `
             <div class="ladder-rung-row ${activeClass}">
               <div class="chat-box ${checkedClass}">
-                ${traumaValue > 0 ? `<span class="box-value">${traumaValue}</span>` : ''}
+                ${boxContent}
               </div>
               <span class="rung-aspect ${checkedClass}">${rung.aspect}</span>
             </div>
@@ -245,9 +252,17 @@ export class ExtraSheet extends ItemSheet {
         const boxValue = isGrowing ? index + 1 : trackValue;
         const checkedClass = box.checked ? 'checked' : '';
 
+        // Show checkmark when checked, value when unchecked
+        let boxContent = '';
+        if (box.checked) {
+          boxContent = '<span class="box-checkmark">✓</span>';
+        } else if (boxValue > 0) {
+          boxContent = `<span class="box-value">${boxValue}</span>`;
+        }
+
         cardHTML += `
           <div class="chat-box ${checkedClass}">
-            ${boxValue > 0 ? `<span class="box-value">${boxValue}</span>` : ''}
+            ${boxContent}
           </div>
         `;
       });

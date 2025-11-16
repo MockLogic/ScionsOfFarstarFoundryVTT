@@ -4097,10 +4097,15 @@
   pointer-events: none;
 }
 
-.extra-chat-body .chat-box.checked .box-value {
+.extra-chat-body .chat-box .box-checkmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: var(--sof-danger);
   font-weight: bold;
-  font-size: 16px;
+  font-size: 20px;
+  pointer-events: none;
 }
 
 .extra-chat-body .description {
