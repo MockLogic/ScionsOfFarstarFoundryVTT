@@ -562,12 +562,12 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
 
     // Map skill keys to custom icons
     const skillIcons = {
-      academics: "systems/scions-of-farstar/assets/s_academics.svg",
-      combat: "systems/scions-of-farstar/assets/s_combat.svg",
-      deception: "systems/scions-of-farstar/assets/s_deception.svg",
-      engineering: "systems/scions-of-farstar/assets/s_engineering.svg",
-      exploration: "systems/scions-of-farstar/assets/s_exploration.svg",
-      influence: "systems/scions-of-farstar/assets/s_influence.svg"
+      academics: "systems/scions-of-farstar/assets/icons/s_academics.svg",
+      combat: "systems/scions-of-farstar/assets/icons/s_combat.svg",
+      deception: "systems/scions-of-farstar/assets/icons/s_deception.svg",
+      engineering: "systems/scions-of-farstar/assets/icons/s_engineering.svg",
+      exploration: "systems/scions-of-farstar/assets/icons/s_exploration.svg",
+      influence: "systems/scions-of-farstar/assets/icons/s_influence.svg"
     };
     macroImg = skillIcons[skillKey] || "icons/svg/dice-target.svg";
   } else if (data.type === "FactionScionCapability") {
@@ -581,12 +581,12 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
 
     // Map capability keys to custom icons
     const capabilityIcons = {
-      culture: "systems/scions-of-farstar/assets/f_culture.svg",
-      industrial: "systems/scions-of-farstar/assets/f_industrial.svg",
-      military: "systems/scions-of-farstar/assets/f_military.svg",
-      mobility: "systems/scions-of-farstar/assets/f_mobility.svg",
-      people: "systems/scions-of-farstar/assets/f_people.svg",
-      technology: "systems/scions-of-farstar/assets/f_technology.svg"
+      culture: "systems/scions-of-farstar/assets/icons/f_culture.svg",
+      industrial: "systems/scions-of-farstar/assets/icons/f_industrial.svg",
+      military: "systems/scions-of-farstar/assets/icons/f_military.svg",
+      mobility: "systems/scions-of-farstar/assets/icons/f_mobility.svg",
+      people: "systems/scions-of-farstar/assets/icons/f_people.svg",
+      technology: "systems/scions-of-farstar/assets/icons/f_technology.svg"
     };
     macroImg = capabilityIcons[capabilityKey] || "icons/svg/dice-target.svg";
   }
