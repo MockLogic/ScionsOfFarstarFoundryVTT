@@ -2,6 +2,17 @@
 
   {{!-- Sheet Header --}}
   <header class="sheet-header">
+    <div class="icon-section">
+      <img class="npc-profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="80" height="80" style="{{#if system.iconBackground}}background-color: {{system.iconBackground}};{{/if}}"/>
+      <div class="icon-bg-picker">
+        <label class="field-label">Icon Background</label>
+        <input type="color" name="system.iconBackground" value="{{#if system.iconBackground}}{{system.iconBackground}}{{else}}#000000{{/if}}" title="Icon Background Color"/>
+        <button type="button" class="clear-bg-button" title="Clear Background">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
     <div class="header-fields">
       <div class="name-row">
         <div class="name-field">

@@ -3,7 +3,7 @@
   "title": "Scions of FarStar",
   "description": "A custom Foundry VTT system for Scions of FarStar, a multigenerational sci-fi colony-building RPG using heavily modified Fate mechanics. Uses Application V1 API - not compatible with Foundry V16+.",
   "background": "systems/scions-of-farstar/assets/images/background.webp",
-  "version": "1.10.30",
+  "version": "1.10.31",
   "compatibility": {
     "minimum": "13",
     "verified": "13.350",
@@ -21,7 +21,52 @@
   "styles": [
     "styles/scions-of-farstar.css"
   ],
-  "packs": [],
+  "packs": [
+    {
+      "name": "example-stunts",
+      "label": "Example Stunts",
+      "path": "packs/example-stunts",
+      "type": "Item",
+      "system": "scions-of-farstar",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "templates",
+      "label": "Templates",
+      "path": "packs/templates",
+      "type": "Actor",
+      "system": "scions-of-farstar",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "path": "packs/rules",
+      "type": "JournalEntry",
+      "system": "scions-of-farstar",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "example-macros",
+      "label": "Example Macros",
+      "path": "packs/example-macros",
+      "type": "Macro",
+      "system": "scions-of-farstar",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
+  ],
   "languages": [
     {
       "lang": "en",

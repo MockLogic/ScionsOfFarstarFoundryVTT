@@ -503,6 +503,7 @@
       "skillName": "",
       "skillValue": 0,
       "description": "",
+      "iconBackground": "#000000",
       "ageTrack": {
         "child": {
           "label": "Child",

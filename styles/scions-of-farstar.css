@@ -2769,16 +2769,67 @@
 
 .named-npc .sheet-header {
   display: flex;
-  justify-content: space-between;
+  gap: 16px;
   align-items: flex-start;
   margin-bottom: 15px;
   padding-bottom: 10px;
   border-bottom: 2px solid var(--sof-primary);
 }
 
+.named-npc .icon-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.named-npc .npc-profile-img {
+  flex-shrink: 0;
+  border: 2px solid var(--sof-border);
+  border-radius: 4px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 2px;
+}
+
+.named-npc .npc-profile-img:hover {
+  border-color: var(--sof-primary);
+  box-shadow: 0 0 8px rgba(26, 53, 80, 0.3);
+}
+
+.named-npc .icon-bg-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.named-npc .icon-bg-picker input[type="color"] {
+  width: 80px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--sof-border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.named-npc .clear-bg-button {
+  padding: 4px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 11px;
+}
+
+.named-npc .clear-bg-button:hover {
+  background: #c82333;
+}
+
 .named-npc .header-fields {
   flex: 1;
-  margin-right: 15px;
 }
 
 .named-npc .name-row,
@@ -3260,6 +3311,29 @@
 .faction-scion .npc-item.deceased:hover,
 .threat .npc-item.deceased:hover {
   background: #ebebeb;
+}
+
+/* NPC Portrait Styles */
+.npc-portrait-small {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--sof-border);
+  border-radius: 4px;
+  object-fit: cover;
+  margin-right: 12px;
+  padding: 2px;
+}
+
+.npc-portrait-normal {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--sof-border);
+  border-radius: 4px;
+  object-fit: cover;
+  margin-right: 12px;
+  padding: 2px;
 }
 
 .colony .item-details,
@@ -4516,13 +4590,24 @@
   margin: -15px -15px 15px -15px;
   border-radius: 6px 6px 0 0;
   border-bottom: 2px solid var(--sof-accent);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.npc-share-card .npc-portrait {
+  flex-shrink: 0;
+  border: 2px solid white;
+  border-radius: 4px;
+  object-fit: cover;
+  padding: 2px;
 }
 
 .npc-share-card .npc-header h3 {
   margin: 0;
   font-size: 16px;
   font-weight: bold;
-  text-align: center;
+  flex: 1;
   color: white;
 }
 

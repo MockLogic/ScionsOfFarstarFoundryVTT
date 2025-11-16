@@ -135,6 +135,9 @@ export class NamedNpcSheet extends ItemSheet {
 
     // Skill roll button
     html.find('.roll-npc-skill').click(this._onRollSkill.bind(this));
+
+    // Clear background button
+    html.find('.clear-bg-button').click(this._onClearBackground.bind(this));
   }
 
   /**
@@ -151,7 +154,16 @@ export class NamedNpcSheet extends ItemSheet {
     let cardHTML = `
       <div class="npc-share-card">
         <div class="npc-header">
-          <h3>${npcName}</h3>
+    `;
+
+    // Add portrait if it exists and is not default
+    const hasCustomPortrait = this.item.img && this.item.img !== "icons/svg/mystery-man.svg";
+    if (hasCustomPortrait) {
+      const bgStyle = system.iconBackground ? `background-color: ${system.iconBackground};` : '';
+      cardHTML += `<img class="npc-portrait" src="${this.item.img}" style="${bgStyle}" width="80" height="80"/>`;
+    }
+
+    cardHTML += `<h3>${npcName}</h3>
         </div>
     `;
 
@@ -236,5 +248,14 @@ export class NamedNpcSheet extends ItemSheet {
     // Create the label and roll
     const label = `${this.item.name}: ${skillName}`;
     await createFateRoll(label, skillValue, null, this.item.name);
+  }
+
+  /**
+   * Handle clearing the icon background color
+   * @param {Event} event - The click event
+   */
+  async _onClearBackground(event) {
+    event.preventDefault();
+    await this.item.update({ 'system.iconBackground': '' });
   }
 }
