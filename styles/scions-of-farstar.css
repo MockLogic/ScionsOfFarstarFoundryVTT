@@ -94,7 +94,12 @@
   max-width: 60px;
 }
 
-/* Extra Item Sheet - Aspect row layout */
+/* Extra Item Sheet - Aspect section layout */
+.scions-of-farstar.item.extra .aspect-section {
+  width: 100%;
+  display: block;
+}
+
 .scions-of-farstar.item.extra .aspect-row {
   display: flex;
   gap: 10px;
