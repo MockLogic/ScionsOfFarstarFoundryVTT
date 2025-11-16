@@ -558,8 +558,8 @@
                 </div>
 
                 <div class="item-controls">
-                  <a class="item-control item-edit" title="{{localize 'SCIONS.Extras.EditExtra'}}"><i class="fas fa-edit"></i></a>
-                  <a class="item-control item-delete" title="{{localize 'SCIONS.Extras.DeleteExtra'}}"><i class="fas fa-trash"></i></a>
+                  <a class="item-control item-edit" data-item-id="{{item._id}}" title="{{localize 'SCIONS.Extras.EditExtra'}}"><i class="fas fa-edit"></i></a>
+                  <a class="item-control item-delete" data-item-id="{{item._id}}" title="{{localize 'SCIONS.Extras.DeleteExtra'}}"><i class="fas fa-trash"></i></a>
                 </div>
               </li>
             {{/each}}
@@ -608,8 +608,8 @@
                   </div>
                 </div>
                 <div class="item-controls">
-                  <a class="item-control item-edit" title="Edit NPC"><i class="fas fa-edit"></i></a>
-                  <a class="item-control item-delete" title="Delete NPC"><i class="fas fa-trash"></i></a>
+                  <a class="item-control item-edit" data-item-id="{{item._id}}" title="Edit NPC"><i class="fas fa-edit"></i></a>
+                  <a class="item-control item-delete" data-item-id="{{item._id}}" title="Delete NPC"><i class="fas fa-trash"></i></a>
                 </div>
               </li>
             {{/each}}
