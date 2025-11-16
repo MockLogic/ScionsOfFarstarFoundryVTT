@@ -559,7 +559,17 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
 
     macroName = `${scionName}: ${skillLabel}`;
     macroCommand = `/fate ${skillLabel}`;
-    macroImg = "icons/svg/dice-target.svg"; // Default Foundry dice icon
+
+    // Map skill keys to custom icons
+    const skillIcons = {
+      academics: "systems/scions-of-farstar/assets/s_academics.svg",
+      combat: "systems/scions-of-farstar/assets/s_combat.svg",
+      deception: "systems/scions-of-farstar/assets/s_deception.svg",
+      engineering: "systems/scions-of-farstar/assets/s_engineering.svg",
+      exploration: "systems/scions-of-farstar/assets/s_exploration.svg",
+      influence: "systems/scions-of-farstar/assets/s_influence.svg"
+    };
+    macroImg = skillIcons[skillKey] || "icons/svg/dice-target.svg";
   } else if (data.type === "FactionScionCapability") {
     // Capability macro
     const capabilityKey = data.capabilityKey;
@@ -568,7 +578,17 @@ Hooks.on('hotbarDrop', async (bar, data, slot) => {
 
     macroName = `${factionName}: ${capabilityLabel}`;
     macroCommand = `/fate ${capabilityLabel}`;
-    macroImg = "icons/svg/dice-target.svg"; // Default Foundry dice icon
+
+    // Map capability keys to custom icons
+    const capabilityIcons = {
+      culture: "systems/scions-of-farstar/assets/f_culture.svg",
+      industrial: "systems/scions-of-farstar/assets/f_industrial.svg",
+      military: "systems/scions-of-farstar/assets/f_military.svg",
+      mobility: "systems/scions-of-farstar/assets/f_mobility.svg",
+      people: "systems/scions-of-farstar/assets/f_people.svg",
+      technology: "systems/scions-of-farstar/assets/f_technology.svg"
+    };
+    macroImg = capabilityIcons[capabilityKey] || "icons/svg/dice-target.svg";
   }
 
   // Create the macro
