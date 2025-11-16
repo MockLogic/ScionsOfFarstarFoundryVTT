@@ -541,6 +541,7 @@
       "aspect": "",
       "description": "",
       "tintColor": "#ffffff",
+      "iconBackground": "#000000",
       "maxInvokes": 1,
       "invokes": [
         {"spent": false}
@@ -551,6 +552,7 @@
       "aspect": "",
       "description": "",
       "tintColor": "#ffffff",
+      "iconBackground": "#000000",
       "maxInvokes": 1,
       "invokes": [
         {"spent": false}
@@ -571,6 +573,7 @@
       "aspect": "",
       "description": "",
       "tintColor": "#ffffff",
+      "iconBackground": "#000000",
       "maxInvokes": 1,
       "invokes": [
         {"spent": false}
@@ -583,6 +586,7 @@
       "aspect": "",
       "description": "",
       "tintColor": "#ffffff",
+      "iconBackground": "#000000",
       "maxInvokes": 1,
       "invokes": [
         {"spent": false}
@@ -601,6 +605,7 @@
       "aspect": "",
       "description": "",
       "tintColor": "#ffffff",
+      "iconBackground": "#000000",
       "maxInvokes": 1,
       "invokes": [
         {"spent": false}

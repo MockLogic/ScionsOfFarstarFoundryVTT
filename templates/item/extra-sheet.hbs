@@ -2,29 +2,26 @@
 
   {{!-- Sheet Header --}}
   <header class="sheet-header">
+    <div class="icon-section">
+      <img class="extra-profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" width="80" height="80" style="{{#if system.iconBackground}}background-color: {{system.iconBackground}};{{/if}}"/>
+      <div class="icon-bg-picker">
+        <label class="field-label">Icon Background</label>
+        <input type="color" name="system.iconBackground" value="{{#if system.iconBackground}}{{system.iconBackground}}{{else}}#000000{{/if}}" title="Icon Background Color"/>
+        <button type="button" class="clear-bg-button" title="Clear Background">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
     <div class="header-fields">
-      <div class="name-row">
-        <div class="name-field">
-          <label class="field-label">Extra Name</label>
-          <input name="name" type="text" value="{{item.name}}" placeholder="Extra Name"/>
-        </div>
+      <div class="name-field">
+        <label class="field-label">Extra Name</label>
+        <input name="name" type="text" value="{{item.name}}" placeholder="Extra Name"/>
       </div>
 
-      <div class="icon-tint-row">
-        <div class="icon-field">
-          <label class="field-label">Icon</label>
-          <div class="file-picker-wrapper">
-            <input name="img" type="text" value="{{item.img}}" placeholder="icons/svg/regen.svg" data-edit="img"/>
-            <button type="button" class="file-picker" data-type="imagevideo" data-target="img" title="Browse Files" tabindex="-1">
-              <i class="fas fa-file-import fa-fw"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="tint-field">
-          <label class="field-label">Tint Color</label>
-          <input name="system.tintColor" type="color" value="{{system.tintColor}}"/>
-        </div>
+      <div class="tint-field">
+        <label class="field-label">Tint Color</label>
+        <input name="system.tintColor" type="color" value="{{system.tintColor}}"/>
       </div>
     </div>
   </header>

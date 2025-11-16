@@ -123,7 +123,7 @@
           <ol class="items-list">
             {{#each extraItems as |item id|}}
               <li class="item extra-item" data-item-id="{{item._id}}" style="--tint-color: {{item.system.tintColor}};">
-                <div class="extra-icon">
+                <div class="extra-icon" style="{{#if item.system.iconBackground}}background-color: {{item.system.iconBackground}};{{/if}}">
                   <img src="{{item.img}}" alt="{{item.name}}" title="{{item.name}}"/>
                 </div>
                 <div class="extra-content">

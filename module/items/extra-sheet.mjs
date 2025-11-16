@@ -86,6 +86,9 @@ export class ExtraSheet extends ItemSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // Clear background button
+    html.find('.clear-bg-button').click(this._onClearBackground.bind(this));
+
     // Invoke checkboxes
     html.find('.invoke-box').click(this._onInvokeToggle.bind(this));
 
@@ -108,6 +111,15 @@ export class ExtraSheet extends ItemSheet {
 
     // Skill roll button
     html.find('.roll-extra-skill').click(this._onRollSkill.bind(this));
+  }
+
+  /**
+   * Handle clearing the icon background color
+   * @param {Event} event - The click event
+   */
+  async _onClearBackground(event) {
+    event.preventDefault();
+    await this.item.update({ 'system.iconBackground': '' });
   }
 
   /** @override */
