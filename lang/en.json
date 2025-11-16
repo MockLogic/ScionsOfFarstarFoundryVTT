@@ -113,8 +113,11 @@
     },
     "Consequences": {
       "Minor": "Minor (2)",
+      "MinorLabel": "Minor (2-Point)",
       "Moderate": "Moderate (4)",
+      "ModerateLabel": "Moderate (4-Point)",
       "Severe": "Severe (6)",
+      "SevereLabel": "Severe (6-Point)",
       "Unused": "Unused",
       "Active": "Active",
       "Treated": "Treated",
@@ -198,13 +201,17 @@
       "EditExtra": "Edit Extra",
       "DeleteExtra": "Delete Extra",
       "InvokeSpent": "Spent",
-      "InvokeAvailable": "Available"
+      "InvokeAvailable": "Available",
+      "Skill": "Skill"
     },
     "Tabs": {
       "Main": "Main",
       "Stunts": "Stunts",
       "Extras": "Extras",
       "Notes": "Notes"
+    },
+    "Chat": {
+      "SendToChat": "Send to Chat"
     },
     "Validation": {
       "RefreshMismatch": "Refresh does not match stunt count",

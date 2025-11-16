@@ -163,10 +163,11 @@ export class ExtraSheet extends ItemSheet {
 
       // Add free invoke badge with count if multiple
       if (availableInvokes > 0) {
+        const freeInvokeText = game.i18n.localize('SCIONS.Consequences.FreeInvoke');
         if (availableInvokes === 1) {
-          cardHTML += ` <span class="free-invoke-badge">Free Invoke</span>`;
+          cardHTML += ` <span class="free-invoke-badge">${freeInvokeText}</span>`;
         } else {
-          cardHTML += ` <span class="free-invoke-badge">Free Invoke <span class="invoke-count">x${availableInvokes}</span></span>`;
+          cardHTML += ` <span class="free-invoke-badge">${freeInvokeText} <span class="invoke-count">x${availableInvokes}</span></span>`;
         }
       }
 
@@ -230,7 +231,7 @@ export class ExtraSheet extends ItemSheet {
     if (extraType === 'extra-skill' && system.skillName) {
       cardHTML += `
         <div class="extra-section">
-          <strong>Skill:</strong> ${system.skillName} (+${system.skillValue || 0})
+          <strong>${game.i18n.localize('SCIONS.Extras.Skill')}:</strong> ${system.skillName} (+${system.skillValue || 0})
         </div>
       `;
     }

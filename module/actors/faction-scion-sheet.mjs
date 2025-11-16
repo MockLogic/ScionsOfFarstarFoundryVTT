@@ -851,7 +851,7 @@ export class FactionScionSheet extends ActorSheet {
     // Create context menu with "Send to Chat" option
     new ContextMenu($(event.currentTarget), ".stunt-item", [
       {
-        name: "Send to Chat",
+        name: game.i18n.localize('SCIONS.Chat.SendToChat'),
         icon: '<i class="fas fa-comment"></i>',
         callback: async (li) => {
           const stuntId = li.data("itemId");
@@ -882,7 +882,7 @@ export class FactionScionSheet extends ActorSheet {
     // Create context menu with "Send to Chat" option
     new ContextMenu($(event.currentTarget), ".consequence-box", [
       {
-        name: "Send to Chat",
+        name: game.i18n.localize('SCIONS.Chat.SendToChat'),
         icon: '<i class="fas fa-comment"></i>',
         callback: async (li) => {
           const cType = li.data("consequenceType");
@@ -903,10 +903,10 @@ export class FactionScionSheet extends ActorSheet {
 
     // Determine consequence details
     const consequenceLabels = {
-      minor: 'Minor (2-Point)',
-      minor2: 'Minor (2-Point)',
-      moderate: 'Moderate (4-Point)',
-      severe: 'Severe (6-Point)'
+      minor: game.i18n.localize('SCIONS.Consequences.MinorLabel'),
+      minor2: game.i18n.localize('SCIONS.Consequences.MinorLabel'),
+      moderate: game.i18n.localize('SCIONS.Consequences.ModerateLabel'),
+      severe: game.i18n.localize('SCIONS.Consequences.SevereLabel')
     };
 
     const consequenceClears = {
@@ -940,9 +940,9 @@ export class FactionScionSheet extends ActorSheet {
 
     // Add status badge
     if (isTreated) {
-      cardHTML += `<span class="status-badge treated">Treated</span>`;
+      cardHTML += `<span class="status-badge treated">${game.i18n.localize('SCIONS.Consequences.Treated')}</span>`;
     } else if (isActive) {
-      cardHTML += `<span class="status-badge active">Active</span>`;
+      cardHTML += `<span class="status-badge active">${game.i18n.localize('SCIONS.Consequences.Active')}</span>`;
     }
 
     cardHTML += `
@@ -955,7 +955,7 @@ export class FactionScionSheet extends ActorSheet {
     // freeInvoke is true when the checkbox is checked (invoke has been used)
     // We want to show the badge when it's AVAILABLE (unchecked/false)
     if (!consequence.freeInvoke && isActive) {
-      cardHTML += `<div class="consequence-chat-invoke"><span class="free-invoke-badge">Free Invoke</span></div>`;
+      cardHTML += `<div class="consequence-chat-invoke"><span class="free-invoke-badge">${game.i18n.localize('SCIONS.Consequences.FreeInvoke')}</span></div>`;
     }
 
     // Add clears reminder
@@ -991,33 +991,33 @@ export class FactionScionSheet extends ActorSheet {
     if (stunt.type === "stunt-basic") {
       if (stunt.system.skillOrCapability && stunt.system.actionType) {
         const action = stunt.system.actionType.charAt(0).toUpperCase() + stunt.system.actionType.slice(1);
-        content += `<p>Because I have <strong>${stunt.name}</strong> I get a +2 when I ${action} with ${stunt.system.skillOrCapability}.`;
+        content += `<p>${game.i18n.localize('SCIONS.Stunts.BecauseIHave')} <strong>${stunt.name}</strong> ${game.i18n.localize('SCIONS.Stunts.IGetPlus2When')} ${action} ${game.i18n.localize('SCIONS.Stunts.With')} ${stunt.system.skillOrCapability}.`;
         if (stunt.system.description) {
           content += ` ${stunt.system.description}`;
         }
         content += `</p>`;
       } else {
-        content += `<p><em>Configure skill/capability and action in item sheet.</em></p>`;
+        content += `<p><em>${game.i18n.localize('SCIONS.Stunts.ConfigureStunt')}</em></p>`;
       }
     } else if (stunt.type === "stunt-swap") {
       if (stunt.system.targetSkillOrCapability && stunt.system.replacementSkillOrCapability && stunt.system.actionType) {
         const action = stunt.system.actionType.charAt(0).toUpperCase() + stunt.system.actionType.slice(1);
-        content += `<p>Because I have <strong>${stunt.name}</strong> when I roll ${action} with ${stunt.system.targetSkillOrCapability} I can use ${stunt.system.replacementSkillOrCapability} instead.`;
+        content += `<p>${game.i18n.localize('SCIONS.Stunts.BecauseIHave')} <strong>${stunt.name}</strong> ${game.i18n.localize('SCIONS.Stunts.WhenIRoll')} ${action} ${game.i18n.localize('SCIONS.Stunts.With')} ${stunt.system.targetSkillOrCapability} ${game.i18n.localize('SCIONS.Stunts.ICanUse')} ${stunt.system.replacementSkillOrCapability} ${game.i18n.localize('SCIONS.Stunts.Instead')}.`;
         if (stunt.system.description) {
           content += ` ${stunt.system.description}`;
         }
         content += `</p>`;
       } else {
-        content += `<p><em>Configure skills/capabilities and action in item sheet.</em></p>`;
+        content += `<p><em>${game.i18n.localize('SCIONS.Stunts.ConfigureStuntSwap')}</em></p>`;
       }
     } else if (stunt.type === "stunt-consequence") {
-      content += `<p>Because I have <strong>${stunt.name}</strong> I get an additional Minor Consequence slot (2-point).`;
+      content += `<p>${game.i18n.localize('SCIONS.Stunts.BecauseIHave')} <strong>${stunt.name}</strong> ${game.i18n.localize('SCIONS.Stunts.IGetAdditionalMinor')}`;
       if (stunt.system.description) {
         content += ` ${stunt.system.description}`;
       }
       content += `</p>`;
     } else if (stunt.type === "stunt-stress") {
-      content += `<p>Because I have <strong>${stunt.name}</strong> I get Two additional Stress Boxes.`;
+      content += `<p>${game.i18n.localize('SCIONS.Stunts.BecauseIHave')} <strong>${stunt.name}</strong> ${game.i18n.localize('SCIONS.Stunts.IGetTwoAdditionalStress')}`;
       if (stunt.system.description) {
         content += ` ${stunt.system.description}`;
       }
@@ -1026,7 +1026,7 @@ export class FactionScionSheet extends ActorSheet {
       if (stunt.system.description) {
         content += stunt.system.description;
       } else {
-        content += `<p><em>Add stunt description in item sheet.</em></p>`;
+        content += `<p><em>${game.i18n.localize('SCIONS.Stunts.AddStuntDescription')}</em></p>`;
       }
     }
 
