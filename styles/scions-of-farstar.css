@@ -1206,6 +1206,31 @@
   background: #c82333;
 }
 
+.scions-of-farstar.sheet.item.extra .send-to-chat {
+  padding: 8px 12px;
+  background: var(--sof-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+}
+
+.scions-of-farstar.sheet.item.extra .send-to-chat:hover {
+  background: var(--sof-accent);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.scions-of-farstar.sheet.item.extra .send-to-chat i {
+  font-size: 14px;
+}
+
 .scions-of-farstar.sheet.item.extra .header-fields {
   flex: 1;
   display: flex;
@@ -3954,6 +3979,91 @@
 }
 
 .stunt-chat-content em {
+  color: var(--sof-secondary);
+}
+
+/* ========================================
+   EXTRA CHAT CARDS
+   ======================================== */
+
+.extra-chat-card {
+  border-radius: 4px;
+  padding: 12px;
+  margin: 8px 0;
+  background: #f8f9fa;
+  border-left: 4px solid var(--sof-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.extra-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.extra-chat-header .extra-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+
+.extra-chat-header .extra-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--sof-primary);
+  flex: 1;
+}
+
+.extra-chat-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.extra-chat-body .extra-section {
+  margin-bottom: 8px;
+}
+
+.extra-chat-body .extra-section:last-child {
+  margin-bottom: 0;
+}
+
+.extra-chat-body .ladder-display {
+  margin-top: 6px;
+  margin-left: 12px;
+}
+
+.extra-chat-body .ladder-rung-display {
+  padding: 4px 8px;
+  margin: 2px 0;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.extra-chat-body .ladder-rung-display.checked {
+  background: #e8f5e9;
+  color: #2e7d32;
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.extra-chat-body .ladder-rung-display.unchecked {
+  background: #fff3e0;
+  color: #e65100;
+  font-weight: 500;
+}
+
+.extra-chat-body .description {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-style: italic;
   color: var(--sof-secondary);
 }
 

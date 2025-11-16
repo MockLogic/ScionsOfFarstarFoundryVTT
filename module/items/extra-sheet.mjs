@@ -89,6 +89,9 @@ export class ExtraSheet extends ItemSheet {
     // Clear background button
     html.find('.clear-bg-button').click(this._onClearBackground.bind(this));
 
+    // Send to Chat button
+    html.find('.send-to-chat').click(this._onSendToChat.bind(this));
+
     // Invoke checkboxes
     html.find('.invoke-box').click(this._onInvokeToggle.bind(this));
 
@@ -120,6 +123,132 @@ export class ExtraSheet extends ItemSheet {
   async _onClearBackground(event) {
     event.preventDefault();
     await this.item.update({ 'system.iconBackground': '' });
+  }
+
+  /**
+   * Handle sending the Extra to chat
+   * @param {Event} event - The click event
+   */
+  async _onSendToChat(event) {
+    event.preventDefault();
+
+    const system = this.item.system;
+    const extraName = this.item.name;
+    const extraType = this.item.type;
+
+    // Build the chat card HTML
+    const iconBgStyle = system.iconBackground ? `background-color: ${system.iconBackground};` : '';
+    const tintStyle = system.tintColor ? `border-color: ${system.tintColor};` : '';
+
+    let cardHTML = `
+      <div class="extra-chat-card" style="${tintStyle}">
+        <div class="extra-chat-header">
+          <img src="${this.item.img}" alt="${extraName}" class="extra-icon" style="${iconBgStyle}"/>
+          <h3 class="extra-name">${extraName}</h3>
+        </div>
+        <div class="extra-chat-body">
+    `;
+
+    // Add aspect if present
+    if (system.aspect) {
+      const aspectLabel = system.aspectLabel || 'Aspect';
+      cardHTML += `
+        <div class="extra-section">
+          <strong>${aspectLabel}:</strong> ${system.aspect}
+        </div>
+      `;
+    }
+
+    // Add free invokes if any are available
+    if (system.invokes && system.invokes.length > 0) {
+      const availableInvokes = system.invokes.filter(inv => !inv.spent).length;
+      if (availableInvokes > 0) {
+        cardHTML += `
+          <div class="extra-section">
+            <strong>Free Invokes:</strong> ${availableInvokes} available
+          </div>
+        `;
+      }
+    }
+
+    // Add ladder information if this is an extra-ladder
+    if (extraType === 'extra-ladder' && system.rungs) {
+      const ladderLabel = system.ladderLabel || 'Ladder';
+      cardHTML += `
+        <div class="extra-section ladder-section">
+          <strong>${ladderLabel}:</strong>
+          <div class="ladder-display">
+      `;
+
+      // Show all rungs (not just the active one)
+      system.rungs.forEach((rung, index) => {
+        if (rung.aspect) {
+          const checkedClass = rung.checked ? 'checked' : 'unchecked';
+          const checkmark = rung.checked ? '☑' : '☐';
+          const traumaDisplay = system.traumaValue > 0 ? ` [${system.traumaValue}]` : '';
+          cardHTML += `
+            <div class="ladder-rung-display ${checkedClass}">
+              ${checkmark} ${rung.aspect}${traumaDisplay}
+            </div>
+          `;
+        }
+      });
+
+      cardHTML += `
+          </div>
+        </div>
+      `;
+    }
+
+    // Add skill information if this is an extra-skill
+    if (extraType === 'extra-skill' && system.skillName) {
+      cardHTML += `
+        <div class="extra-section">
+          <strong>Skill:</strong> ${system.skillName} (+${system.skillValue || 0})
+        </div>
+      `;
+    }
+
+    // Add track information if this is an extra-track or extra-growing-track
+    if ((extraType === 'extra-track' || extraType === 'extra-growing-track') && system.boxes) {
+      const trackLabel = system.trackLabel || 'Track';
+      const checkedBoxes = system.boxes.filter(box => box.checked).length;
+      const totalBoxes = system.boxes.length;
+
+      cardHTML += `
+        <div class="extra-section">
+          <strong>${trackLabel}:</strong> ${checkedBoxes}/${totalBoxes} boxes checked
+        </div>
+      `;
+    }
+
+    // Add description if present
+    if (system.description) {
+      // Strip HTML tags from description for chat display
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = system.description;
+      const plainDescription = tempDiv.textContent || tempDiv.innerText || '';
+
+      if (plainDescription.trim()) {
+        cardHTML += `
+          <div class="extra-section description">
+            ${plainDescription}
+          </div>
+        `;
+      }
+    }
+
+    cardHTML += `
+        </div>
+      </div>
+    `;
+
+    // Create the chat message
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker(),
+      content: cardHTML,
+      type: CONST.CHAT_MESSAGE_TYPES.OTHER
+    });
   }
 
   /** @override */
