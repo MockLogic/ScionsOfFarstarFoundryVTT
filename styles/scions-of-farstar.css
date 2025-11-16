@@ -4059,12 +4059,44 @@
   font-weight: 700;
 }
 
+.extra-chat-body .track-display {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.extra-chat-body .track-box-display {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.extra-chat-body .track-box-display.checked {
+  color: #999;
+}
+
+.extra-chat-body .track-box-display.unchecked {
+  color: #333;
+}
+
 .extra-chat-body .description {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   font-style: italic;
   color: var(--sof-secondary);
+}
+
+.extra-chat-card .free-invoke-badge {
+  background-color: var(--sof-accent);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-left: 5px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* ===========================

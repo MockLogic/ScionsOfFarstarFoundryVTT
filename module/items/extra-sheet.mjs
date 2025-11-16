@@ -140,6 +140,11 @@ export class ExtraSheet extends ItemSheet {
     const iconBgStyle = system.iconBackground ? `background-color: ${system.iconBackground};` : '';
     const tintStyle = system.tintColor ? `border-color: ${system.tintColor};` : '';
 
+    // Calculate available free invokes
+    const availableInvokes = system.invokes && system.invokes.length > 0
+      ? system.invokes.filter(inv => !inv.spent).length
+      : 0;
+
     let cardHTML = `
       <div class="extra-chat-card" style="${tintStyle}">
         <div class="extra-chat-header">
@@ -154,21 +159,16 @@ export class ExtraSheet extends ItemSheet {
       const aspectLabel = system.aspectLabel || 'Aspect';
       cardHTML += `
         <div class="extra-section">
-          <strong>${aspectLabel}:</strong> ${system.aspect}
+          <strong>${aspectLabel}:</strong> ${system.aspect}`;
+
+      // Add free invoke badges
+      for (let i = 0; i < availableInvokes; i++) {
+        cardHTML += ` <span class="free-invoke-badge">Free Invoke</span>`;
+      }
+
+      cardHTML += `
         </div>
       `;
-    }
-
-    // Add free invokes if any are available
-    if (system.invokes && system.invokes.length > 0) {
-      const availableInvokes = system.invokes.filter(inv => !inv.spent).length;
-      if (availableInvokes > 0) {
-        cardHTML += `
-          <div class="extra-section">
-            <strong>Free Invokes:</strong> ${availableInvokes} available
-          </div>
-        `;
-      }
     }
 
     // Add ladder information if this is an extra-ladder
@@ -223,12 +223,26 @@ export class ExtraSheet extends ItemSheet {
     // Add track information if this is an extra-track or extra-growing-track
     if ((extraType === 'extra-track' || extraType === 'extra-growing-track') && system.boxes) {
       const trackLabel = system.trackLabel || 'Track';
-      const checkedBoxes = system.boxes.filter(box => box.checked).length;
-      const totalBoxes = system.boxes.length;
+      const isGrowing = extraType === 'extra-growing-track';
+      const trackValue = system.trackValue || 0;
 
       cardHTML += `
         <div class="extra-section">
-          <strong>${trackLabel}:</strong> ${checkedBoxes}/${totalBoxes} boxes checked
+          <strong>${trackLabel}:</strong>
+          <div class="track-display">
+      `;
+
+      // Display each box visually
+      system.boxes.forEach((box, index) => {
+        const checkmark = box.checked ? '☑' : '☐';
+        const boxValue = isGrowing ? index + 1 : trackValue;
+        const valueDisplay = boxValue > 0 ? ` [${boxValue}]` : '';
+
+        cardHTML += `<span class="track-box-display ${box.checked ? 'checked' : 'unchecked'}">${checkmark}${valueDisplay}</span> `;
+      });
+
+      cardHTML += `
+          </div>
         </div>
       `;
     }
