@@ -910,10 +910,10 @@ export class FactionScionSheet extends ActorSheet {
     };
 
     const consequenceClears = {
-      minor: 'Clears: 1 Session',
-      minor2: 'Clears: 1 Session',
-      moderate: 'Clears: 1 Scenario',
-      severe: 'Clears: 1 Milestone'
+      minor: game.i18n.localize('SCIONS.Consequences.MinorHint'),
+      minor2: game.i18n.localize('SCIONS.Consequences.MinorHint'),
+      moderate: game.i18n.localize('SCIONS.Consequences.ModerateHint'),
+      severe: game.i18n.localize('SCIONS.Consequences.SevereHint')
     };
 
     const consequenceColors = {
@@ -952,7 +952,9 @@ export class FactionScionSheet extends ActorSheet {
     `;
 
     // Add free invoke badge if applicable
-    if (consequence.freeInvoke) {
+    // freeInvoke is true when the checkbox is checked (invoke has been used)
+    // We want to show the badge when it's AVAILABLE (unchecked/false)
+    if (!consequence.freeInvoke && isActive) {
       cardHTML += `<div class="consequence-chat-invoke"><span class="free-invoke-badge">Free Invoke</span></div>`;
     }
 
