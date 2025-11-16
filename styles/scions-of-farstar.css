@@ -103,20 +103,17 @@
 }
 
 .scions-of-farstar.item.extra .aspect-row {
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
+  display: block;
   width: 100%;
 }
 
 .scions-of-farstar.item.extra .aspect-label-field {
-  flex: 0 0 30%;
-  min-width: 0;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .scions-of-farstar.item.extra .aspect-value-field {
-  flex: 1;
-  min-width: 0;
+  width: 100%;
 }
 
 .scions-of-farstar.item.extra .aspect-label-field label,
