@@ -4047,16 +4047,16 @@
 }
 
 .extra-chat-body .ladder-rung-display.checked {
-  background: #e8f5e9;
-  color: #2e7d32;
+  color: #999;
   text-decoration: line-through;
-  opacity: 0.7;
 }
 
 .extra-chat-body .ladder-rung-display.unchecked {
-  background: #fff3e0;
-  color: #e65100;
-  font-weight: 500;
+  color: #333;
+}
+
+.extra-chat-body .ladder-rung-display.active {
+  font-weight: 700;
 }
 
 .extra-chat-body .description {

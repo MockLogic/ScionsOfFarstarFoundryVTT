@@ -174,6 +174,16 @@ export class ExtraSheet extends ItemSheet {
     // Add ladder information if this is an extra-ladder
     if (extraType === 'extra-ladder' && system.rungs) {
       const ladderLabel = system.ladderLabel || 'Ladder';
+
+      // Find the highest unchecked rung (currently active)
+      let highestUncheckedIndex = -1;
+      for (let i = 0; i < system.rungs.length; i++) {
+        if (!system.rungs[i]?.checked) {
+          highestUncheckedIndex = i;
+          break;
+        }
+      }
+
       cardHTML += `
         <div class="extra-section ladder-section">
           <strong>${ladderLabel}:</strong>
@@ -184,10 +194,11 @@ export class ExtraSheet extends ItemSheet {
       system.rungs.forEach((rung, index) => {
         if (rung.aspect) {
           const checkedClass = rung.checked ? 'checked' : 'unchecked';
+          const activeClass = index === highestUncheckedIndex ? 'active' : '';
           const checkmark = rung.checked ? '☑' : '☐';
           const traumaDisplay = system.traumaValue > 0 ? ` [${system.traumaValue}]` : '';
           cardHTML += `
-            <div class="ladder-rung-display ${checkedClass}">
+            <div class="ladder-rung-display ${checkedClass} ${activeClass}">
               ${checkmark} ${rung.aspect}${traumaDisplay}
             </div>
           `;
