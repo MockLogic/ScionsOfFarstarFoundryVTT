@@ -3316,23 +3316,23 @@
 /* NPC Portrait Styles */
 .npc-portrait-small {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border: 2px solid var(--sof-border);
   border-radius: 4px;
   object-fit: cover;
-  margin-right: 12px;
+  margin-right: 8px;
   padding: 2px;
 }
 
 .npc-portrait-normal {
   flex-shrink: 0;
-  width: 80px;
-  height: 80px;
+  width: 40px;
+  height: 40px;
   border: 2px solid var(--sof-border);
   border-radius: 4px;
   object-fit: cover;
-  margin-right: 12px;
+  margin-right: 10px;
   padding: 2px;
 }
 
