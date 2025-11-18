@@ -50,6 +50,12 @@
   color: white;
 }
 
+/* Profile Images - Prevent Distortion */
+.scions-of-farstar .profile-img,
+.scions-of-farstar img[data-edit="img"] {
+  object-fit: cover;
+}
+
 /* Section Headers */
 .scions-of-farstar .section-header {
   background: var(--sof-primary);
@@ -2056,6 +2062,35 @@
 /* ===========================
    Colony Sheet Styles
    =========================== */
+
+/* Colony Sheet Header */
+.colony .sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--sof-primary);
+}
+
+.colony .header-fields {
+  flex: 1;
+  margin-right: 15px;
+}
+
+.colony .profile-img {
+  flex-shrink: 0;
+  border: 2px solid var(--sof-border);
+  border-radius: 4px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.colony .profile-img:hover {
+  border-color: var(--sof-primary);
+  box-shadow: 0 0 8px rgba(26, 53, 80, 0.3);
+}
 
 .colony .aspects-section.colony-aspects {
   display: flex;
