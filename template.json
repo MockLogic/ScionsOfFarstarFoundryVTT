@@ -504,6 +504,7 @@
       "skillValue": 0,
       "description": "",
       "iconBackground": "#000000",
+      "isVip": false,
       "ageTrack": {
         "child": {
           "label": "Child",

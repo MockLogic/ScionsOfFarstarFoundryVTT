@@ -4684,3 +4684,105 @@
   color: #ff6b6b;
   font-weight: bold;
 }
+
+/* ================================= */
+/* VIP NPC Styling                   */
+/* ================================= */
+
+/* VIP Toggle Button */
+.toggle-vip {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 4px 8px;
+  border-radius: 3px;
+}
+
+.toggle-vip:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.toggle-vip.vip-active {
+  background: #ffd700;
+  border-color: #ffb700;
+  color: #000;
+}
+
+.toggle-vip.vip-active:hover {
+  background: #ffed4e;
+  border-color: #ffd700;
+}
+
+/* VIP Header in Main Tab */
+.vip-header {
+  color: #ffd700;
+  margin-top: 16px;
+}
+
+.vip-header i {
+  margin-right: 4px;
+}
+
+/* VIP NPC Display Container */
+.vip-npc-display {
+  background: linear-gradient(to bottom, #fffbf0 0%, #ffffff 100%);
+  border: 2px solid #ffd700;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.vip-npc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0e68c;
+}
+
+.vip-npc-name-section h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--sof-secondary);
+}
+
+.vip-npc-aspect {
+  margin-bottom: 8px;
+  padding: 8px;
+  background: rgba(255, 215, 0, 0.1);
+  border-radius: 4px;
+}
+
+.vip-npc-aspect label {
+  font-weight: bold;
+  color: var(--sof-secondary);
+  margin-right: 6px;
+}
+
+.vip-npc-aspect span {
+  font-style: italic;
+}
+
+.vip-npc-skill {
+  padding: 6px 8px;
+  background: rgba(52, 152, 219, 0.1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.vip-npc-skill label {
+  font-weight: bold;
+  color: var(--sof-secondary);
+}
+
+.vip-npc-skill span {
+  color: var(--sof-accent);
+  font-weight: 600;
+}

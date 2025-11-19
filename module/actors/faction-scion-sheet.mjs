@@ -63,6 +63,9 @@ export class FactionScionSheet extends ActorSheet {
       };
     });
 
+    // Find the VIP NPC (if any)
+    context.vipNpc = context.npcItems.find(npc => npc.system.isVip) || null;
+
     // Get all Extra items (all types)
     const extraTypes = ['extra-aspect', 'extra-ladder', 'extra-skill', 'extra-track', 'extra-growing-track'];
     context.extraItems = this.actor.items.filter(item => extraTypes.includes(item.type)).map(item => {
@@ -356,6 +359,7 @@ export class FactionScionSheet extends ActorSheet {
     html.find('.item-edit').click(this._onItemEdit.bind(this));
     html.find('.item-delete').click(this._onItemDelete.bind(this));
     html.find('.roll-npc-skill').click(this._onRollNpcSkill.bind(this));
+    html.find('.toggle-vip').click(this._onToggleVip.bind(this));
 
     // Make NPC items draggable
     html.find('.npc-item').each((i, li) => {
@@ -1208,5 +1212,36 @@ export class FactionScionSheet extends ActorSheet {
     // Create the label and roll
     const label = `${item.name}: ${skillName}`;
     await createFateRoll(label, skillValue, null, item.name);
+  }
+
+  /**
+   * Handle toggling VIP status for an NPC
+   * @param {Event} event - The click event
+   */
+  async _onToggleVip(event) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent item edit from triggering
+
+    const itemId = event.currentTarget.dataset.itemId;
+    const item = this.actor.items.get(itemId);
+
+    if (!item) return;
+
+    const currentVipStatus = item.system.isVip;
+
+    // If this NPC is currently VIP, just toggle it off
+    if (currentVipStatus) {
+      await item.update({ 'system.isVip': false });
+      return;
+    }
+
+    // If setting a new VIP, first clear any existing VIP
+    const currentVip = this.actor.items.find(i => i.type === 'named-npc' && i.system.isVip);
+    if (currentVip) {
+      await currentVip.update({ 'system.isVip': false });
+    }
+
+    // Set this NPC as VIP
+    await item.update({ 'system.isVip': true });
   }
 }
