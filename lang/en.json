@@ -204,6 +204,13 @@
       "InvokeAvailable": "Available",
       "Skill": "Skill"
     },
+    "NPC": {
+      "VipMember": "VIP Member",
+      "SetAsVip": "Set as VIP",
+      "RemoveVip": "Remove VIP status",
+      "Aspect": "Aspect:",
+      "Skill": "Skill:"
+    },
     "Tabs": {
       "Main": "Main",
       "Stunts": "Stunts",

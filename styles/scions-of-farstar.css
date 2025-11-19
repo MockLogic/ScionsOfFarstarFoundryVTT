@@ -4728,7 +4728,7 @@
 
 /* VIP NPC Display Container */
 .vip-npc-display {
-  background: linear-gradient(to bottom, #fffbf0 0%, #ffffff 100%);
+  background: white;
   border: 2px solid #ffd700;
   border-radius: 6px;
   padding: 12px;
@@ -4741,7 +4741,7 @@
   gap: 12px;
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #f0e68c;
+  border-bottom: 1px solid #ddd;
 }
 
 .vip-npc-name-section h4 {
@@ -4754,7 +4754,7 @@
 .vip-npc-aspect {
   margin-bottom: 8px;
   padding: 8px;
-  background: rgba(255, 215, 0, 0.1);
+  background: #f9f9f9;
   border-radius: 4px;
 }
 
@@ -4770,7 +4770,7 @@
 
 .vip-npc-skill {
   padding: 6px 8px;
-  background: rgba(52, 152, 219, 0.1);
+  background: #f9f9f9;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -4785,4 +4785,26 @@
 .vip-npc-skill span {
   color: var(--sof-accent);
   font-weight: 600;
+}
+
+.vip-npc-skill .roll-button {
+  width: 24px;
+  height: 24px;
+  padding: 4px;
+  font-size: 12px;
+  min-width: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sof-accent);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.vip-npc-skill .roll-button:hover {
+  background: var(--sof-primary);
 }

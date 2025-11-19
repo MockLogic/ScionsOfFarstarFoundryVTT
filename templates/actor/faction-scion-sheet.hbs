@@ -252,7 +252,7 @@
           {{!-- VIP NPC Display --}}
           {{#if vipNpc}}
             <div class="subsection-header vip-header">
-              <i class="fas fa-star"></i> VIP Contact
+              <i class="fas fa-star"></i> {{localize "SCIONS.NPC.VipMember"}}
             </div>
             <div class="vip-npc-display">
               <div class="vip-npc-header">
@@ -270,13 +270,16 @@
               </div>
               {{#if vipNpc.system.aspect}}
                 <div class="vip-npc-aspect">
-                  <label>Aspect:</label>
+                  <label>{{localize "SCIONS.NPC.Aspect"}}</label>
                   <span>{{vipNpc.system.aspect}}</span>
                 </div>
               {{/if}}
               {{#if vipNpc.system.skillName}}
                 <div class="vip-npc-skill">
-                  <label>Skill:</label>
+                  <button type="button" class="roll-button roll-npc-skill rollable" data-item-id="{{vipNpc._id}}" title="{{localize 'SCIONS.Roll.Roll'}} {{vipNpc.system.skillName}}">
+                    <i class="fas fa-dice-d6"></i>
+                  </button>
+                  <label>{{localize "SCIONS.NPC.Skill"}}</label>
                   <span>{{vipNpc.system.skillName}} {{signedNumber vipNpc.system.skillValue}}</span>
                 </div>
               {{/if}}
@@ -643,7 +646,7 @@
                   </div>
                 </div>
                 <div class="item-controls">
-                  <button type="button" class="item-control toggle-vip {{#if item.system.isVip}}vip-active{{/if}}" data-item-id="{{item._id}}" title="{{#if item.system.isVip}}Remove VIP status{{else}}Set as VIP{{/if}}">
+                  <button type="button" class="item-control toggle-vip {{#if item.system.isVip}}vip-active{{/if}}" data-item-id="{{item._id}}" title="{{#if item.system.isVip}}{{localize 'SCIONS.NPC.RemoveVip'}}{{else}}{{localize 'SCIONS.NPC.SetAsVip'}}{{/if}}">
                     <i class="fas fa-star"></i>
                   </button>
                   <a class="item-control item-edit" data-item-id="{{item._id}}" title="Edit NPC"><i class="fas fa-edit"></i></a>
