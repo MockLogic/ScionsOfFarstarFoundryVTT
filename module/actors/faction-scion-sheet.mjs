@@ -1196,8 +1196,16 @@ export class FactionScionSheet extends ActorSheet {
     event.preventDefault();
     event.stopPropagation(); // Prevent item edit from triggering
 
-    const li = $(event.currentTarget).parents(".item");
-    const item = this.actor.items.get(li.data("itemId"));
+    // Try to get item ID from button's data attribute first (for VIP display)
+    let itemId = event.currentTarget.dataset.itemId;
+
+    // If not found, look for parent .item element (for NPC list)
+    if (!itemId) {
+      const li = $(event.currentTarget).parents(".item");
+      itemId = li.data("itemId");
+    }
+
+    const item = this.actor.items.get(itemId);
 
     if (!item) return;
 

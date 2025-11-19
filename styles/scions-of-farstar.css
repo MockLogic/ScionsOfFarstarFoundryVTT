@@ -4729,8 +4729,9 @@
 /* VIP NPC Display Container */
 .vip-npc-display {
   background: white;
-  border: 2px solid #ffd700;
-  border-radius: 6px;
+  border: 1px solid var(--sof-border);
+  border-left: 4px solid #ffd700;
+  border-radius: 3px;
   padding: 12px;
   margin-bottom: 12px;
 }
