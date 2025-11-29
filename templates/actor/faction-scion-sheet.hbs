@@ -109,6 +109,10 @@
             <span>{{localize "SCIONS.Faction.PeopleTrack"}}</span>
             <span class="track-legend-inline">{{localize "SCIONS.PeopleTrack.Legend"}}: {{localize "SCIONS.PeopleTrack.Empty"}} → {{localize "SCIONS.PeopleTrack.Committed"}} → {{localize "SCIONS.PeopleTrack.Expended"}}</span>
           </div>
+          <div class="faction-size-display">
+            <span class="faction-size-label">{{localize "SCIONS.FactionSize.Label"}}:</span>
+            <span class="faction-size-value">{{factionSizeRange system.faction.capabilities.people.value}}</span>
+          </div>
           <div class="people-track">
             {{#each system.faction.peopleTrack.boxes as |box index|}}
               <div class="people-box-container">

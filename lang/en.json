@@ -140,6 +140,16 @@
       "Committed": "Committed",
       "Expended": "Expended"
     },
+    "FactionSize": {
+      "Label": "Overall Faction Size",
+      "Size0": "less than 10",
+      "Size1": "20",
+      "Size2": "100",
+      "Size3": "500",
+      "Size4": "2,000",
+      "Size5": "8,000",
+      "Size6": "30,000"
+    },
     "Stress": {
       "Toggle": "Click to toggle stress",
       "Extended": "Extended",

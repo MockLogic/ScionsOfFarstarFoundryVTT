@@ -901,7 +901,7 @@ function registerHandlebarsHelpers() {
     return Array.prototype.slice.call(arguments, 0, -1).every(Boolean);
   });
 
-  // Helper to get population value for People capability rating
+  // Helper to get population value for People capability rating (for individual boxes)
   Handlebars.registerHelper('peoplePopulation', function(rating) {
     const populations = {
       1: '12',
@@ -916,6 +916,27 @@ function registerHandlebarsHelpers() {
       10: '1m+'
     };
     return populations[rating] || '';
+  });
+
+  // Helper to get overall faction size range based on People capability rating
+  Handlebars.registerHelper('factionSizeRange', function(rating) {
+    // Ensure rating is a valid number
+    const numRating = parseInt(rating) || 0;
+
+    const sizeRanges = {
+      0: 'Size0',
+      1: 'Size1',
+      2: 'Size2',
+      3: 'Size3',
+      4: 'Size4',
+      5: 'Size5',
+      6: 'Size6'
+    };
+
+    const key = sizeRanges[numRating];
+    if (!key) return game.i18n.localize('SCIONS.FactionSize.Size0'); // Default to smallest
+
+    return game.i18n.localize(`SCIONS.FactionSize.${key}`);
   });
 
   // Helper to create an array from arguments
