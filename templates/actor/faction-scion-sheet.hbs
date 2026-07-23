@@ -41,6 +41,10 @@
           <label>{{localize "SCIONS.Faction.Trouble"}}</label>
           <input type="text" name="system.aspects.trouble.value" value="{{system.aspects.trouble.value}}" placeholder="{{localize 'SCIONS.Faction.Trouble'}}"/>
         </div>
+        <div class="aspect-box">
+          <label>{{localize "SCIONS.Faction.WildCard"}}</label>
+          <input type="text" name="system.aspects.wildCard.value" value="{{system.aspects.wildCard.value}}" placeholder="{{localize 'SCIONS.Faction.WildCard'}}"/>
+        </div>
       </div>
       {{#unless system.faction.refreshValid}}
         <div class="validation-warning">⚠ {{localize "SCIONS.Validation.RefreshMismatch"}}</div>

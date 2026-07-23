@@ -52,6 +52,7 @@ export class FactionScionSheet extends ActorSheet {
     context.enrichedScionAspect = await enrichHTML(context.system.scion.aspects.scionAspect.value, { async: true });
     context.enrichedHighConcept = await enrichHTML(context.system.aspects.highConcept.value, { async: true });
     context.enrichedTrouble = await enrichHTML(context.system.aspects.trouble.value, { async: true });
+    context.enrichedWildCard = await enrichHTML(context.system.aspects.wildCard.value, { async: true });
     context.enrichedInheritance = await enrichHTML(context.system.faction.aspects.inheritance.value, { async: true });
 
     // Get all named-npc items and enrich with calculated data

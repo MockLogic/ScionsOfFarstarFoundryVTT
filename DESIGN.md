@@ -122,6 +122,7 @@ Each stage has four checkboxes:
 **Aspects:**
 - High Concept
 - Trouble
+- Wild Card (free-form, starts empty)
 - Inheritance (generational legacy)
 
 **Capabilities:** (6 capabilities, Fate pyramid: +2/+2/+1/+1/+0/-1, max +6)
